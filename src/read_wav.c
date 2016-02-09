@@ -8,7 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "read_write.h"
+#include "bitreader.h"
+#include "bitwriter.h"
 
 struct WaveMeta {
    char ChunkID[5]; /* RIFF */

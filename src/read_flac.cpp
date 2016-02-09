@@ -1,8 +1,6 @@
 /**********************************
- * Simple prog to read a wav file *
+ * Simple prog to read a flac file *
  **********************************/
-
-/* Lot's of this code borrowed from libFLAC */
 
 #include <stdio.h>
 #include <stdint.h>
@@ -12,12 +10,15 @@
 #include <vector>
 
 extern "C" {
-#include "read_write.h"
+    #include "bitreader.h"
+    #include "bitwriter.h"
 }
 
 #define READSIZE 1024
 
+/***************************************************/
 /******** Classes for storing FLAC metadata *******/
+/*************************************************/
 
 class FLACMetaBlockHeader {
 public:

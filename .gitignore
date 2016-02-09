@@ -1,0 +1,7 @@
+*.flac
+*.wav
+.kateproject
+.swp
+.swo
+build/*
+.kateproject.d/*
