@@ -41,3 +41,14 @@ public:
     int read(struct FileReader *fr);
     //int write(FileWriter *fw);
 };
+
+
+class FLACSubFrameVerbatim {
+private: 
+    uint32_t *data;
+    uint8_t bitsPerSample;
+    uint32_t blockSize;
+public:
+    FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize);
+    int read(struct FileReader *fr);
+};

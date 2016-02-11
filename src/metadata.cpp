@@ -51,7 +51,7 @@ void FLACMetaBlockHeader::print(FILE *f){
     fprintf(f,\
 "Type: %d\n\
 Length: %d\n\
-Last Block? %d\n", this->blockType, this->blockLength, this->lastBlock);
+Last Block? %d\n\n", this->blockType, this->blockLength, this->lastBlock);
 }
 
 int FLACMetaBlockHeader::write(FILE *f){
@@ -157,7 +157,7 @@ void FLACMetaStreamInfo::print(FILE* f){
     sampleRate: %d\n\
     numChannels: %d\n\
     bitsPerSample: %d\n\
-    totalSamples: %ld\n",
+    totalSamples: %ld\n\n",
     this->minBlockSize, this->maxBlockSize, this->minFrameSize, this->maxFrameSize,\
     this->sampleRate, this->numChannels, this->bitsPerSample, this->totalSamples);
 }

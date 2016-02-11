@@ -24,10 +24,13 @@ class FLACFrameHeader {
 public:
     FLACFrameHeader();
     int isLast();
+    int getSampleSize();
+    uint64_t getBlockSize();
     int getBlockType();
     int getBlockLength();
     void print(FILE *f);
     int read(struct FileReader *fr);
+    int read_footer(struct FileReader *fr);
     int write(FILE *f);
 private:
 /* Sync code */

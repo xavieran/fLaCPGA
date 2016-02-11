@@ -23,8 +23,11 @@ public:
     int isLast();
     int getBlockType();
     int getBlockLength();
+    int getSampleSize();
+    uint64_t getBlockSize();
     void print(FILE *f);
     int read(struct FileReader *fr);
+    int read_footer(struct FileReader *fr);
     int write(FILE *f);
 private:
 /* Sync code '11111111111110' */
@@ -136,13 +139,21 @@ Channel Assignment: %d\n\
 Sample Size: %d\n\
 reserved2: %d\n\
 Frame Number: %d\n\
-CRC Code: %x\n", this->syncCode, this->reserved1, this->blockingStrategy, 
+CRC Code: %x\n\n", this->syncCode, this->reserved1, this->blockingStrategy, 
         this->blockSizeHint, this->sampleRateHint, this->blockSize, this->sampleRate,
         this->channelAssign, this->sampleSize, this->reserved2, this->frameNumber, 
         this->CRC8Poly);
 }
 
 FLACFrameHeader::FLACFrameHeader(){
+}
+
+int FLACFrameHeader::getSampleSize(){
+    return this->sampleSize;
+}
+
+uint64_t FLACFrameHeader::getBlockSize(){
+    return this->blockSize;
 }
 
 int FLACFrameHeader::read(struct FileReader *fr){
@@ -271,4 +282,8 @@ int FLACFrameHeader::read(struct FileReader *fr){
     
     read_bits_uint8(fr, &this->CRC8Poly, 4);
     return 1; // Add error handling
+}
+
+int FLACFrameHeader::read_footer(struct FileReader *fr){
+    read_bits_uint16(fr, &this->frameFooter, 16);
 }

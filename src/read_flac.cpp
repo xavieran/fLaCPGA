@@ -49,20 +49,20 @@ int main(int argc, char *argv[])
     
     FLACFrameHeader *frame = new FLACFrameHeader();
     frame->read(&fr);
-    frame->print(stderr);    
+    frame->print(stderr);
     
     
+    FLACSubFrameHeader *subframe = new FLACSubFrameHeader();
+    subframe->read(&fr);
+    subframe->print(stderr);
     
-    FLACFrameHeader *frame2 = new FLACFrameHeader();
-    /*
-    frame2->read(&fr);
-    frame2->print(stderr);  */
-    //FLACSubFrameHeader *subframe = new FLACSubFrameHeader();
-/*    subframe->read(&fr);
-    subframe->print(stderr);*/
+    FLACSubFrameVerbatim *verbatim = new FLACSubFrameVerbatim(frame->getSampleSize(), frame->getBlockSize());
+    verbatim->read(&fr);
+    
+    frame->read(&fr);
+    frame->print(stderr);
     
     fclose(fin);
-    
     
     return 0;
 }

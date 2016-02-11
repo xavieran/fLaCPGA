@@ -29,7 +29,7 @@ uint8_t get_mask(uint8_t bits){
 struct FileReader {
     FILE *fin;
     uint64_t bit;
-    uint8_t buffer[16];
+    uint8_t buffer[1];
 };
 
 struct FileReader new_file_reader(FILE * f){
@@ -73,17 +73,89 @@ int read_bits_uint64(struct FileReader *fr, uint64_t *x, uint8_t bits){
 }
 
 int read_bits_uint32(struct FileReader *fr, uint32_t *x, uint8_t bits){
-    return read_bits_uint64(fr, (uint64_t*)x, bits);
+    //return read_bits_uint64(fr, (uint64_t*)x, bits);
+    int bits_left_in_byte;
+    uint32_t t = 0;
+    
+    while (bits > 0){
+        bits_left_in_byte = 8 - (fr->bit % 8);
+        if (bits_left_in_byte == 8)
+            fread(fr->buffer, 1, 1, fr->fin);
+        
+        if (bits > bits_left_in_byte){
+            t <<= bits_left_in_byte;
+            t |= ((fr->buffer[0] & get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
+            bits -= bits_left_in_byte;
+            fr->bit += bits_left_in_byte;
+        } else {
+            t <<= bits;
+            t |= ((fr->buffer[0] & get_mask(bits)) >> (8 - bits));
+            fr->buffer[0] <<= bits;
+            fr->bit += bits;
+            bits = 0;
+        }
+    }
+    
+    *x = t;
+    return 1;
 }
 
 
 int read_bits_uint16(struct FileReader *fr, uint16_t *x, uint8_t bits){
-    return read_bits_uint64(fr, (uint64_t*)x, bits);
+    //return read_bits_uint64(fr, (uint64_t*)x, bits);
+    int bits_left_in_byte;
+    uint16_t t = 0;
+    
+    while (bits > 0){
+        bits_left_in_byte = 8 - (fr->bit % 8);
+        if (bits_left_in_byte == 8)
+            fread(fr->buffer, 1, 1, fr->fin);
+        
+        if (bits > bits_left_in_byte){
+            t <<= bits_left_in_byte;
+            t |= ((fr->buffer[0] & get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
+            bits -= bits_left_in_byte;
+            fr->bit += bits_left_in_byte;
+        } else {
+            t <<= bits;
+            t |= ((fr->buffer[0] & get_mask(bits)) >> (8 - bits));
+            fr->buffer[0] <<= bits;
+            fr->bit += bits;
+            bits = 0;
+        }
+    }
+    
+    *x = t;
+    return 1;
 }
 
 
 int read_bits_uint8(struct FileReader *fr, uint8_t *x, uint8_t bits){
-    return read_bits_uint64(fr, (uint64_t*)x, bits);
+    //return read_bits_uint64(fr, (uint64_t*)x, bits);
+    int bits_left_in_byte;
+    uint8_t t = 0;
+    
+    while (bits > 0){
+        bits_left_in_byte = 8 - (fr->bit % 8);
+        if (bits_left_in_byte == 8)
+            fread(fr->buffer, 1, 1, fr->fin);
+        
+        if (bits > bits_left_in_byte){
+            t <<= bits_left_in_byte;
+            t |= ((fr->buffer[0] & get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
+            bits -= bits_left_in_byte;
+            fr->bit += bits_left_in_byte;
+        } else {
+            t <<= bits;
+            t |= ((fr->buffer[0] & get_mask(bits)) >> (8 - bits));
+            fr->buffer[0] <<= bits;
+            fr->bit += bits;
+            bits = 0;
+        }
+    }
+    
+    *x = t;
+    return 1;
 }
 
 int read_bits_unary(struct FileReader *fr, uint32_t *x){
