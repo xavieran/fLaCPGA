@@ -71,8 +71,6 @@ int FLACMetaBlockHeader::getBlockLength(){
 }
 
 
-
-
 /*******************************************/
 /********** Metadata Block Superclass *****/
 /*****************************************/
