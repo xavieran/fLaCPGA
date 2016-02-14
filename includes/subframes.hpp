@@ -7,11 +7,7 @@
 
 #include <vector>
 
-extern "C" {
-#include "bitreader.h"
-}
-
-#define READSIZE 1024
+#include "bitreader.hpp"
 
 class FLACSubFrameHeader {
 private:
@@ -38,7 +34,7 @@ private:
 public:
     FLACSubFrameHeader();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     //int write(FileWriter *fw);
 };
 
@@ -50,5 +46,5 @@ private:
     uint32_t blockSize;
 public:
     FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
 };

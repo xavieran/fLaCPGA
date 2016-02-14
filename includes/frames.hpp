@@ -12,11 +12,7 @@
 
 #include <vector>
 
-extern "C" {
-#include "bitreader.h"
-}
-
-#define READSIZE 1024
+#include "bitreader.hpp"
 
 /******** Classes for storing FLAC metadata *******/
 
@@ -29,8 +25,8 @@ public:
     int getBlockType();
     int getBlockLength();
     void print(FILE *f);
-    int read(struct FileReader *fr);
-    int read_footer(struct FileReader *fr);
+    int read(FileReader *fr);
+    int read_footer(FileReader *fr);
     int write(FILE *f);
 private:
 /* Sync code */

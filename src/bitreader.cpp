@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define READ_COUNT 1024
+#define READ_COUNT 512
+
 
 class FileReader {
 private:
@@ -14,19 +15,20 @@ private:
     
     int bytes_read;
     int bytes_consumed;
+    
+    int eof;
+    
+    uint8_t bitbuf[1];
     uint8_t buffer[READ_COUNT];
     
     uint8_t get_mask(uint8_t bits);
     int smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb);
     /* Use exceptions...*/
-    int read_error(FILE *f){
-        fprintf(stderr, "Failed to read file\n");
-        fclose(f);
-        exit(1);
-    }
 
 public:
     FileReader(FILE *f);
+    int read_error();
+    
     int set_input_file(FILE *f);
     int reset_bit_count();
     int read_bits_uint64(uint64_t *x, uint8_t bits);
@@ -34,7 +36,7 @@ public:
     int read_bits_uint16(uint16_t *x, uint8_t bits);
     int read_bits_uint8(uint8_t *x, uint8_t bits);
     
-    int read_bits_unary(uint8_t *x);
+    int read_bits_unary(uint16_t *x);
     int read_utf8_uint64(uint64_t *val);
     int read_utf8_uint32(uint32_t *val);
     
@@ -44,8 +46,17 @@ public:
 
 FileReader::FileReader(FILE *f){
     this->fin = f;
-    this->bit = 0;
+    this->bit = 0;    
+    this->bitbuf[0] = 0;
+    this->bytes_read = READ_COUNT;
     this->bytes_consumed = READ_COUNT;
+    this->eof = 0;
+}
+
+int FileReader::read_error(){
+    fprintf(stderr, "Error reading file\n");
+    fclose(this->fin);
+    exit(1);
 }
 
 /* Copy from a uint8_t *src into a uintxx_t dest, 
@@ -54,7 +65,7 @@ FileReader::FileReader(FILE *f){
 int FileReader::smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb){
     switch (size){
         case 1:
-            memcpy((uint8_t *) dst + dst_off, src, nmemb);
+            memcpy( (uint8_t *)dst + dst_off, src, nmemb * size);
             break;
         case 2:
             memcpy((uint16_t *)dst + dst_off, src, nmemb * size);
@@ -71,34 +82,54 @@ int FileReader::smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmem
 
 int FileReader::reset_file(){
     rewind(this->fin);
+    this->bitbuf[0] = 0;
     this->bytes_consumed = READ_COUNT;
+    this->bytes_read = READ_COUNT;
+    this->bit = 0;
+    this->eof = 0;
     return 1;
 }
 
-int FileReader::read_file(void *buf, int size, int nmemb){
+int FileReader::read_file(void *dst, int size, int nmemb){
+    //fprintf(stderr, "FILEREADER -- Requested read %d of size %d\n", nmemb, size);
     int original_nmemb = nmemb;
     while (nmemb > 0){
-        if (this->bytes_consumed == READ_COUNT){
-            fread(this->buffer, 1, READ_COUNT, this->fin);
-            this->bytes_consumed = 0;   
+        if (this->bytes_consumed >= this->bytes_read){
+            this->bytes_read = fread(this->buffer, 1, READ_COUNT, this->fin);
+            /* Check whether we have reached EOF or some file reading error */
+            if (this->bytes_read != READ_COUNT){
+                if (ferror(this->fin)){
+                    this->read_error();
+                } else if (feof(this->fin)){
+                    //fprintf(stderr, "FILEREADER -- Reached EOF\n");
+                    this->eof = 1;
+                }
+            }
+            this->bytes_consumed = 0;
         }
         /* We are now guaranteed to have something in the buffer */
         
-        int bytes_remaining = READ_COUNT - this->bytes_consumed;
-        int buf_index = original_nmemb - nmemb;
+        int bytes_remaining = this->bytes_read - this->bytes_consumed;
+        int dst_index = original_nmemb - nmemb;
+        //fprintf(stderr, "FILEREADER -- Dest offset: %d\n", dst_index);
         
         if (bytes_remaining > nmemb*size){
-            this->smemcpy(buf, buf_index, this->buffer + this->bytes_consumed, size, nmemb);
+            this->smemcpy(dst, dst_index, this->buffer + this->bytes_consumed, size, nmemb);
             this->bytes_consumed += nmemb*size;
-            return 1;
+            return original_nmemb;
         } else {
-            this->smemcpy(buf, buf_index, this->buffer + this->bytes_consumed, size, bytes_remaining);
+            this->smemcpy(dst, dst_index, this->buffer + this->bytes_consumed, size, bytes_remaining);
             this->bytes_consumed += bytes_remaining;
             nmemb -= (bytes_remaining / size);
         }
+        nmemb = 0;
     }
     
-    return 1;
+    if (this->eof = 1){
+        return -1;
+    }
+    
+    return original_nmemb;
 }
 
 uint8_t FileReader::get_mask(uint8_t bits){
@@ -118,6 +149,7 @@ uint8_t FileReader::get_mask(uint8_t bits){
 
 int FileReader::reset_bit_count(){
     this->bit = 0;
+    this->bitbuf[0] = 0;
     return 1;
 }
 
@@ -129,17 +161,17 @@ int FileReader::read_bits_uint64(uint64_t *x, uint8_t bits){
     while (bits > 0){
         bits_left_in_byte = 8 - (this->bit % 8);
         if (bits_left_in_byte == 8)
-            fread(this->buffer, 1, 1, this->fin);
+            this->read_file(this->bitbuf, 1, 1);
         
         if (bits > bits_left_in_byte){
             t <<= bits_left_in_byte;
-            t |= ((this->buffer[0] & this->get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
+            t |= ((((uint64_t)bitbuf[0]) & this->get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
             bits -= bits_left_in_byte;
             this->bit += bits_left_in_byte;
         } else {
             t <<= bits;
-            t |= ((this->buffer[0] & this->get_mask(bits)) >> (8 - bits));
-            this->buffer[0] <<= bits;
+            t |= ((((uint64_t)bitbuf[0]) & this->get_mask(bits)) >> (8 - bits));
+            bitbuf[0] <<= bits;
             this->bit += bits;
             bits = 0;
         }
@@ -150,24 +182,23 @@ int FileReader::read_bits_uint64(uint64_t *x, uint8_t bits){
 }
 
 int FileReader::read_bits_uint32(uint32_t *x, uint8_t bits){
-    //return read_bits_uint64(fr, (uint64_t*)x, bits);
     int bits_left_in_byte;
     uint32_t t = 0;
     
     while (bits > 0){
         bits_left_in_byte = 8 - (this->bit % 8);
         if (bits_left_in_byte == 8)
-            fread(this->buffer, 1, 1, this->fin);
+            this->read_file(this->bitbuf, 1, 1);
         
         if (bits > bits_left_in_byte){
             t <<= bits_left_in_byte;
-            t |= ((this->buffer[0] & this->get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
+            t |= ((((uint32_t)this->bitbuf[0]) & this->get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
             bits -= bits_left_in_byte;
             this->bit += bits_left_in_byte;
         } else {
             t <<= bits;
-            t |= ((this->buffer[0] & this->get_mask(bits)) >> (8 - bits));
-            this->buffer[0] <<= bits;
+            t |= ((((uint32_t)this->bitbuf[0]) & this->get_mask(bits)) >> (8 - bits));
+            bitbuf[0] <<= bits;
             this->bit += bits;
             bits = 0;
         }
@@ -179,53 +210,53 @@ int FileReader::read_bits_uint32(uint32_t *x, uint8_t bits){
 
 
 int FileReader::read_bits_uint16(uint16_t *x, uint8_t bits){
-    //return read_bits_uint64(fr, (uint64_t*)x, bits);
     int bits_left_in_byte;
     uint16_t t = 0;
     
     while (bits > 0){
         bits_left_in_byte = 8 - (this->bit % 8);
         if (bits_left_in_byte == 8)
-            fread(this->buffer, 1, 1, this->fin);
+            this->read_file(this->bitbuf, 1, 1);
         
         if (bits > bits_left_in_byte){
             t <<= bits_left_in_byte;
-            t |= ((this->buffer[0] & this->get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
+            t |= (((uint16_t)this->bitbuf[0] & this->get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
             bits -= bits_left_in_byte;
             this->bit += bits_left_in_byte;
         } else {
             t <<= bits;
-            t |= ((this->buffer[0] & this->get_mask(bits)) >> (8 - bits));
-            this->buffer[0] <<= bits;
+            t |= ((((uint16_t)this->bitbuf[0]) & this->get_mask(bits)) >> (8 - bits));
+            bitbuf[0] <<= bits;
             this->bit += bits;
             bits = 0;
         }
     }
-    
     *x = t;
     return 1;
 }
 
 
 int FileReader::read_bits_uint8(uint8_t *x, uint8_t bits){
-    //return read_bits_uint64(fr, (uint64_t*)x, bits);
     int bits_left_in_byte;
     uint8_t t = 0;
     
     while (bits > 0){
         bits_left_in_byte = 8 - (this->bit % 8);
-        if (bits_left_in_byte == 8)
-            fread(this->buffer, 1, 1, this->fin);
+        if (bits_left_in_byte == 8){
+            this->read_file(this->bitbuf, sizeof(uint8_t), 1); 
+        }
         
         if (bits > bits_left_in_byte){
             t <<= bits_left_in_byte;
-            t |= ((this->buffer[0] & this->get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
+            t |= ((this->bitbuf[0] & this->get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
             bits -= bits_left_in_byte;
             this->bit += bits_left_in_byte;
         } else {
             t <<= bits;
-            t |= ((this->buffer[0] & this->get_mask(bits)) >> (8 - bits));
-            this->buffer[0] <<= bits;
+            //fprintf(stderr, "Buffer contents: 0x%x\n", this->bitbuf[0]);
+            
+            t |= ((this->bitbuf[0] & this->get_mask(bits)) >> (8 - bits));
+            this->bitbuf[0] <<= bits;
             this->bit += bits;
             bits = 0;
         }
@@ -235,7 +266,7 @@ int FileReader::read_bits_uint8(uint8_t *x, uint8_t bits){
     return 1;
 }
 
-int FileReader::read_bits_unary(uint8_t *x){
+int FileReader::read_bits_unary(uint16_t *x){
     int c = 0;
     uint8_t b = 0;
     while (!b){

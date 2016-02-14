@@ -12,10 +12,7 @@
 
 #include <vector>
 
-extern "C" {
-    #include "bitreader.h"
-    #include "bitwriter.h"
-}
+#include "bitreader.hpp"
 
 #define READSIZE 1024
 
@@ -26,7 +23,7 @@ public:
     int getBlockType();
     int getBlockLength();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     int write(FILE *f);
 private:
     uint8_t lastBlock;
@@ -40,10 +37,10 @@ FLACMetaBlockHeader::FLACMetaBlockHeader(){
     this->blockLength = 0;
 }
 
-int FLACMetaBlockHeader::read(struct FileReader *fr){
-    read_bits_uint8(fr, &this->lastBlock, 1);
-    read_bits_uint8(fr, &this->blockType, 7);
-    read_bits_uint32(fr, &this->blockLength, 24);
+int FLACMetaBlockHeader::read(FileReader *fr){
+    fr->read_bits_uint8(&this->lastBlock, 1);
+    fr->read_bits_uint8(&this->blockType, 7);
+    fr->read_bits_uint32(&this->blockLength, 24);
     return 1; // Add error handling
 }
 
@@ -127,7 +124,7 @@ public:
     uint64_t getMD5u();
     uint64_t getMD5l();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     int write(FILE *f);
     
 }; 
@@ -165,16 +162,18 @@ int FLACMetaStreamInfo::read(struct FileReader *fr){
     /* Read a streaminfo block */
     this->setHeader(new FLACMetaBlockHeader());
     this->getHeader()->read(fr);
-    read_bits_uint16(fr, &this->minBlockSize, 16);
-    read_bits_uint16(fr, &this->maxBlockSize, 16);
-    read_bits_uint32(fr, &this->minFrameSize, 24);
-    read_bits_uint32(fr, &this->maxFrameSize, 24);
-    read_bits_uint32(fr, &this->sampleRate, 20);
-    read_bits_uint8(fr, &this->numChannels, 3);
-    read_bits_uint8(fr, &this->bitsPerSample, 5);
-    read_bits_uint64(fr, &this->totalSamples, 36);
-    read_bits_uint64(fr, &this->MD5u, 64);
-    read_bits_uint64(fr, &this->MD5l, 64);
+    fr->read_bits_uint16(&this->minBlockSize, 16);
+    fr->read_bits_uint16(&this->maxBlockSize, 16);
+    fr->read_bits_uint32(&this->minFrameSize, 24);
+    fr->read_bits_uint32(&this->maxFrameSize, 24);
+    fr->read_bits_uint32(&this->sampleRate, 20);
+    fr->read_bits_uint8(&this->numChannels, 3);
+    fr->read_bits_uint8(&this->bitsPerSample, 5);
+    fr->read_bits_uint64(&this->totalSamples, 36);
+    fr->read_bits_uint64(&this->MD5u, 64);
+    fr->read_bits_uint64(&this->MD5l, 64);
+    
+    //this->bitsPerSample += 1;
     // Add error handling
     return 1;
 }
@@ -189,7 +188,7 @@ private:
 public:
     FLACMetaBlockOther();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     int write(FILE *f);
 };
 
@@ -197,12 +196,12 @@ FLACMetaBlockOther::FLACMetaBlockOther(){
     ;
 }
 
-int FLACMetaBlockOther::read(struct FileReader *fr){
+int FLACMetaBlockOther::read(FileReader *fr){
     FLACMetaBlockHeader * h = new FLACMetaBlockHeader();
     this->setHeader(h);
     this->getHeader()->read(fr);
     this->data = (uint8_t *)malloc(sizeof(uint8_t) * h->getBlockLength());
-    fread(this->data, 1, h->getBlockLength(), fr->fin);
+    fr->read_file(this->data, 1, h->getBlockLength());
     // Add error handling
     return 1;
 }
@@ -223,7 +222,7 @@ private:
 public:
     FLACMetaData();
     void print(FILE *f);
-    int read(FILE *f);
+    int read(FileReader *fr);
     int write(FILE *f);
     int addBlock(FLACMetaDataBlock *b);
 };
@@ -240,25 +239,22 @@ void FLACMetaData::print(FILE *f){
     }
 }
 
-int FLACMetaData::read(FILE *fin){
+int FLACMetaData::read(FileReader *fr){
     uint8_t buffer[READSIZE * 2 * 2];
-    
-    struct FileReader fr = new_file_reader(fin);
     
     FLACMetaDataBlock *temp = new FLACMetaStreamInfo();
     
-
-    fread(buffer, 1, 4, fin);
-    if (memcmp(buffer, "fLaC",4)) read_error(fin);
+    fr->read_file(buffer, 1, 4);
+    if (memcmp(buffer, "fLaC", 4)) fr->read_error();
     
-    temp->read(&fr);
+    temp->read(fr);
     
     this->addBlock(temp);
     
     if (!temp->getHeader()->isLast()){
         do {
             temp = new FLACMetaBlockOther();
-            temp->read(&fr);
+            temp->read(fr);
             this->addBlock(temp);
         } while  (!temp->getHeader()->isLast());
     }

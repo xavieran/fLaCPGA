@@ -13,12 +13,11 @@
 #include "subframes.hpp"
 #include "metadata.hpp"
 
+#include "bitreader.hpp"
+
 extern "C" {
-    #include "bitreader.h"
     #include "bitwriter.h"
 }
-
-#define READSIZE 1024
 
 
 int main(int argc, char *argv[])
@@ -41,25 +40,27 @@ int main(int argc, char *argv[])
         return 1;
     }
     
-    struct FileReader fr = new_file_reader(fin);
+    FileReader *fr = new FileReader(fin);
     
     FLACMetaData *meta = new FLACMetaData();
-    meta->read(fin);
+    meta->read(fr);
     meta->print(stderr);
     
     FLACFrameHeader *frame = new FLACFrameHeader();
-    frame->read(&fr);
+    frame->read(fr);
     frame->print(stderr);
     
-    
     FLACSubFrameHeader *subframe = new FLACSubFrameHeader();
-    subframe->read(&fr);
+    subframe->read(fr);
     subframe->print(stderr);
     
     FLACSubFrameVerbatim *verbatim = new FLACSubFrameVerbatim(frame->getSampleSize(), frame->getBlockSize());
-    verbatim->read(&fr);
+    verbatim->read(fr);
+    //verbatim->print(stderr);
     
-    frame->read(&fr);
+    frame->read_footer(fr);
+    
+    frame->read(fr);
     frame->print(stderr);
     
     fclose(fin);

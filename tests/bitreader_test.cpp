@@ -9,9 +9,10 @@
 #include "bitreader.hpp"
 
 /* Test File Contents */
-
-#define FTEST2 "test2.bin"
-#define FTEST3 "test3.bin"
+/* test1.bin
+ * 9    6    8    C    B    0    0    A
+ * 1001 0110 1000 1100 1011 0000 0000 1010 
+ *         | ||    |        |*/
 
 int main(int argc, char **argv){
     
@@ -23,31 +24,55 @@ int main(int argc, char **argv){
     FILE *f = fopen("test1.bin", "rb");
     FileReader *fr = new FileReader(f);
     
+    int test_failed = 0;
+    int assertion = 0;
     uint8_t t;
     
     (*fr).read_bits_uint8(&t, 8);
     printf("\tRead 8 bits: %x =? 0x96\n", t);
-    assert(t == 0x96);
+    assertion = (t == 0x96);
+    if (!assertion){
+        printf("FAILED\n"); test_failed++;
+    }
     
     (*fr).read_bits_uint8(&t, 1);
     printf("\tRead 1 bit: %d =? 1\n", t);
-    assert(t == 1);
+    assertion = (t == 1);
+    if (!assertion){
+        printf("FAILED\n"); test_failed++;
+    }
     
-    fr->read_bits_uint8(&t, 1);
+    (*fr).read_bits_uint8(&t, 1);
     printf("\tRead 1 bit: %d =? 0\n", t);
-    assert(t == 0);
+    assertion = (t == 0);
+    if (!assertion){
+        printf("FAILED\n"); test_failed++;
+    }
     
-    fr->read_bits_uint8(&t, 4);
+    (*fr).read_bits_uint8(&t, 4);
     printf("\tRead 4 bits (mid byte): %x =? 0x3\n", t);
-    assert(t==0x3);
+    assertion = (t == 0x3);
+    if (!assertion){
+        printf("FAILED\n"); test_failed++;
+    }
     
-    fr->read_bits_uint8(&t, 7);
+    (*fr).read_bits_uint8(&t, 7);
     printf("\tRead 7 bits (byte boundary): %x =? 0x16\n", t);
     assert(t==0x16);
+    assertion = (t == 0x16);
+    if (!assertion){
+        printf("FAILED\n"); test_failed++;
+    }
     
     fclose(f);
     delete fr;
-    
+    printf("******************************\n");
+    if (test_failed){
+        
+        printf("\t\tTest 1 - %d tests FAILED\n", test_failed);
+    } else {
+        printf("\t\tTest 1 - All Passed\n\n");
+    }
     
     /* Test 2 - "fread"ing */
     printf ("Test 2 - \"fread\"ing\n");
@@ -93,7 +118,7 @@ int main(int argc, char **argv){
     }
     
     
-    
+    delete fr;
     
     return 1;
     

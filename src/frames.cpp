@@ -9,9 +9,7 @@
 
 #include <vector>
 
-extern "C" {
-#include "bitreader.h"
-}
+#include "bitreader.hpp"
 
 #define READSIZE 1024
 
@@ -26,8 +24,8 @@ public:
     int getSampleSize();
     uint64_t getBlockSize();
     void print(FILE *f);
-    int read(struct FileReader *fr);
-    int read_footer(struct FileReader *fr);
+    int read(FileReader *fr);
+    int read_footer(FileReader *fr);
     int write(FILE *f);
 private:
     uint16_t syncCode; 
@@ -65,7 +63,21 @@ CRC Code: %x\n\n", this->syncCode, this->reserved1, this->blockingStrategy,
         this->CRC8Poly);
 }
 
-FLACFrameHeader::FLACFrameHeader(){
+FLACFrameHeader::FLACFrameHeader(){    
+    syncCode = 0;
+    reserved1 = 0;
+    blockingStrategy = 0;
+    blockSizeHint = 0;
+    sampleRateHint = 0;
+    channelAssign = 0;
+    sampleSize = 0;
+    reserved2 = 0;
+    sampleNumber = 0;
+    frameNumber  = 0;
+    blockSize = 0;
+    sampleRate = 0;
+    CRC8Poly = 0;
+    frameFooter = 0;
 }
 
 int FLACFrameHeader::getSampleSize(){
@@ -76,14 +88,14 @@ uint64_t FLACFrameHeader::getBlockSize(){
     return this->blockSize;
 }
 
-int FLACFrameHeader::read(struct FileReader *fr){
-    read_bits_uint16(fr, &this->syncCode, 14);
-    read_bits_uint8(fr, &this->reserved1, 1);
-    read_bits_uint8(fr, &this->blockingStrategy, 1);
-    read_bits_uint8(fr, &this->blockSizeHint, 4);
-    read_bits_uint8(fr, &this->sampleRateHint, 4);
-    read_bits_uint8(fr, &this->channelAssign, 4);
-    read_bits_uint16(fr, &this->sampleSize, 3);
+int FLACFrameHeader::read(FileReader *fr){
+    fr->read_bits_uint16(&this->syncCode, 14);
+    fr->read_bits_uint8(&this->reserved1, 1);
+    fr->read_bits_uint8(&this->blockingStrategy, 1);
+    fr->read_bits_uint8(&this->blockSizeHint, 4);
+    fr->read_bits_uint8(&this->sampleRateHint, 4);
+    fr->read_bits_uint8(&this->channelAssign, 4);
+    fr->read_bits_uint16(&this->sampleSize, 3);
     
     
     /* Interpret sample size */
@@ -116,26 +128,26 @@ int FLACFrameHeader::read(struct FileReader *fr){
     }
     
     /* Read one reserved bit, should be zero ... */
-    read_bits_uint8(fr, &this->reserved2, 1);
+    fr->read_bits_uint8(&this->reserved2, 1);
     
     /* Read sample or frame number.... */
     if (blockingStrategy){
         uint64_t xx = 0;
-        read_utf8_uint64(fr, &xx);
+        fr->read_utf8_uint64(&xx);
         this->sampleNumber = xx;
     } else {
         uint32_t x = 0;
-        read_utf8_uint32(fr, &x);
+        fr->read_utf8_uint32(&x);
         this->frameNumber = x;
     }
     
     /* Read in the block size ... */
     switch (blockSizeHint){
         case 0b0110:
-            read_bits_uint16(fr, &this->blockSize, 8);
+            fr->read_bits_uint16(&this->blockSize, 8);
             break;
         case 0b0111:
-            read_bits_uint16(fr, &this->blockSize, 16);
+            fr->read_bits_uint16(&this->blockSize, 16);
             break;
         case 0b0001:
             this->blockSize = 192;
@@ -187,23 +199,23 @@ int FLACFrameHeader::read(struct FileReader *fr){
             this->sampleRate = 96000;
             break;
         case 0b1100:
-            read_bits_uint32(fr, &this->sampleRate, 8) * 1000;
+            fr->read_bits_uint32(&this->sampleRate, 8) * 1000;
             break;
         case 0b1101:
-            read_bits_uint32(fr, &this->sampleRate, 16);
+            fr->read_bits_uint32(&this->sampleRate, 16);
             break;
         case 0b1110:
-            read_bits_uint32(fr, &this->sampleRate, 16) * 10;
+            fr->read_bits_uint32(&this->sampleRate, 16) * 10;
             break;
         case 0b1111:
             //ERROR!!!
             break;
     }
     
-    read_bits_uint8(fr, &this->CRC8Poly, 4);
+    fr->read_bits_uint8(&this->CRC8Poly, 4);
     return 1; // Add error handling
 }
 
-int FLACFrameHeader::read_footer(struct FileReader *fr){
-    read_bits_uint16(fr, &this->frameFooter, 16);
+int FLACFrameHeader::read_footer(FileReader *fr){
+    fr->read_bits_uint16(&this->frameFooter, 16);
 }

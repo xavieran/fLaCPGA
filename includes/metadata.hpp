@@ -12,10 +12,7 @@
 
 #include <vector>
 
-extern "C" {
-    #include "bitreader.h"
-    #include "bitwriter.h"
-}
+#include "bitreader.hpp"
 
 #define READSIZE 1024
 
@@ -26,7 +23,7 @@ public:
     int getBlockType();
     int getBlockLength();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     int write(FILE *f);
 private:
     uint8_t lastBlock;
@@ -85,7 +82,7 @@ public:
     uint64_t getMD5u();
     uint64_t getMD5l();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     int write(FILE *f);
     
 }; 
@@ -100,7 +97,7 @@ private:
 public:
     FLACMetaBlockOther();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     int write(FILE *f);
 };
 
@@ -116,7 +113,7 @@ private:
 public:
     FLACMetaData();
     void print(FILE *f);
-    int read(FILE *f);
+    int read(FileReader *fr);
     int write(FILE *f);
     int addBlock(FLACMetaDataBlock *b);
 };

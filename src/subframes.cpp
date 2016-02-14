@@ -7,12 +7,7 @@
 
 #include <vector>
 
-extern "C" {
-#include "bitreader.h"
-}
-
-#define READSIZE 1024
-
+#include "bitreader.hpp"
 
 /***********************************
  * SUB FRAME HEADER ****************
@@ -22,12 +17,12 @@ class FLACSubFrameHeader {
 private:
     uint8_t zeroBit;
     uint8_t subFrameType;
-    uint32_t wastedBitsPerSample;
+    uint16_t wastedBitsPerSample;
 
 public:
     FLACSubFrameHeader();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
 };
 
 FLACSubFrameHeader::FLACSubFrameHeader(){
@@ -43,13 +38,13 @@ Sub-Frame type: %x\n\
 Wasted Bits: %d\n\n", this->zeroBit, this->subFrameType, this->wastedBitsPerSample);
 }
 
-int FLACSubFrameHeader::read(struct FileReader *fr){
-    read_bits_uint8(fr, &this->zeroBit, 1);
-    read_bits_uint8(fr, &this->subFrameType, 1);
+int FLACSubFrameHeader::read(FileReader *fr){
+    fr->read_bits_uint8(&this->zeroBit, 1);
+    fr->read_bits_uint8(&this->subFrameType, 1);
     uint8_t x;
-    read_bits_uint8(fr, &x, 1);
+    fr->read_bits_uint8(&x, 1);
     if (x){
-        read_bits_unary(fr, &this->wastedBitsPerSample);
+        fr->read_bits_unary(&this->wastedBitsPerSample);
     }
 }
 
@@ -66,7 +61,7 @@ private:
     uint32_t blockSize;
 public:
     FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
 };
 
 FLACSubFrameVerbatim::FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize){
@@ -74,14 +69,14 @@ FLACSubFrameVerbatim::FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t block
     this->blockSize = blockSize;
 }
 
-int FLACSubFrameVerbatim::read(struct FileReader *fr){
+int FLACSubFrameVerbatim::read(FileReader *fr){
     data = (uint32_t*)malloc(sizeof(uint32_t) * this->blockSize);
     if (this->bitsPerSample == 8){
-        fread(data, 1, this->blockSize, fr->fin);
+        fr->read_file(data, sizeof(uint8_t), this->blockSize);
     } else if (this->bitsPerSample == 16){
-        fprintf(stderr, "Bytes read:%d\n", (int)fread(data, 2, this->blockSize, fr->fin));
+        fr->read_file(data, sizeof(uint16_t), this->blockSize);
     } else if (this->bitsPerSample == 24){
-        fread(data, 3, this->blockSize, fr->fin);
+        fr->read_file(data, 3, this->blockSize);
     }
     return 1;
 }
