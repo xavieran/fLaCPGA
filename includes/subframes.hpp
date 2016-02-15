@@ -29,7 +29,7 @@ private:
     0 : no wasted bits-per-sample in source subblock, k=0
     1 : k wasted bits-per-sample in source subblock, k-1 follows, unary coded;
     e.g. k=3 => 001 follows, k=7 => 0000001 follows. */
-    uint32_t wastedBitsPerSample;
+    uint16_t wastedBitsPerSample;
 
 public:
     FLACSubFrameHeader();

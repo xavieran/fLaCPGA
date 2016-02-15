@@ -37,8 +37,13 @@ private:
 
 class FLACMetaDataBlock {
 public:
-    FLACMetaBlockHeader * getHeader();
-    FLACMetaBlockHeader * setHeader(FLACMetaBlockHeader * h);
+    FLACMetaBlockHeader * getHeader(){
+        return this->header;
+    }
+    
+    FLACMetaBlockHeader * setHeader(FLACMetaBlockHeader * h){
+        this->header = h;
+    }
     
     virtual int read(FileReader *fr) = 0;
     virtual void print(FILE *f) = 0;
@@ -46,7 +51,6 @@ public:
 private:
     FLACMetaBlockHeader *header;
 };
-
 
 
 /********************************************/
@@ -86,7 +90,6 @@ public:
     int write(FILE *f);
     
 }; 
-
 /****************************************************/
 /************** OTHER METABLOCKS *******************/
 /**************************************************/
@@ -100,8 +103,6 @@ public:
     int read(FileReader *fr);
     int write(FILE *f);
 };
-
-
 
 /********************************************/
 /******* Holds all Metadata ****************/

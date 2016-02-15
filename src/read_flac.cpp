@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
     meta->print(stderr);
     
     FLACFrameHeader *frame = new FLACFrameHeader();
+    fprintf(stderr, "B4 frame 1 %ld\n", fr->get_current_bit());
     frame->read(fr);
     frame->print(stderr);
     
@@ -54,16 +55,32 @@ int main(int argc, char *argv[])
     subframe->read(fr);
     subframe->print(stderr);
     
-    FLACSubFrameVerbatim *verbatim = new FLACSubFrameVerbatim(frame->getSampleSize(), frame->getBlockSize());
+    FLACSubFrameVerbatim *verbatim = new FLACSubFrameVerbatim(16, 4096);//frame->getSampleSize(), frame->getBlockSize());
     verbatim->read(fr);
     //verbatim->print(stderr);
     
     frame->read_footer(fr);
     
+    uint8_t x;
+    fr->read_bits_uint8(&x, 4);
+    
+    fprintf(stderr, "B4 Frame 2 %ld\n", fr->get_current_bit());
+    fr->reset_bit_count();
+    fprintf(stderr, "AF Frame 2 %ld\n", fr->get_current_bit());
+    
     frame->read(fr);
     frame->print(stderr);
     
+    subframe->read(fr);
+    subframe->print(stderr);
+    
+    
     fclose(fin);
+    
+    delete subframe;
+    delete frame;
+    delete fr;
+    delete meta;
     
     return 0;
 }

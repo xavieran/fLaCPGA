@@ -7,23 +7,14 @@
 
 #include <vector>
 
+#include "subframes.hpp"
+
 #include "bitreader.hpp"
+
 
 /***********************************
  * SUB FRAME HEADER ****************
  * *********************************/
-
-class FLACSubFrameHeader {
-private:
-    uint8_t zeroBit;
-    uint8_t subFrameType;
-    uint16_t wastedBitsPerSample;
-
-public:
-    FLACSubFrameHeader();
-    void print(FILE *f);
-    int read(FileReader *fr);
-};
 
 FLACSubFrameHeader::FLACSubFrameHeader(){
     this->zeroBit = 1;
@@ -54,16 +45,6 @@ int FLACSubFrameHeader::read(FileReader *fr){
  * VERBATIM SUBFRAME *****************
  *************************************/
 
-class FLACSubFrameVerbatim {
-private: 
-    uint32_t *data;
-    uint8_t bitsPerSample;
-    uint32_t blockSize;
-public:
-    FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize);
-    int read(FileReader *fr);
-};
-
 FLACSubFrameVerbatim::FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize){
     this->bitsPerSample = bitsPerSample;
     this->blockSize = blockSize;
@@ -71,10 +52,11 @@ FLACSubFrameVerbatim::FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t block
 
 int FLACSubFrameVerbatim::read(FileReader *fr){
     data = (uint32_t*)malloc(sizeof(uint32_t) * this->blockSize);
+    
     if (this->bitsPerSample == 8){
         fr->read_file(data, sizeof(uint8_t), this->blockSize);
     } else if (this->bitsPerSample == 16){
-        fr->read_file(data, sizeof(uint16_t), this->blockSize);
+        fprintf(stderr, "%d\n", fr->read_file(data, sizeof(uint16_t), this->blockSize));
     } else if (this->bitsPerSample == 24){
         fr->read_file(data, 3, this->blockSize);
     }
