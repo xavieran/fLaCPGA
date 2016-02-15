@@ -12,11 +12,7 @@
 
 #include <vector>
 
-extern "C" {
-#include "bitreader.h"
-}
-
-#define READSIZE 1024
+#include "bitreader.hpp"
 
 /******** Classes for storing FLAC metadata *******/
 
@@ -24,13 +20,13 @@ class FLACFrameHeader {
 public:
     FLACFrameHeader();
     int isLast();
-    int getSampleSize();
-    uint64_t getBlockSize();
     int getBlockType();
     int getBlockLength();
+    int getSampleSize();
+    uint64_t getBlockSize();
     void print(FILE *f);
-    int read(struct FileReader *fr);
-    int read_footer(struct FileReader *fr);
+    int read(FileReader *fr);
+    int read_footer(FileReader *fr);
     int write(FILE *f);
 private:
 /* Sync code */
@@ -70,6 +66,7 @@ private:
  *  1101 : get 16 bit sample rate (in Hz) from end of header
  *  1110 : get 16 bit sample rate (in tens of Hz) from end of header
  *  1111 : invalid, to prevent sync-fooling string of 1s */
+    static uint32_t sampleRateLUT[12];
     uint8_t sampleRateHint;
     
 /*
@@ -98,6 +95,8 @@ private:
  *  101 : 20 bits per sample
  *  110 : 24 bits per sample
  *  111 : reserved */
+    static uint8_t sampleSizeLUT[8];
+    uint8_t sampleSizeHint;
     uint8_t sampleSize;
     
 /* Reserved:
@@ -118,7 +117,7 @@ private:
     
 /* if(sample rate bits == 11xx)
  * 8/16 bit sample rate  */
-    uint16_t sampleRate;
+    uint32_t sampleRate;
     
 /*CRC-8 (polynomial = x^8 + x^2 + x^1 + x^0, initialized with 0) of everything 
  * before the crc, including the sync code  */

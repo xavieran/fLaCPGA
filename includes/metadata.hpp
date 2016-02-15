@@ -12,10 +12,7 @@
 
 #include <vector>
 
-extern "C" {
-    #include "bitreader.h"
-    #include "bitwriter.h"
-}
+#include "bitreader.hpp"
 
 #define READSIZE 1024
 
@@ -26,7 +23,7 @@ public:
     int getBlockType();
     int getBlockLength();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     int write(FILE *f);
 private:
     uint8_t lastBlock;
@@ -40,8 +37,13 @@ private:
 
 class FLACMetaDataBlock {
 public:
-    FLACMetaBlockHeader * getHeader();
-    FLACMetaBlockHeader * setHeader(FLACMetaBlockHeader * h);
+    FLACMetaBlockHeader * getHeader(){
+        return this->header;
+    }
+    
+    FLACMetaBlockHeader * setHeader(FLACMetaBlockHeader * h){
+        this->header = h;
+    }
     
     virtual int read(FileReader *fr) = 0;
     virtual void print(FILE *f) = 0;
@@ -49,7 +51,6 @@ public:
 private:
     FLACMetaBlockHeader *header;
 };
-
 
 
 /********************************************/
@@ -85,11 +86,10 @@ public:
     uint64_t getMD5u();
     uint64_t getMD5l();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     int write(FILE *f);
     
 }; 
-
 /****************************************************/
 /************** OTHER METABLOCKS *******************/
 /**************************************************/
@@ -100,11 +100,9 @@ private:
 public:
     FLACMetaBlockOther();
     void print(FILE *f);
-    int read(struct FileReader *fr);
+    int read(FileReader *fr);
     int write(FILE *f);
 };
-
-
 
 /********************************************/
 /******* Holds all Metadata ****************/
@@ -116,7 +114,7 @@ private:
 public:
     FLACMetaData();
     void print(FILE *f);
-    int read(FILE *f);
+    int read(FileReader *fr);
     int write(FILE *f);
     int addBlock(FLACMetaDataBlock *b);
 };
