@@ -22,18 +22,18 @@ uint8_t FLACFrameHeader::sampleSizeLUT[8] = {0, 8, 12, 0, 16, 20, 24, 0};
 
 void FLACFrameHeader::print(FILE *f){
     fprintf(f, "\
-Sync Code: %x\n\
+Sync Code: 0x%x\n\
 reserved1: %d\n\
 Blocking Strategy: %d\n\
-Block Size Indicator: %x\n\
-Sample Rate Indicator: %x\n\
+Block Size Indicator: 0x%x\n\
+Sample Rate Indicator: 0x%x\n\
 Block Size: %d\n\
 Sample Rate: %d\n\
 Channel Assignment: %d\n\
 Sample Size: %d\n\
 reserved2: %d\n\
 Frame Number: %d\n\
-CRC Code: %x\n\n", this->syncCode, this->reserved1, this->blockingStrategy, 
+CRC Code: 0x%x\n\n", this->syncCode, this->reserved1, this->blockingStrategy, 
         this->blockSizeHint, this->sampleRateHint, this->blockSize, this->sampleRate,
         this->channelAssign, this->sampleSize, this->reserved2, this->frameNumber, 
         this->CRC8Poly);
@@ -106,9 +106,9 @@ int FLACFrameHeader::read(FileReader *fr){
     }
     
     if (this->blockSizeHint >= 0b0010 && this->blockSizeHint <= 0b0101){
-        this->blockSize = 576 * (2 << ((this->blockSizeHint - 2) - 1));
+        this->blockSize = 576 * (1 << (this->blockSizeHint - 2));
     } else if (this->blockSizeHint >= 0b1000 && this->blockSizeHint <= 0b1111){
-        this->blockSize = 256 * (2 << ((this->blockSizeHint - 8) - 1));
+        this->blockSize = 256 * (1 << (this->blockSizeHint - 8));
     }
     
     
@@ -127,7 +127,7 @@ int FLACFrameHeader::read(FileReader *fr){
         // ERROR !!!
     }
     
-    fr->read_bits_uint8(&this->CRC8Poly, 4);
+    fr->read_bits_uint8(&this->CRC8Poly, 8);
     return 1; // Add error handling
 }
 

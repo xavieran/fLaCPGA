@@ -2,7 +2,7 @@
 #ifndef BITREADER_H
 #define BITREADER_H
 
-#define READ_COUNT 16000
+#define READ_COUNT 512
 
 class FileReader {
 private:
@@ -22,6 +22,9 @@ private:
     template<typename T> T read_bits(T *x, uint8_t bits);
     int smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb);
     /* Use exceptions...*/
+    
+    int read_rice_partition(uint32_t *dst, int blk_size, int pred_order, \
+                            int part_order, int part_num, int extended);
 
 public:
     FileReader(FILE *f);
@@ -40,6 +43,9 @@ public:
     int read_utf8_uint64(uint64_t *val);
     int read_utf8_uint32(uint32_t *val);
     
+    int read_residual(uint32_t *dst, int blk_size, int pred_order);
+    
+    int read_chunk(void *dst, int size, int nmemb);
     int read_file(void *buf, int size, int nmemb);
     int reset_file();
 };

@@ -44,36 +44,38 @@ int main(int argc, char *argv[])
     
     FLACMetaData *meta = new FLACMetaData();
     meta->read(fr);
+    fprintf(stderr, "METADATA\n");
     meta->print(stderr);
     
-    FLACFrameHeader *frame = new FLACFrameHeader();
-    fprintf(stderr, "B4 frame 1 %ld\n", fr->get_current_bit());
-    frame->read(fr);
-    frame->print(stderr);
     
+    FLACFrameHeader *frame = new FLACFrameHeader();
+    
+    frame->read(fr);
+    fprintf(stderr, "FRAME HEADER\n");
+    frame->print(stderr);
     FLACSubFrameHeader *subframe = new FLACSubFrameHeader();
     subframe->read(fr);
+    fprintf(stderr, "SUBFRAME HEADER\n");
     subframe->print(stderr);
     
-    FLACSubFrameVerbatim *verbatim = new FLACSubFrameVerbatim(16, 4096);//frame->getSampleSize(), frame->getBlockSize());
-    verbatim->read(fr);
-    //verbatim->print(stderr);
+    /*FLACSubFrameFixed *fixed = new FLACSubFrameFixed(frame->getSampleSize(),\
+                                                        frame->getBlockSize(), \
+                                                        subframe->getFixedOrder());
+    fixed->read(fr);*/
+    
+    FLACSubFrameVerbatim *v = new FLACSubFrameVerbatim(frame->getSampleSize(), frame->getBlockSize());
+    v->read(fr);
     
     frame->read_footer(fr);
-    
-    uint8_t x;
-    fr->read_bits_uint8(&x, 4);
-    
-    fprintf(stderr, "B4 Frame 2 %ld\n", fr->get_current_bit());
-    fr->reset_bit_count();
-    fprintf(stderr, "AF Frame 2 %ld\n", fr->get_current_bit());
-    
     frame->read(fr);
     frame->print(stderr);
     
     subframe->read(fr);
     subframe->print(stderr);
     
+    v->read(fr);
+    
+    frame->read_footer(fr);
     
     fclose(fin);
     

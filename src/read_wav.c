@@ -7,9 +7,13 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
-#include "bitreader.h"
 #include "bitwriter.h"
+
+int read_error(FILE *fin){
+    ;
+}
 
 struct WaveMeta {
    char ChunkID[5]; /* RIFF */
@@ -166,9 +170,8 @@ int recalc_wave_meta(struct WaveMeta *meta, int pcm_samples){
 int delay_and_add(int delay, int16_t *pcm, int size, int16_t **out){
     *out = malloc(sizeof(int16_t)*size);
     int i;
-    for (i = delay; i < size; i += 2){
-        (*out)[i + 1] = pcm[i + 1];
-        (*out)[i] = (*out)[i + 1 - delay];
+    for (i = delay; i < size; i += 1){
+        pcm[i + delay] = pcm[i] + 10;
     }
 }
 
@@ -195,6 +198,8 @@ int main(int argc, char *argv[])
     fclose(fin);
     
     if (argc == 3){
+        int16_t *proc;
+        delay_and_add(60, pcm, meta.Subchunk2Size/2, &proc);
         fprintf(stderr, "Writing to %s\n", argv[2]);
         fout = fopen(argv[2], "wb");
         write_wav(fout, meta, pcm);
