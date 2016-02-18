@@ -20,6 +20,37 @@ extern "C" {
 }
 
 
+void read_frame(FileReader *fr){
+    FLACFrameHeader *frame = new FLACFrameHeader();
+    frame->read(fr);
+    fprintf(stderr, "FRAME HEADER\n");
+    frame->print(stderr);
+    
+    FLACSubFrameHeader *subframe = new FLACSubFrameHeader();
+    subframe->read(fr);
+    fprintf(stderr, "SUBFRAME HEADER\n");
+    subframe->print(stderr);
+    
+    fprintf(stderr, "SUBFRAME TYPE :: %d\n\n", subframe->getSubFrameType());
+    
+    
+    switch (subframe->getSubFrameType()){
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            FLACSubFrameLPC *l = new FLACSubFrameLPC(frame->getSampleSize(), \
+                                                    frame->getBlockSize(), \
+                                                    subframe->getLPCOrder());
+            l->read(fr);
+            printf("READED LPC\n");
+            break;
+    }
+    frame->read_padding(fr);
+    frame->read_footer(fr);
+}
+
+
 int main(int argc, char *argv[])
 {
     if(argc < 2) {
@@ -47,42 +78,13 @@ int main(int argc, char *argv[])
     fprintf(stderr, "METADATA\n");
     meta->print(stderr);
     
-    
-    FLACFrameHeader *frame = new FLACFrameHeader();
-    
-    frame->read(fr);
-    fprintf(stderr, "FRAME HEADER\n");
-    frame->print(stderr);
-    FLACSubFrameHeader *subframe = new FLACSubFrameHeader();
-    subframe->read(fr);
-    fprintf(stderr, "SUBFRAME HEADER\n");
-    subframe->print(stderr);
-    
-    /*FLACSubFrameFixed *fixed = new FLACSubFrameFixed(frame->getSampleSize(),\
-                                                        frame->getBlockSize(), \
-                                                        subframe->getFixedOrder());
-    fixed->read(fr);*/
-    
-    FLACSubFrameVerbatim *v = new FLACSubFrameVerbatim(frame->getSampleSize(), frame->getBlockSize());
-    v->read(fr);
-    
-    frame->read_footer(fr);
-    frame->read(fr);
-    frame->print(stderr);
-    
-    subframe->read(fr);
-    subframe->print(stderr);
-    
-    v->read(fr);
-    
-    frame->read_footer(fr);
+    read_frame(fr);
+    read_frame(fr);
+    read_frame(fr);
+    read_frame(fr);
     
     fclose(fin);
-    
-    delete subframe;
-    delete frame;
-    delete fr;
-    delete meta;
+
     
     return 0;
 }

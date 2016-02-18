@@ -19,13 +19,15 @@ private:
     
     uint8_t get_mask(uint8_t bits);
     
-    template<typename T> T read_bits(T *x, uint8_t bits);
+    template<typename T> int read_bits(T *x, uint8_t bits);
     int smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb);
     /* Use exceptions...*/
     
     int read_rice_partition(uint32_t *dst, int blk_size, int pred_order, \
                             int part_order, int part_num, int extended);
 
+    template<typename T> int read_bits_unary(T *x);
+    
 public:
     FileReader(FILE *f);
     int read_error();
@@ -39,7 +41,14 @@ public:
     int read_bits_uint16(uint16_t *x, uint8_t nbits);
     int read_bits_uint8(uint8_t *x, uint8_t nbits);
     
-    int read_bits_unary(uint16_t *x);
+    int read_bits_int32(int32_t *x, uint8_t nbits);
+    int read_bits_int8(int8_t *x, uint8_t nbits);
+    
+    int read_bits_unary_uint32(uint32_t *x);
+    int read_bits_unary_uint16(uint16_t *x);
+    
+    int read_rice_signed(int32_t *x, uint8_t M);
+    
     int read_utf8_uint64(uint64_t *val);
     int read_utf8_uint32(uint32_t *val);
     

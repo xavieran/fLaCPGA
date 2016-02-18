@@ -97,7 +97,9 @@ int FLACMetaStreamInfo::read(struct FileReader *fr){
     fr->read_bits_uint32(&this->maxFrameSize, 24);
     fr->read_bits_uint32(&this->sampleRate, 20);
     fr->read_bits_uint8(&this->numChannels, 3);
+    this->numChannels++;
     fr->read_bits_uint8(&this->bitsPerSample, 5);
+    this->bitsPerSample++;
     fr->read_bits_uint64(&this->totalSamples, 36);
     fr->read_bits_uint64(&this->MD5u, 64);
     fr->read_bits_uint64(&this->MD5l, 64);

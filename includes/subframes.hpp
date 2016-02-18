@@ -22,7 +22,7 @@ private:
     001xxx : if(xxx <= 4) SUBFRAME_FIXED, xxx=order ; else reserved
     01xxxx : reserved
     1xxxxx : SUBFRAME_LPC, xxxxx=order-1 */
-    uint8_t subFrameType;
+    uint8_t _subFrameType;
     
 /* 'Wasted bits-per-sample' flag:
 
@@ -36,6 +36,9 @@ public:
     void print(FILE *f);
     int read(FileReader *fr);
     uint8_t getFixedOrder();
+    uint8_t getLPCOrder();
+    
+    int getSubFrameType();
     //int write(FileWriter *fw);
 };
 
@@ -67,25 +70,30 @@ private:
     uint32_t *_data;
     uint32_t _blockSize;
     uint8_t _bitsPerSample;
-    uint32_t _predictorOrder;
+    uint8_t _predictorOrder;
 public:
     FLACSubFrameFixed(uint8_t bitsPerSample, uint32_t blockSize, uint8_t predictorOrder);
     int read(FileReader *fr);
 };
 
+
 class FLACSubFrameLPC {
 private: 
-    uint32_t *data;
-    uint8_t bitsPerSample;
-    uint32_t lpcOrder;
+    uint32_t *_data;
+    uint32_t _blockSize;
+    uint8_t _bitsPerSample;
+    uint8_t _lpcOrder;
     
-    uint8_t qlpPrecis;
-    uint8_t qlpShift;
-    uint32_t qlpCoeff[];
+    uint8_t _qlpPrecis;
+    int8_t _qlpShift;
+    int32_t _qlpCoeff[];
 public:
-    FLACSubFrameLPC(uint8_t bitsPerSample, uint32_t lpcOrder);
+    FLACSubFrameLPC(uint8_t bitsPerSample, uint32_t blockSize, uint8_t lpcOrder);
     int read(FileReader *fr);
+    
+    int setLPCOrder(uint8_t lpcOrder);
 };
+
 
 class FLACSubFrameConstant {
 private: 

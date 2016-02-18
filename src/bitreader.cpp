@@ -7,7 +7,7 @@
 
 #include "bitreader.hpp"
 
-#define READ_COUNT 16000
+#define READ_COUNT 512
 
 
 uint64_t FileReader::get_current_bit(){
@@ -60,47 +60,54 @@ int FileReader::reset_file(){
     return 1;
 }
 
+int FileReader::read_chunk(void *dst, int size, int nmemb){
+    return 1;
+}
+
 int FileReader::read_file(void *dst, int size, int nmemb){
-    fprintf(stderr, "FILEREADER -- Requested read %d of size %d\n", nmemb, size);
-    int original_nmemb = nmemb;
-    while (nmemb > 0){
-        if (_bytes_consumed >= _bytes_read){
-            _bytes_read = fread(_buffer, 1, READ_COUNT, _fin);
-            /* Check whether we have reached EOF or some file reading error */
-            if (_bytes_read != READ_COUNT){
-                if (ferror(_fin)){
-                    read_error();
-                } else if (feof(_fin)){
-                    //fprintf(stderr, "FILEREADER -- Reached EOF\n");
-                    _eof = 1;
-                }
-            }
-            _bytes_consumed = 0;
-        }
-        /* We are now guaranteed to have something in the buffer */
-        
-        int bytes_remaining = _bytes_read - _bytes_consumed;
-        int dst_index = original_nmemb - nmemb;
-        //fprintf(stderr, "FILEREADER -- Dest offset: %d\n", dst_index);
-        
-        if (bytes_remaining > nmemb*size){
-            smemcpy(dst, dst_index, _buffer + _bytes_consumed, size, nmemb);
-            _bytes_consumed += nmemb*size;
-            return original_nmemb;
-        } else {
-            smemcpy(dst, dst_index, _buffer + _bytes_consumed, size, bytes_remaining);
-            _bytes_consumed += bytes_remaining;
-            nmemb -= (bytes_remaining / size);
-        }
-        nmemb = 0;
-    }
-    
-    if (_eof){
-        return -1;
-    }
-    
-    return original_nmemb;
-    //return fread(dst, size, nmemb, _fin);
+//     fprintf(stderr, "FILEREADER -- Requested read %d of size %d\n", nmemb, size);
+//     int original_nmemb = nmemb;
+//     while (nmemb > 0){
+//         if (_bytes_consumed >= _bytes_read){
+//             _bytes_read = fread(_buffer, 1, READ_COUNT, _fin);
+//             /* Check whether we have reached EOF or some file reading error */
+//             if (_bytes_read != READ_COUNT){
+//                 if (ferror(_fin)){
+//                     read_error();
+//                 } else if (feof(_fin)){
+//                     //fprintf(stderr, "FILEREADER -- Reached EOF\n");
+//                     _eof = 1;
+//                 }
+//             }
+//             _bytes_consumed = 0;
+//         }
+//         /* We are now guaranteed to have something in the buffer */
+//         
+//         int bytes_remaining = _bytes_read - _bytes_consumed;
+//         int dst_index = original_nmemb - nmemb;
+//         //fprintf(stderr, "FILEREADER -- Dest offset: %d\n", dst_index);
+//         
+//         if (bytes_remaining > nmemb*size){
+//             smemcpy(dst, dst_index, _buffer + _bytes_consumed, size, nmemb);
+//             _bytes_consumed += nmemb*size;
+//             nmemb = 0;
+//         } else {
+//             smemcpy(dst, dst_index, _buffer + _bytes_consumed, size, bytes_remaining);
+//             _bytes_consumed += bytes_remaining;
+//             nmemb -= (bytes_remaining / size);
+//         }
+//         nmemb = 0;
+//     }
+//     
+//     /*if (_eof){
+//         return -1;
+//     }*/
+//     
+//     fprintf(stderr, "FILEREADER -- br: %d bc: %d\n", _bytes_read, _bytes_consumed);
+//     
+//     return original_nmemb;
+//     
+    return fread(dst, size, nmemb, _fin);
     
 }
 
@@ -126,7 +133,7 @@ int FileReader::reset_bit_count(){
 }
 
 
-template<typename T> T FileReader::read_bits(T *x, uint8_t nbits){
+template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
     /* Convert this to big endian */
     int bits_left_in_byte;
     T t = 0;
@@ -170,17 +177,115 @@ int FileReader::read_bits_uint8(uint8_t *x, uint8_t nbits){
    return read_bits<uint8_t>(x, nbits);
 }
 
-int FileReader::read_bits_unary(uint16_t *x){
+int FileReader::read_bits_int32(int32_t *x, uint8_t nbits){
+   return read_bits<int32_t>(x, nbits);
+}
+
+int FileReader::read_bits_int8(int8_t *x, uint8_t nbits){
+   return read_bits<int8_t>(x, nbits);
+}
+
+template<typename T> int FileReader::read_bits_unary(T *x){
     int c = 0;
     uint8_t b = 0;
-    while (!b){
-        read_bits_uint8(&b, 1);
-        c++;
+    read_bits_uint8(&b, 1);
+    //fprintf(stderr, " Reading : ");
+    //fprintf(stderr, "%d", b);
+    if (b){
+        *x = c;
+        //fprintf(stderr, "\n");
+        return 1;
+    } else {
+        while (!b){
+            read_bits_uint8(&b, 1);
+            //fprintf(stderr, "%d", b);
+            c++;
+        }
     }
-    
-    *x = c - 1;
+    //fprintf(stderr, "==%d\n", c);
+    *x = c;
     return 1;
 }
+
+int FileReader::read_bits_unary_uint32(uint32_t *x){
+    return read_bits_unary<uint32_t>(x);
+}
+
+int FileReader::read_bits_unary_uint16(uint16_t *x){
+    return read_bits_unary<uint16_t>(x);
+}
+
+int FileReader::read_rice_signed(int32_t *x, uint8_t M){
+    uint32_t msbs = 0, lsbs = 0;
+    read_bits_unary_uint32(&msbs);
+    read_bits_uint32(&lsbs, M);
+    
+    uint32_t uval = (msbs << M) | lsbs;
+    if (uval & 1)
+        *x = -((int32_t)(uval >> 1)) - 1;
+    else
+        *x = (int32_t)(uval >> 1);
+    
+    return 1;
+}
+
+int FileReader::read_rice_partition(uint32_t *dst, int blk_size, int pred_order, \
+                                    int part_order, int part_num, int extended){
+    uint8_t rice_param = 0;
+    uint8_t bps = 0;
+    uint8_t param_bits = (extended == 0) ? 4 : 5;
+    int32_t sample = 0;
+    int i;
+    read_bits_uint8(&rice_param, param_bits);
+    
+    if (rice_param == 0xF || rice_param == 0x1F){
+        read_bits_uint8(&bps, 5);
+    }
+    
+    /* Calculate the number of samples */
+    uint64_t nsamples = 0;
+    if (part_order == 0){
+        nsamples = blk_size - pred_order;
+    } else if (part_num != 0){
+        nsamples = blk_size / (1 << part_order);
+    } else {
+        nsamples = blk_size / (1 << part_order) - pred_order;
+    }
+    
+    //fprintf(stderr, "FILEREADER -- rice p: %d pb : %d samples: %ld\n", rice_param, param_bits, nsamples);
+    
+    if (rice_param == 0xF || rice_param == 0x1F){
+        // read chunk...
+        // should store these bits...
+        for (i = 0; i < nsamples; i++)
+            read_bits_int32(&sample, bps);
+    } else {
+        // read rice...
+        for (i = 0; i < nsamples; i++){
+            //fprintf(stderr, "\nSAMPLE: %d -- ", i);
+            read_rice_signed(&sample, rice_param);
+        }
+    }
+    
+    return i;
+}
+
+
+int FileReader::read_residual(uint32_t *dst, int blk_size, int pred_order){
+    uint8_t coding_method = 0; 
+    uint8_t partition_order = 0;
+    read_bits_uint8(&coding_method, 2);
+    read_bits_uint8(&partition_order, 4);
+    
+    //fprintf(stderr, "FILEREADER -- code meth: %d part ord: %d\n", coding_method, partition_order);
+    int s = 0;
+    int i;
+    for (i = 0; i < (1 << partition_order); i++){
+        s += read_rice_partition(dst, blk_size, pred_order, partition_order, i, coding_method);
+    }
+    return s;
+}
+
 
 
 /* This code borrowed from libFLAC */
