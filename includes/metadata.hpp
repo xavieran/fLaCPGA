@@ -110,6 +110,7 @@ public:
 
 class FLACMetaData {
 private:
+    FLACMetaStreamInfo *streaminfo;
     std::vector<FLACMetaDataBlock *> *metadata;
 public:
     FLACMetaData();
@@ -117,6 +118,7 @@ public:
     int read(FileReader *fr);
     int write(FILE *f);
     int addBlock(FLACMetaDataBlock *b);
+    FLACMetaStreamInfo * getStreamInfo();
 };
 
 #endif

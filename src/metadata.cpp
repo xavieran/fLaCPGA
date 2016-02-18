@@ -109,6 +109,9 @@ int FLACMetaStreamInfo::read(struct FileReader *fr){
     return 1;
 }
 
+uint64_t FLACMetaStreamInfo::getTotalSamples(){
+    return this->totalSamples;
+}
 /****************************************************/
 /************** OTHER METABLOCKS *******************/
 /**************************************************/
@@ -152,14 +155,15 @@ void FLACMetaData::print(FILE *f){
 int FLACMetaData::read(FileReader *fr){
     uint8_t buffer[READSIZE * 2 * 2];
     
-    FLACMetaDataBlock *temp = new FLACMetaStreamInfo();
+    FLACMetaStreamInfo *s = new FLACMetaStreamInfo();
+    FLACMetaDataBlock *temp = (FLACMetaDataBlock *) s;
     
     fr->read_file(buffer, 1, 4);
     if (memcmp(buffer, "fLaC", 4)) fr->read_error();
     
-    temp->read(fr);
+    s->read(fr);
     
-    this->addBlock(temp);
+    this->streaminfo = s;
     
     if (!temp->getHeader()->isLast()){
         do {
@@ -172,6 +176,11 @@ int FLACMetaData::read(FileReader *fr){
 
 int FLACMetaData::addBlock(FLACMetaDataBlock *b){
     this->metadata->push_back(b);
+    return 1;
+}
+
+FLACMetaStreamInfo * FLACMetaData::getStreamInfo(){
+    return this->streaminfo;
 }
 
 #endif

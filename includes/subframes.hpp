@@ -97,20 +97,22 @@ public:
 
 class FLACSubFrameConstant {
 private: 
-    uint32_t *data;
-    uint8_t bitsPerSample;
-    uint32_t blockSize;
+    uint32_t *_data;
+    uint8_t _bitsPerSample;
+    uint32_t _blockSize;
 public:
     FLACSubFrameConstant(uint8_t bitsPerSample, uint32_t blockSize);
     int read(FileReader *fr);
+    int setSampleSize(uint8_t bitsPerSample);
+    int setBlockSize(uint32_t blockSize);
 };
 
 
 class FLACSubFrameVerbatim {
 private: 
-    uint32_t *data;
-    uint8_t bitsPerSample;
-    uint32_t blockSize;
+    uint32_t *_data;
+    uint8_t _bitsPerSample;
+    uint32_t _blockSize;
 public:
     FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize);
     int read(FileReader *fr);

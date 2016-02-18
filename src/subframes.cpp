@@ -78,10 +78,11 @@ int FLACSubFrameFixed::read(FileReader *fr){
     for(i = 0; i < _predictorOrder; i++){
         fr->read_bits_uint32(&x, _bitsPerSample);// Store these samples ...
     }
-    int s = fr->read_residual(_data, _blockSize, _predictorOrder);
+    int s = _predictorOrder;
+    s += fr->read_residual(_data, _blockSize, _predictorOrder);
     fprintf(stderr, "Samples Read FIXED: %d\n", s);
     
-    return 1;
+    return s;
 }
 
 
@@ -133,8 +134,7 @@ int FLACSubFrameLPC::read(FileReader *fr){
     int s = _lpcOrder; // The sum of all samples read by this subframe...
     s += fr->read_residual(_data, _blockSize, _lpcOrder);
     fprintf(stderr, "Samples Read LPC: %d\n", s);
-    
-    return 1;
+    return s;
 }
 
 
@@ -143,25 +143,53 @@ int FLACSubFrameLPC::read(FileReader *fr){
  *************************************/
 
 FLACSubFrameVerbatim::FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize){
-    this->bitsPerSample = bitsPerSample;
-    this->blockSize = blockSize;
+    _bitsPerSample = bitsPerSample;
+    _blockSize = blockSize;
 }
 
 int FLACSubFrameVerbatim::read(FileReader *fr){
-    data = (uint32_t*)malloc(sizeof(uint32_t) * this->blockSize);
+    _data = (uint32_t*)malloc(sizeof(uint32_t) * _blockSize);
     int i;
-    for (i = 0; i < this->blockSize; i++){
-        fr->read_bits_uint32(data + i, this->bitsPerSample);
+    for (i = 0; i < _blockSize; i++){
+        fr->read_bits_uint32(_data + i, _bitsPerSample);
     }
-    return 1;
+    
+    return _bitsPerSample*_blockSize;
 }
 
 
 int FLACSubFrameVerbatim::setSampleSize(uint8_t bitsPerSample){
-    this->bitsPerSample = bitsPerSample;
+    _bitsPerSample = bitsPerSample;
     return 1;
 }
 int FLACSubFrameVerbatim::setBlockSize(uint32_t blockSize){
-    this->blockSize = blockSize;
+    _blockSize = blockSize;
+    return 1;
+}
+
+
+/*************************************
+ * CONSTANT SUBFRAME *****************
+ *************************************/
+
+FLACSubFrameConstant::FLACSubFrameConstant(uint8_t bitsPerSample, uint32_t blockSize){
+    _bitsPerSample = bitsPerSample;
+    _blockSize = blockSize;
+}
+
+int FLACSubFrameConstant::read(FileReader *fr){
+    _data = (uint32_t*)malloc(sizeof(uint32_t) * _blockSize);
+    uint32_t constantValue;
+    fr->read_bits_uint32(&constantValue, _bitsPerSample);
+    return _bitsPerSample*_blockSize;
+}
+
+
+int FLACSubFrameConstant::setSampleSize(uint8_t bitsPerSample){
+    _bitsPerSample = bitsPerSample;
+    return 1;
+}
+int FLACSubFrameConstant::setBlockSize(uint32_t blockSize){
+    _blockSize = blockSize;
     return 1;
 }

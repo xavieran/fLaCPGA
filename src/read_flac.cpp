@@ -20,7 +20,7 @@ extern "C" {
 }
 
 
-void read_frame(FileReader *fr){
+int read_frame(FileReader *fr){
     FLACFrameHeader *frame = new FLACFrameHeader();
     frame->read(fr);
     fprintf(stderr, "FRAME HEADER\n");
@@ -33,21 +33,49 @@ void read_frame(FileReader *fr){
     
     fprintf(stderr, "SUBFRAME TYPE :: %d\n\n", subframe->getSubFrameType());
     
+    int samplesRead = 0;
     
     switch (subframe->getSubFrameType()){
         case 0:
+        {            
+            FLACSubFrameConstant *c = new FLACSubFrameConstant(frame->getSampleSize(), \
+                                                               frame->getBlockSize());
+            samplesRead += c->read(fr);
+            printf("READED CONSTANT\n");
+            break;
+            
+        }
         case 1:
+        {
+            FLACSubFrameVerbatim *v = new FLACSubFrameVerbatim(frame->getSampleSize(), \
+                                                               frame->getBlockSize());
+            samplesRead += v->read(fr);
+            printf("READED VERBATIM\n");
+            break;
+        }
         case 2:
+        {
+            FLACSubFrameFixed *f = new FLACSubFrameFixed(frame->getSampleSize(), \
+                                                         frame->getBlockSize(), \
+                                                         subframe->getFixedOrder());
+            samplesRead += f->read(fr);
+            printf("READED FIXED\n");
+            break;
+        }
         case 3:
+        {
             FLACSubFrameLPC *l = new FLACSubFrameLPC(frame->getSampleSize(), \
                                                     frame->getBlockSize(), \
                                                     subframe->getLPCOrder());
-            l->read(fr);
+            samplesRead += l->read(fr);
             printf("READED LPC\n");
             break;
+        }
     }
     frame->read_padding(fr);
     frame->read_footer(fr);
+    
+    return samplesRead;
 }
 
 
@@ -78,10 +106,16 @@ int main(int argc, char *argv[])
     fprintf(stderr, "METADATA\n");
     meta->print(stderr);
     
-    read_frame(fr);
-    read_frame(fr);
-    read_frame(fr);
-    read_frame(fr);
+    int totalSamples = meta->getStreamInfo()->getTotalSamples();
+    
+    printf("NEED TO GET %d SAMPLES !!!\n", totalSamples);
+    int samplesRead = 0;
+    
+    
+    while (samplesRead < totalSamples){
+        samplesRead += read_frame(fr);
+        printf("READ ::: %d samples\n", samplesRead);
+    }
     
     fclose(fin);
 
