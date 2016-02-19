@@ -9,75 +9,7 @@
 
 #include <vector>
 
-#include "frames.hpp"
-#include "subframes.hpp"
-#include "metadata.hpp"
-
-#include "bitreader.hpp"
-
-extern "C" {
-    #include "bitwriter.h"
-}
-
-
-int read_frame(FileReader *fr){
-    FLACFrameHeader *frame = new FLACFrameHeader();
-    frame->read(fr);
-    fprintf(stderr, "FRAME HEADER\n");
-    frame->print(stderr);
-    
-    FLACSubFrameHeader *subframe = new FLACSubFrameHeader();
-    subframe->read(fr);
-    fprintf(stderr, "SUBFRAME HEADER\n");
-    subframe->print(stderr);
-    
-    fprintf(stderr, "SUBFRAME TYPE :: %d\n\n", subframe->getSubFrameType());
-    
-    int samplesRead = 0;
-    
-    switch (subframe->getSubFrameType()){
-        case 0:
-        {            
-            FLACSubFrameConstant *c = new FLACSubFrameConstant(frame->getSampleSize(), \
-                                                               frame->getBlockSize());
-            samplesRead += c->read(fr);
-            printf("READED CONSTANT\n");
-            break;
-            
-        }
-        case 1:
-        {
-            FLACSubFrameVerbatim *v = new FLACSubFrameVerbatim(frame->getSampleSize(), \
-                                                               frame->getBlockSize());
-            samplesRead += v->read(fr);
-            printf("READED VERBATIM\n");
-            break;
-        }
-        case 2:
-        {
-            FLACSubFrameFixed *f = new FLACSubFrameFixed(frame->getSampleSize(), \
-                                                         frame->getBlockSize(), \
-                                                         subframe->getFixedOrder());
-            samplesRead += f->read(fr);
-            printf("READED FIXED\n");
-            break;
-        }
-        case 3:
-        {
-            FLACSubFrameLPC *l = new FLACSubFrameLPC(frame->getSampleSize(), \
-                                                    frame->getBlockSize(), \
-                                                    subframe->getLPCOrder());
-            samplesRead += l->read(fr);
-            printf("READED LPC\n");
-            break;
-        }
-    }
-    frame->read_padding(fr);
-    frame->read_footer(fr);
-    
-    return samplesRead;
-}
-
+#include "flacreader.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -99,23 +31,9 @@ int main(int argc, char *argv[])
         return 1;
     }
     
-    FileReader *fr = new FileReader(fin);
-    
-    FLACMetaData *meta = new FLACMetaData();
-    meta->read(fr);
-    fprintf(stderr, "METADATA\n");
-    meta->print(stderr);
-    
-    int totalSamples = meta->getStreamInfo()->getTotalSamples();
-    
-    printf("NEED TO GET %d SAMPLES !!!\n", totalSamples);
-    int samplesRead = 0;
-    
-    
-    while (samplesRead < totalSamples){
-        samplesRead += read_frame(fr);
-        printf("READ ::: %d samples\n", samplesRead);
-    }
+    FLACReader *flac_reader = new FLACReader(fin);
+    int32_t *buf;
+    flac_reader->read(buf);
     
     fclose(fin);
 

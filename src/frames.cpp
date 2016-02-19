@@ -13,8 +13,6 @@
 
 #include "bitreader.hpp"
 
-/******** Classes for storing FLAC metadata *******/
-
 uint32_t FLACFrameHeader::_sampleRateLUT[12] = {0, 88200, 176400, 192000, 8000, 16000, 22050,\
                                                24000, 32000, 44100, 48000, 96000};
 uint8_t FLACFrameHeader::_sampleSizeLUT[8] = {0, 8, 12, 0, 16, 20, 24, 0};
@@ -56,6 +54,23 @@ FLACFrameHeader::FLACFrameHeader(){
     _frameFooter = 0;
 }
 
+void FLACFrameHeader::reconstruct(){    
+    _syncCode = 0;
+    _reserved1 = 0;
+    _blockingStrategy = 0;
+    _blockSizeHint = 0;
+    _sampleRateHint = 0;
+    _channelAssign = 0;
+    _sampleSize = 0;
+    _reserved2 = 0;
+    _sampleNumber = 0;
+    _frameNumber  = 0;
+    _blockSize = 0;
+    _sampleRate = 0;
+    _CRC8Poly = 0;
+    _frameFooter = 0;
+}
+
 int FLACFrameHeader::getSampleSize(){
     return _sampleSize;
 }
@@ -64,8 +79,42 @@ uint64_t FLACFrameHeader::getBlockSize(){
     return _blockSize;
 }
 
+int FLACFrameHeader::getChannelAssign(){
+    return _channelAssign;
+}
+
+FLAC_const FLACFrameHeader::getChannelType(){
+    switch (_channelAssign){
+        case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: 
+            return CH_INDEPENDENT; // Independents...
+        case 8: 
+            return CH_LEFT; // Left side
+        case 9: 
+            return CH_RIGHT; //Right side
+        case 10:
+            return CH_MID; // Mid side
+        default:
+            return CH_INVALID;
+    }
+}
+
+
+int FLACFrameHeader::getNumChannels(){
+    switch (_channelAssign){
+        case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: 
+            return _channelAssign + 1;
+        case 8: case 9: case 10:
+            return 2;
+    }
+}
+
 int FLACFrameHeader::read(FileReader *fr){
     fr->read_bits_uint16(&_syncCode, 14);
+    if (_syncCode != FRAME_SYNC){ // 0x3ffe
+        fprintf(stderr, "Invalid frame sync 0x%x\n", _syncCode);
+        fr->read_error();
+    }
+    
     fr->read_bits_uint8(&_reserved1, 1);
     fr->read_bits_uint8(&_blockingStrategy, 1);
     fr->read_bits_uint8(&_blockSizeHint, 4);
@@ -76,7 +125,6 @@ int FLACFrameHeader::read(FileReader *fr){
     
     /* Interpret sample size */
     _sampleSize = _sampleSizeLUT[_sampleSizeHint];
-    //Check for errors after here...
     
     /* Read one reserved bit, should be zero ... */
     fr->read_bits_uint8(&_reserved2, 1);

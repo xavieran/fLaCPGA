@@ -141,7 +141,9 @@ template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
     while (nbits > 0){
         bits_left_in_byte = 8 - (_bitp % 8);
         if (bits_left_in_byte == 8)
-            read_file(_bitbuf, 1, 1);
+            if (!read_file(_bitbuf, 1, 1)){
+                return 0;
+            }
         
         if (nbits > bits_left_in_byte){
             t <<= bits_left_in_byte;
@@ -189,20 +191,21 @@ template<typename T> int FileReader::read_bits_unary(T *x){
     int c = 0;
     uint8_t b = 0;
     read_bits_uint8(&b, 1);
-    //fprintf(stderr, " Reading : ");
-    //fprintf(stderr, "%d", b);
+    
+    /* Tidy this up... gross code */
+    
     if (b){
         *x = c;
-        //fprintf(stderr, "\n");
         return 1;
     } else {
         while (!b){
-            read_bits_uint8(&b, 1);
-            //fprintf(stderr, "%d", b);
+            if (!read_bits_uint8(&b, 1)){
+                fprintf(stderr, "File error during unary read - b: %ld\n", _bitp);
+                read_error();
+            }
             c++;
         }
     }
-    //fprintf(stderr, "==%d\n", c);
     *x = c;
     return 1;
 }
@@ -252,8 +255,6 @@ int FileReader::read_rice_partition(uint32_t *dst, int blk_size, int pred_order,
         nsamples = blk_size / (1 << part_order) - pred_order;
     }
     
-    //fprintf(stderr, "FILEREADER -- rice p: %d pb : %d samples: %ld\n", rice_param, param_bits, nsamples);
-    
     if (rice_param == 0xF || rice_param == 0x1F){
         // read chunk...
         // should store these bits...
@@ -262,7 +263,6 @@ int FileReader::read_rice_partition(uint32_t *dst, int blk_size, int pred_order,
     } else {
         // read rice...
         for (i = 0; i < nsamples; i++){
-            //fprintf(stderr, "\nSAMPLE: %d -- ", i);
             read_rice_signed(&sample, rice_param);
         }
     }
@@ -277,7 +277,6 @@ int FileReader::read_residual(uint32_t *dst, int blk_size, int pred_order){
     read_bits_uint8(&coding_method, 2);
     read_bits_uint8(&partition_order, 4);
     
-    //fprintf(stderr, "FILEREADER -- code meth: %d part ord: %d\n", coding_method, partition_order);
     int s = 0;
     int i;
     for (i = 0; i < (1 << partition_order); i++){
