@@ -18,15 +18,15 @@
 /************ Metablock header **************/
 
 FLACMetaBlockHeader::FLACMetaBlockHeader(){
-    this->lastBlock = 0;
-    this->blockType = 0;
-    this->blockLength = 0;
+    _lastBlock = 0;
+    _blockType = 0;
+    _blockLength = 0;
 }
 
 int FLACMetaBlockHeader::read(FileReader *fr){
-    fr->read_bits_uint8(&this->lastBlock, 1);
-    fr->read_bits_uint8(&this->blockType, 7);
-    fr->read_bits_uint32(&this->blockLength, 24);
+    fr->read_bits_uint8(&_lastBlock, 1);
+    fr->read_bits_uint8(&_blockType, 7);
+    fr->read_bits_uint32(&_blockLength, 24);
     return 1; // Add error handling
 }
 
@@ -34,7 +34,7 @@ void FLACMetaBlockHeader::print(FILE *f){
     fprintf(f,\
 "Type: %d\n\
 Length: %d\n\
-Last Block? %d\n\n", this->blockType, this->blockLength, this->lastBlock);
+Last Block? %d\n\n", _blockType, _blockLength, _lastBlock);
 }
 
 int FLACMetaBlockHeader::write(FILE *f){
@@ -42,15 +42,15 @@ int FLACMetaBlockHeader::write(FILE *f){
 }
 
 int FLACMetaBlockHeader::isLast(){
-    return this->lastBlock;
+    return _lastBlock;
 }
 
 int FLACMetaBlockHeader::getBlockType(){
-    return this->blockType;
+    return _blockType;
 }
 
 int FLACMetaBlockHeader::getBlockLength(){
-    return this->blockLength;
+    return _blockLength;
 }
 
 
@@ -82,8 +82,8 @@ void FLACMetaStreamInfo::print(FILE* f){
     numChannels: %d\n\
     bitsPerSample: %d\n\
     totalSamples: %ld\n\n",
-    this->minBlockSize, this->maxBlockSize, this->minFrameSize, this->maxFrameSize,\
-    this->sampleRate, this->numChannels, this->bitsPerSample, this->totalSamples);
+    _minBlockSize, _maxBlockSize, _minFrameSize, _maxFrameSize,\
+    _sampleRate, _numChannels, _bitsPerSample, _totalSamples);
 }
 
 
@@ -91,26 +91,26 @@ int FLACMetaStreamInfo::read(struct FileReader *fr){
     /* Read a streaminfo block */
     this->setHeader(new FLACMetaBlockHeader());
     this->getHeader()->read(fr);
-    fr->read_bits_uint16(&this->minBlockSize, 16);
-    fr->read_bits_uint16(&this->maxBlockSize, 16);
-    fr->read_bits_uint32(&this->minFrameSize, 24);
-    fr->read_bits_uint32(&this->maxFrameSize, 24);
-    fr->read_bits_uint32(&this->sampleRate, 20);
-    fr->read_bits_uint8(&this->numChannels, 3);
-    this->numChannels++;
-    fr->read_bits_uint8(&this->bitsPerSample, 5);
-    this->bitsPerSample++;
-    fr->read_bits_uint64(&this->totalSamples, 36);
-    fr->read_bits_uint64(&this->MD5u, 64);
-    fr->read_bits_uint64(&this->MD5l, 64);
+    fr->read_bits_uint16(&_minBlockSize, 16);
+    fr->read_bits_uint16(&_maxBlockSize, 16);
+    fr->read_bits_uint32(&_minFrameSize, 24);
+    fr->read_bits_uint32(&_maxFrameSize, 24);
+    fr->read_bits_uint32(&_sampleRate, 20);
+    fr->read_bits_uint8(&_numChannels, 3);
+    _numChannels++;
+    fr->read_bits_uint8(&_bitsPerSample, 5);
+    _bitsPerSample++;
+    fr->read_bits_uint64(&_totalSamples, 36);
+    fr->read_bits_uint64(&_MD5u, 64);
+    fr->read_bits_uint64(&_MD5l, 64);
     
-    //this->bitsPerSample += 1;
+    //_bitsPerSample += 1;
     // Add error handling
     return 1;
 }
 
 uint64_t FLACMetaStreamInfo::getTotalSamples(){
-    return this->totalSamples;
+    return _totalSamples;
 }
 /****************************************************/
 /************** OTHER METABLOCKS *******************/
@@ -125,8 +125,8 @@ int FLACMetaBlockOther::read(FileReader *fr){
     FLACMetaBlockHeader * h = new FLACMetaBlockHeader();
     this->setHeader(h);
     this->getHeader()->read(fr);
-    this->data = (uint8_t *)malloc(sizeof(uint8_t) * h->getBlockLength());
-    fr->read_file(this->data, 1, h->getBlockLength());
+    _data = (uint8_t *)malloc(sizeof(uint8_t) * h->getBlockLength());
+    fr->read_file(_data, 1, h->getBlockLength());
     // Add error handling
     return 1;
 }
@@ -142,12 +142,12 @@ void FLACMetaBlockOther::print(FILE *f){
 /******************************************/
 
 FLACMetaData::FLACMetaData(){
-    this->metadata = new std::vector<FLACMetaDataBlock *>();
+    _metadata = new std::vector<FLACMetaDataBlock *>();
 }
 
 void FLACMetaData::print(FILE *f){
     std::vector<FLACMetaDataBlock *>::iterator it;
-    for(it = this->metadata->begin(); it < this->metadata->end(); it++){
+    for(it = _metadata->begin(); it < _metadata->end(); it++){
         (*it)->print(f);
     }
 }
@@ -163,7 +163,7 @@ int FLACMetaData::read(FileReader *fr){
     
     s->read(fr);
     
-    this->streaminfo = s;
+    _streaminfo = s;
     
     if (!temp->getHeader()->isLast()){
         do {
@@ -175,12 +175,12 @@ int FLACMetaData::read(FileReader *fr){
 }
 
 int FLACMetaData::addBlock(FLACMetaDataBlock *b){
-    this->metadata->push_back(b);
+    _metadata->push_back(b);
     return 1;
 }
 
 FLACMetaStreamInfo * FLACMetaData::getStreamInfo(){
-    return this->streaminfo;
+    return _streaminfo;
 }
 
 #endif

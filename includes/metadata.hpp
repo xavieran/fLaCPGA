@@ -26,9 +26,9 @@ public:
     int read(FileReader *fr);
     int write(FILE *f);
 private:
-    uint8_t lastBlock;
-    uint8_t blockType;
-    uint32_t blockLength;
+    uint8_t _lastBlock;
+    uint8_t _blockType;
+    uint32_t _blockLength;
 };
 
 /*******************************************/
@@ -38,18 +38,18 @@ private:
 class FLACMetaDataBlock {
 public:
     FLACMetaBlockHeader * getHeader(){
-        return this->header;
+        return _header;
     }
     
     FLACMetaBlockHeader * setHeader(FLACMetaBlockHeader * h){
-        this->header = h;
+        _header = h;
     }
     
     virtual int read(FileReader *fr) = 0;
     virtual void print(FILE *f) = 0;
     
 private:
-    FLACMetaBlockHeader *header;
+    FLACMetaBlockHeader *_header;
 };
 
 
@@ -59,19 +59,19 @@ private:
 
 class FLACMetaStreamInfo : public FLACMetaDataBlock {
 private:
-    uint16_t minBlockSize; /* Minimum block size in stream */
-    uint16_t maxBlockSize; /* Maximum block size in stream */
-    uint32_t minFrameSize; /* Minimum frame size (bytes) used in stream */
-    uint32_t maxFrameSize; /* Maximum frame size (bytes) used in stream */
-    uint32_t sampleRate; /* Sample rate in Hz */
-    uint8_t numChannels; /* Maximum of 8 channels (-1)*/
-    uint8_t bitsPerSample; /* bits per sample 4 to 32 bits (-1) */
+    uint16_t _minBlockSize; /* Minimum block size in stream */
+    uint16_t _maxBlockSize; /* Maximum block size in stream */
+    uint32_t _minFrameSize; /* Minimum frame size (bytes) used in stream */
+    uint32_t _maxFrameSize; /* Maximum frame size (bytes) used in stream */
+    uint32_t _sampleRate; /* Sample rate in Hz */
+    uint8_t _numChannels; /* Maximum of 8 channels (-1)*/
+    uint8_t _bitsPerSample; /* bits per sample 4 to 32 bits (-1) */
     /*Total samples in stream. 'Samples' means inter-channel sample, i.e. one 
      * second of 44.1Khz audio will have 44100 samples regardless of the 
      * number of channels */
-    uint64_t totalSamples; 
-    uint64_t MD5u; /* Upper bits of the MD5 signature */
-    uint64_t MD5l; /* lower bits of the MD5 signature */ 
+    uint64_t _totalSamples; 
+    uint64_t _MD5u; /* Upper bits of the MD5 signature */
+    uint64_t _MD5l; /* lower bits of the MD5 signature */ 
     
 public:
     FLACMetaStreamInfo();
@@ -96,7 +96,7 @@ public:
 
 class FLACMetaBlockOther : public FLACMetaDataBlock {
 private:
-    uint8_t * data;
+    uint8_t * _data;
 public:
     FLACMetaBlockOther();
     void print(FILE *f);
@@ -110,8 +110,8 @@ public:
 
 class FLACMetaData {
 private:
-    FLACMetaStreamInfo *streaminfo;
-    std::vector<FLACMetaDataBlock *> *metadata;
+    FLACMetaStreamInfo *_streaminfo;
+    std::vector<FLACMetaDataBlock *> *_metadata;
 public:
     FLACMetaData();
     void print(FILE *f);

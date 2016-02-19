@@ -13,17 +13,24 @@
 #include <vector>
 
 #include "bitreader.hpp"
+#include "constants.hpp"
 
 /******** Classes for storing FLAC metadata *******/
 
 class FLACFrameHeader {
 public:
     FLACFrameHeader();
+    void reconstruct();
+    
     int isLast();
     int getBlockType();
     int getBlockLength();
     int getSampleSize();
+    int getChannelAssign();
+    FLAC_const getChannelType();
+    int getNumChannels();
     uint64_t getBlockSize();
+    
     void print(FILE *f);
     int read(FileReader *fr);
     int read_padding(FileReader *fr);
