@@ -19,7 +19,7 @@
 class FLACReader {
 public:
     FLACReader(FILE *f);
-    int read(int32_t *pcm_buf);
+    int read(int32_t **pcm_buf);
     
     
 private:
@@ -33,7 +33,8 @@ private:
     FLACSubFrameFixed *_f;
     FLACSubFrameLPC *_l;
     
-    int read_frame();
+    int read_frame(int32_t *data);
+    int read_meta();
     
     
 };

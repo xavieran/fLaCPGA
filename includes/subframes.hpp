@@ -78,7 +78,6 @@ private:
 
 class FLACSubFrameFixed {
 private: 
-    uint32_t *_data;
     uint32_t _blockSize;
     uint8_t _bitsPerSample;
     uint8_t _predictorOrder;
@@ -89,6 +88,7 @@ public:
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize, uint8_t predictorOrder);
     
     int read(FileReader *fr);
+    int read(FileReader *fr, int32_t *dst);
 };
 
 
@@ -98,19 +98,20 @@ public:
 
 class FLACSubFrameLPC {
 private: 
-    uint32_t *_data;
     uint32_t _blockSize;
     uint8_t _bitsPerSample;
     uint8_t _lpcOrder;
     
     uint8_t _qlpPrecis;
     int8_t _qlpShift;
-    int32_t _qlpCoeff[];
+    int32_t _qlpCoeff[12]; /* Maximum of 12 order LPC ... */
 public:
     FLACSubFrameLPC();
     FLACSubFrameLPC(uint8_t bitsPerSample, uint32_t blockSize, uint8_t lpcOrder);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize, uint8_t lpcOrder);
+    
     int read(FileReader *fr);
+    int read(FileReader *fr, int32_t *dst);
     
     int setLPCOrder(uint8_t lpcOrder);
 };
@@ -118,14 +119,16 @@ public:
 
 class FLACSubFrameConstant {
 private: 
-    uint32_t *_data;
     uint8_t _bitsPerSample;
     uint32_t _blockSize;
 public:
     FLACSubFrameConstant();
     FLACSubFrameConstant(uint8_t bitsPerSample, uint32_t blockSize);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize);
+    
     int read(FileReader *fr);
+    int read(FileReader *fr, int32_t *dst);
+    
     int setSampleSize(uint8_t bitsPerSample);
     int setBlockSize(uint32_t blockSize);
 };
@@ -133,14 +136,16 @@ public:
 
 class FLACSubFrameVerbatim {
 private: 
-    uint32_t *_data;
     uint8_t _bitsPerSample;
     uint32_t _blockSize;
 public:
     FLACSubFrameVerbatim();
     FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize);
+    
     int read(FileReader *fr);
+    int read(FileReader *fr, int32_t *dst);
+    
     int setSampleSize(uint8_t bitsPerSample);
     int setBlockSize(uint32_t blockSize);
 };

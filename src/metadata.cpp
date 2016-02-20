@@ -112,6 +112,10 @@ int FLACMetaStreamInfo::read(struct FileReader *fr){
 uint64_t FLACMetaStreamInfo::getTotalSamples(){
     return _totalSamples;
 }
+
+uint8_t FLACMetaStreamInfo::getNumChannels(){
+    return _numChannels;
+}
 /****************************************************/
 /************** OTHER METABLOCKS *******************/
 /**************************************************/

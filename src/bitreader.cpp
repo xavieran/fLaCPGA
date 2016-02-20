@@ -107,8 +107,14 @@ int FileReader::read_file(void *dst, int size, int nmemb){
 //     
 //     return original_nmemb;
 //     
-    return fread(dst, size, nmemb, _fin);
+    int res = fread(dst, size, nmemb, _fin);
+    if (res != nmemb){
+        fprintf(stderr, "ferror: %d\n", ferror(_fin));
+        fprintf(stderr, "feof: %d\n", feof(_fin));
+        read_error();
+    }
     
+    return res;
 }
 
 uint8_t FileReader::get_mask(uint8_t nbits){
@@ -129,7 +135,7 @@ uint8_t FileReader::get_mask(uint8_t nbits){
 int FileReader::reset_bit_count(){
     _bitp = 0;
     _bitbuf[0] = 0;
-    return 1;
+    return true;
 }
 
 
@@ -142,7 +148,8 @@ template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
         bits_left_in_byte = 8 - (_bitp % 8);
         if (bits_left_in_byte == 8)
             if (!read_file(_bitbuf, 1, 1)){
-                return 0;
+                fprintf(stderr, "Error reading BITS\n");
+                return false;
             }
         
         if (nbits > bits_left_in_byte){
@@ -160,7 +167,7 @@ template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
     }
     
     *x = t;
-    return 1;
+    return true;
 }
 
 int FileReader::read_bits_uint64(uint64_t *x, uint8_t nbits){
@@ -180,34 +187,45 @@ int FileReader::read_bits_uint8(uint8_t *x, uint8_t nbits){
 }
 
 int FileReader::read_bits_int32(int32_t *x, uint8_t nbits){
-   return read_bits<int32_t>(x, nbits);
+    uint32_t ux, mask;
+    read_bits<uint32_t>(&ux, nbits);
+    /* sign-extend *x assuming it is currently bits wide. */
+    /* From: https://graphics.stanford.edu/~seander/bithacks.html#FixedSignExtend */
+    mask = 1u << (nbits - 1);
+    *x = (ux ^ mask) - mask;
+    return true;
+   
 }
 
 int FileReader::read_bits_int8(int8_t *x, uint8_t nbits){
-   return read_bits<int8_t>(x, nbits);
+    uint8_t ux, mask;
+    if (!read_bits<uint8_t>(&ux, nbits)){
+        fprintf(stderr, "Error reading INT8\n");
+        return false;
+    }
+    
+    mask = 1u << (nbits - 1);
+    *x = (ux ^ mask) - mask;
+    return true;
 }
 
 template<typename T> int FileReader::read_bits_unary(T *x){
     int c = 0;
     uint8_t b = 0;
-    read_bits_uint8(&b, 1);
-    
-    /* Tidy this up... gross code */
-    
-    if (b){
-        *x = c;
-        return 1;
-    } else {
-        while (!b){
-            if (!read_bits_uint8(&b, 1)){
-                fprintf(stderr, "File error during unary read - b: %ld\n", _bitp);
-                read_error();
-            }
+
+    while(1) {
+        if(!read_bits_uint8(&b, 1))
+            return false;
+        
+        if(b)
+            break;
+        else
             c++;
-        }
     }
+    
     *x = c;
-    return 1;
+    return true;
+    
 }
 
 int FileReader::read_bits_unary_uint32(uint32_t *x){
@@ -220,67 +238,64 @@ int FileReader::read_bits_unary_uint16(uint16_t *x){
 
 int FileReader::read_rice_signed(int32_t *x, uint8_t M){
     uint32_t msbs = 0, lsbs = 0;
-    read_bits_unary_uint32(&msbs);
-    read_bits_uint32(&lsbs, M);
+    if (!read_bits_unary_uint32(&msbs) ||
+        !read_bits_uint32(&lsbs, M)){
+        fprintf(stderr, "Error reading RICE SIGNED\n");
+        return false;
+    }
     
-    uint32_t uval = (msbs << M) | lsbs;
+    unsigned uval = (msbs << M) | lsbs;
     if (uval & 1)
-        *x = -((int32_t)(uval >> 1)) - 1;
+        *x = -((int)(uval >> 1)) - 1;
     else
-        *x = (int32_t)(uval >> 1);
+        *x = (int)(uval >> 1);
     
-    return 1;
+    return true;
 }
 
-int FileReader::read_rice_partition(uint32_t *dst, int blk_size, int pred_order, \
-                                    int part_order, int part_num, int extended){
+int FileReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extended){
     uint8_t rice_param = 0;
     uint8_t bps = 0;
     uint8_t param_bits = (extended == 0) ? 4 : 5;
-    int32_t sample = 0;
     int i;
     read_bits_uint8(&rice_param, param_bits);
     
-    if (rice_param == 0xF || rice_param == 0x1F){
+    if (rice_param == 0xF || rice_param == 0x1F)
         read_bits_uint8(&bps, 5);
-    }
     
-    /* Calculate the number of samples */
-    uint64_t nsamples = 0;
-    if (part_order == 0){
-        nsamples = blk_size - pred_order;
-    } else if (part_num != 0){
-        nsamples = blk_size / (1 << part_order);
-    } else {
-        nsamples = blk_size / (1 << part_order) - pred_order;
-    }
-    
-    if (rice_param == 0xF || rice_param == 0x1F){
-        // read chunk...
-        // should store these bits...
-        for (i = 0; i < nsamples; i++)
-            read_bits_int32(&sample, bps);
-    } else {
-        // read rice...
+    if (rice_param == 0xF || rice_param == 0x1F)
+        for (i = 0; i < nsamples; i++) /* Read a chunk */
+            read_bits_int32(dst + i, bps);
+     else 
         for (i = 0; i < nsamples; i++){
-            read_rice_signed(&sample, rice_param);
+            if (i == 142){
+                printf("THE PROBLEM ONE!!!\n");
+            }
+            read_rice_signed(dst + i, rice_param);
         }
-    }
     
     return i;
 }
 
 
-int FileReader::read_residual(uint32_t *dst, int blk_size, int pred_order){
+int FileReader::read_residual(int32_t *dst, int blk_size, int pred_order){
     uint8_t coding_method = 0; 
     uint8_t partition_order = 0;
+    uint64_t nsamples = 0;
     read_bits_uint8(&coding_method, 2);
     read_bits_uint8(&partition_order, 4);
     
     int s = 0;
     int i;
     for (i = 0; i < (1 << partition_order); i++){
-        s += read_rice_partition(dst, blk_size, pred_order, partition_order, i, coding_method);
+                /* Calculate the number of samples */
+        if (partition_order == 0)
+            nsamples = blk_size - pred_order;
+        else if (i != 0)
+            nsamples = blk_size / (1 << partition_order);
+        else 
+            nsamples = blk_size / (1 << partition_order) - pred_order;
+        s += read_rice_partition(dst + nsamples*i, nsamples, coding_method);
     }
     return s;
 }

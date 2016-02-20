@@ -21,20 +21,22 @@ int main(int argc, char *argv[])
     FILE *fin;
     FILE *fout;
     
-    int16_t * pcm;
-    int32_t samples;
-    
-    uint8_t buffer[READSIZE];
-    
     if((fin = fopen(argv[1], "rb")) == NULL) {
         fprintf(stderr, "ERROR: opening %s for input\n", argv[1]);
         return 1;
     }
     
     FLACReader *flac_reader = new FLACReader(fin);
-    int32_t *buf;
-    flac_reader->read(buf);
+    int32_t *buf = NULL;
     
+    int64_t samples = flac_reader->read(&buf);
+    
+    int i;
+    /*for (i = 0; i < samples; i++){
+        printf("%d\n", buf[i]);
+    }*/
+    
+    free(buf);
     fclose(fin);
 
     

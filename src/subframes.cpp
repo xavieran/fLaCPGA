@@ -33,7 +33,7 @@ void FLACSubFrameHeader::print(FILE *f){
     fprintf(f, "\
 Zero Bit: %d\n\
 Sub-Frame type: 0x%x\n\
-Wasted Bits: %d\n\n", _zeroBit, _subFrameType, _wastedBitsPerSample);
+Wasted Bits: %d\n", _zeroBit, _subFrameType, _wastedBitsPerSample);
 }
 
 int FLACSubFrameHeader::read(FileReader *fr){
@@ -68,6 +68,7 @@ FLAC_const FLACSubFrameHeader::getSubFrameType(){
     }
 }
 
+
 /*************************************
  * FIXED SUBFRAME ********************
  *************************************/
@@ -93,15 +94,64 @@ void FLACSubFrameFixed::reconstruct(uint8_t bitsPerSample, uint32_t blockSize, \
 }
 
 int FLACSubFrameFixed::read(FileReader *fr){
-    uint32_t x = 0;
     int i;
+    int32_t *data = (int32_t *)malloc(sizeof(int32_t) * _blockSize);
     
     for(i = 0; i < _predictorOrder; i++){
-        fr->read_bits_uint32(&x, _bitsPerSample);// Store these samples ...
+        fr->read_bits_int32(data, _bitsPerSample);// Store these samples ...
     }
     
     int s = _predictorOrder;
-    s += fr->read_residual(_data, _blockSize, _predictorOrder);
+    s += fr->read_residual(data, _blockSize, _predictorOrder);
+    
+    free(data);
+    return s;
+}
+
+int FLACSubFrameFixed::read(FileReader *fr, int32_t *data){
+    int i;
+    for(i = 0; i < _predictorOrder; i++){
+        fr->read_bits_int32(data + i, _bitsPerSample);
+        printf("\t\twarmup[%d]=%d\n", i, data[i]);
+    }
+    
+    // Be VERY aware that this is written in the data array also...
+    //int32_t *residuals = data + _predictorOrder; 
+    int32_t *residuals = (int32_t *)malloc(sizeof(int32_t) * _blockSize);
+    
+    int s = _predictorOrder;
+    s += fr->read_residual(residuals, _blockSize, _predictorOrder);
+    
+    /* Reconstruct the data ... */
+    for (i = 0; i < _blockSize; i++){
+        printf("\t\tresidual[%d]=%d\n", i, residuals[i]);
+    }
+    
+    switch(_predictorOrder) {
+        case 0:
+            memcpy(data, residuals, sizeof(int32_t)*_blockSize);
+            break;
+        case 1:
+            for(i = 1; i < _blockSize; i++)
+                data[i] = residuals[i - 1] + data[i-1];
+            break;
+        case 2:
+            for(i = 2; i < _blockSize; i++)
+                data[i] = residuals[i - 2] + 2*data[i-1] - data[i-2];
+            break;
+        case 3:
+            for(i = 3; i < _blockSize; i++)
+                data[i] = residuals[i - 3] + 3*data[i-1] - 3*data[i-2] + data[i-3];
+            break;
+        case 4:
+            for(i = 4; i < _blockSize; i++)
+                data[i] = residuals[i - 4] + 4*data[i-1] - 6*data[i-2] + 4*data[i-3] - data[i-4];
+            break;
+        default:
+            break;
+    }
+    
+    free(residuals);
     return s;
 }
 
@@ -147,12 +197,12 @@ int FLACSubFrameLPC::setLPCOrder(uint8_t lpcOrder){
 }
 
 int FLACSubFrameLPC::read(FileReader *fr){
-    uint32_t x = 0;
     int i;
+    int32_t *data = (int32_t *)malloc(sizeof(int32_t) * _blockSize);
     
     /* Read warm up samples */
     for(i = 0; i < _lpcOrder; i++){
-        fr->read_bits_uint32(&x, _bitsPerSample);// Store these samples ... (are they signed???)
+        fr->read_bits_int32(data + i, _bitsPerSample);// Store these samples ... (are they signed???)
     }
     
     /* Read lpc coefficient precision */
@@ -162,14 +212,48 @@ int FLACSubFrameLPC::read(FileReader *fr){
     /* Read the coefficient shift */
     fr->read_bits_int8(&_qlpShift, 5); /* Signed two's complement  */
     
-    // Read unencoded predictor coefficients...
+    /* Read unencoded predictor coefficients... */
     int32_t coeff;
     for (i = 0; i < _lpcOrder; i++){
-        fr->read_bits_int32(&coeff, _qlpPrecis);
+        fr->read_bits_int32(_qlpCoeff + i, _qlpPrecis);
     }
     
     int s = _lpcOrder; // The sum of all samples read by this subframe...
-    s += fr->read_residual(_data, _blockSize, _lpcOrder);
+    s += fr->read_residual(data, _blockSize, _lpcOrder);
+    
+    free(data);
+    
+    return s;
+}
+
+int FLACSubFrameLPC::read(FileReader *fr, int32_t *data){
+    int i, j, sum;
+    int32_t *residuals = (int32_t *)malloc(sizeof(int32_t) * _blockSize);
+
+    for(i = 0; i < _lpcOrder; i++){
+        fr->read_bits_int32(data + i, _bitsPerSample);
+    }
+
+    fr->read_bits_uint8(&_qlpPrecis, 4);
+    _qlpPrecis++; /* Precision needs to be +1d */
+
+    fr->read_bits_int8(&_qlpShift, 5); /* Signed two's complement  */
+
+    int32_t coeff;
+    for (i = 0; i < _lpcOrder; i++){
+        fr->read_bits_int32(_qlpCoeff + i, _qlpPrecis);
+    }
+    int s = _lpcOrder; // The sum of all samples read by this subframe...
+    s += fr->read_residual(residuals, _blockSize, _lpcOrder);
+    
+    for(i = _lpcOrder; i < _blockSize; i++) {
+        sum = 0;
+        for(j = 0; j < _lpcOrder; j++)
+            sum += _qlpCoeff[j] * data[i-j-1];
+        data[i] = residuals[i - _lpcOrder] + (sum >> _qlpShift);
+    }
+    
+    free(residuals);
     return s;
 }
 
@@ -196,10 +280,21 @@ void FLACSubFrameConstant::reconstruct(uint8_t bitsPerSample, uint32_t blockSize
 }
 
 int FLACSubFrameConstant::read(FileReader *fr){
-    _data = (uint32_t*)malloc(sizeof(uint32_t) * _blockSize);
     uint32_t constantValue;
     fr->read_bits_uint32(&constantValue, _bitsPerSample);
-    return _bitsPerSample*_blockSize;
+    return _blockSize;
+}
+
+int FLACSubFrameConstant::read(FileReader *fr, int32_t *data){
+    int i;
+    int32_t constantValue;
+    fr->read_bits_int32(&constantValue, _bitsPerSample);
+    
+    for (i = 0; i < _blockSize; i++){
+        data[i] = constantValue;
+    }
+    
+    return _blockSize;
 }
 
 
@@ -233,13 +328,22 @@ void FLACSubFrameVerbatim::reconstruct(uint8_t bitsPerSample, uint32_t blockSize
 }
 
 int FLACSubFrameVerbatim::read(FileReader *fr){
-    _data = (uint32_t*)malloc(sizeof(uint32_t) * _blockSize);
     int i;
+    int32_t data;
     for (i = 0; i < _blockSize; i++){
-        fr->read_bits_uint32(_data + i, _bitsPerSample);
+        fr->read_bits_int32(&data, _bitsPerSample);
     }
     
-    return _bitsPerSample*_blockSize;
+    return _blockSize;
+}
+
+int FLACSubFrameVerbatim::read(FileReader *fr, int32_t *data){
+    int i;
+    for (i = 0; i < _blockSize; i++){
+        fr->read_bits_int32(data + i, _bitsPerSample);
+    }
+    
+    return _blockSize;
 }
 
 
