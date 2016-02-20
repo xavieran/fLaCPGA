@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "bitreader.hpp"
 
@@ -61,7 +62,7 @@ int FileReader::reset_file(){
 }
 
 int FileReader::read_chunk(void *dst, int size, int nmemb){
-    return 1;
+    return read_file(dst, size, nmemb);
 }
 
 int FileReader::read_file(void *dst, int size, int nmemb){
@@ -138,6 +139,51 @@ int FileReader::reset_bit_count(){
     return true;
 }
 
+
+template<typename T> int FileReader::read_word_LE(T *x, uint8_t bytes){
+    assert(_bitp % 8 == 0); // Only execute this when byte aligned...
+    T result = 0;
+    uint8_t byte;
+    for (int i = 0; i < bytes; i++){
+        read_bits_uint8(&byte, 8);
+        result |= (byte << i*8);
+    }
+    *x = result;
+    return true;
+}
+
+int FileReader::read_word_u32LE(uint32_t *x){
+    return read_word_LE<uint32_t>(x, sizeof(uint32_t));
+}
+
+int FileReader::read_word_u16LE(uint16_t *x){
+    return read_word_LE<uint16_t>(x, sizeof(uint16_t));
+}
+
+int FileReader::read_word_i16LE(int16_t *x){
+    return read_word_LE<int16_t>(x, sizeof(int16_t));
+}
+
+int FileReader::read_words_u32LE(uint32_t *dst, uint64_t words){
+    for (int i = 0; i < words; i++){
+        read_word_u32LE(dst + i);
+    }
+    return true;
+}
+
+int FileReader::read_words_i16LE(int16_t *dst, uint64_t words){
+    for (int i = 0; i < words; i++){
+        read_word_i16LE(dst + i);
+    }
+    return false;
+}
+
+int FileReader::read_words_u16LE(uint16_t *dst, uint64_t words){
+    for (int i = 0; i < words; i++){
+        read_word_u16LE(dst + i);
+    }
+    return false;
+}
 
 template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
     /* Convert this to big endian */

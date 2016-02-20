@@ -116,6 +116,7 @@ struct WaveMeta read_wav(FILE *fin, int16_t **pcm){
                 (*pcm)[total_samples - left + i] = (int16_t)(((int16_t)(int8_t)buffer[2*i+1] << 8) | (int16_t)buffer[2*i]);
             }
         }
+        
         left -= need;
     }
     
@@ -196,11 +197,11 @@ int main(int argc, char *argv[])
     struct WaveMeta meta = read_wav(fin, &pcm);
     int total_samples = meta.Subchunk2Size / (meta.BitsPerSample / 8);
     int i;
-    for (i = 0; i < total_samples; i++){
+    /*for (i = 0; i < total_samples; i++){
         printf("%d\n", pcm[i]);
-    }
+    }*/
     
-    //printWaveMeta(&meta, stderr);
+    printWaveMeta(&meta, stderr);
     fclose(fin);
     
     

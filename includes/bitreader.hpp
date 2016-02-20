@@ -10,29 +10,6 @@
 #define READ_COUNT 512
 
 class FileReader {
-private:
-    FILE *_fin;
-    
-    uint64_t _bitp;
-    
-    int _bytes_read;
-    int _bytes_consumed;
-    
-    int _eof;
-    
-    uint8_t _bitbuf[1];
-    uint8_t _buffer[READ_COUNT];
-    
-    uint8_t get_mask(uint8_t bits);
-    
-    template<typename T> int read_bits(T *x, uint8_t bits);
-    int smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb);
-    /* Use exceptions...*/
-    
-    int read_rice_partition(int32_t *dst, uint64_t nsamples, int extended);
-
-    template<typename T> int read_bits_unary(T *x);
-    
 public:
     FileReader(FILE *f);
     int read_error();
@@ -49,6 +26,14 @@ public:
     int read_bits_int32(int32_t *x, uint8_t nbits);
     int read_bits_int8(int8_t *x, uint8_t nbits);
     
+    int read_word_u32LE(uint32_t *x);
+    int read_word_u16LE(uint16_t *x);
+    int read_word_i16LE(int16_t *x);
+    
+    int read_words_u32LE(uint32_t *dst, uint64_t words);
+    int read_words_u16LE(uint16_t *dst, uint64_t words);
+    int read_words_i16LE(int16_t *dst, uint64_t words);
+    
     int read_bits_unary_uint32(uint32_t *x);
     int read_bits_unary_uint16(uint16_t *x);
     
@@ -62,6 +47,30 @@ public:
     int read_chunk(void *dst, int size, int nmemb);
     int read_file(void *buf, int size, int nmemb);
     int reset_file();
+    
+private:
+    FILE *_fin;
+    
+    uint64_t _bitp;
+    
+    int _bytes_read;
+    int _bytes_consumed;
+    
+    int _eof;
+    
+    uint8_t _bitbuf[1];
+    uint8_t _buffer[READ_COUNT];
+    
+    uint8_t get_mask(uint8_t bits);
+    
+    template<typename T> int read_bits(T *x, uint8_t bits);
+    template<typename T> int read_word_LE(T *x, uint8_t bytes);
+    int smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb);
+    /* Use exceptions...*/
+    
+    int read_rice_partition(int32_t *dst, uint64_t nsamples, int extended);
+
+    template<typename T> int read_bits_unary(T *x);
 };
 
 #endif
