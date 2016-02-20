@@ -112,7 +112,7 @@ int FLACSubFrameFixed::read(FileReader *fr, int32_t *data){
     int i;
     for(i = 0; i < _predictorOrder; i++){
         fr->read_bits_int32(data + i, _bitsPerSample);
-        printf("\t\twarmup[%d]=%d\n", i, data[i]);
+        //printf("\t\twarmup[%d]=%d\n", i, data[i]);
     }
     
     // Be VERY aware that this is written in the data array also...
@@ -124,7 +124,7 @@ int FLACSubFrameFixed::read(FileReader *fr, int32_t *data){
     
     /* Reconstruct the data ... */
     for (i = 0; i < _blockSize; i++){
-        printf("\t\tresidual[%d]=%d\n", i, residuals[i]);
+        //printf("\t\tresidual[%d]=%d\n", i, residuals[i]);
     }
     
     switch(_predictorOrder) {

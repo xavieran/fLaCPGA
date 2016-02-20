@@ -183,9 +183,9 @@ int FLACFrameHeader::read(FileReader *fr){
 
 int FLACFrameHeader::read_padding(FileReader *fr){
     uint8_t x;
+    /* TODO: Fix this, all I have to do is reset the current bit right? */
     while (fr->get_current_bit() % 8 != 0){
         fr->read_bits_uint8(&x, 1);
-        //fprintf(stderr, "Padding... cb: %ld b: %d\nread_", fr->get_current_bit(), x);
     }
     return 1;
 }

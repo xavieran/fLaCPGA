@@ -72,7 +72,7 @@ int FLACReader::read_frame(int32_t *data){
         _subframe->reconstruct();
         _subframe->read(_fr);
         fprintf(stderr, "----SUBFRAME HEADER\n");
-        _subframe->print(stdout);
+        _subframe->print(stderr);
         
         uint8_t chanType = _frame->getChannelType();
         uint8_t bps = _frame->getSampleSize();
@@ -109,11 +109,6 @@ int FLACReader::read_frame(int32_t *data){
                 fprintf(stderr, "Invalid subframe type\n");
                 _fr->read_error();
         }
-        
-        
-        /*for (int i = 0; i < blockSize; i++){
-            printf("%d\n", data[i]);
-        }*/
     }
     
     _frame->read_padding(_fr);

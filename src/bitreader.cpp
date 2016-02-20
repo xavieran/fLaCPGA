@@ -212,7 +212,7 @@ int FileReader::read_bits_int8(int8_t *x, uint8_t nbits){
 template<typename T> int FileReader::read_bits_unary(T *x){
     int c = 0;
     uint8_t b = 0;
-
+    
     while(1) {
         if(!read_bits_uint8(&b, 1))
             return false;
@@ -249,7 +249,6 @@ int FileReader::read_rice_signed(int32_t *x, uint8_t M){
         *x = -((int)(uval >> 1)) - 1;
     else
         *x = (int)(uval >> 1);
-    
     return true;
 }
 
@@ -266,11 +265,8 @@ int FileReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extende
     if (rice_param == 0xF || rice_param == 0x1F)
         for (i = 0; i < nsamples; i++) /* Read a chunk */
             read_bits_int32(dst + i, bps);
-     else 
+     else
         for (i = 0; i < nsamples; i++){
-            if (i == 142){
-                printf("THE PROBLEM ONE!!!\n");
-            }
             read_rice_signed(dst + i, rice_param);
         }
     
@@ -295,7 +291,8 @@ int FileReader::read_residual(int32_t *dst, int blk_size, int pred_order){
             nsamples = blk_size / (1 << partition_order);
         else 
             nsamples = blk_size / (1 << partition_order) - pred_order;
-        s += read_rice_partition(dst + nsamples*i, nsamples, coding_method);
+        s += read_rice_partition(dst, nsamples, coding_method);
+        dst += nsamples; /* Move pointer forward... */
     }
     return s;
 }
