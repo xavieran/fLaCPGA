@@ -197,9 +197,9 @@ int main(int argc, char *argv[])
     struct WaveMeta meta = read_wav(fin, &pcm);
     int total_samples = meta.Subchunk2Size / (meta.BitsPerSample / 8);
     int i;
-    /*for (i = 0; i < total_samples; i++){
+    for (i = 0; i < total_samples; i++){
         printf("%d\n", pcm[i]);
-    }*/
+    }
     
     printWaveMeta(&meta, stderr);
     fclose(fin);

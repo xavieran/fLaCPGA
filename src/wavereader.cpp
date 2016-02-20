@@ -38,10 +38,10 @@ Metadata: %d\n", \
 
 int WaveMetaData::read(FileReader *fr){
     
-    fr->read_chunk(_ChunkID, sizeof(char), 4); // Might need to add terminating null...
+    fr->read_chunk<char>(_ChunkID, 4); // Might need to add terminating null...
     fr->read_word_u32LE(&_ChunkSize);
-    fr->read_chunk(_Format, sizeof(char), 4);
-    fr->read_chunk(_Subchunk1ID, sizeof(char), 4);
+    fr->read_chunk<char>(_Format, 4);
+    fr->read_chunk<char>(_Subchunk1ID, 4);
     fr->read_word_u32LE(&_Subchunk1Size);
     fr->read_word_u16LE(&_AudioFormat);
     fr->read_word_u16LE(&_NumChannels);
@@ -49,7 +49,7 @@ int WaveMetaData::read(FileReader *fr){
     fr->read_word_u32LE(&_ByteRate);
     fr->read_word_u16LE(&_BlockAlign);
     fr->read_word_u16LE(&_BitsPerSample);
-    fr->read_chunk(_Subchunk2ID, sizeof(char), 4);
+    fr->read_chunk<char>(_Subchunk2ID, 4);
     fr->read_word_u32LE(&_Subchunk2Size);
    
     /* Add validation of above meta data here */

@@ -53,8 +53,9 @@ int FLACReader::read(int32_t **pcm_buf){
 int FLACReader::read_meta(){
     _meta->read(_fr);
     fprintf(stderr, "--METADATA\n");
-    _meta->print(stderr);
     
+    _meta->print(stderr);
+    fprintf(stderr, "----STREAMINFO!!\n");
     _meta->getStreamInfo()->print(stderr);
     return 1;
 }
@@ -62,8 +63,8 @@ int FLACReader::read_meta(){
 int FLACReader::read_frame(int32_t *data){
     _frame->reconstruct();
     _frame->read(_fr);
-    //fprintf(stderr, "--FRAME HEADER\n");
-    //_frame->print(stderr);
+    //fprintf(stdout, "--FRAME HEADER\n");
+    //_frame->print(stdout);
     
     int ch;
     int samplesRead = 0;
@@ -71,8 +72,8 @@ int FLACReader::read_frame(int32_t *data){
     for (ch = 0; ch < _frame->getNumChannels(); ch++){
         _subframe->reconstruct();
         _subframe->read(_fr);
-        fprintf(stderr, "----SUBFRAME HEADER\n");
-        _subframe->print(stderr);
+        //fprintf(stderr, "----SUBFRAME HEADER\n");
+        //_subframe->print(stderr);
         
         uint8_t chanType = _frame->getChannelType();
         uint8_t bps = _frame->getSampleSize();
@@ -109,7 +110,12 @@ int FLACReader::read_frame(int32_t *data){
                 fprintf(stderr, "Invalid subframe type\n");
                 _fr->read_error();
         }
+        /*for (int i = 0; i <  blockSize; i++){
+            printf("%d\n",data[i]);
+        }*/
     }
+    
+
     
     _frame->read_padding(_fr);
     _frame->read_footer(_fr);

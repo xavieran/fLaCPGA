@@ -29,42 +29,48 @@ int main(int argc, char **argv){
     uint8_t t;
     
     (*fr).read_bits_uint8(&t, 8);
-    printf("\tRead 8 bits: %x =? 0x96\n", t);
+    printf("\tRead 8 bits: 0x%x =? 0x96\n", t);
     assertion = (t == 0x96);
     if (!assertion){
         printf("FAILED\n"); test_failed++;
     }
     
     (*fr).read_bits_uint8(&t, 1);
-    printf("\tRead 1 bit: %d =? 1\n", t);
+    printf("\tRead 1 bit: 0x%d =? 1\n", t);
     assertion = (t == 1);
     if (!assertion){
         printf("FAILED\n"); test_failed++;
     }
     
     (*fr).read_bits_uint8(&t, 1);
-    printf("\tRead 1 bit: %d =? 0\n", t);
+    printf("\tRead 1 bit: 0x%d =? 0\n", t);
     assertion = (t == 0);
     if (!assertion){
         printf("FAILED\n"); test_failed++;
     }
     
     (*fr).read_bits_uint8(&t, 4);
-    printf("\tRead 4 bits (mid byte): %x =? 0x3\n", t);
+    printf("\tRead 4 bits (mid byte): 0x%x =? 0x3\n", t);
     assertion = (t == 0x3);
     if (!assertion){
         printf("FAILED\n"); test_failed++;
     }
     
     (*fr).read_bits_uint8(&t, 7);
-    printf("\tRead 7 bits (byte boundary): %x =? 0x16\n", t);
+    printf("\tRead 7 bits (byte boundary): 0x%x =? 0x16\n", t);
     assert(t==0x16);
     assertion = (t == 0x16);
     if (!assertion){
         printf("FAILED\n"); test_failed++;
     }
     
+    
+    uint32_t p;
+    fr->read_bits_uint32(&p, 24);
+    printf("\tRead 24 bits (byte aligned): 0x%x =? 0x15486\n", p);
     fclose(f);
+    
+    
     delete fr;
     printf("******************************\n");
     if (test_failed){
@@ -86,7 +92,7 @@ int main(int argc, char **argv){
     uint8_t *buf28 = (uint8_t *)calloc(sizeof(uint8_t), 60);
     
     printf("Reading 8 bytes\n");
-    fr->read_file(buf8, 1, 8);
+    fr->read_chunk<uint8_t>(buf8, 8);
     fread(buf28, 1, 8, f2);
     int i;
     for (i = 0; i < 8; i++){
@@ -99,7 +105,7 @@ int main(int argc, char **argv){
     uint16_t *buf216 = (uint16_t *)calloc(sizeof(uint16_t), 60);
     
     printf("Reading 16 uint16_t's\n");
-    fr->read_file(buf16, 2, 16);
+    fr->read_chunk<uint16_t>(buf16, 16);
     fread(buf216, 2, 16, f2);
     for (i = 0; i < 16; i++){
         printf("%d =? <%d>\n", buf16[i], buf216[i]);fflush(stdout);
@@ -110,7 +116,7 @@ int main(int argc, char **argv){
     uint32_t *buf232 = (uint32_t *)calloc(sizeof(uint32_t), 60);
     
     printf("Reading 8 uint32_t's\n");
-    fr->read_file(buf32, 4, 8);
+    fr->read_chunk<uint32_t>(buf32, 8);
     fread(buf232, 4, 8, f2);
     for (i = 0; i < 8; i++){
         printf("%d =? <%d>\n", buf32[i], buf232[i]);fflush(stdout);

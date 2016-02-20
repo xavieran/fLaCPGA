@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define READ_COUNT 512
+#define BUFFER_SIZE 8192
 
 class FileReader {
 public:
@@ -44,7 +44,21 @@ public:
     
     int read_residual(int32_t *dst, int blk_size, int pred_order);
     
-    int read_chunk(void *dst, int size, int nmemb);
+    template<typename T> int read_chunk(T *dst, int nmemb){
+        if (this->bytes_left() == 0)
+            this->refill_buffer();
+        
+        while (nmemb > this->bytes_left()){
+            memcpy(dst, _curr_byte, this->bytes_left());
+            nmemb -= this->bytes_left();
+            this->refill_buffer();
+        }
+        
+        memcpy(dst, _curr_byte, nmemb * sizeof(T));
+        _curr_byte += nmemb*sizeof(T);
+        _bitp += nmemb*sizeof(T)*8;
+    }
+    
     int read_file(void *buf, int size, int nmemb);
     int reset_file();
     
@@ -53,18 +67,21 @@ private:
     
     uint64_t _bitp;
     
-    int _bytes_read;
-    int _bytes_consumed;
+    uint8_t *_curr_byte;
     
     int _eof;
     
     uint8_t _bitbuf[1];
-    uint8_t _buffer[READ_COUNT];
+    uint8_t _buffer[BUFFER_SIZE];
+    
+    int bytes_left();
+    int refill_buffer();
+    int is_byte_aligned();
     
     uint8_t get_mask(uint8_t bits);
     
     template<typename T> int read_bits(T *x, uint8_t bits);
-    template<typename T> int read_word_LE(T *x, uint8_t bytes);
+    template<typename T> int read_word_LE(T *x);
     int smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb);
     /* Use exceptions...*/
     

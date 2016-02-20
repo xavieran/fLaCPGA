@@ -8,7 +8,7 @@
 
 #include "bitreader.hpp"
 
-#define READ_COUNT 512
+#define BUFFER_SIZE 8192
 
 
 uint64_t FileReader::get_current_bit(){
@@ -19,8 +19,7 @@ FileReader::FileReader(FILE *f){
     _fin = f;
     _bitp = 0;    
     _bitbuf[0] = 0;
-    _bytes_read = READ_COUNT;
-    _bytes_consumed = READ_COUNT;
+    _curr_byte = _buffer + BUFFER_SIZE;
     _eof = 0;
 }
 
@@ -30,108 +29,24 @@ int FileReader::read_error(){
     exit(1);
 }
 
-/* Copy from a uint8_t *src into a uintxx_t dest, 
-   assuming big endian byte order..
-   Note that dst should be zeroed for this to work. */
-int FileReader::smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb){
-    switch (size){
-        case 1:
-            memcpy( (uint8_t *)dst + dst_off, src, nmemb * size);
-            break;
-        case 2:
-            memcpy((uint16_t *)dst + dst_off, src, nmemb * size);
-            break;
-        case 3: case 4:
-            memcpy((uint32_t *)dst + dst_off, src, nmemb * size);
-            break;
-        case 5: case 6: case 7: case 8:
-            memcpy((uint64_t *)dst + dst_off, src, nmemb * size);
-            break;
-    }
-    return 1;
-}
-
 int FileReader::reset_file(){
     rewind(_fin);
     _bitbuf[0] = 0;
-    _bytes_consumed = READ_COUNT;
-    _bytes_read = READ_COUNT;
+    //memset
+    _curr_byte = _buffer + BUFFER_SIZE;
     _bitp = 0;
     _eof = 0;
     return 1;
 }
 
-int FileReader::read_chunk(void *dst, int size, int nmemb){
-    return read_file(dst, size, nmemb);
+int FileReader::bytes_left(){
+    return BUFFER_SIZE - (_curr_byte - _buffer);
 }
 
-int FileReader::read_file(void *dst, int size, int nmemb){
-//     fprintf(stderr, "FILEREADER -- Requested read %d of size %d\n", nmemb, size);
-//     int original_nmemb = nmemb;
-//     while (nmemb > 0){
-//         if (_bytes_consumed >= _bytes_read){
-//             _bytes_read = fread(_buffer, 1, READ_COUNT, _fin);
-//             /* Check whether we have reached EOF or some file reading error */
-//             if (_bytes_read != READ_COUNT){
-//                 if (ferror(_fin)){
-//                     read_error();
-//                 } else if (feof(_fin)){
-//                     //fprintf(stderr, "FILEREADER -- Reached EOF\n");
-//                     _eof = 1;
-//                 }
-//             }
-//             _bytes_consumed = 0;
-//         }
-//         /* We are now guaranteed to have something in the buffer */
-//         
-//         int bytes_remaining = _bytes_read - _bytes_consumed;
-//         int dst_index = original_nmemb - nmemb;
-//         //fprintf(stderr, "FILEREADER -- Dest offset: %d\n", dst_index);
-//         
-//         if (bytes_remaining > nmemb*size){
-//             smemcpy(dst, dst_index, _buffer + _bytes_consumed, size, nmemb);
-//             _bytes_consumed += nmemb*size;
-//             nmemb = 0;
-//         } else {
-//             smemcpy(dst, dst_index, _buffer + _bytes_consumed, size, bytes_remaining);
-//             _bytes_consumed += bytes_remaining;
-//             nmemb -= (bytes_remaining / size);
-//         }
-//         nmemb = 0;
-//     }
-//     
-//     /*if (_eof){
-//         return -1;
-//     }*/
-//     
-//     fprintf(stderr, "FILEREADER -- br: %d bc: %d\n", _bytes_read, _bytes_consumed);
-//     
-//     return original_nmemb;
-//     
-    int res = fread(dst, size, nmemb, _fin);
-    if (res != nmemb){
-        fprintf(stderr, "ferror: %d\n", ferror(_fin));
-        fprintf(stderr, "feof: %d\n", feof(_fin));
-        read_error();
-    }
-    
-    return res;
+int FileReader::refill_buffer(){
+    _curr_byte = _buffer;
+    return fread(_buffer, sizeof(uint8_t), BUFFER_SIZE, _fin);
 }
-
-uint8_t FileReader::get_mask(uint8_t nbits){
-    switch (nbits){
-        case 0: return 0xff;
-        case 1: return 0x80;
-        case 2: return 0xc0;
-        case 3: return 0xe0;
-        case 4: return 0xf0;
-        case 5: return 0xf8;
-        case 6: return 0xfc;
-        case 7: return 0xfe;
-        case 8: return 0xff;
-    }
-}
-
 
 int FileReader::reset_bit_count(){
     _bitp = 0;
@@ -139,10 +54,14 @@ int FileReader::reset_bit_count(){
     return true;
 }
 
+int FileReader::is_byte_aligned(){
+    return _bitp % 8 == 0;
+}
 
-template<typename T> int FileReader::read_word_LE(T *x, uint8_t bytes){
+template<typename T> int FileReader::read_word_LE(T *x){
     assert(_bitp % 8 == 0); // Only execute this when byte aligned...
     T result = 0;
+    int bytes = sizeof(T);
     uint8_t byte;
     for (int i = 0; i < bytes; i++){
         read_bits_uint8(&byte, 8);
@@ -153,15 +72,15 @@ template<typename T> int FileReader::read_word_LE(T *x, uint8_t bytes){
 }
 
 int FileReader::read_word_u32LE(uint32_t *x){
-    return read_word_LE<uint32_t>(x, sizeof(uint32_t));
+    return read_word_LE<uint32_t>(x);
 }
 
 int FileReader::read_word_u16LE(uint16_t *x){
-    return read_word_LE<uint16_t>(x, sizeof(uint16_t));
+    return read_word_LE<uint16_t>(x);
 }
 
 int FileReader::read_word_i16LE(int16_t *x){
-    return read_word_LE<int16_t>(x, sizeof(int16_t));
+    return read_word_LE<int16_t>(x);
 }
 
 int FileReader::read_words_u32LE(uint32_t *dst, uint64_t words){
@@ -185,33 +104,48 @@ int FileReader::read_words_u16LE(uint16_t *dst, uint64_t words){
     return false;
 }
 
+uint8_t FileReader::get_mask(uint8_t nbits){
+    switch (nbits){
+        case 0: return 0xff;
+        case 1: return 0x80;
+        case 2: return 0xc0;
+        case 3: return 0xe0;
+        case 4: return 0xf0;
+        case 5: return 0xf8;
+        case 6: return 0xfc;
+        case 7: return 0xfe;
+        case 8: return 0xff;
+    }
+}
+
 template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
     /* Convert this to big endian */
     int bits_left_in_byte;
     T t = 0;
-    
+    //printf("\nbitp: %d\n", _bitp);
+    //printf("Contents of buffer: %x %x %x %x\n", _curr_byte[0], _curr_byte[1], _curr_byte[2], _curr_byte[3]);
     while (nbits > 0){
         bits_left_in_byte = 8 - (_bitp % 8);
-        if (bits_left_in_byte == 8)
-            if (!read_file(_bitbuf, 1, 1)){
-                fprintf(stderr, "Error reading BITS\n");
-                return false;
-            }
-        
+        if (bits_left_in_byte == 8 && this->bytes_left() == 0)
+            this->refill_buffer(); //Check for EOF
+        //printf("Nbits: %d\n", nbits);
+            
         if (nbits > bits_left_in_byte){
             t <<= bits_left_in_byte;
-            t |= ((((T)_bitbuf[0]) & get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
+            t |= ((((T)(*_curr_byte)) & get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
             nbits -= bits_left_in_byte;
             _bitp += bits_left_in_byte;
+            _curr_byte++;
         } else {
             t <<= nbits;
-            t |= ((((T)_bitbuf[0]) & get_mask(nbits)) >> (8 - nbits));
-            _bitbuf[0] <<= nbits;
+            t |= ((((T)(*_curr_byte)) & get_mask(nbits)) >> (8 - nbits));
+            (*_curr_byte) <<= nbits;
             _bitp += nbits;
             nbits = 0;
+            if (_bitp % 8 == 0) _curr_byte++; // Always leave the buffer on the next byte...
         }
     }
-    
+    //printf("Just read: 0x%x\n", t);
     *x = t;
     return true;
 }

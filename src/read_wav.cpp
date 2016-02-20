@@ -7,6 +7,8 @@
 #include "bitreader.hpp"
 #include "wavereader.hpp"
 
+#define CHUNK_SIZE 28192
+
 int main(int argc, char *argv[])
 {
     if(argc < 2) {
@@ -28,12 +30,21 @@ int main(int argc, char *argv[])
     WaveMetaData *meta = wr->getMetaData();
     meta->print(stderr);
     
-    int16_t pcm[4096];
-    
-    for (int i = 0; i < meta->getNumSamples()/4096; i++){
-        wr->read_data(fr, pcm, 4096);
-        for (int j = 0; j < 4096; j++)
+    int16_t pcm[CHUNK_SIZE];
+    int i;
+    fprintf(stderr, "%ld samples to read\n", meta->getNumSamples());
+    for (i = 0; i + CHUNK_SIZE < meta->getNumSamples(); i += CHUNK_SIZE){
+        wr->read_data(fr, pcm, CHUNK_SIZE);
+        for (int j = 0; j < CHUNK_SIZE; j++)
             printf("%d\n", pcm[j]);
+    }
+    
+    if (i != meta->getNumSamples()){
+        int remainder = meta->getNumSamples() - i;
+        wr->read_data(fr, pcm, remainder);
+        for (int j = 0; j < remainder; j++){
+            printf("%d\n", pcm[j]);
+        }
     }
     
     fclose(fin);

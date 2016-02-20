@@ -31,11 +31,6 @@ int main(int argc, char *argv[])
     
     int64_t samples = flac_reader->read(&buf);
     
-    int i;
-    for (i = 0; i < samples; i++){
-        printf("%d\n", buf[i]);
-    }
-    
     free(buf);
     fclose(fin);
 

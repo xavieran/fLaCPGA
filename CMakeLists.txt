@@ -18,7 +18,7 @@ set(CMAKECXX_FLAGS -g -static -std=c++11 -pedantic -Wall -Wextra -Wcast-align -W
 
 
 
-#add_executable (../tests/test_bitreader ../tests/bitreader_test.cpp ${XFILES})
+add_executable (../tests/test_bitreader ../tests/bitreader_test.cpp ${XFILES})
 add_executable (read_wav src/read_wav.cpp ${HEADER_FILES})
 add_executable (read_wavo src/read_wav.c ${HEADER_FILES})
 add_executable (read_flac src/read_flac.cpp ${HEADER_FILES})
