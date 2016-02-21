@@ -10,6 +10,6 @@ At the moment I am working on implementing the encoder and decoder in C++.
 
 
 1. Decode Flac Files C++
-   1. Make the bitreader code nicer and buffered
-   2. Implement audio data -> WAV
-   3. Implement multichannel interleaving, etc.
+   1. Make the bitreader code nicer and buffered [x]
+   2. Implement audio data -> WAV [x]
+   3. Implement multichannel interleaving, etc. [x]

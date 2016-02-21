@@ -35,6 +35,7 @@ FLACMetaData *FLACDecoder::getMetaData(){
     return _meta;
 }
 
+
 int FLACDecoder::read(int32_t ***pcm_buf){
     read_meta();
     
@@ -61,11 +62,6 @@ int FLACDecoder::read(int32_t ***pcm_buf){
 
 int FLACDecoder::read_meta(){
     _meta->read(_fr);
-    fprintf(stderr, "--METADATA\n");
-    
-    _meta->print(stderr);
-    fprintf(stderr, "----STREAMINFO!!\n");
-    _meta->getStreamInfo()->print(stderr);
     return 1;
 }
 
@@ -156,4 +152,92 @@ void FLACDecoder::process_channels(int32_t **channels, uint64_t offset, \
                 channels[0][i] += channels[1][i];
             break;
     }
+}
+
+void FLACDecoder::print_all_metadata(){
+    print_meta();
+    
+    int numChannels = _meta->getStreamInfo()->getNumChannels();
+    int intraSamples = _meta->getStreamInfo()->getTotalSamples();
+    int totalInterSamples = intraSamples * numChannels;
+    int samplesRead = 0;
+    int samplesFrame = 0;
+    
+    while (samplesRead < intraSamples){
+        samplesFrame = print_frame() / numChannels;
+        samplesRead += samplesFrame;
+    }
+}
+
+void FLACDecoder::print_meta(){
+    read_meta();
+    _meta->getStreamInfo()->print(stdout);
+    _meta->print(stdout);
+}
+
+int FLACDecoder::print_frame(){
+    /* Read frame into data. Data holds channels */
+    _frame->reconstruct();
+    _frame->read(_fr);
+    fprintf(stdout, "\t== FRAME HEADER ==\n");
+    _frame->print(stdout);
+    
+    int ch;
+    int samplesRead = 0;
+    
+    FLAC_const chanType = _frame->getChannelType();
+    uint16_t blockSize = _frame->getBlockSize();
+    
+    for (ch = 0; ch < _frame->getNumChannels(); ch++){
+        _subframe->reconstruct();
+        _subframe->read(_fr);
+        fprintf(stdout, "\t-- SUBFRAME HEADER --\n");
+        _subframe->print(stdout);
+        uint8_t bps = _frame->getSampleSize();
+        
+        switch (chanType){
+            case CH_MID: //Mid side
+            case CH_LEFT: //Left Side
+                if (ch == 1) bps++;
+                break;
+            case CH_RIGHT: // Right side
+                if (ch == 0) bps++;
+                break;
+        }
+        
+        switch (_subframe->getSubFrameType()){
+            case SUB_CONSTANT:            
+                _c->reconstruct(bps, blockSize);
+                samplesRead += _c->read(_fr);
+                fprintf(stdout, "\t :: CONSTANT ::\n");
+                _c->print(stdout);
+                break;
+            case SUB_VERBATIM:
+                _v->reconstruct(bps, blockSize);
+                samplesRead += _v->read(_fr);
+                fprintf(stdout, "\t :: VERBATIM ::\n");
+                _v->print(stdout);
+                break;
+            case SUB_FIXED:
+                _f->reconstruct(bps, blockSize, _subframe->getFixedOrder());
+                samplesRead += _f->read(_fr);
+                fprintf(stdout, "\t :: FIXED ::\n");
+                _f->print(stdout);
+                break;
+            case SUB_LPC:
+                _l->reconstruct(bps, blockSize, _subframe->getLPCOrder());
+                samplesRead += _l->read(_fr);
+                fprintf(stdout, "\t :: LPC ::\n");
+                _l->print(stdout);
+                break;
+            case SUB_INVALID:
+                fprintf(stderr, "Invalid subframe type\n");
+                _fr->read_error();
+        }
+    }
+    
+    _frame->read_padding(_fr);
+    _frame->read_footer(_fr);
+    
+    return samplesRead;
 }

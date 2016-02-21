@@ -11,7 +11,7 @@
 #include <string.h>
 #include <assert.h>
 
-#define BUFFER_SIZE 8192
+#define BUFFER_SIZE 100000
 
 class BitWriter {
 public:
@@ -24,6 +24,7 @@ public:
     int write_word_i16LE(int16_t data);
     
     int flush(){ return write_buffer(); }
+    void reset();
     
     template<typename T> int write_chunk(T *data, int nmemb){
         if (this->bytes_left() == 0){

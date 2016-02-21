@@ -36,6 +36,13 @@ int BitWriter::write_buffer(){
     return bytes_written;
 }
 
+void BitWriter::reset(){
+    _curr_byte = _buffer;
+    rewind(_fout);
+    _bitp = 0;
+    memset(_buffer, 0, BUFFER_SIZE);
+}
+
 template<typename T> int BitWriter::write_word_LE(T data){
     //printf("%d\n",this->bytes_left());
     assert(is_byte_aligned());

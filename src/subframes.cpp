@@ -88,6 +88,12 @@ FLACSubFrameFixed::FLACSubFrameFixed(uint8_t bitsPerSample, uint32_t blockSize, 
     _predictorOrder = predictorOrder;
 }
 
+void FLACSubFrameFixed::print(FILE *f){
+    fprintf(f, " block size: %d\n", _blockSize);
+    fprintf(f, " bps: %d\n", _bitsPerSample);
+    fprintf(f, " order: %d\n", _predictorOrder);
+}
+
 void FLACSubFrameFixed::reconstruct(uint8_t bitsPerSample, uint32_t blockSize, \
                                      uint8_t predictorOrder){
     _blockSize = blockSize;
@@ -172,6 +178,16 @@ FLACSubFrameLPC::FLACSubFrameLPC(){
     //_qlpCoeff = new vector<int32_t>() ... make appropriate sized array for storing coeffs.
 }
 
+void FLACSubFrameLPC::print(FILE *f){
+    fprintf(f, " block size: %d\n", _blockSize);
+    fprintf(f, " bps: %d\n", _bitsPerSample);
+    fprintf(f, " order: %d\n", _lpcOrder);
+    fprintf(f, " precision: %d\n", _qlpPrecis);
+    fprintf(f, " shift: %d\n", _qlpShift);
+    for (int i = 0; i < _lpcOrder; i++)
+        fprintf(f, "   coeff[%d]: %d\n", i, _qlpCoeff[i]);
+}
+
 FLACSubFrameLPC::FLACSubFrameLPC(uint8_t bitsPerSample, uint32_t blockSize, \
                                      uint8_t lpcOrder){
     _blockSize = blockSize;
@@ -180,7 +196,6 @@ FLACSubFrameLPC::FLACSubFrameLPC(uint8_t bitsPerSample, uint32_t blockSize, \
     
     _qlpPrecis = 0;
     _qlpShift = 0;
-    //_qlpCoeff = new vector<int32_t>() ... make appropriate sized array for storing coeffs.
 }
 
 void FLACSubFrameLPC::reconstruct(uint8_t bitsPerSample, uint32_t blockSize, \
@@ -191,7 +206,6 @@ void FLACSubFrameLPC::reconstruct(uint8_t bitsPerSample, uint32_t blockSize, \
     
     _qlpPrecis = 0;
     _qlpShift = 0;
-    //_qlpCoeff = new vector<int32_t>() ... make appropriate sized array for storing coeffs.
 }
 
 void FLACSubFrameLPC::setLPCOrder(uint8_t lpcOrder){
@@ -275,6 +289,11 @@ FLACSubFrameConstant::FLACSubFrameConstant(uint8_t bitsPerSample, uint32_t block
     //Allocate space for data or something?
 }
 
+void FLACSubFrameConstant::print(FILE *f){
+    fprintf(f, " block size: %d\n", _blockSize);
+    fprintf(f, " bps: %d\n", _bitsPerSample);
+}
+
 void FLACSubFrameConstant::reconstruct(uint8_t bitsPerSample, uint32_t blockSize){
     _bitsPerSample = bitsPerSample;
     _blockSize = blockSize;
@@ -322,6 +341,11 @@ FLACSubFrameVerbatim::FLACSubFrameVerbatim(){
 FLACSubFrameVerbatim::FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize){
     _bitsPerSample = bitsPerSample;
     _blockSize = blockSize;
+}
+
+void FLACSubFrameVerbatim::print(FILE *f){
+    fprintf(f, " block size: %d\n", _blockSize);
+    fprintf(f, " bps: %d\n", _bitsPerSample);
 }
 
 void FLACSubFrameVerbatim::reconstruct(uint8_t bitsPerSample, uint32_t blockSize){

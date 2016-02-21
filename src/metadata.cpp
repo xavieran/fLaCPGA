@@ -161,6 +161,10 @@ uint64_t FLACMetaStreamInfo::getTotalSamples(){
 uint8_t FLACMetaStreamInfo::getNumChannels(){
     return _numChannels;
 }
+
+uint16_t FLACMetaStreamInfo::getMaxBlockSize(){
+    return _maxBlockSize;
+}
 /****************************************************/
 /************** OTHER METABLOCKS *******************/
 /**************************************************/

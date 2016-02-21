@@ -89,6 +89,7 @@ public:
     
     int read(FileReader *fr);
     int read(FileReader *fr, int32_t *dst);
+    void print(FILE *f);
 };
 
 
@@ -114,6 +115,7 @@ public:
     int read(FileReader *fr, int32_t *dst);
     
     void setLPCOrder(uint8_t lpcOrder);
+    void print(FILE *f);
 };
 
 
@@ -131,6 +133,7 @@ public:
     
     int setSampleSize(uint8_t bitsPerSample);
     int setBlockSize(uint32_t blockSize);
+    void print(FILE *f);
 };
 
 
@@ -148,6 +151,7 @@ public:
     
     int setSampleSize(uint8_t bitsPerSample);
     int setBlockSize(uint32_t blockSize);
+    void print(FILE *f);
 };
 
 #endif

@@ -8,9 +8,6 @@
 
 #include "bitreader.hpp"
 
-#define BUFFER_SIZE 8192
-
-
 uint64_t FileReader::get_current_bit(){
     return _bitp;
 }
@@ -98,26 +95,12 @@ int FileReader::read_words_i16LE(int16_t *dst, uint64_t words){
     return read_words_LE<int16_t>(dst, words);
 }
 
-
-uint8_t FileReader::get_mask(uint8_t nbits){
-    switch (nbits){
-        case 0: return 0xff;
-        case 1: return 0x80;
-        case 2: return 0xc0;
-        case 3: return 0xe0;
-        case 4: return 0xf0;
-        case 5: return 0xf8;
-        case 6: return 0xfc;
-        case 7: return 0xfe;
-        case 8: return 0xff;
-    }
-    return 0x00;
-}
-
 template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
     /* Convert this to big endian */
+    int BYTE_MASK[9] = {0xff, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe, 0xff};
     int bits_left_in_byte;
     T t = 0;
+    
     while (nbits > 0){
         bits_left_in_byte = 8 - (_bitp % 8);
         if (bits_left_in_byte == 8 && this->bytes_left() == 0)
@@ -125,13 +108,13 @@ template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
             
         if (nbits > bits_left_in_byte){
             t <<= bits_left_in_byte;
-            t |= ((((T)(*_curr_byte)) & get_mask(bits_left_in_byte)) >> (8-bits_left_in_byte));
+            t |= ((((T)(*_curr_byte)) &BYTE_MASK[bits_left_in_byte]) >> (8 - bits_left_in_byte));
             nbits -= bits_left_in_byte;
             _bitp += bits_left_in_byte;
             _curr_byte++;
         } else {
             t <<= nbits;
-            t |= ((((T)(*_curr_byte)) & get_mask(nbits)) >> (8 - nbits));
+            t |= ((((T)(*_curr_byte)) & BYTE_MASK[nbits]) >> (8 - nbits));
             (*_curr_byte) <<= nbits;
             _bitp += nbits;
             nbits = 0;

@@ -19,8 +19,15 @@
 class FLACDecoder {
 public:
     FLACDecoder(FILE *f);
-    int read(int32_t ***pcm_buf);
     FLACMetaData *getMetaData();
+    
+    int read(int32_t ***pcm_buf);
+    int read_meta();
+    int read_frame(int32_t **data, uint64_t offset);
+    
+    void print_all_metadata();
+    void print_meta();
+    int print_frame();
     
 private:
     FileReader *_fr;
@@ -33,8 +40,6 @@ private:
     FLACSubFrameFixed *_f;
     FLACSubFrameLPC *_l;
     
-    int read_frame(int32_t **data, uint64_t offset);
-    int read_meta();
     
     void process_channels(int32_t **channels, uint64_t offset, \
                          uint32_t samples, FLAC_const chanType);

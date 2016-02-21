@@ -13,7 +13,7 @@ set( src/wavereader.cpp
 
 set(XFILES src/bitreader.cpp includes/bitreader.hpp)
 
-set(CMAKE_CXX_FLAGS "-g -static -O0 -std=c++11 -Wall -Wno-unused-variable -Wno-switch")
+set(CMAKE_CXX_FLAGS "-g -static -Og -std=c++11 -Wall -Wno-unused-variable -Wno-switch")
 
 
 #add_executable (../tests/test_bitreader ../tests/bitreader_test.cpp ${XFILES})

@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUFFER_SIZE 8192
+#define BUFFER_SIZE 100000
 
 class FileReader {
 public:
