@@ -41,7 +41,7 @@ public:
         return _header;
     }
     
-    FLACMetaBlockHeader * setHeader(FLACMetaBlockHeader * h){
+    void setHeader(FLACMetaBlockHeader * h){
         _header = h;
     }
     

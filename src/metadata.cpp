@@ -50,6 +50,8 @@ int FLACMetaData::read(FileReader *fr){
             this->addBlock(temp);
         } while  (!temp->getHeader()->isLast());
     }
+    
+    return true; /* FIXME: Error checking... */
 }
 
 int FLACMetaData::addBlock(FLACMetaDataBlock *b){

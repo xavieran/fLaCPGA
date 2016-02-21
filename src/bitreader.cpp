@@ -18,7 +18,6 @@ uint64_t FileReader::get_current_bit(){
 FileReader::FileReader(FILE *f){
     _fin = f;
     _bitp = 0;    
-    _bitbuf[0] = 0;
     _curr_byte = _buffer + BUFFER_SIZE;
     _eof = 0;
 }
@@ -31,8 +30,6 @@ int FileReader::read_error(){
 
 int FileReader::reset_file(){
     rewind(_fin);
-    _bitbuf[0] = 0;
-    //memset
     _curr_byte = _buffer + BUFFER_SIZE;
     _bitp = 0;
     _eof = 0;
@@ -50,7 +47,6 @@ int FileReader::refill_buffer(){
 
 int FileReader::reset_bit_count(){
     _bitp = 0;
-    _bitbuf[0] = 0;
     return true;
 }
 
@@ -59,7 +55,7 @@ int FileReader::is_byte_aligned(){
 }
 
 template<typename T> int FileReader::read_word_LE(T *x){
-    assert(_bitp % 8 == 0); // Only execute this when byte aligned...
+    assert(this->is_byte_aligned()); // Only execute this when byte aligned...
     T result = 0;
     int bytes = sizeof(T);
     uint8_t byte;
@@ -68,6 +64,13 @@ template<typename T> int FileReader::read_word_LE(T *x){
         result |= (byte << i*8);
     }
     *x = result;
+    return true;
+}
+
+template<typename T> int FileReader::read_words_LE(T *x, uint64_t words){
+    for (int i = 0; i < words; i++){
+        read_word_LE<T>(x);
+    }
     return true;
 }
 
@@ -84,25 +87,17 @@ int FileReader::read_word_i16LE(int16_t *x){
 }
 
 int FileReader::read_words_u32LE(uint32_t *dst, uint64_t words){
-    for (int i = 0; i < words; i++){
-        read_word_u32LE(dst + i);
-    }
-    return true;
-}
-
-int FileReader::read_words_i16LE(int16_t *dst, uint64_t words){
-    for (int i = 0; i < words; i++){
-        read_word_i16LE(dst + i);
-    }
-    return false;
+    return read_words_LE<uint32_t>(dst, words);
 }
 
 int FileReader::read_words_u16LE(uint16_t *dst, uint64_t words){
-    for (int i = 0; i < words; i++){
-        read_word_u16LE(dst + i);
-    }
-    return false;
+    return read_words_LE<uint16_t>(dst, words);
 }
+
+int FileReader::read_words_i16LE(int16_t *dst, uint64_t words){
+    return read_words_LE<int16_t>(dst, words);
+}
+
 
 uint8_t FileReader::get_mask(uint8_t nbits){
     switch (nbits){
@@ -116,19 +111,17 @@ uint8_t FileReader::get_mask(uint8_t nbits){
         case 7: return 0xfe;
         case 8: return 0xff;
     }
+    return 0x00;
 }
 
 template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
     /* Convert this to big endian */
     int bits_left_in_byte;
     T t = 0;
-    //printf("\nbitp: %d\n", _bitp);
-    //printf("Contents of buffer: %x %x %x %x\n", _curr_byte[0], _curr_byte[1], _curr_byte[2], _curr_byte[3]);
     while (nbits > 0){
         bits_left_in_byte = 8 - (_bitp % 8);
         if (bits_left_in_byte == 8 && this->bytes_left() == 0)
             this->refill_buffer(); //Check for EOF
-        //printf("Nbits: %d\n", nbits);
             
         if (nbits > bits_left_in_byte){
             t <<= bits_left_in_byte;
@@ -145,7 +138,6 @@ template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
             if (_bitp % 8 == 0) _curr_byte++; // Always leave the buffer on the next byte...
         }
     }
-    //printf("Just read: 0x%x\n", t);
     *x = t;
     return true;
 }
@@ -236,7 +228,7 @@ int FileReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extende
     uint8_t rice_param = 0;
     uint8_t bps = 0;
     uint8_t param_bits = (extended == 0) ? 4 : 5;
-    int i;
+    unsigned i;
     read_bits_uint8(&rice_param, param_bits);
     
     if (rice_param == 0xF || rice_param == 0x1F)

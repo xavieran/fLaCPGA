@@ -57,6 +57,8 @@ public:
         memcpy(dst, _curr_byte, nmemb * sizeof(T));
         _curr_byte += nmemb*sizeof(T);
         _bitp += nmemb*sizeof(T)*8;
+        
+        return nmemb; /* FIXME: DO ERROR CHECKING */
     }
     
     int read_file(void *buf, int size, int nmemb);
@@ -66,13 +68,9 @@ private:
     FILE *_fin;
     
     uint64_t _bitp;
-    
     uint8_t *_curr_byte;
-    
-    int _eof;
-    
-    uint8_t _bitbuf[1];
     uint8_t _buffer[BUFFER_SIZE];
+    int _eof;
     
     int bytes_left();
     int refill_buffer();
@@ -82,6 +80,7 @@ private:
     
     template<typename T> int read_bits(T *x, uint8_t bits);
     template<typename T> int read_word_LE(T *x);
+    template<typename T> int read_words_LE(T *x, uint64_t words);
     int smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb);
     /* Use exceptions...*/
     

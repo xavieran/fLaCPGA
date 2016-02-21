@@ -9,10 +9,35 @@
 #include <math.h>
 
 #include "bitreader.hpp"
+#include "bitwriter.hpp"
+
 #include "wavereader.hpp"
 
 WaveMetaData::WaveMetaData(){
     ;
+}
+
+WaveMetaData::WaveMetaData(uint16_t NumChannels, uint32_t SampleRate, uint16_t BitsPerSample, 
+                           uint32_t NumSamples){
+    _NumChannels = NumChannels;
+    _SampleRate = SampleRate;
+    _BitsPerSample = BitsPerSample;
+    
+    /*_ChunkID[0] = 'R';_ChunkID[1] = 'I';_ChunkID[2] = 'F';_ChunkID[3] = 'F';
+    _Format[0] = 'W';_Format[1] = 'A';_Format[2] = 'V';_Format[3] = 'E';
+    _Subchunk1ID[0] = 'f';_Subchunk1ID[1] = 'm';_Subchunk1ID[2] = 't';_Subchunk1ID[3] = ' ';*/
+    strncpy(_ChunkID, "RIFF", 5);
+    strncpy(_Format, "WAVE", 5);
+    strncpy(_Subchunk1ID, "fmt ", 5);
+    strncpy(_Subchunk2ID, "data", 5);
+    _Subchunk1Size = 16;
+    _AudioFormat = 1;
+    _ByteRate = _SampleRate*_NumChannels*_BitsPerSample/8;
+    _BlockAlign = _NumChannels*_BitsPerSample/8;
+    _metadata = NULL;
+    _metadata_size = 0;
+    
+    this->setNumSamples(NumSamples);
 }
 
 void WaveMetaData::print(FILE* f){
@@ -52,20 +77,45 @@ int WaveMetaData::read(FileReader *fr){
     fr->read_chunk<char>(_Subchunk2ID, 4);
     fr->read_word_u32LE(&_Subchunk2Size);
    
-    /* Add validation of above meta data here */
+    /* FIXME: Add validation of above meta data here */
+    return true;
+}
+
+int WaveMetaData::write(BitWriter *bw){
+    bw->write_chunk<char>(_ChunkID, 4);
+    bw->write_word_u32LE(_ChunkSize);
+    bw->write_chunk<char>(_Format, 4);
+    bw->write_chunk<char>(_Subchunk1ID, 4);
+    bw->write_word_u32LE(_Subchunk1Size);
+    bw->write_word_u16LE(_AudioFormat);
+    bw->write_word_u16LE(_NumChannels);
+    bw->write_word_u32LE(_SampleRate);
+    bw->write_word_u32LE(_ByteRate);
+    bw->write_word_u16LE(_BlockAlign);
+    bw->write_word_u16LE(_BitsPerSample);
+    bw->write_chunk<char>(_Subchunk2ID, 4);
+    bw->write_word_u32LE(_Subchunk2Size);
+    bw->flush();
+    
+    return true; /* FIXME: Error checking */
 }
 
 
-int WaveMetaData::setNumSamples(uint64_t numSamples){
+void WaveMetaData::setNumSamples(uint64_t numSamples){
     /* Recalculate the chunk sizes for a WAVE file, given a total of pcm_samples */
     uint32_t new_subchunk2_size = numSamples * (_BitsPerSample / 8) ;
     uint32_t new_chunk_size = new_subchunk2_size + 36 + _metadata_size - 1;
     _Subchunk2Size = new_subchunk2_size;
     _ChunkSize = new_chunk_size;
+    
 }
 
 uint64_t WaveMetaData::getNumSamples(){
     return _Subchunk2Size/(_NumChannels*(_BitsPerSample/8));
+}
+
+uint16_t WaveMetaData::getNumChannels(){
+    return _NumChannels;
 }
 
 WaveReader::WaveReader(){
@@ -77,16 +127,50 @@ WaveMetaData *WaveReader::getMetaData(){
     return _meta;
 }
 
+uint64_t WaveReader::getSamplesLeft(){
+    return this->_meta->getNumSamples() - _samplesRead;
+}
+
 int WaveReader::read_metadata(FileReader *fr){
     return _meta->read(fr);
 }
 
 int WaveReader::read_data(FileReader *fr, int16_t *pcm, uint64_t samples){
     /* Fill pcm with samples of data... */
-    if (samples > (this->_meta->getNumSamples() - _samplesRead)){
-        fr->read_words_i16LE(pcm, this->_meta->getNumSamples() - _samplesRead);
+    if (samples > getSamplesLeft()){
+        _samplesRead = _meta->getNumSamples();
+        return fr->read_words_i16LE(pcm, getSamplesLeft());
     } else {
-        fr->read_words_i16LE(pcm, samples);
         samples += _samplesRead;
+        return fr->read_words_i16LE(pcm, samples);
     }
 }
+
+WaveWriter::WaveWriter(WaveMetaData *meta){
+    _meta = meta;
+}
+
+int WaveWriter::write(BitWriter *bw, int32_t **pcm){
+    this->write_metadata(bw);
+    /* We assume that the num samples in pcm is same as in meta... */
+    return write_data(bw, pcm, _meta->getNumSamples());
+}
+int WaveWriter::write_metadata(BitWriter *bw){
+    return _meta->write(bw);
+}
+
+/* Samples is the number of samples per channel...*/
+int WaveWriter::write_data(BitWriter *bw, int32_t **pcm, uint64_t samples){
+    /* Expect multiple channels and we will interleave them. */
+    unsigned i, ch;
+    for (i = 0; i < samples; i++)
+        for (ch = 0; ch < _meta->getNumChannels(); ch++)
+            //printf("ch: %d i: %d v: %d\n", ch, i, (int16_t)pcm[ch][i]);
+            bw->write_word_i16LE((int16_t)pcm[ch][i]);
+    return true; /* FIXME: Erro rching */
+}
+
+WaveMetaData *WaveWriter::getMetaData(){
+    return _meta;
+}
+

@@ -106,6 +106,7 @@ int FLACFrameHeader::getNumChannels(){
         case 8: case 9: case 10:
             return 2;
     }
+    return -1;
 }
 
 int FLACFrameHeader::read(FileReader *fr){
@@ -168,11 +169,13 @@ int FLACFrameHeader::read(FileReader *fr){
     } else if (_sampleRateHint < 12){
         _sampleRate = _sampleRateLUT[_sampleRateHint];
     } else if (_sampleRateHint == 12){
-        fr->read_bits_uint32(&_sampleRate, 8) * 1000;
+        fr->read_bits_uint32(&_sampleRate, 8);
+        _sampleRate *= 1000;
     } else if (_sampleRateHint == 13){
         fr->read_bits_uint32(&_sampleRate, 16);
     } else if (_sampleRateHint == 14){
-        fr->read_bits_uint32(&_sampleRate, 16) * 10;
+        fr->read_bits_uint32(&_sampleRate, 16);
+        _sampleRate *= 10;
     } else {
         // ERROR !!!
     }
@@ -191,5 +194,5 @@ int FLACFrameHeader::read_padding(FileReader *fr){
 }
 
 int FLACFrameHeader::read_footer(FileReader *fr){
-    fr->read_bits_uint16(&_frameFooter, 16);
+    return fr->read_bits_uint16(&_frameFooter, 16);
 }

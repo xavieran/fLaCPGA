@@ -60,7 +60,7 @@ public:
         return _header;
     }
     
-    FLACSubFrameHeader * setHeader(FLACSubFrameHeader * h){
+    void setHeader(FLACSubFrameHeader * h){
         _header = h;
     }
     
@@ -113,7 +113,7 @@ public:
     int read(FileReader *fr);
     int read(FileReader *fr, int32_t *dst);
     
-    int setLPCOrder(uint8_t lpcOrder);
+    void setLPCOrder(uint8_t lpcOrder);
 };
 
 

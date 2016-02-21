@@ -1,5 +1,5 @@
 /**********************************
- * FlacReader class               *
+ * FLACDecoder class               *
  **********************************/
 
 #include <stdio.h>
@@ -16,11 +16,11 @@
 
 #include "bitreader.hpp"
 
-class FLACReader {
+class FLACDecoder {
 public:
-    FLACReader(FILE *f);
-    int read(int32_t **pcm_buf);
-    
+    FLACDecoder(FILE *f);
+    int read(int32_t ***pcm_buf);
+    FLACMetaData *getMetaData();
     
 private:
     FileReader *_fr;
@@ -33,8 +33,9 @@ private:
     FLACSubFrameFixed *_f;
     FLACSubFrameLPC *_l;
     
-    int read_frame(int32_t *data);
+    int read_frame(int32_t **data, uint64_t offset);
     int read_meta();
     
-    
+    void process_channels(int32_t **channels, uint64_t offset, \
+                         uint32_t samples, FLAC_const chanType);
 };
