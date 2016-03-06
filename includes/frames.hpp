@@ -20,9 +20,13 @@
 class FLACFrameHeader {
 public:
     FLACFrameHeader();
+    FLACFrameHeader(uint8_t blk_strat, uint32_t samp_rate, uint8_t chan_assign, 
+                    uint8_t samp_size, uint64_t number, uint16_t blk_size);
     void reconstruct();
-    
+    void reconstruct(uint8_t blk_strat, uint32_t samp_rate, uint8_t chan_assign, 
+                    uint8_t samp_size, uint64_t number, uint16_t blk_size);
     int isLast();
+    
     int getBlockType();
     int getBlockLength();
     int getSampleSize();

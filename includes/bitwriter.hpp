@@ -19,6 +19,10 @@ public:
   
     void write_error();
 
+    /* Write the rightmost bits in data to file */
+    int write_bits(uint64_t data, uint8_t bits);
+    int write_unary(uint32_t data);
+    int write_rice(int32_t data, unsigned rice_param);
     int write_word_u16LE(uint16_t data);
     int write_word_u32LE(uint32_t data);
     int write_word_i16LE(int16_t data);

@@ -13,12 +13,14 @@
 #include <vector>
 
 #include "bitreader.hpp"
+#include "bitwriter.hpp"
 
 #define READSIZE 1024
 
 class FLACMetaBlockHeader {
 public:
     FLACMetaBlockHeader();
+    FLACMetaBlockHeader(int isLast, int blockType, int blockLength);
     int isLast();
     int getBlockType();
     int getBlockLength();
@@ -75,6 +77,10 @@ private:
     
 public:
     FLACMetaStreamInfo();
+    FLACMetaStreamInfo(uint16_t min_blk_sz, uint16_t max_blk_sz,
+                       uint32_t min_frm_sz, uint32_t max_frm_sz, 
+                       uint32_t samp_rate, uint8_t num_chan, uint8_t bps, 
+                       uint64_t total_samp, uint64_t MD5u, uint64_t MD5l);
     uint16_t getMinBlockSize();
     uint16_t getMaxBlockSize();
     uint32_t getMinFrameSize();
@@ -87,7 +93,7 @@ public:
     uint64_t getMD5l();
     void print(FILE *f);
     int read(FileReader *fr);
-    int write(FILE *f);
+    int write(BitWriter *bw);
     
 }; 
 /****************************************************/
