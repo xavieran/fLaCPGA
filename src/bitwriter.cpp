@@ -38,7 +38,7 @@ int BitWriter::write_buffer(){
     // Make sure we also catch the last byte if it has been halfwritten
     int bytes_to_write = _curr_byte - _buffer + (_bitp % 8 != 0);
     // Shift the last piece of the buffer over if it is not full
-    (*_curr_byte) <<= 8 - _bitp % 8; 
+    // (*_curr_byte) <<= 8 - _bitp % 8; 
     int bytes_written = fwrite(_buffer, sizeof(uint8_t), bytes_to_write, _fout);
     fflush(_fout);
     _curr_byte = _buffer;
@@ -59,6 +59,9 @@ int BitWriter::write_bits(uint64_t data, uint8_t bits){
     
     while (bits != 0){
         blib = 8 - (_bitp % 8);
+        if (blib == 8 && this->bytes_left() == 0)
+            this->write_buffer(); //Check for EOF
+            
         if (bits < blib){
             (*_curr_byte) <<= bits;
             (*_curr_byte) |= ((1 << bits) - 1) & data;
@@ -85,13 +88,13 @@ int BitWriter::write_unary(uint32_t data){
     // Since we memset the buffer to 0, in order to "write" n zeros, we just
     // skip n bits and write a 1
     
-    int blib = 8 - _bitp % 8;
+    unsigned blib = 8 - _bitp % 8;
     // Ensure that we appropriately shift the bits in the buffer
-    if (data > blib){
+    if (data > blib)
         (*_curr_byte) <<= blib;
-    } else {
+    else
         (*_curr_byte) <<= data;
-    }
+    
     _bitp += data;
     _curr_byte += (_bitp / 8) - (_curr_byte - _buffer);
     
@@ -113,14 +116,13 @@ int BitWriter::write_rice(int32_t data, unsigned rice_param){
     msbs = uval >> rice_param;
     lsbs = uval & ((1 << rice_param) - 1); // LSBs are the last rice_param number of bits
     
-    //printf("msbs: %d lsbs: 0x%x\n", msbs, lsbs);
+    printf("msbs: %d lsbs: 0x%x\n\n", msbs, lsbs);
     
     write_unary(msbs);
     write_bits(lsbs, rice_param);
     //printf("AF RI Current byte: %d current bit: %d\n", _curr_byte - _buffer, _bitp % 8);
     return 1;
 }
-
 
 template<typename T> int BitWriter::write_word_LE(T data){
     //printf("%d\n",this->bytes_left());

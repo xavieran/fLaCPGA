@@ -8,6 +8,7 @@
 #include <string.h>
 
 #include <vector>
+#include <memory>
 
 #include "frames.hpp"
 #include "subframes.hpp"

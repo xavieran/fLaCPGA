@@ -108,7 +108,7 @@ template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
             
         if (nbits > bits_left_in_byte){
             t <<= bits_left_in_byte;
-            t |= ((((T)(*_curr_byte)) &BYTE_MASK[bits_left_in_byte]) >> (8 - bits_left_in_byte));
+            t |= ((((T)(*_curr_byte)) & BYTE_MASK[bits_left_in_byte]) >> (8 - bits_left_in_byte));
             nbits -= bits_left_in_byte;
             _bitp += bits_left_in_byte;
             _curr_byte++;
@@ -220,10 +220,9 @@ int FileReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extende
     if (rice_param == 0xF || rice_param == 0x1F)
         for (i = 0; i < nsamples; i++) /* Read a chunk */
             read_bits_int32(dst + i, bps);
-     else
-        for (i = 0; i < nsamples; i++){
+    else
+        for (i = 0; i < nsamples; i++)
             read_rice_signed(dst + i, rice_param);
-        }
     
     return i;
 }
