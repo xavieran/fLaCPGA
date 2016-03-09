@@ -37,12 +37,12 @@ Wasted Bits: %d\n", _zeroBit, _subFrameType, _wastedBitsPerSample);
 }
 
 int FLACSubFrameHeader::read(FileReader *fr){
-    fr->read_bits_uint8(&_zeroBit, 1);
-    fr->read_bits_uint8(&_subFrameType, 6);
+    fr->read_bits(&_zeroBit, 1);
+    fr->read_bits(&_subFrameType, 6);
     uint8_t x;
-    fr->read_bits_uint8(&x, 1);
+    fr->read_bits(&x, 1);
     if (x){
-        fr->read_bits_unary_uint16(&_wastedBitsPerSample);
+        fr->read_bits_unary(&_wastedBitsPerSample);
     }
     
     return true; /* FIXME: Add error handling.. */
@@ -106,7 +106,7 @@ int FLACSubFrameFixed::read(FileReader *fr){
     int32_t *data = (int32_t *)malloc(sizeof(int32_t) * _blockSize);
     
     for(i = 0; i < _predictorOrder; i++){
-        fr->read_bits_int32(data, _bitsPerSample);// Store these samples ...
+        fr->read_bits_signed(data, _bitsPerSample);// Store these samples ...
     }
     
     int s = _predictorOrder;
@@ -119,7 +119,7 @@ int FLACSubFrameFixed::read(FileReader *fr){
 int FLACSubFrameFixed::read(FileReader *fr, int32_t *data){
     unsigned i;
     for(i = 0; i < _predictorOrder; i++){
-        fr->read_bits_int32(data + i, _bitsPerSample);
+        fr->read_bits_signed(data + i, _bitsPerSample);
         //printf("\t\twarmup[%d]=%d\n", i, data[i]);
     }
     
@@ -218,19 +218,19 @@ int FLACSubFrameLPC::read(FileReader *fr){
     
     /* Read warm up samples */
     for(i = 0; i < _lpcOrder; i++){
-        fr->read_bits_int32(data + i, _bitsPerSample);// Store these samples ... (are they signed???)
+        fr->read_bits_signed(data + i, _bitsPerSample);// Store these samples ... (are they signed???)
     }
     
     /* Read lpc coefficient precision */
-    fr->read_bits_uint8(&_qlpPrecis, 4);
+    fr->read_bits(&_qlpPrecis, 4);
     _qlpPrecis++; /* Precision needs to be +1d */
     
     /* Read the coefficient shift */
-    fr->read_bits_int8(&_qlpShift, 5); /* Signed two's complement  */
+    fr->read_bits_signed(&_qlpShift, 5); /* Signed two's complement  */
     
     /* Read unencoded predictor coefficients... */
     for (i = 0; i < _lpcOrder; i++){
-        fr->read_bits_int32(_qlpCoeff + i, _qlpPrecis);
+        fr->read_bits_signed(_qlpCoeff + i, _qlpPrecis);
     }
     
     int s = _lpcOrder; // The sum of all samples read by this subframe...
@@ -247,17 +247,17 @@ int FLACSubFrameLPC::read(FileReader *fr, int32_t *data){
     int32_t *residuals = (int32_t *)malloc(sizeof(int32_t) * _blockSize);
 
     for(i = 0; i < _lpcOrder; i++){
-        fr->read_bits_int32(data + i, _bitsPerSample);
+        fr->read_bits_signed(data + i, _bitsPerSample);
     }
 
-    fr->read_bits_uint8(&_qlpPrecis, 4);
+    fr->read_bits(&_qlpPrecis, 4);
     _qlpPrecis++; /* Precision needs to be +1d */
 
-    fr->read_bits_int8(&_qlpShift, 5); /* Signed two's complement  */
+    fr->read_bits_signed(&_qlpShift, 5); /* Signed two's complement  */
 
     int32_t coeff;
     for (i = 0; i < _lpcOrder; i++){
-        fr->read_bits_int32(_qlpCoeff + i, _qlpPrecis);
+        fr->read_bits_signed(_qlpCoeff + i, _qlpPrecis);
     }
     int s = _lpcOrder; // The sum of all samples read by this subframe...
     s += fr->read_residual(residuals, _blockSize, _lpcOrder);
@@ -301,15 +301,15 @@ void FLACSubFrameConstant::reconstruct(uint8_t bitsPerSample, uint32_t blockSize
 }
 
 int FLACSubFrameConstant::read(FileReader *fr){
-    uint32_t constantValue;
-    fr->read_bits_uint32(&constantValue, _bitsPerSample);
+    int32_t constantValue;
+    fr->read_bits_signed(&constantValue, _bitsPerSample);
     return _blockSize;
 }
 
 int FLACSubFrameConstant::read(FileReader *fr, int32_t *data){
     unsigned i;
     int32_t constantValue;
-    fr->read_bits_int32(&constantValue, _bitsPerSample);
+    fr->read_bits_signed(&constantValue, _bitsPerSample);
     
     for (i = 0; i < _blockSize; i++){
         data[i] = constantValue;
@@ -357,7 +357,7 @@ int FLACSubFrameVerbatim::read(FileReader *fr){
     unsigned i;
     int32_t data;
     for (i = 0; i < _blockSize; i++){
-        fr->read_bits_int32(&data, _bitsPerSample);
+        fr->read_bits_signed(&data, _bitsPerSample);
     }
     
     return _blockSize;
@@ -366,7 +366,7 @@ int FLACSubFrameVerbatim::read(FileReader *fr){
 int FLACSubFrameVerbatim::read(FileReader *fr, int32_t *data){
     unsigned i;
     for (i = 0; i < _blockSize; i++){
-        fr->read_bits_int32(data + i, _bitsPerSample);
+        fr->read_bits_signed(data + i, _bitsPerSample);
     }
     
     return _blockSize;

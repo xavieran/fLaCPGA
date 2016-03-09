@@ -23,9 +23,6 @@ WaveMetaData::WaveMetaData(uint16_t NumChannels, uint32_t SampleRate, uint16_t B
     _SampleRate = SampleRate;
     _BitsPerSample = BitsPerSample;
     
-    /*_ChunkID[0] = 'R';_ChunkID[1] = 'I';_ChunkID[2] = 'F';_ChunkID[3] = 'F';
-    _Format[0] = 'W';_Format[1] = 'A';_Format[2] = 'V';_Format[3] = 'E';
-    _Subchunk1ID[0] = 'f';_Subchunk1ID[1] = 'm';_Subchunk1ID[2] = 't';_Subchunk1ID[3] = ' ';*/
     strncpy(_ChunkID, "RIFF", 5);
     strncpy(_Format, "WAVE", 5);
     strncpy(_Subchunk1ID, "fmt ", 5);
@@ -63,38 +60,38 @@ Metadata: %d\n", \
 
 int WaveMetaData::read(FileReader *fr){
     
-    fr->read_chunk<char>(_ChunkID, 4); // Might need to add terminating null...
-    fr->read_word_u32LE(&_ChunkSize);
-    fr->read_chunk<char>(_Format, 4);
-    fr->read_chunk<char>(_Subchunk1ID, 4);
-    fr->read_word_u32LE(&_Subchunk1Size);
-    fr->read_word_u16LE(&_AudioFormat);
-    fr->read_word_u16LE(&_NumChannels);
-    fr->read_word_u32LE(&_SampleRate);
-    fr->read_word_u32LE(&_ByteRate);
-    fr->read_word_u16LE(&_BlockAlign);
-    fr->read_word_u16LE(&_BitsPerSample);
-    fr->read_chunk<char>(_Subchunk2ID, 4);
-    fr->read_word_u32LE(&_Subchunk2Size);
+    fr->read_chunk(_ChunkID, 4); // Might need to add terminating null...
+    fr->read_word_LE(&_ChunkSize);
+    fr->read_chunk(_Format, 4);
+    fr->read_chunk(_Subchunk1ID, 4);
+    fr->read_word_LE(&_Subchunk1Size);
+    fr->read_word_LE(&_AudioFormat);
+    fr->read_word_LE(&_NumChannels);
+    fr->read_word_LE(&_SampleRate);
+    fr->read_word_LE(&_ByteRate);
+    fr->read_word_LE(&_BlockAlign);
+    fr->read_word_LE(&_BitsPerSample);
+    fr->read_chunk(_Subchunk2ID, 4);
+    fr->read_word_LE(&_Subchunk2Size);
    
     /* FIXME: Add validation of above meta data here */
     return true;
 }
 
 int WaveMetaData::write(BitWriter *bw){
-    bw->write_chunk<char>(_ChunkID, 4);
-    bw->write_word_u32LE(_ChunkSize);
-    bw->write_chunk<char>(_Format, 4);
-    bw->write_chunk<char>(_Subchunk1ID, 4);
-    bw->write_word_u32LE(_Subchunk1Size);
-    bw->write_word_u16LE(_AudioFormat);
-    bw->write_word_u16LE(_NumChannels);
-    bw->write_word_u32LE(_SampleRate);
-    bw->write_word_u32LE(_ByteRate);
-    bw->write_word_u16LE(_BlockAlign);
-    bw->write_word_u16LE(_BitsPerSample);
-    bw->write_chunk<char>(_Subchunk2ID, 4);
-    bw->write_word_u32LE(_Subchunk2Size);
+    bw->write_chunk(_ChunkID, 4);
+    bw->write_word_LE(_ChunkSize);
+    bw->write_chunk(_Format, 4);
+    bw->write_chunk(_Subchunk1ID, 4);
+    bw->write_word_LE(_Subchunk1Size);
+    bw->write_word_LE(_AudioFormat);
+    bw->write_word_LE(_NumChannels);
+    bw->write_word_LE(_SampleRate);
+    bw->write_word_LE(_ByteRate);
+    bw->write_word_LE(_BlockAlign);
+    bw->write_word_LE(_BitsPerSample);
+    bw->write_chunk(_Subchunk2ID, 4);
+    bw->write_word_LE(_Subchunk2Size);
     bw->flush();
     
     return true; /* FIXME: Error checking */
@@ -139,10 +136,10 @@ int WaveReader::read_data(FileReader *fr, int16_t *pcm, uint64_t samples){
     /* Fill pcm with samples of data... */
     if (samples > getSamplesLeft()){
         _samplesRead = _meta->getNumSamples();
-        return fr->read_words_i16LE(pcm, getSamplesLeft());
+        return fr->read_words_LE(pcm, getSamplesLeft());
     } else {
         samples += _samplesRead;
-        return fr->read_words_i16LE(pcm, samples);
+        return fr->read_words_LE(pcm, samples);
     }
 }
 
@@ -166,7 +163,7 @@ int WaveWriter::write_data(BitWriter *bw, int32_t **pcm, uint64_t samples){
     for (i = 0; i < samples; i++)
         for (ch = 0; ch < _meta->getNumChannels(); ch++)
             //printf("ch: %d i: %d v: %d\n", ch, i, (int16_t)pcm[ch][i]);
-            bw->write_word_i16LE((int16_t)pcm[ch][i]);
+            bw->write_word_LE((int16_t)pcm[ch][i]);
     return true; /* FIXME: Erro rching */
 }
 

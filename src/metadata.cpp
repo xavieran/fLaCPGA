@@ -36,7 +36,7 @@ int FLACMetaData::read(FileReader *fr){
     FLACMetaStreamInfo *s = new FLACMetaStreamInfo();
     FLACMetaDataBlock *temp = (FLACMetaDataBlock *) s;
     
-    fr->read_chunk<uint8_t>(buffer, 4);
+    fr->read_chunk(buffer, 4);
     if (memcmp(buffer, "fLaC", 4)) fr->read_error();
     
     s->read(fr);
@@ -68,9 +68,9 @@ FLACMetaBlockHeader::FLACMetaBlockHeader(){
 }
 
 int FLACMetaBlockHeader::read(FileReader *fr){
-    fr->read_bits_uint8(&_lastBlock, 1);
-    fr->read_bits_uint8(&_blockType, 7);
-    fr->read_bits_uint32(&_blockLength, 24);
+    fr->read_bits(&_lastBlock, 1);
+    fr->read_bits(&_blockType, 7);
+    fr->read_bits(&_blockLength, 24);
     
     return 1; // Add error handling
 }
@@ -136,18 +136,18 @@ int FLACMetaStreamInfo::read(struct FileReader *fr){
     /* Read a streaminfo block */
     this->setHeader(new FLACMetaBlockHeader());
     this->getHeader()->read(fr);
-    fr->read_bits_uint16(&_minBlockSize, 16);
-    fr->read_bits_uint16(&_maxBlockSize, 16);
-    fr->read_bits_uint32(&_minFrameSize, 24);
-    fr->read_bits_uint32(&_maxFrameSize, 24);
-    fr->read_bits_uint32(&_sampleRate, 20);
-    fr->read_bits_uint8(&_numChannels, 3);
+    fr->read_bits(&_minBlockSize, 16);
+    fr->read_bits(&_maxBlockSize, 16);
+    fr->read_bits(&_minFrameSize, 24);
+    fr->read_bits(&_maxFrameSize, 24);
+    fr->read_bits(&_sampleRate, 20);
+    fr->read_bits(&_numChannels, 3);
     _numChannels++;
-    fr->read_bits_uint8(&_bitsPerSample, 5);
+    fr->read_bits(&_bitsPerSample, 5);
     _bitsPerSample++;
-    fr->read_bits_uint64(&_totalSamples, 36);
-    fr->read_bits_uint64(&_MD5u, 64);
-    fr->read_bits_uint64(&_MD5l, 64);
+    fr->read_bits(&_totalSamples, 36);
+    fr->read_bits(&_MD5u, 64);
+    fr->read_bits(&_MD5l, 64);
     
     //_bitsPerSample += 1;
     // Add error handling
@@ -179,7 +179,7 @@ int FLACMetaBlockOther::read(FileReader *fr){
     this->setHeader(h);
     this->getHeader()->read(fr);
     _data = (uint8_t *)malloc(sizeof(uint8_t) * h->getBlockLength());
-    fr->read_chunk<uint8_t>(_data, h->getBlockLength());
+    fr->read_chunk(_data, h->getBlockLength());
     // Add error handling
     return 1;
 }

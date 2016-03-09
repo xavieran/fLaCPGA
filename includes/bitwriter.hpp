@@ -11,7 +11,7 @@
 #include <string.h>
 #include <assert.h>
 
-#define BUFFER_SIZE 100000
+#define BUFFER_SIZE 1000000
 
 class BitWriter {
 public:
@@ -23,30 +23,12 @@ public:
     int write_bits(uint64_t data, uint8_t bits);
     int write_unary(uint32_t data);
     int write_rice(int32_t data, unsigned rice_param);
-    int write_word_u16LE(uint16_t data);
-    int write_word_u32LE(uint32_t data);
-    int write_word_i16LE(int16_t data);
-    
     int flush(){ return write_buffer(); }
     void reset();
     
-    template<typename T> int write_chunk(T *data, int nmemb){
-        if (this->bytes_left() == 0){
-            write_buffer();
-        }
-        
-        while (nmemb > this->bytes_left()){
-            memcpy(_curr_byte, data, this->bytes_left());
-            nmemb -= this->bytes_left();
-            write_buffer();
-        }
-        
-        memcpy(_curr_byte, data, nmemb*sizeof(T));
-        _curr_byte += nmemb*sizeof(T);
-        _bitp += nmemb*sizeof(T)*8;
-        
-        return nmemb; /* FIXME: Add error handling */
-    }
+    template<typename T> int write_chunk(T *data, int nmemb);
+    template<typename T> int write_word_LE(T data);
+    template<typename T> int write_word_LEs(T *data, int nmemb);
     
 private:
     FILE *_fout;
@@ -58,9 +40,8 @@ private:
     int bytes_left();
     int write_buffer();
     int is_byte_aligned();
-    
-    template<typename T> int write_word_LE(T data);
-    template<typename T> int write_word_LEs(T *data, int nmemb);
 };
+
+#include "bitwriter.tpp"
 
 #endif

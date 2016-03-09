@@ -123,34 +123,3 @@ int BitWriter::write_rice(int32_t data, unsigned rice_param){
     //printf("AF RI Current byte: %d current bit: %d\n", _curr_byte - _buffer, _bitp % 8);
     return 1;
 }
-
-template<typename T> int BitWriter::write_word_LE(T data){
-    //printf("%d\n",this->bytes_left());
-    assert(is_byte_aligned());
-    for (int i = 0; i < sizeof(T); i++){
-        if (bytes_left() == 0)
-            write_buffer();
-        
-        (*_curr_byte++) = (uint8_t) (data >> i*8);
-    }
-    return 1;
-}
-
-template<typename T> int BitWriter::write_word_LEs(T *data, int nmemb){
-    for (int i = 0; i < nmemb; i++){
-        write_word_LE<T>(data[i]);
-    }
-    return true; /* FIXME: Error checking... */
-}
-
-int BitWriter::write_word_u32LE(uint32_t data){
-    return write_word_LE<uint32_t>(data);
-}
-
-int BitWriter::write_word_u16LE(uint16_t data){
-    return write_word_LE<uint16_t>(data);
-}
-
-int BitWriter::write_word_i16LE(int16_t data){
-    return write_word_u16LE((uint16_t) data);
-}

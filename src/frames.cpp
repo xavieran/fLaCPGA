@@ -110,25 +110,25 @@ int FLACFrameHeader::getNumChannels(){
 }
 
 int FLACFrameHeader::read(FileReader *fr){
-    fr->read_bits_uint16(&_syncCode, 14);
+    fr->read_bits(&_syncCode, 14);
     if (_syncCode != FRAME_SYNC){ // 0x3ffe
         fprintf(stderr, "Invalid frame sync 0x%x\n", _syncCode);
         fr->read_error();
     }
     
-    fr->read_bits_uint8(&_reserved1, 1);
-    fr->read_bits_uint8(&_blockingStrategy, 1);
-    fr->read_bits_uint8(&_blockSizeHint, 4);
-    fr->read_bits_uint8(&_sampleRateHint, 4);
-    fr->read_bits_uint8(&_channelAssign, 4);
-    fr->read_bits_uint8(&_sampleSizeHint, 3);
+    fr->read_bits(&_reserved1, 1);
+    fr->read_bits(&_blockingStrategy, 1);
+    fr->read_bits(&_blockSizeHint, 4);
+    fr->read_bits(&_sampleRateHint, 4);
+    fr->read_bits(&_channelAssign, 4);
+    fr->read_bits(&_sampleSizeHint, 3);
     
     
     /* Interpret sample size */
     _sampleSize = _sampleSizeLUT[_sampleSizeHint];
     
     /* Read one reserved bit, should be zero ... */
-    fr->read_bits_uint8(&_reserved2, 1);
+    fr->read_bits(&_reserved2, 1);
     
     /* Read sample or frame number.... */
     if (_blockingStrategy){
@@ -144,11 +144,11 @@ int FLACFrameHeader::read(FileReader *fr){
     /* Read in the block size ... */
     switch (_blockSizeHint){
         case 0b0110:
-            fr->read_bits_uint16(&_blockSize, 8);
+            fr->read_bits(&_blockSize, 8);
             _blockSize++;
             break;
         case 0b0111:
-            fr->read_bits_uint16(&_blockSize, 16);
+            fr->read_bits(&_blockSize, 16);
             _blockSize++;
             break;
         case 0b0001:
@@ -169,18 +169,18 @@ int FLACFrameHeader::read(FileReader *fr){
     } else if (_sampleRateHint < 12){
         _sampleRate = _sampleRateLUT[_sampleRateHint];
     } else if (_sampleRateHint == 12){
-        fr->read_bits_uint32(&_sampleRate, 8);
+        fr->read_bits(&_sampleRate, 8);
         _sampleRate *= 1000;
     } else if (_sampleRateHint == 13){
-        fr->read_bits_uint32(&_sampleRate, 16);
+        fr->read_bits(&_sampleRate, 16);
     } else if (_sampleRateHint == 14){
-        fr->read_bits_uint32(&_sampleRate, 16);
+        fr->read_bits(&_sampleRate, 16);
         _sampleRate *= 10;
     } else {
         // ERROR !!!
     }
     
-    fr->read_bits_uint8(&_CRC8Poly, 8);
+    fr->read_bits(&_CRC8Poly, 8);
     return 1; // Add error handling
 }
 
@@ -188,11 +188,11 @@ int FLACFrameHeader::read_padding(FileReader *fr){
     uint8_t x;
     /* TODO: Fix this, all I have to do is reset the current bit right? */
     while (fr->get_current_bit() % 8 != 0){
-        fr->read_bits_uint8(&x, 1);
+        fr->read_bits(&x, 1);
     }
     return 1;
 }
 
 int FLACFrameHeader::read_footer(FileReader *fr){
-    return fr->read_bits_uint16(&_frameFooter, 16);
+    return fr->read_bits(&_frameFooter, 16);
 }
