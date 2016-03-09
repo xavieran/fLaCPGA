@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <vector>
+#include <memory>
 
 #include "bitreader.hpp"
 #include "constants.hpp"
@@ -36,9 +37,9 @@ public:
     uint64_t getBlockSize();
     
     void print(FILE *f);
-    int read(FileReader *fr);
-    int read_padding(FileReader *fr);
-    int read_footer(FileReader *fr);
+    int read(std::shared_ptr<FileReader> fr);
+    int read_padding(std::shared_ptr<FileReader> fr);
+    int read_footer(std::shared_ptr<FileReader> fr);
     int write(FILE *f);
     
 private:

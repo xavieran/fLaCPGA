@@ -8,9 +8,10 @@
 #include <string.h>
 #include <math.h>
 
+#include <memory>
+
 #include "bitreader.hpp"
 #include "bitwriter.hpp"
-
 #include "wavereader.hpp"
 
 WaveMetaData::WaveMetaData(){
@@ -58,7 +59,7 @@ Metadata: %d\n", \
     _BitsPerSample, _Subchunk2ID, _Subchunk2Size, _metadata_size);
 }
 
-int WaveMetaData::read(FileReader *fr){
+int WaveMetaData::read(std::shared_ptr<FileReader> fr){
     
     fr->read_chunk(_ChunkID, 4); // Might need to add terminating null...
     fr->read_word_LE(&_ChunkSize);
@@ -128,11 +129,11 @@ uint64_t WaveReader::getSamplesLeft(){
     return this->_meta->getNumSamples() - _samplesRead;
 }
 
-int WaveReader::read_metadata(FileReader *fr){
+int WaveReader::read_metadata(std::shared_ptr<FileReader> fr){
     return _meta->read(fr);
 }
 
-int WaveReader::read_data(FileReader *fr, int16_t *pcm, uint64_t samples){
+int WaveReader::read_data(std::shared_ptr<FileReader> fr, int16_t *pcm, uint64_t samples){
     /* Fill pcm with samples of data... */
     if (samples > getSamplesLeft()){
         _samplesRead = _meta->getNumSamples();

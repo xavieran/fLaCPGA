@@ -40,19 +40,22 @@ int main(int argc, char *argv[]){
                 exit_with_help(argv);
         }
         
-    FILE *fin = NULL;
-    FILE *fout = NULL;    
+    std::shared_ptr<std::ifstream> fin;
+    std::shared_ptr<std::ofstream> fout;
     
     if (optind == 1) exit_with_help(argv);
     
-    if (optind < argc)
-        if((fin = fopen(argv[optind], "rb")) == NULL) {
+    if (optind < argc){
+        fin = std::make_shared<std::ifstream>(argv[optind], std::ios::in | std::ios::binary);
+        if(fin->fail()) {
             fprintf(stderr, "ERROR: opening %s for input\n", argv[optind]);
             return 1;
         }
+    }
         
     if (optind + 1 < argc)
-        if((fout = fopen(argv[optind + 1], "wb")) == NULL) {
+        fout = std::make_shared<std::ofstream>(argv[optind + 1], std::ios::out | std::ios::binary);
+        if(fout->fail()) {
             fprintf(stderr, "ERROR: opening %s for output\n", argv[optind + 1]);
             return 1;
         }
@@ -95,7 +98,7 @@ int main(int argc, char *argv[]){
         for (int ch = 0; ch < channels; ch++)
             free(buf[ch]);
         free(buf);
-        fclose(fin);
+        fin->close();
         
     } else if (fout == NULL){
         /* Print file header and metadata*/
@@ -140,8 +143,8 @@ int main(int argc, char *argv[]){
         for (int ch = 0; ch < channels; ch++)
             free(buf[ch]);
         free(buf);
-        fclose(fin);
-        fclose(fout);
+        fin->close();
+        fout->close();
     }
     
     /*

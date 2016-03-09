@@ -8,9 +8,9 @@
 #include <string.h>
 
 #include <vector>
+#include <memory>
 
 #include "frames.hpp"
-
 #include "bitreader.hpp"
 
 uint32_t FLACFrameHeader::_sampleRateLUT[12] = {0, 88200, 176400, 192000, 8000, 16000, 22050,\
@@ -109,7 +109,7 @@ int FLACFrameHeader::getNumChannels(){
     return -1;
 }
 
-int FLACFrameHeader::read(FileReader *fr){
+int FLACFrameHeader::read(std::shared_ptr<FileReader> fr){
     fr->read_bits(&_syncCode, 14);
     if (_syncCode != FRAME_SYNC){ // 0x3ffe
         fprintf(stderr, "Invalid frame sync 0x%x\n", _syncCode);
@@ -184,7 +184,7 @@ int FLACFrameHeader::read(FileReader *fr){
     return 1; // Add error handling
 }
 
-int FLACFrameHeader::read_padding(FileReader *fr){
+int FLACFrameHeader::read_padding(std::shared_ptr<FileReader> fr){
     uint8_t x;
     /* TODO: Fix this, all I have to do is reset the current bit right? */
     while (fr->get_current_bit() % 8 != 0){
@@ -193,6 +193,6 @@ int FLACFrameHeader::read_padding(FileReader *fr){
     return 1;
 }
 
-int FLACFrameHeader::read_footer(FileReader *fr){
+int FLACFrameHeader::read_footer(std::shared_ptr<FileReader> fr){
     return fr->read_bits(&_frameFooter, 16);
 }

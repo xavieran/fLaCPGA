@@ -9,12 +9,16 @@
 #include <string.h>
 #include <assert.h>
 
+#include <iostream>
+#include <fstream>
+#include <memory>
+
 #include "bitwriter.hpp"
 
 template<typename T> int BitWriter::write_word_LE(T data){
     //printf("%d\n",this->bytes_left());
     assert(is_byte_aligned());
-    for (int i = 0; i < sizeof(T); i++){
+    for (unsigned i = 0; i < sizeof(T); i++){
         if (bytes_left() == 0)
             write_buffer();
         
@@ -24,7 +28,7 @@ template<typename T> int BitWriter::write_word_LE(T data){
 }
 
 template<typename T> int BitWriter::write_word_LEs(T *data, int nmemb){
-    for (int i = 0; i < nmemb; i++){
+    for (unsigned i = 0; i < nmemb; i++){
         write_word_LE<T>(data[i]);
     }
     return true; /* FIXME: Error checking... */

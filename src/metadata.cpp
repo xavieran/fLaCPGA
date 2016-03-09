@@ -30,7 +30,7 @@ void FLACMetaData::print(FILE *f){
     }
 }
 
-int FLACMetaData::read(FileReader *fr){
+int FLACMetaData::read(std::shared_ptr<FileReader> fr){
     uint8_t buffer[READSIZE * 2 * 2];
     
     FLACMetaStreamInfo *s = new FLACMetaStreamInfo();
@@ -67,7 +67,7 @@ FLACMetaBlockHeader::FLACMetaBlockHeader(){
     _blockLength = 0;
 }
 
-int FLACMetaBlockHeader::read(FileReader *fr){
+int FLACMetaBlockHeader::read(std::shared_ptr<FileReader> fr){
     fr->read_bits(&_lastBlock, 1);
     fr->read_bits(&_blockType, 7);
     fr->read_bits(&_blockLength, 24);
@@ -132,7 +132,7 @@ void FLACMetaStreamInfo::print(FILE* f){
 }
 
 
-int FLACMetaStreamInfo::read(struct FileReader *fr){
+int FLACMetaStreamInfo::read(std::shared_ptr<FileReader> fr){
     /* Read a streaminfo block */
     this->setHeader(new FLACMetaBlockHeader());
     this->getHeader()->read(fr);
@@ -174,7 +174,7 @@ FLACMetaBlockOther::FLACMetaBlockOther(){
     ;
 }
 
-int FLACMetaBlockOther::read(FileReader *fr){
+int FLACMetaBlockOther::read(std::shared_ptr<FileReader> fr){
     FLACMetaBlockHeader * h = new FLACMetaBlockHeader();
     this->setHeader(h);
     this->getHeader()->read(fr);

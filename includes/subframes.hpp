@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include <vector>
+#include <memory>
 
 #include "bitreader.hpp"
 #include "constants.hpp"
@@ -40,7 +41,7 @@ public:
     void reconstruct();
     
     void print(FILE *f);
-    int read(FileReader *fr);
+    int read(std::shared_ptr<FileReader> fr);
     
     uint8_t getFixedOrder();
     uint8_t getLPCOrder();
@@ -64,7 +65,7 @@ public:
         _header = h;
     }
     
-    virtual int read(FileReader *fr) = 0;
+    virtual int read(std::shared_ptr<FileReader> fr) = 0;
     virtual void print(FILE *f) = 0;
     
 private:
@@ -87,8 +88,8 @@ public:
     FLACSubFrameFixed(uint8_t bitsPerSample, uint32_t blockSize, uint8_t predictorOrder);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize, uint8_t predictorOrder);
     
-    int read(FileReader *fr);
-    int read(FileReader *fr, int32_t *dst);
+    int read(std::shared_ptr<FileReader> fr);
+    int read(std::shared_ptr<FileReader> fr, int32_t *dst);
     void print(FILE *f);
 };
 
@@ -111,8 +112,8 @@ public:
     FLACSubFrameLPC(uint8_t bitsPerSample, uint32_t blockSize, uint8_t lpcOrder);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize, uint8_t lpcOrder);
     
-    int read(FileReader *fr);
-    int read(FileReader *fr, int32_t *dst);
+    int read(std::shared_ptr<FileReader> fr);
+    int read(std::shared_ptr<FileReader> fr, int32_t *dst);
     
     void setLPCOrder(uint8_t lpcOrder);
     void print(FILE *f);
@@ -128,8 +129,8 @@ public:
     FLACSubFrameConstant(uint8_t bitsPerSample, uint32_t blockSize);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize);
     
-    int read(FileReader *fr);
-    int read(FileReader *fr, int32_t *dst);
+    int read(std::shared_ptr<FileReader> fr);
+    int read(std::shared_ptr<FileReader> fr, int32_t *dst);
     
     int setSampleSize(uint8_t bitsPerSample);
     int setBlockSize(uint32_t blockSize);
@@ -146,8 +147,8 @@ public:
     FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize);
     
-    int read(FileReader *fr);
-    int read(FileReader *fr, int32_t *dst);
+    int read(std::shared_ptr<FileReader> fr);
+    int read(std::shared_ptr<FileReader> fr, int32_t *dst);
     
     int setSampleSize(uint8_t bitsPerSample);
     int setBlockSize(uint32_t blockSize);

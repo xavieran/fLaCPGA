@@ -11,11 +11,15 @@
 #include <string.h>
 #include <assert.h>
 
+#include <iostream>
+#include <fstream>
+#include <memory>
+
 #define BUFFER_SIZE 1000000
 
 class BitWriter {
 public:
-    BitWriter(FILE *f);
+    BitWriter(std::shared_ptr<std::ofstream> f);
   
     void write_error();
 
@@ -31,7 +35,7 @@ public:
     template<typename T> int write_word_LEs(T *data, int nmemb);
     
 private:
-    FILE *_fout;
+    std::shared_ptr<std::ofstream> _fout;
     
     uint8_t _buffer[BUFFER_SIZE];
     uint64_t _bitp;

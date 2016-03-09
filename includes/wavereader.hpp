@@ -16,7 +16,7 @@ public:
     
     void print(FILE *f);
     
-    int read(FileReader *fr);
+    int read(std::shared_ptr<FileReader> fr);
     int write(BitWriter *bw);
     void setNumSamples(uint64_t numSamples);
     uint64_t getNumSamples();
@@ -48,9 +48,9 @@ private:
 class WaveReader {
 public:
     WaveReader();
-    int read(FileReader *fr, int16_t *pcm);
-    int read_metadata(FileReader*fr);
-    int read_data(FileReader *fr, int16_t *pcm, uint64_t samples);
+    int read(std::shared_ptr<FileReader> fr, int16_t *pcm);
+    int read_metadata(std::shared_ptr<FileReader> fr);
+    int read_data(std::shared_ptr<FileReader> fr, int16_t *pcm, uint64_t samples);
     uint64_t getSamplesLeft();
     
     WaveMetaData *getMetaData();

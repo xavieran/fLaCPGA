@@ -18,9 +18,9 @@
 template<typename T> int FileReader::read_word_LE(T *x){
     assert(this->is_byte_aligned()); // Only execute this when byte aligned...
     T result = 0;
-    int bytes = sizeof(T);
+    unsigned bytes = sizeof(T);
     uint8_t byte;
-    for (int i = 0; i < bytes; i++){
+    for (unsigned i = 0; i < bytes; i++){
         read_bits(&byte, 8);
         result |= (byte << i*8);
     }
@@ -29,7 +29,7 @@ template<typename T> int FileReader::read_word_LE(T *x){
 }
 
 template<typename T> int FileReader::read_words_LE(T *x, uint64_t words){
-    for (int i = 0; i < words; i++){
+    for (unsigned i = 0; i < words; i++){
         read_word_LE(x);
     }
     return true;

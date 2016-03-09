@@ -6,9 +6,13 @@
 #include <string.h>
 #include <assert.h>
 
+#include <iostream>
+#include <fstream>
+#include <memory>
+
 #include "bitwriter.hpp"
 
-BitWriter::BitWriter(FILE *f){
+BitWriter::BitWriter(std::shared_ptr<std::ofstream> f){
     _fout = f;
     _curr_byte = _buffer;
     _bitp = 0;
@@ -17,7 +21,7 @@ BitWriter::BitWriter(FILE *f){
 
 void BitWriter::write_error(){
     fprintf(stderr, "Failed to write file\n");
-    fclose(_fout);
+    _fout->close();
     exit(1);
 }
 
@@ -39,8 +43,10 @@ int BitWriter::write_buffer(){
     int bytes_to_write = _curr_byte - _buffer + (_bitp % 8 != 0);
     // Shift the last piece of the buffer over if it is not full
     // (*_curr_byte) <<= 8 - _bitp % 8; 
-    int bytes_written = fwrite(_buffer, sizeof(uint8_t), bytes_to_write, _fout);
-    fflush(_fout);
+    //int bytes_written = fwrite(_buffer, sizeof(uint8_t), bytes_to_write, _fout);
+    int bytes_written = 0;
+    _fout->write((char *)_buffer, bytes_to_write); // Not a fan of this cast
+    _fout->flush();
     _curr_byte = _buffer;
     memset(_buffer, 0, BUFFER_SIZE);
     return bytes_written;
@@ -48,7 +54,7 @@ int BitWriter::write_buffer(){
 
 void BitWriter::reset(){
     _curr_byte = _buffer;
-    rewind(_fout);
+    _fout->seekp(0);
     _bitp = 0;
     memset(_buffer, 0, BUFFER_SIZE);
 }
