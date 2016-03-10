@@ -37,9 +37,9 @@ public:
     uint64_t getBlockSize();
     
     void print(FILE *f);
-    int read(std::shared_ptr<FileReader> fr);
-    int read_padding(std::shared_ptr<FileReader> fr);
-    int read_footer(std::shared_ptr<FileReader> fr);
+    int read(std::shared_ptr<BitReader> fr);
+    int read_padding(std::shared_ptr<BitReader> fr);
+    int read_footer(std::shared_ptr<BitReader> fr);
     int write(FILE *f);
     
 private:

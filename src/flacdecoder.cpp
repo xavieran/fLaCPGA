@@ -20,7 +20,7 @@
 
 
 FLACDecoder::FLACDecoder(std::shared_ptr<std::ifstream> f){
-    _fr = std::make_shared<FileReader>(f);
+    _fr = std::make_shared<BitReader>(f);
     
     _meta = new FLACMetaData();
     _frame = new FLACFrameHeader();

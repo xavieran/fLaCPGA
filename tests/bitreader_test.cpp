@@ -11,6 +11,8 @@
 #include <fstream>
 #include <memory>
 
+#include "gtest/gtest.h"
+
 #include "bitreader.hpp"
 
 /* Test File Contents */
@@ -19,6 +21,29 @@
  * 1001 0110 1000 1100 1011 0000 0000 1010 
  *         | ||    |        |*/
 
+class BitReaderTestFixture: public ::testing::test { 
+public: 
+   myTestFixture1( ) { 
+       // initialization code here
+   } 
+
+   void SetUp( ) { 
+       // code here will execute just before the test ensues 
+   }
+
+   void TearDown( ) { 
+       // code here will be called just after the test completes
+       // ok to through exceptions from here if need be
+   }
+
+   ~myTestFixture1( )  { 
+       // cleanup any pending stuff, but no exceptions allowed
+   }
+
+   // put in any custom data members that you need 
+};
+
+
 int main(int argc, char **argv){
     
     
@@ -26,8 +51,8 @@ int main(int argc, char **argv){
     printf("Test 1 - Bit reading\n");
     /* 96 8C B0 0A */
     
-    std::shared_ptr<std::ifstream> f= std::make_shared<std::ifstream>("test1.bin", std::ios::in | std::ios::binary);
-    std::unique_ptr<FileReader> fr = std::make_unique<FileReader>(f);
+    std::shared_ptr<std::ifstream> f = std::make_shared<std::ifstream>("test1.bin", std::ios::in | std::ios::binary);
+    std::unique_ptr<BitReader> fr = std::make_unique<FileReader>(f);
     
     int test_failed = 0;
     int assertion = 0;
@@ -89,7 +114,7 @@ int main(int argc, char **argv){
     f = std::make_shared<std::ifstream>("test2.bin", std::ios::in | std::ios::binary);
     FILE *f2 = fopen("test2copy.bin", "rb");
     
-    fr = std::make_unique<FileReader>(f);
+    fr = std::make_unique<BitReader>(f);
     
     uint8_t *buf8 = (uint8_t *)calloc(sizeof(uint8_t), 60);
     uint8_t *buf28 = (uint8_t *)calloc(sizeof(uint8_t), 60);

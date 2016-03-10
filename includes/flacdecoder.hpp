@@ -31,7 +31,7 @@ public:
     int print_frame();
     
 private:
-    std::shared_ptr<FileReader> _fr;
+    std::shared_ptr<BitReader> _fr;
     FLACMetaData *_meta;
     FLACFrameHeader *_frame;
     FLACSubFrameHeader *_subframe;

@@ -14,9 +14,9 @@
 // 1MB default buffer size, should conduct experiments to see effect on performance
 #define BUFFER_SIZE 1000000 
 
-class FileReader {
+class BitReader {
 public:
-    FileReader(std::shared_ptr<std::ifstream> f);
+    BitReader(std::shared_ptr<std::ifstream> f);
     int read_error();
     
     uint64_t get_current_bit();

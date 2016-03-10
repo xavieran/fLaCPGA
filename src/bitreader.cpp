@@ -11,24 +11,24 @@
 
 #include "bitreader.hpp"
 
-uint64_t FileReader::get_current_bit(){
+uint64_t BitReader::get_current_bit(){
     return _bitp;
 }
 
-FileReader::FileReader(std::shared_ptr<std::ifstream> f){
+BitReader::FileReader(std::shared_ptr<std::ifstream> f){
     _fin = f;
     _bitp = 0;
     _curr_byte = _buffer + BUFFER_SIZE;
     _eof = 0;
 }
 
-int FileReader::read_error(){
+int BitReader::read_error(){
     fprintf(stderr, "Error reading file\n");
     _fin->close();
     exit(1);
 }
 
-int FileReader::reset_file(){
+int BitReader::reset_file(){
     _fin->seekg(0);
     _curr_byte = _buffer + BUFFER_SIZE;
     _bitp = 0;
@@ -36,26 +36,26 @@ int FileReader::reset_file(){
     return 1;
 }
 
-int FileReader::bytes_left(){
+int BitReader::bytes_left(){
     return BUFFER_SIZE - (_curr_byte - _buffer);
 }
 
-int FileReader::refill_buffer(){
+int BitReader::refill_buffer(){
     _curr_byte = _buffer;
     _fin->read((char *)_buffer, BUFFER_SIZE); // This cast irritates me...
     return 1;
 }
 
-int FileReader::reset_bit_count(){
+int BitReader::reset_bit_count(){
     _bitp = 0;
     return true;
 }
 
-int FileReader::is_byte_aligned(){
+int BitReader::is_byte_aligned(){
     return _bitp % 8 == 0;
 }
 
-int FileReader::read_rice_signed(int32_t *x, uint8_t M){
+int BitReader::read_rice_signed(int32_t *x, uint8_t M){
     uint32_t msbs = 0, lsbs = 0;
     if (!read_bits_unary(&msbs) ||
         !read_bits(&lsbs, M)){
@@ -71,7 +71,7 @@ int FileReader::read_rice_signed(int32_t *x, uint8_t M){
     return true;
 }
 
-int FileReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extended){
+int BitReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extended){
     uint8_t rice_param = 0;
     uint8_t bps = 0;
     uint8_t param_bits = (extended == 0) ? 4 : 5;
@@ -91,7 +91,7 @@ int FileReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extende
     return i;
 }
 
-int FileReader::read_residual(int32_t *dst, int blk_size, int pred_order){
+int BitReader::read_residual(int32_t *dst, int blk_size, int pred_order){
     uint8_t coding_method = 0; 
     uint8_t partition_order = 0;
     uint64_t nsamples = 0;
@@ -116,7 +116,7 @@ int FileReader::read_residual(int32_t *dst, int blk_size, int pred_order){
 
 /* This code borrowed from libFLAC */
 /* on return, if *val == 0xffffffff then the utf-8 sequence was invalid, but the return value will be true */
-int FileReader::read_utf8_uint32(uint32_t *val){
+int BitReader::read_utf8_uint32(uint32_t *val){
     uint32_t v = 0;
     uint32_t x;
     unsigned i;
@@ -166,7 +166,7 @@ int FileReader::read_utf8_uint32(uint32_t *val){
 }
 
 /* on return, if *val == 0xffffffffffffffff then the utf-8 sequence was invalid, but the return value will be true */
-int FileReader::read_utf8_uint64(uint64_t *val){
+int BitReader::read_utf8_uint64(uint64_t *val){
     uint64_t v = 0;
     uint32_t x;
     unsigned i;

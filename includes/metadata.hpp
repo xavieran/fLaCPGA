@@ -26,7 +26,7 @@ public:
     int getBlockType();
     int getBlockLength();
     void print(FILE *f);
-    int read(std::shared_ptr<FileReader> fr);
+    int read(std::shared_ptr<BitReader> fr);
     int write(FILE *f);
 private:
     uint8_t _lastBlock;
@@ -48,7 +48,7 @@ public:
         _header = h;
     }
     
-    virtual int read(std::shared_ptr<FileReader> fr) = 0;
+    virtual int read(std::shared_ptr<BitReader> fr) = 0;
     virtual void print(FILE *f) = 0;
     
 private:
@@ -93,7 +93,7 @@ public:
     uint64_t getMD5u();
     uint64_t getMD5l();
     void print(FILE *f);
-    int read(std::shared_ptr<FileReader> fr);
+    int read(std::shared_ptr<BitReader> fr);
     int write(BitWriter *bw);
     
 }; 
@@ -107,7 +107,7 @@ private:
 public:
     FLACMetaBlockOther();
     void print(FILE *f);
-    int read(std::shared_ptr<FileReader> fr);
+    int read(std::shared_ptr<BitReader> fr);
     int write(FILE *f);
 };
 
@@ -122,7 +122,7 @@ private:
 public:
     FLACMetaData();
     void print(FILE *f);
-    int read(std::shared_ptr<FileReader> fr);
+    int read(std::shared_ptr<BitReader> fr);
     int write(FILE *f);
     int addBlock(FLACMetaDataBlock *b);
     FLACMetaStreamInfo * getStreamInfo();

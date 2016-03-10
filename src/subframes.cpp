@@ -37,7 +37,7 @@ Sub-Frame type: 0x%x\n\
 Wasted Bits: %d\n", _zeroBit, _subFrameType, _wastedBitsPerSample);
 }
 
-int FLACSubFrameHeader::read(std::shared_ptr<FileReader> fr){
+int FLACSubFrameHeader::read(std::shared_ptr<BitReader> fr){
     fr->read_bits(&_zeroBit, 1);
     fr->read_bits(&_subFrameType, 6);
     uint8_t x;
@@ -102,7 +102,7 @@ void FLACSubFrameFixed::reconstruct(uint8_t bitsPerSample, uint32_t blockSize, \
     _predictorOrder = predictorOrder;
 }
 
-int FLACSubFrameFixed::read(std::shared_ptr<FileReader>fr){
+int FLACSubFrameFixed::read(std::shared_ptr<BitReader>fr){
     int i;
     int32_t *data = (int32_t *)malloc(sizeof(int32_t) * _blockSize);
     
@@ -117,7 +117,7 @@ int FLACSubFrameFixed::read(std::shared_ptr<FileReader>fr){
     return s;
 }
 
-int FLACSubFrameFixed::read(std::shared_ptr<FileReader>fr, int32_t *data){
+int FLACSubFrameFixed::read(std::shared_ptr<BitReader>fr, int32_t *data){
     unsigned i;
     for(i = 0; i < _predictorOrder; i++){
         fr->read_bits_signed(data + i, _bitsPerSample);
@@ -213,7 +213,7 @@ void FLACSubFrameLPC::setLPCOrder(uint8_t lpcOrder){
     _lpcOrder = lpcOrder;
 }
 
-int FLACSubFrameLPC::read(std::shared_ptr<FileReader>fr){
+int FLACSubFrameLPC::read(std::shared_ptr<BitReader>fr){
     int i;
     int32_t *data = (int32_t *)malloc(sizeof(int32_t) * _blockSize);
     
@@ -242,7 +242,7 @@ int FLACSubFrameLPC::read(std::shared_ptr<FileReader>fr){
     return s;
 }
 
-int FLACSubFrameLPC::read(std::shared_ptr<FileReader>fr, int32_t *data){
+int FLACSubFrameLPC::read(std::shared_ptr<BitReader>fr, int32_t *data){
     unsigned i, j;
     int sum;
     int32_t *residuals = (int32_t *)malloc(sizeof(int32_t) * _blockSize);
@@ -301,13 +301,13 @@ void FLACSubFrameConstant::reconstruct(uint8_t bitsPerSample, uint32_t blockSize
     //Rezero data or somethign?
 }
 
-int FLACSubFrameConstant::read(std::shared_ptr<FileReader>fr){
+int FLACSubFrameConstant::read(std::shared_ptr<BitReader>fr){
     int32_t constantValue;
     fr->read_bits_signed(&constantValue, _bitsPerSample);
     return _blockSize;
 }
 
-int FLACSubFrameConstant::read(std::shared_ptr<FileReader>fr, int32_t *data){
+int FLACSubFrameConstant::read(std::shared_ptr<BitReader>fr, int32_t *data){
     unsigned i;
     int32_t constantValue;
     fr->read_bits_signed(&constantValue, _bitsPerSample);
@@ -354,7 +354,7 @@ void FLACSubFrameVerbatim::reconstruct(uint8_t bitsPerSample, uint32_t blockSize
     _blockSize = blockSize;
 }
 
-int FLACSubFrameVerbatim::read(std::shared_ptr<FileReader>fr){
+int FLACSubFrameVerbatim::read(std::shared_ptr<BitReader>fr){
     unsigned i;
     int32_t data;
     for (i = 0; i < _blockSize; i++){
@@ -364,7 +364,7 @@ int FLACSubFrameVerbatim::read(std::shared_ptr<FileReader>fr){
     return _blockSize;
 }
 
-int FLACSubFrameVerbatim::read(std::shared_ptr<FileReader>fr, int32_t *data){
+int FLACSubFrameVerbatim::read(std::shared_ptr<BitReader>fr, int32_t *data){
     unsigned i;
     for (i = 0; i < _blockSize; i++){
         fr->read_bits_signed(data + i, _bitsPerSample);

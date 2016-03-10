@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    std::shared_ptr<FileReader>fr = std::make_shared<FileReader>(fin);
+    std::shared_ptr<BitReader>fr = std::make_shared<FileReader>(fin);
     WaveReader *wr = new WaveReader();
     wr->read_metadata(fr);
     WaveMetaData *meta = wr->getMetaData();

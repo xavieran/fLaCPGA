@@ -15,7 +15,7 @@
 
 #include "bitreader.hpp"
 
-template<typename T> int FileReader::read_word_LE(T *x){
+template<typename T> int BitReader::read_word_LE(T *x){
     assert(this->is_byte_aligned()); // Only execute this when byte aligned...
     T result = 0;
     unsigned bytes = sizeof(T);
@@ -28,14 +28,14 @@ template<typename T> int FileReader::read_word_LE(T *x){
     return true;
 }
 
-template<typename T> int FileReader::read_words_LE(T *x, uint64_t words){
+template<typename T> int BitReader::read_words_LE(T *x, uint64_t words){
     for (unsigned i = 0; i < words; i++){
         read_word_LE(x);
     }
     return true;
 }
 
-template<typename T> int  FileReader::read_chunk(T *dst, int nmemb){
+template<typename T> int  BitReader::read_chunk(T *dst, int nmemb){
     if (this->bytes_left() == 0)
         this->refill_buffer();
     
@@ -52,7 +52,7 @@ template<typename T> int  FileReader::read_chunk(T *dst, int nmemb){
     return nmemb; /* FIXME: DO ERROR CHECKING */
 }
 
-template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
+template<typename T> int BitReader::read_bits(T *x, uint8_t nbits){
     /* Convert this to big endian */
     int BYTE_MASK[9] = {0xff, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe, 0xff};
     int bits_left_in_byte;
@@ -82,7 +82,7 @@ template<typename T> int FileReader::read_bits(T *x, uint8_t nbits){
     return true;
 }
 
-template<typename T> int FileReader::read_bits_signed(T *x, uint8_t nbits){
+template<typename T> int BitReader::read_bits_signed(T *x, uint8_t nbits){
     T ux, mask;
     read_bits(&ux, nbits);
     /* sign-extend *x assuming it is currently bits wide. */
@@ -92,7 +92,7 @@ template<typename T> int FileReader::read_bits_signed(T *x, uint8_t nbits){
     return true;
 }
 
-template<typename T> int FileReader::read_bits_unary(T *x){
+template<typename T> int BitReader::read_bits_unary(T *x){
     int c = 0;
     uint8_t b = 0;
     
