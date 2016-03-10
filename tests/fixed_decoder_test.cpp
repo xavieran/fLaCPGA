@@ -51,7 +51,7 @@ int main(int argc, char **argv){
     f->close();
     
     std::shared_ptr<std::ifstream> fin = std::make_shared<std::ifstream>("wtest1.bin", std::ios::in | std::ios::binary);
-    std::unique_ptr<BitReader> fr = std::make_unique<FileReader>(fin);
+    std::unique_ptr<BitReader> fr = std::make_unique<BitReader>(fin);
     
     fr->read_bits(&x, 4);
     printf("Read 4: %x\n", x);

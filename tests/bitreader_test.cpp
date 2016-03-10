@@ -21,96 +21,78 @@
  * 1001 0110 1000 1100 1011 0000 0000 1010 
  *         | ||    |        |*/
 
-class BitReaderTestFixture: public ::testing::test { 
+class BitReaderTestSeek: public ::testing::TestWithParam<std::vector<int> *> {
 public: 
-   myTestFixture1( ) { 
-       // initialization code here
-   } 
+    std::shared_ptr<std::ifstream> f;
+    std::unique_ptr<BitReader> fr;
+    
+    BitReaderTestSeek() { 
+        f = std::make_shared<std::ifstream>("test1.bin", std::ios::in | std::ios::binary);
+        fr = std::make_unique<BitReader>(f);
+    } 
 
-   void SetUp( ) { 
-       // code here will execute just before the test ensues 
-   }
-
-   void TearDown( ) { 
-       // code here will be called just after the test completes
-       // ok to through exceptions from here if need be
-   }
-
-   ~myTestFixture1( )  { 
-       // cleanup any pending stuff, but no exceptions allowed
-   }
-
-   // put in any custom data members that you need 
+    ~BitReaderTestSeek(){
+        f->close();
+    }
 };
 
+class BitReaderTestReadBits: public ::testing::TestWithParam<std::vector<int> *> {
+public: 
+    std::shared_ptr<std::ifstream> f;
+    std::unique_ptr<BitReader> fr;
+    
+    BitReaderTestReadBits() { 
+        f = std::make_shared<std::ifstream>("test1.bin", std::ios::in | std::ios::binary);
+        fr = std::make_unique<BitReader>(f);
+    } 
+
+    ~BitReaderTestReadBits(){
+        f->close();
+    }
+};
+
+TEST_P(BitReaderTestSeek, SeekBits){
+    std::vector<int> * const& p = GetParam();
+    uint8_t bits_to_seek = p->at(0);
+    fr->seek_bits(bits_to_seek);
+    EXPECT_EQ(bits_to_seek, fr->get_current_bit());
+    EXPECT_EQ(bits_to_seek / 8, fr->get_current_byte());
+    
+    std::cerr << "Expecting: " << (int) bits_to_seek << " Got: " << fr->get_current_bit() << "\n";
+}
+
+INSTANTIATE_TEST_CASE_P(SeekBits, BitReaderTestSeek, ::testing::Values(
+    new std::vector<int>{0},
+    new std::vector<int>{8},
+    new std::vector<int>{9},
+    new std::vector<int>{15},
+    new std::vector<int>{37}));
+
+TEST_P(BitReaderTestReadBits, ReadBits_UINT8){
+    //Tuple_uint8_uint8 const& p = GetParam();
+    std::vector<int> * const& p = GetParam();
+    uint8_t bits_read;
+    fr->seek_bits(p->at(2));
+    EXPECT_EQ(p->at(2), fr->get_current_bit());
+    EXPECT_EQ(p->at(2) / 8, fr->get_current_byte());
+    fr->read_bits(&bits_read, p->at(0));
+    EXPECT_EQ(p->at(1), bits_read);
+    
+    std::cerr << "Read " << p->at(0) << " bits. Got " << (int) bits_read << "\n";
+}
+
+INSTANTIATE_TEST_CASE_P(ReadBits_UINT8, BitReaderTestReadBits, ::testing::Values(
+    new std::vector<int>{8, 0x96, 0},
+    new std::vector<int>{1, 0x01, 8},
+    new std::vector<int>{1, 0x00, 9},
+    new std::vector<int>{4, 0x03, 10},
+    new std::vector<int>{7, 0x16, 14}, 
+    new std::vector<int>{24, 0x15486, 21}));
 
 int main(int argc, char **argv){
-    
-    
-    /* Test 1 - bit reading */
-    printf("Test 1 - Bit reading\n");
-    /* 96 8C B0 0A */
-    
-    std::shared_ptr<std::ifstream> f = std::make_shared<std::ifstream>("test1.bin", std::ios::in | std::ios::binary);
-    std::unique_ptr<BitReader> fr = std::make_unique<FileReader>(f);
-    
-    int test_failed = 0;
-    int assertion = 0;
-    uint8_t t;
-    
-    (*fr).read_bits(&t, 8);
-    printf("\tRead 8 bits: 0x%x =? 0x96\n", t);
-    assertion = (t == 0x96);
-    if (!assertion){
-        printf("FAILED\n"); test_failed++;
-    }
-    
-    (*fr).read_bits(&t, 1);
-    printf("\tRead 1 bit: 0x%d =? 1\n", t);
-    assertion = (t == 1);
-    if (!assertion){
-        printf("FAILED\n"); test_failed++;
-    }
-    
-    (*fr).read_bits(&t, 1);
-    printf("\tRead 1 bit: 0x%d =? 0\n", t);
-    assertion = (t == 0);
-    if (!assertion){
-        printf("FAILED\n"); test_failed++;
-    }
-    
-    (*fr).read_bits(&t, 4);
-    printf("\tRead 4 bits (mid byte): 0x%x =? 0x3\n", t);
-    assertion = (t == 0x3);
-    if (!assertion){
-        printf("FAILED\n"); test_failed++;
-    }
-    
-    (*fr).read_bits(&t, 7);
-    printf("\tRead 7 bits (byte boundary): 0x%x =? 0x16\n", t);
-    assert(t==0x16);
-    assertion = (t == 0x16);
-    if (!assertion){
-        printf("FAILED\n"); test_failed++;
-    }
-    
-    
-    uint32_t p;
-    fr->read_bits(&p, 24);
-    printf("\tRead 24 bits (byte aligned): 0x%x =? 0x15486\n", p);
-    f->close();
-    
-    printf("******************************\n");
-    if (test_failed){
-        
-        printf("\t\tTest 1 - %d tests FAILED\n", test_failed);
-    } else {
-        printf("\t\tTest 1 - All Passed\n\n");
-    }
-    
-    /* Test 2 - "fread"ing */
-    printf ("Test 2 - \"fread\"ing\n");
-    
+    ::testing::InitGoogleTest( &argc, argv );
+    return RUN_ALL_TESTS();
+    /*
     f = std::make_shared<std::ifstream>("test2.bin", std::ios::in | std::ios::binary);
     FILE *f2 = fopen("test2copy.bin", "rb");
     
@@ -150,7 +132,7 @@ int main(int argc, char **argv){
         printf("%d =? <%d>\n", buf32[i], buf232[i]);fflush(stdout);
         assert(buf32[i] == buf232[i]);
     }
-    
+    */
     
     return 1;
     

@@ -15,7 +15,11 @@ uint64_t BitReader::get_current_bit(){
     return _bitp;
 }
 
-BitReader::FileReader(std::shared_ptr<std::ifstream> f){
+uint64_t BitReader::get_current_byte(){
+    return _curr_byte - _buffer;
+}
+
+BitReader::BitReader(std::shared_ptr<std::ifstream> f){
     _fin = f;
     _bitp = 0;
     _curr_byte = _buffer + BUFFER_SIZE;
@@ -43,6 +47,24 @@ int BitReader::bytes_left(){
 int BitReader::refill_buffer(){
     _curr_byte = _buffer;
     _fin->read((char *)_buffer, BUFFER_SIZE); // This cast irritates me...
+    return 1;
+}
+
+int BitReader::seek_bits(uint64_t nbits){
+    /* FIXME: Logic to check if we overrun the buffer ... */
+    if (nbits && (bytes_left() == 0))
+        refill_buffer();
+    
+    int bitpr = _bitp % 8;
+    _bitp += nbits;
+    _curr_byte += ((bitpr + nbits) / 8 - get_current_byte());
+    (*_curr_byte) <<= (_bitp % 8);
+    return 1;
+}
+
+int BitReader::seek_bytes(uint64_t nbytes){
+    /* FIXME: Logic to check if we overrun the buffer ... */
+    _curr_byte += nbytes;
     return 1;
 }
 

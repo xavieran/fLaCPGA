@@ -20,7 +20,10 @@ public:
     int read_error();
     
     uint64_t get_current_bit();
+    uint64_t get_current_byte();
     
+    int seek_bits(uint64_t nbit);
+    int seek_bytes(uint64_t nbytes);
     int set_input_file(std::shared_ptr<std::ifstream> f);
     int reset_bit_count();
 
