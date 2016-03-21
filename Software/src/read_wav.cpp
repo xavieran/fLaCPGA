@@ -17,10 +17,10 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    std::shared_ptr<std::ifstream> fin;
+    std::shared_ptr<std::fstream> fin;
     
     
-    fin = std::make_shared<std::ifstream>(argv[1], std::ios::in | std::ios::binary);
+    fin = std::make_shared<std::fstream>(argv[1], std::ios::in | std::ios::binary);
     if(fin->fail()) {
         fprintf(stderr, "ERROR: opening %s for input\n", argv[1]);
         return 1;

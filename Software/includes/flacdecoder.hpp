@@ -19,7 +19,7 @@
 
 class FLACDecoder {
 public:
-    FLACDecoder(std::shared_ptr<std::ifstream> f);
+    FLACDecoder(std::shared_ptr<std::fstream> f);
     FLACMetaData *getMetaData();
     
     int read(int32_t ***pcm_buf);

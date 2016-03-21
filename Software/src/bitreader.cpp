@@ -19,7 +19,7 @@ uint64_t BitReader::get_current_byte(){
     return _curr_byte - _buffer;
 }
 
-BitReader::BitReader(std::shared_ptr<std::ifstream> f){
+BitReader::BitReader(std::shared_ptr<std::fstream> f){
     _fin = f;
     _bitp = 0;
     _curr_byte = _buffer + BUFFER_SIZE;

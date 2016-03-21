@@ -40,13 +40,13 @@ int main(int argc, char *argv[]){
                 exit_with_help(argv);
         }
         
-    std::shared_ptr<std::ifstream> fin;
-    std::shared_ptr<std::ofstream> fout;
+    std::shared_ptr<std::fstream> fin;
+    std::shared_ptr<std::fstream> fout;
     
     if (optind == 1) exit_with_help(argv);
     
     if (optind < argc){
-        fin = std::make_shared<std::ifstream>(argv[optind], std::ios::in | std::ios::binary);
+        fin = std::make_shared<std::fstream>(argv[optind], std::ios::in | std::ios::binary);
         if(fin->fail()) {
             fprintf(stderr, "ERROR: opening %s for input\n", argv[optind]);
             return 1;
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]){
     }
         
     if (optind + 1 < argc)
-        fout = std::make_shared<std::ofstream>(argv[optind + 1], std::ios::out | std::ios::binary);
+        fout = std::make_shared<std::fstream>(argv[optind + 1], std::ios::out | std::ios::binary);
         if(fout->fail()) {
             fprintf(stderr, "ERROR: opening %s for output\n", argv[optind + 1]);
             return 1;

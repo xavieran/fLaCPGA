@@ -12,7 +12,7 @@
 
 #include "bitwriter.hpp"
 
-BitWriter::BitWriter(std::shared_ptr<std::ofstream> f){
+BitWriter::BitWriter(std::shared_ptr<std::fstream> f){
     _fout = f;
     _curr_byte = _buffer;
     _bitp = 0;
@@ -122,7 +122,7 @@ int BitWriter::write_rice(int32_t data, unsigned rice_param){
     msbs = uval >> rice_param;
     lsbs = uval & ((1 << rice_param) - 1); // LSBs are the last rice_param number of bits
     
-    printf("msbs: %d lsbs: 0x%x\n\n", msbs, lsbs);
+    //printf("msbs: %d lsbs: 0x%x\n\n", msbs, lsbs);
     
     write_unary(msbs);
     write_bits(lsbs, rice_param);

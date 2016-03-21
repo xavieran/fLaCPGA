@@ -16,7 +16,7 @@
 
 class BitReader {
 public:
-    BitReader(std::shared_ptr<std::ifstream> f);
+    BitReader(std::shared_ptr<std::fstream> f);
     int read_error();
     
     uint64_t get_current_bit();
@@ -24,7 +24,7 @@ public:
     
     int seek_bits(uint64_t nbit);
     int seek_bytes(uint64_t nbytes);
-    int set_input_file(std::shared_ptr<std::ifstream> f);
+    int set_input_file(std::shared_ptr<std::fstream> f);
     int reset_bit_count();
 
     int read_rice_signed(int32_t *x, uint8_t M);
@@ -42,9 +42,10 @@ public:
     
     int read_file(void *buf, int size, int nmemb);
     int reset_file();
+    int refill_buffer();
     
 private:
-    std::shared_ptr<std::ifstream> _fin;
+    std::shared_ptr<std::fstream> _fin;
     
     uint64_t _bitp;
     uint8_t *_curr_byte;
@@ -52,7 +53,6 @@ private:
     int _eof;
     
     int bytes_left();
-    int refill_buffer();
     int is_byte_aligned();
     
     uint8_t get_mask(uint8_t bits);

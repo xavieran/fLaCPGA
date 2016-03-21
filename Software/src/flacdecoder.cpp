@@ -19,7 +19,7 @@
 #include "flacdecoder.hpp"
 
 
-FLACDecoder::FLACDecoder(std::shared_ptr<std::ifstream> f){
+FLACDecoder::FLACDecoder(std::shared_ptr<std::fstream> f){
     _fr = std::make_shared<BitReader>(f);
     
     _meta = new FLACMetaData();

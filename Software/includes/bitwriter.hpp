@@ -19,7 +19,7 @@
 
 class BitWriter {
 public:
-    BitWriter(std::shared_ptr<std::ofstream> f);
+    BitWriter(std::shared_ptr<std::fstream> f);
   
     void write_error();
 
@@ -35,7 +35,7 @@ public:
     template<typename T> int write_word_LEs(T *data, int nmemb);
     
 private:
-    std::shared_ptr<std::ofstream> _fout;
+    std::shared_ptr<std::fstream> _fout;
     
     uint8_t _buffer[BUFFER_SIZE];
     uint64_t _bitp;

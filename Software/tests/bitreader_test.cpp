@@ -23,11 +23,11 @@
 
 class BitReaderTestSeek: public ::testing::TestWithParam<std::vector<int> *> {
 public: 
-    std::shared_ptr<std::ifstream> f;
+    std::shared_ptr<std::fstream> f;
     std::unique_ptr<BitReader> fr;
     
     BitReaderTestSeek() { 
-        f = std::make_shared<std::ifstream>("test1.bin", std::ios::in | std::ios::binary);
+        f = std::make_shared<std::fstream>("test1.bin", std::ios::in | std::ios::binary);
         fr = std::make_unique<BitReader>(f);
     } 
 
@@ -38,11 +38,11 @@ public:
 
 class BitReaderTestReadBits: public ::testing::TestWithParam<std::vector<int> *> {
 public: 
-    std::shared_ptr<std::ifstream> f;
+    std::shared_ptr<std::fstream> f;
     std::unique_ptr<BitReader> fr;
     
     BitReaderTestReadBits() { 
-        f = std::make_shared<std::ifstream>("test1.bin", std::ios::in | std::ios::binary);
+        f = std::make_shared<std::fstream>("test1.bin", std::ios::in | std::ios::binary);
         fr = std::make_unique<BitReader>(f);
     } 
 
