@@ -1,7 +1,7 @@
 module FixedDecoder(input iClock,
 						  input iReset, 
 						  input iEnable, 
-						  input iOrder, 
+						  input [7:0] iOrder, 
 						  input signed [31:0] iSample, 
 						  output signed [31:0] oData);
 						  
@@ -20,8 +20,6 @@ begin
 		dataq[3] <= 0;
 		dataq[4] <= 0;
 	end else if (iEnable) begin
-		//$monitor("Q: %d,\t%d,\t%d,\t%d,\t%d", dataq[0], dataq[1], dataq[2], dataq[3], dataq[4]);
-		/* Shift data in the queue to the right. Order very important to avoid overwriting*/
 		dataq[4] <= dataq[3];
 		dataq[3] <= dataq[2];
 		dataq[2] <= dataq[1];
