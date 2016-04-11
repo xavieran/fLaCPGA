@@ -4,7 +4,7 @@ Abstract
 Introduction
 ============
 
-The goal of my final year project is to produce an implementation of a Free Lossless Audio Codec (henceforth, fLaC) decoder and encoder in Verilog for eventual use on an FPGA. fLaC is a lossless audio compression codec that is gaining popularity as a method of distributing high quality audio recordings and for compressing large audio archives. Whilst there are a number of software implementations of the fLaC encoder and decoder, there are no freely available hardware implementations. A hardware implementation would be of great use for a number of reasons. Many nations are now in the process of digitising large national audio archives. Audio archives require data to be compressed losslessly in order to preserve content in a form faithful to the original, however, uncompressed lossless data consumes large amounts of space. Currently, uncompressed formats such as WAVE and (BBWAVE?) are quite popular for audio archiving. Compressed audio has the major benefit of reducing space usage by up to half, doubling an archive’s potential storage space. In order to convert large (terabytes) amounts of audio data to a compressed format, a lot of computing power is required. If a hardware decoder were available, it would both reduce encoding time and reduce power consumed by the encoding process. fLaC is also gaining popularity as a medium for portable audio players. The players are very sensitive to power consumption, a hardware implementation would be of great use in reducing the power load of the decoding process. Another potential use case of a hardware encoder would be in a recording studio. Instead of recording audio to an uncompressed format, high quality audio could be encoded in real time as it comes in.
+The goal of my final year project is to investigate hardware optimization techniques through the implementation of a Free Lossless Audio Codec (henceforth, fLaC) decoder and encoder in Verilog. fLaC is a lossless audio compression codec that is very popular as a method of distributing high quality audio recordings and for compressing large audio archives. Whilst there are a number of software implementations of the fLaC encoder and decoder, there are no freely available hardware implementations. An efficient hardware implementation would be of great use for a number of reasons. Many nations are now in the process of digitising large national audio archives. Audio archives require data to be compressed losslessly in order to preserve content in a form faithful to the original, however, uncompressed lossless data consumes large amounts of space. Currently, uncompressed formats such as WAVE and BWF\_WAVE are quite popular for audio archiving. Compressed audio has the major benefit of reducing space usage by up to half, doubling an archive’s potential storage space. In order to convert large (terabytes) amounts of audio data to a compressed format, a lot of computing power is required. If a hardware decoder were available, it would both reduce encoding time and reduce power consumed by the encoding process. fLaC is also gaining popularity as a medium for portable audio players. The players are very sensitive to power consumption, a hardware implementation would be of great use in reducing the power load of the decoding process. Another potential use case of a hardware encoder would be in a recording studio. Instead of recording audio to an uncompressed format, high quality audio could be encoded in real time as it comes in.
 
 Audio Compression Overview
 ==========================
@@ -18,15 +18,26 @@ Requirements
 Documentation
 -------------
 
-A number of documents will be produced during this p
+A number of documents will be produced during this project.
 
 -   Create a literature review
+
+-   Document the efficiency limitations of the fLaC decoding and encoding algorithms
 
 -   Create final report
 
 -   Create a project description poster
 
 -   Encoder and Decoder documentation, including in code documentation (comments) and a user guide
+
+Research
+--------
+
+-   Identify areas of the fLaC algorithm that can be made more efficient
+
+-   Investigate the applicability of hardware design principles such as pipelining and parallelism to the fLaC algorithm
+
+-   Investigate the theoretical efficiency limitations of the fLaC algorithm
 
 fLaC Decoder
 ------------
@@ -104,5 +115,52 @@ fLaC Encoder
 
 -   Test encoder on FPGA
 
-Conclusion
-==========
+### Metadata Encoder
+
+-   Implement STREAMINFO writer
+
+    -   Write variable bit length fields
+
+### Frame Encoder
+
+-   Write variable bit length fields
+
+-   Write variable sized UTF codes
+
+-   Perform input stream blocking
+
+-   Perform input channel decorrelation
+
+### Subframe Encoder
+
+-   Encode Constant Subframes
+
+    -   Find blocks of constant value in stream and run length encode them
+
+    -   Ensure that these blocks are framed correctly
+
+-   Encode Verbatim Subframes
+
+    -   Detect when LPC and Fixed predictors show no gain when encoding a block
+
+    -   Correctly frame verbatim subframes
+
+-   Encode Fixed Subframes
+
+    -   Find the optimal fixed parameters for encoding
+
+    -   Encode Residuals
+
+-   Encode LPC Subframes
+
+    -   Find the optimal LPC coefficients for encoding a block
+
+    -   Encode Residuals
+
+-   Encode Residuals
+
+    -   Find the optimal rice parameter for a block of residuals
+
+    -   Correctly encode values using rice encoding
+
+

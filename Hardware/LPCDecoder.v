@@ -5,11 +5,11 @@ module LPCDecoder(input iClock,
 						input [4:0] iShift,
 						input signed [31:0] iCoeff,
 						input [5:0] lpcOrder,
-						input signed [31:0] iSample,
-						output signed [31:0] oData);
+						input signed [15:0] iSample,
+						output signed [15:0] oData);
 
 reg signed [31:0] coeffs [11:0]; // Max order is 12
-reg signed[31:0] dataq [12:0]; // Shift register to hold past audio samples
+reg signed[15:0] dataq [12:0]; // Shift register to hold past audio samples
 reg [3:0] sample_count; // Counts the number of warmup samples before starting decoding
 reg [2:0] state; 
 
@@ -64,7 +64,7 @@ always @(posedge iClock) begin
 							dataq[4]*coeffs[3] + dataq[5]*coeffs[4] + dataq[6]*coeffs[5] +
 						   dataq[7]*coeffs[6] + dataq[8]*coeffs[7] + dataq[9]*coeffs[8] +
 							dataq[10]*coeffs[9] + dataq[11]*coeffs[10] + dataq[12]*coeffs[11]) >> iShift);
-							/* This is potentially inefficient use of resources ? */
+							/* This is potentially inefficient use of resources since not all will need all 12 coefficients*/
 		default:
 			state <= S_INIT;
 		endcase

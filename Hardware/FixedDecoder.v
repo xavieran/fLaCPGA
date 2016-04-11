@@ -2,10 +2,10 @@ module FixedDecoder(input iClock,
 						  input iReset, 
 						  input iEnable, 
 						  input [7:0] iOrder, 
-						  input signed [31:0] iSample, 
-						  output signed [31:0] oData);
+						  input signed [15:0] iSample, 
+						  output signed [15:0] oData);
 						  
-reg signed [31:0] dataq [0:4];
+reg signed [15:0] dataq [0:4];
 reg [3:0] warmup_count;
 
 assign oData = dataq[0];
@@ -20,10 +20,10 @@ begin
 		dataq[3] <= 0;
 		dataq[4] <= 0;
 	end else if (iEnable) begin
-		dataq[4] <= dataq[3];
-		dataq[3] <= dataq[2];
-		dataq[2] <= dataq[1];
-		dataq[1] <= dataq[0];
+		dataq[4] = dataq[3];
+		dataq[3] = dataq[2];
+		dataq[2] = dataq[1];
+		dataq[1] = dataq[0];
 		
 		if (warmup_count < iOrder) begin
 			dataq[0] <= iSample;

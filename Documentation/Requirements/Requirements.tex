@@ -10,12 +10,12 @@
 
 \setkomafont{disposition}{\normalfont\bfseries}
 
-
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{listings}
+\usepackage{pgfgantt}
 \bibliographystyle{unsrt}
 
 
@@ -28,7 +28,7 @@
   \section*{Abstract}
   
   \section{Introduction}
-  The goal of my final year project is to produce an implementation of a Free Lossless Audio Codec (henceforth, fLaC) decoder and encoder in Verilog for eventual use on an FPGA. fLaC is a lossless audio compression codec that is gaining popularity as a method of distributing high quality audio recordings and for compressing large audio archives\cite{findcite}. Whilst there are a number of software implementations of the fLaC encoder and decoder, there are no freely available hardware implementations. A hardware implementation would be of great use for a number of reasons. Many nations are now in the process of digitising large national audio archives. Audio archives require data to be compressed losslessly in order to preserve content in a form faithful to the original, however, uncompressed lossless data consumes large amounts of space. Currently, uncompressed formats such as WAVE and (BBWAVE?) are quite popular for audio archiving\cite{findcite}. Compressed audio has the major benefit of reducing space usage by up to half, doubling an archive's potential storage space. In order to convert large (terabytes) amounts of audio data to a compressed format, a lot of computing power is required. If a hardware decoder were available, it would both reduce encoding time and reduce power consumed by the encoding process. fLaC is also gaining popularity as a medium for portable audio players. The players are very sensitive to power consumption, a hardware implementation would be of great use in reducing the power load of the decoding process. Another potential use case of a hardware encoder would be in a recording studio. Instead of recording audio to an uncompressed format, high quality audio could be encoded in real time as it comes in.
+  The goal of my final year project is to investigate hardware optimization techniques through the implementation of a Free Lossless Audio Codec (henceforth, fLaC) decoder and encoder in Verilog. fLaC is a lossless audio compression codec that is very popular as a method of distributing high quality audio recordings and for compressing large audio archives\cite{flac_popular}. Whilst there are a number of software implementations of the fLaC encoder and decoder, there are no freely available hardware implementations. An efficient hardware implementation would be of great use for a number of reasons. Many nations are now in the process of digitising large national audio archives. Audio archives require data to be compressed losslessly in order to preserve content in a form faithful to the original, however, uncompressed lossless data consumes large amounts of space. Currently, uncompressed formats such as WAVE and BWF\_WAVE are quite popular for audio archiving\cite{pres_fmts}. Compressed audio has the major benefit of reducing space usage by up to half, doubling an archive's potential storage space. In order to convert large (terabytes) amounts of audio data to a compressed format, a lot of computing power is required. If a hardware decoder were available, it would both reduce encoding time and reduce power consumed by the encoding process. fLaC is also gaining popularity as a medium for portable audio players. The players are very sensitive to power consumption, a hardware implementation would be of great use in reducing the power load of the decoding process. Another potential use case of a hardware encoder would be in a recording studio. Instead of recording audio to an uncompressed format, high quality audio could be encoded in real time as it comes in.
   
   \section{Audio Compression Overview}
   Just as with general data compression, there are two main methodologies for compressing audio data, lossy and lossless. Lossy audio encoding most often includes techniques such as psychoacoustic compression, where sounds that humans cannot perceive or differentiate are removed from the audio. These techniques will not be the focus of this project. Lossless compression, by comparison, encodes audio perfectly, that is, the decoded audio is identical to the original input samples. Audio is still affected by problems such as quantisation noise and recording device noise.\\
@@ -36,13 +36,22 @@
   
   \section{Requirements}
   \subsection{Documentation}
-  A number of documents will be produced during this p
+  A number of documents will be produced during this project.
   \begin{itemize}
   \item Create a literature review
+  \item Document the efficiency limitations of the fLaC decoding and encoding algorithms
   \item Create final report
   \item Create a project description poster
   \item Encoder and Decoder documentation, including in code documentation (comments) and a user guide
   \end{itemize}
+  
+  \subsection{Research}
+  \begin{itemize}
+  \item Identify areas of the fLaC algorithm that can be made more efficient
+  \item Investigate the applicability of hardware design principles such as pipelining and parallelism to the fLaC algorithm
+  \item Investigate the theoretical efficiency limitations of the fLaC algorithm
+  \end{itemize}
+  
   
   \subsection{fLaC Decoder}
   \begin{itemize}
@@ -120,8 +129,51 @@
   \item Test encoder on FPGA
   \end{itemize}
   
-  \section{Conclusion}
-
+  \subsubsection{Metadata Encoder}
+  \begin{itemize}
+  \item Implement STREAMINFO writer
+    \begin{itemize}
+    \item Write variable bit length fields
+    \end{itemize}
+  \end{itemize}
+  
+  \subsubsection{Frame Encoder}
+  \begin{itemize}
+  \item Write variable bit length fields
+  \item Write variable sized UTF codes
+  \item Perform input stream blocking
+  \item Perform input channel decorrelation
+  \end{itemize}
+  
+  \subsubsection{Subframe Encoder}
+  \begin{itemize}
+  \item Encode Constant Subframes
+    \begin{itemize}
+    \item Find blocks of constant value in stream and run length encode them
+    \item Ensure that these blocks are framed correctly
+    \end{itemize}
+  \item Encode Verbatim Subframes
+    \begin{itemize}
+    \item Detect when LPC and Fixed predictors show no gain when encoding a block
+    \item Correctly frame verbatim subframes
+    \end{itemize}
+  \item Encode Fixed Subframes
+    \begin{itemize}
+    \item Find the optimal fixed parameters for encoding
+    \item Encode Residuals
+    \end{itemize}
+  \item Encode LPC Subframes
+    \begin{itemize}
+    \item Find the optimal LPC coefficients for encoding a block
+    \item Encode Residuals
+    \end{itemize}
+  \item Encode Residuals
+    \begin{itemize}
+    \item Find the optimal rice parameter for a block of residuals
+    \item Correctly encode values using rice encoding
+    \end{itemize}
+  \end{itemize}
+  
   \bibliography{references}
   
 \end{document}

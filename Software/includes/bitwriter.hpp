@@ -14,6 +14,7 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <vector>
 
 #define BUFFER_SIZE 1000000
 
@@ -27,14 +28,25 @@ public:
     int write_bits(uint64_t data, uint8_t bits);
     int write_unary(uint32_t data);
     int write_rice(int32_t data, unsigned rice_param);
+    
+    int write_residual(int32_t *data, int blk_size, int pred_order,
+                       uint8_t coding_method, uint8_t part_order, 
+                       std::vector<uint8_t> &part_rice_params);
+    int write_rice_partition(int32_t *data, uint64_t nsamples, int extended, uint8_t rice_param);
+    
+    int write_utf8_uint64(uint64_t *val);
+    int write_utf8_uint32(uint32_t *val);
+    
     int flush(){ return write_buffer(); }
-    void reset();
     
     template<typename T> int write_chunk(T *data, int nmemb);
     template<typename T> int write_word_LE(T data);
-    template<typename T> int write_word_LEs(T *data, int nmemb);
+    template<typename T> int write_words_LE(T *data, int nmemb);
+    
+    void reset();
     
 private:
+    
     std::shared_ptr<std::fstream> _fout;
     
     uint8_t _buffer[BUFFER_SIZE];

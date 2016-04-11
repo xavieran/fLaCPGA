@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <vector>
 
 #include "bitwriter.hpp"
 
@@ -42,7 +43,7 @@ int BitWriter::write_buffer(){
     // Make sure we also catch the last byte if it has been halfwritten
     int bytes_to_write = _curr_byte - _buffer + (_bitp % 8 != 0);
     // Shift the last piece of the buffer over if it is not full
-    // (*_curr_byte) <<= 8 - _bitp % 8; 
+     (*_curr_byte) <<= 8 - _bitp % 8; 
     //int bytes_written = fwrite(_buffer, sizeof(uint8_t), bytes_to_write, _fout);
     int bytes_written = 0;
     _fout->write((char *)_buffer, bytes_to_write); // Not a fan of this cast
@@ -128,4 +129,46 @@ int BitWriter::write_rice(int32_t data, unsigned rice_param){
     write_bits(lsbs, rice_param);
     //printf("AF RI Current byte: %d current bit: %d\n", _curr_byte - _buffer, _bitp % 8);
     return 1;
+}
+
+int BitWriter::write_residual(int32_t *data, int blk_size, int pred_order, 
+                              uint8_t coding_method, uint8_t part_order, 
+                              std::vector<uint8_t> &part_rice_params){
+    uint64_t nsamples = 0;
+    write_bits(coding_method, 2);
+    write_bits(part_order, 4);
+    
+    int s = 0;
+    int i;
+    for (i = 0; i < (1 << part_order); i++){
+                /* Calculate the number of samples */
+        if (part_order == 0)
+            nsamples = blk_size - pred_order;
+        else if (i != 0)
+            nsamples = blk_size / (1 << part_order);
+        else 
+            nsamples = blk_size / (1 << part_order) - pred_order;
+        s += write_rice_partition(data, nsamples, coding_method, part_rice_params[i]);
+        data += nsamples; /* Move pointer forward... */
+    }
+    return s;
+}
+
+int BitWriter::write_rice_partition(int32_t *data, uint64_t nsamples, int extended, uint8_t rice_param){
+    // It would be nice for this to vary, but I'll stick with supporting 16 bit FLAC for now
+    uint8_t bps = 16; 
+    uint8_t param_bits = (extended == 0) ? 4 : 5;
+    unsigned i;
+    write_bits(rice_param, param_bits);
+    
+    if (rice_param == 0xF || rice_param == 0x1F)
+        write_bits(bps, 5);
+    
+    if (rice_param == 0xF || rice_param == 0x1F)
+        for (i = 0; i < nsamples; i++) /* Read a chunk */
+            write_bits(*(data + i), bps);
+    else
+        for (i = 0; i < nsamples; i++)
+            write_rice(*(data + i), rice_param);
+    return i;
 }

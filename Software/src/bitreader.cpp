@@ -107,8 +107,10 @@ int BitReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extended
         for (i = 0; i < nsamples; i++) /* Read a chunk */
             read_bits_signed(dst + i, bps);
     else
-        for (i = 0; i < nsamples; i++)
+        for (i = 0; i < nsamples; i++){
             read_rice_signed(dst + i, rice_param);
+            //std::cout << *(dst + i) <<" ";
+        } //std::cout <<"\n";
     
     return i;
 }
@@ -119,7 +121,7 @@ int BitReader::read_residual(int32_t *dst, int blk_size, int pred_order){
     uint64_t nsamples = 0;
     read_bits(&coding_method, 2);
     read_bits(&partition_order, 4);
-    
+    //std::cout << "blk_size: " << blk_size << " Code: " << (int)coding_method <<" order: "<<(int)partition_order<<"\n";
     int s = 0;
     int i;
     for (i = 0; i < (1 << partition_order); i++){

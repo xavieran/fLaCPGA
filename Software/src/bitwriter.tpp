@@ -27,7 +27,7 @@ template<typename T> int BitWriter::write_word_LE(T data){
     return 1;
 }
 
-template<typename T> int BitWriter::write_word_LEs(T *data, int nmemb){
+template<typename T> int BitWriter::write_words_LE(T *data, int nmemb){
     for (unsigned i = 0; i < nmemb; i++){
         write_word_LE<T>(data[i]);
     }

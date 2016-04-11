@@ -4,10 +4,10 @@ module UnaryDecoder(input iClock,
 						  input iEnable, 
 						  input iBits, 
 						  output oDone, 
-						  output [31:0] oData);
+						  output [15:0] oData);
 						  
 reg done;
-reg [31:0] data;
+reg [15:0] data;
 
 assign oDone = done;
 assign oData = data;

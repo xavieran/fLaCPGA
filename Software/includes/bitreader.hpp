@@ -29,6 +29,7 @@ public:
 
     int read_rice_signed(int32_t *x, uint8_t M);
     
+    int read_rice_partition(int32_t *dst, uint64_t nsamples, int extended);
     int read_residual(int32_t *dst, int blk_size, int pred_order);
     int read_utf8_uint64(uint64_t *val);
     int read_utf8_uint32(uint32_t *val);
@@ -59,7 +60,6 @@ private:
     int smemcpy(void *dst, int dst_off, uint8_t *src, int size, int nmemb);
     /* Use exceptions...*/
     
-    int read_rice_partition(int32_t *dst, uint64_t nsamples, int extended);
 
 };
 
