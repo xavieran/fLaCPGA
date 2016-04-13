@@ -127,12 +127,12 @@ TEST_P(WriteUnary, WriteUnaryFunction){
 }
 
 INSTANTIATE_TEST_CASE_P(WriteUnaryData, WriteUnary, ::testing::Values(
-    new std::vector<int>{0, 1,3,-2,4,7,21,-2,-1,-8,30,50,-102},
-    new std::vector<int>{1, 1,3,-2,4,7,21,-2,-1,-8,30,50,-102},
-    new std::vector<int>{2, 1,3,-2,4,7,21,-2,-1,-8,30,50,-102},
-    new std::vector<int>{3, 1,3,-2,4,7,21,-2,-1,-8,30,50,-102},
-    new std::vector<int>{4, 1,3,-2,4,7,21,-2,-1,-8,30,50,-102},
-    new std::vector<int>{5, 1,3,-2,4,7,21,-2,-1,-8,30,50,-102}));
+    new std::vector<int>{0, 1,3,-2,4,11,-23,-2,-1,-8,-44,50,-102},
+    new std::vector<int>{1, 1,3,-2,4,11,-23,-2,-1,-8,-44,50,-102},
+    new std::vector<int>{2, 1,3,-2,4,11,-23,-2,-1,-8,-44,50,-102},
+    new std::vector<int>{3, 1,3,-2,4,11,-23,-2,-1,-8,-44,50,-102},
+    new std::vector<int>{4, 1,3,-2,4,11,-23,-2,-1,-8,-44,50,-102},
+    new std::vector<int>{5, 1,3,-2,4,11,-23,-2,-1,-8,-44,50,-102}));
 
 
 class WriteRicePartition : public BitWriterTest {};
