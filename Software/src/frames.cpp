@@ -2,6 +2,10 @@
 /* frames.cpp - Read in a FLAC Frame */
 /************************************/
 
+#include "frames.hpp"
+#include "bitreader.hpp"
+#include "bitwriter.hpp"
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -9,9 +13,6 @@
 
 #include <vector>
 #include <memory>
-
-#include "frames.hpp"
-#include "bitreader.hpp"
 
 uint32_t FLACFrameHeader::_sampleRateLUT[12] = {0, 88200, 176400, 192000, 8000, 16000, 22050,\
                                                24000, 32000, 44100, 48000, 96000};
@@ -215,26 +216,26 @@ int FLACFrameHeader::write(std::shared_ptr<BitWriter> bw){
     /* Read sample or frame number.... */
     if (_blockingStrategy){
         uint64_t xx = 0;
-        fr->read_utf8_uint64(&xx);
+        //bw->read_utf8_uint64(&xx);
         _sampleNumber = xx;
     } else {
         uint32_t x = 0;
-        fr->read_utf8_uint32(&x);
+        //bw->read_utf8_uint32(&x);
         _frameNumber = x;
     }
     
     /* Read in the block size ... */
     switch (_blockSizeHint){
         case 0b0110:
-            fr->read_bits(&_blockSize, 8);
+            //fr->read_bits(&_blockSize, 8);
             _blockSize++;
             break;
         case 0b0111:
-            fr->read_bits(&_blockSize, 16);
+            //fr->read_bits(&_blockSize, 16);
             _blockSize++;
             break;
         case 0b0001:
-            _blockSize = 192;
+            //_blockSize = 192;
             break;
     }
     
@@ -251,18 +252,18 @@ int FLACFrameHeader::write(std::shared_ptr<BitWriter> bw){
     } else if (_sampleRateHint < 12){
         _sampleRate = _sampleRateLUT[_sampleRateHint];
     } else if (_sampleRateHint == 12){
-        fr->read_bits(&_sampleRate, 8);
+        //fr->read_bits(&_sampleRate, 8);
         _sampleRate *= 1000;
     } else if (_sampleRateHint == 13){
-        fr->read_bits(&_sampleRate, 16);
+        //fr->read_bits(&_sampleRate, 16);
     } else if (_sampleRateHint == 14){
-        fr->read_bits(&_sampleRate, 16);
+        //fr->read_bits(&_sampleRate, 16);
         _sampleRate *= 10;
     } else {
         // ERROR !!!
     }
     
-    fr->read_bits(&_CRC8Poly, 8);
+    //fr->read_bits(&_CRC8Poly, 8);
     return 1; // Add error handling
 }
 
@@ -277,3 +278,4 @@ int FLACFrameHeader::write_padding(std::shared_ptr<BitReader> fr){
 
 int FLACFrameHeader::write_footer(std::shared_ptr<BitReader> fr){
     return fr->read_bits(&_frameFooter, 16);
+}

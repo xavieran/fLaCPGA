@@ -21,19 +21,22 @@ void exit_with_help(char *argv[]){
     fprintf(stderr, "  -m : Print fLaC metadata headers\n");
     fprintf(stderr, "  -M : Print ALL metadata. This includes frame and subframe headers.\n");
     fprintf(stderr, "  -p : Print input file PCM values, interleaved\n");
+    fprintf(stderr, "  -r : Print input file subframe residuals\n");
     fprintf(stderr, "  -d : Decode input file to WAV\n");
     exit(1);
 }
 
 int main(int argc, char *argv[]){
     int opt = 0, metadata = 0, all_metadata = 0, print_pcm = 0, decode = 0;
-    while ((opt = getopt(argc,argv,"mMpdh:")) != EOF)
+    int print_residuals = 0;
+    while ((opt = getopt(argc,argv,"mMpdhr:")) != EOF)
         switch(opt)
         {
             case 'm': metadata = 1; break;
             case 'M': all_metadata = 1; break;
             case 'p': print_pcm = 1; break;
             case 'd': decode = 1; break;
+            case 'r': print_residuals = 1; break;
             case 'h':
             case '?': 
             default:
@@ -53,13 +56,15 @@ int main(int argc, char *argv[]){
         }
     }
         
-    if (optind + 1 < argc)
+    //if (optind + 1 < argc)
+    if (print_pcm || decode){
         fout = std::make_shared<std::fstream>(argv[optind + 1], std::ios::out | std::ios::binary);
         if(fout->fail()) {
             fprintf(stderr, "ERROR: opening %s for output\n", argv[optind + 1]);
             return 1;
         }
-        
+    }
+    
     FLACDecoder *flac_reader = new FLACDecoder(fin);
     int32_t **buf = NULL;
     
@@ -99,7 +104,8 @@ int main(int argc, char *argv[]){
             free(buf[ch]);
         free(buf);
         fin->close();
-        
+    } else if (print_residuals){
+        // TODO
     } else if (fout == NULL){
         /* Print file header and metadata*/
         flac_reader->read_meta();
@@ -146,14 +152,6 @@ int main(int argc, char *argv[]){
         fin->close();
         fout->close();
     }
-    
-    /*
-    if (buf != NULL)
-        free(buf); // FIXME: You're doing this wrong... 
-    if (fin != NULL)
-        fclose(fin);
-    if (fout != NULL)
-        fclose(fout);
-    */
+
     return 0;
 }

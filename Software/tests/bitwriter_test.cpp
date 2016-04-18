@@ -1,16 +1,3 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <assert.h>
-
-#include <iostream>
-#include <fstream>
-#include <memory>
-#include <algorithm>
-
-
 #include "bitwriter.hpp"
 #include "bitreader.hpp"
 
@@ -29,14 +16,6 @@
 #include <memory>
 
 #include "gtest/gtest.h"
-
-#include "bitreader.hpp"
-
-/* Test File Contents */
-/* test1.bin
- * 9    6    8    C    B    0    0    A
- * 1001 0110 1000 1100 1011 0000 0000 1010 
- *         | ||    |        |*/
 
 class BitWriterTest: public ::testing::TestWithParam<std::vector<int> *> {
 public: 

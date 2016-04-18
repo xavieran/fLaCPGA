@@ -14,6 +14,7 @@
 #include <memory>
 
 #include "bitreader.hpp"
+#include "bitwriter.hpp"
 #include "constants.hpp"
 
 /******** Classes for storing FLAC metadata *******/
@@ -40,7 +41,10 @@ public:
     int read(std::shared_ptr<BitReader> fr);
     int read_padding(std::shared_ptr<BitReader> fr);
     int read_footer(std::shared_ptr<BitReader> fr);
-    int write(FILE *f);
+    
+    int write(std::shared_ptr<BitWriter> bw);
+    int write_padding(std::shared_ptr<BitReader> fr);
+    int write_footer(std::shared_ptr<BitReader> fr);
     
 private:
 /* Sync code */

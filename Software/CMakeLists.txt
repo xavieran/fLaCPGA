@@ -22,10 +22,17 @@ set(FLAC_DECODER_INCLUDES  includes/frames.hpp includes/subframes.hpp
 
 set(CMAKE_CXX_FLAGS "-g -static -Og -std=c++14 -Wall -Wno-unused-variable -Wno-switch")
 
+
+# Tests
 add_executable (../tests/bitreader_test ../tests/bitreader_test.cpp ${BIT_IO_SRC} ${BIT_IO_INC})
 target_link_libraries(../tests/bitreader_test gtest rt pthread)
 add_executable (../tests/bitwriter_test ../tests/bitwriter_test.cpp  ${BIT_IO_SRC} ${BIT_IO_INC})
 target_link_libraries(../tests/bitwriter_test gtest rt pthread)
+add_executable (../tests/riceencoder_test ../tests/riceencoder_test.cpp  ${BIT_IO_SRC} src/riceencoder.cpp ${BIT_IO_INC} includes/riceencoder.hpp)
+target_link_libraries(../tests/riceencoder_test gtest rt pthread)
+
+
+
 add_executable (read_wav src/read_wav.cpp ${BIT_IO_SRC} ${BIT_IO_INC} ${WAVE_SRC} ${WAVE_INC})
 add_executable (flacd src/flacd.cpp ${FLAC_DECODER_SOURCES} ${FLAC_DECODER_INCLUDES})
 
