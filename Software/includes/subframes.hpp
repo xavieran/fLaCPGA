@@ -90,6 +90,8 @@ public:
     
     int read(std::shared_ptr<BitReader> fr);
     int read(std::shared_ptr<BitReader> fr, int32_t *dst);
+    
+    int compute_best_order(int32_t *data, uint64_t samples);
     void print(FILE *f);
 };
 

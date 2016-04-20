@@ -12,8 +12,6 @@
 #include <vector>
 #include <algorithm>
 
-
-
 std::vector<int> RiceEncoder::calc_best_rice_params(int32_t data[], int samples){
     // Test all 8 rice params
     auto prefixsums = std::vector<std::vector<int>>(8, std::vector<int>(samples));
@@ -27,21 +25,22 @@ std::vector<int> RiceEncoder::calc_best_rice_params(int32_t data[], int samples)
     
     /* Now that we have calculated the prefix sums, find the best set of params to 
        minimize the final partition size*/
-    
-    int npartitions = 11; // samples/(1 << npartitions) = 1
+    /* FLAC__format_get_max_rice_partition_order_from_blocksize_limited_max_and_predictor_order(max_partition_order, blocksize, predictor_order);
+    min_partition_order = flac_min(min_partition_order, max_partition_order); SoMETHING like this /\ */
+    int npartitions = 11; // npartitions should be log2(samples)... but since we deal with blocks of size 4096...
     auto rice_params = std::vector<std::vector<int>>(npartitions, std::vector<int>(1 << npartitions - 1));
     auto bit_sums = std::vector<int>(8);
     auto part_size_sums = std::vector<int>(npartitions);
     
     for (int p = 0; p < npartitions; p++){ // For each partition size
-        int samples_per_partition = samples / (1 << p);
+        // spp = samples_per_partition
+        int spp = samples / (1 << p);
         part_size_sums[p] = 4*(1 << p); // This is the overhead of parameter spec
         
         for (int i = 0; i < (1 << p); i++){
-            for (int r = 0; r < 8; r++){
-                bit_sums[r] = prefixsums[r][(i + 1) * samples_per_partition - 1] - 
-                              prefixsums[r][i * samples_per_partition];
-            }
+            for (int r = 0; r < 8; r++)
+                bit_sums[r] = prefixsums[r][(i + 1) * spp - 1] - prefixsums[r][i * spp];
+            
             auto min_bits = std::distance(bit_sums.begin(), std::min_element(bit_sums.begin(), bit_sums.end()));
             rice_params[p][i] =  min_bits;
             part_size_sums[p] += bit_sums[min_bits];
@@ -51,12 +50,11 @@ std::vector<int> RiceEncoder::calc_best_rice_params(int32_t data[], int samples)
     auto min_part_size = std::distance(part_size_sums.begin(), 
                                        std::min_element(part_size_sums.begin(), 
                                                         part_size_sums.end()));
-    
+
     auto nv = std::vector<int>(1 << min_part_size);
     for (int i = 0; i < (1<<min_part_size); i++) nv[i] = rice_params[min_part_size][i];
-   
+
     return nv;
-    
 }
 
 unsigned RiceEncoder::calc_rice_bits(int32_t data, unsigned rice_param){
