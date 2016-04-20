@@ -32,6 +32,10 @@ add_executable (../tests/riceencoder_test ../tests/riceencoder_test.cpp  ${BIT_I
 target_link_libraries(../tests/riceencoder_test gtest rt pthread)
 
 
+add_executable (../tests/generate_residual ../tests/generate_residual.cpp  ${BIT_IO_SRC} src/riceencoder.cpp ${BIT_IO_INC} includes/riceencoder.hpp)
+target_link_libraries(../tests/generate_residual)
+
+
 
 add_executable (read_wav src/read_wav.cpp ${BIT_IO_SRC} ${BIT_IO_INC} ${WAVE_SRC} ${WAVE_INC})
 add_executable (flacd src/flacd.cpp ${FLAC_DECODER_SOURCES} ${FLAC_DECODER_INCLUDES})

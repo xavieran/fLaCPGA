@@ -131,10 +131,16 @@ int BitWriter::write_rice(int32_t data, unsigned rice_param){
     return 1;
 }
 
-int BitWriter::write_residual(int32_t *data, int blk_size, int pred_order, 
-                              uint8_t coding_method, uint8_t part_order, 
+int BitWriter::write_residual(int32_t *data, int block_size, int pred_order, 
+                              uint8_t coding_method, 
                               std::vector<uint8_t> &part_rice_params){
     uint64_t nsamples = 0;
+    uint8_t part_order = 0;
+    
+    int x = part_rice_params.size();
+    for (; x > 0; part_order++) x >>= 1;
+    part_order--;
+    
     write_bits(coding_method, 2);
     write_bits(part_order, 4);
     
@@ -143,12 +149,13 @@ int BitWriter::write_residual(int32_t *data, int blk_size, int pred_order,
     for (i = 0; i < (1 << part_order); i++){
                 /* Calculate the number of samples */
         if (part_order == 0)
-            nsamples = blk_size - pred_order;
+            nsamples = block_size - pred_order;
         else if (i != 0)
-            nsamples = blk_size / (1 << part_order);
+            nsamples = block_size / (1 << part_order);
         else 
-            nsamples = blk_size / (1 << part_order) - pred_order;
-        s += write_rice_partition(data, nsamples, coding_method, part_rice_params[i]);
+            nsamples = block_size / (1 << part_order) - pred_order;
+        s += write_rice_partition(data, nsamples, coding_method, part_rice_params.at(i));
+        
         data += nsamples; /* Move pointer forward... */
     }
     return s;

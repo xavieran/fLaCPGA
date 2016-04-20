@@ -183,7 +183,7 @@ TEST_P(WriteResidual, Partitions){
     }
     //std::cout << "\n";
     
-    bw->write_residual(data + pred_order, samples, pred_order, 0, part_order, rice_params);
+    bw->write_residual(data + pred_order, samples, pred_order, 0, rice_params);
     bw->flush();
     
     f->seekg(0);

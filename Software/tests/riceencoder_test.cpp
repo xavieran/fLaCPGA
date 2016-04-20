@@ -27,7 +27,7 @@ TEST(BestParameterLowResiduals, RiceEncTest){
     }
     auto best_param = RiceEncoder::calc_best_rice_params(data, 4096);
         for (auto r: best_param){
-        std::cerr << " " << r;
+        std::cerr << " " << (int) r;
     }
     std::cerr << "\n";
 }

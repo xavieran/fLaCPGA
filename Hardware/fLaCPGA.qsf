@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone II"
 set_global_assignment -name DEVICE EP2C35F672C6
-set_global_assignment -name TOP_LEVEL_ENTITY RiceFeederTB
+set_global_assignment -name TOP_LEVEL_ENTITY ResidualDecoder
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:32:51  MARCH 21, 2016"
 set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
@@ -50,7 +50,7 @@ set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
 set_global_assignment -name EDA_TIME_SCALE "1 ns" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
-set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH RiceFeederTB -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH ResidualDecoderTB -section_id eda_simulation
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name EDA_TEST_BENCH_NAME FixedDecoderTB -section_id eda_simulation
@@ -61,7 +61,6 @@ set_global_assignment -name VERILOG_FILE simulation/modelsim/FixedDecoderTB.v
 set_global_assignment -name VERILOG_FILE LPCDecoder.v
 set_global_assignment -name VERILOG_FILE RiceFeeder.v
 set_global_assignment -name VERILOG_FILE RiceDecoder.v
-set_global_assignment -name VERILOG_FILE UnaryDecoder.v
 set_global_assignment -name VERILOG_FILE FixedDecoder.v
 set_global_assignment -name SDC_FILE fLaCPGA.sdc
 set_global_assignment -name EDA_TEST_BENCH_NAME RiceDecoderTB -section_id eda_simulation
@@ -71,19 +70,29 @@ set_global_assignment -name VERILOG_FILE simulation/modelsim/RiceFeederTB.v
 set_global_assignment -name EDA_TEST_BENCH_NAME RiceFeederTB -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id RiceFeederTB
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME RiceFeederTB -section_id RiceFeederTB
-set_global_assignment -name VERILOG_FILE simulation/modelsim/RiceFeederSubsTB.v
 set_global_assignment -name VERILOG_FILE RiceStreamReader.v
 set_global_assignment -name VERILOG_FILE simulation/modelsim/RiceStreamReaderTB.v
 set_global_assignment -name EDA_TEST_BENCH_NAME RiceStreamReaderTB -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id RiceStreamReaderTB
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME RiceStreamReaderTB -section_id RiceStreamReaderTB
+set_global_assignment -name VERILOG_FILE FixedSubFrameDecoder.v
+set_global_assignment -name VERILOG_FILE ResidualDecoder.v
+set_global_assignment -name QIP_FILE RAM.qip
+set_global_assignment -name EDA_TEST_BENCH_NAME RAMLoadTB -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id RAMLoadTB
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME RAMLoadTB -section_id RAMLoadTB
+set_global_assignment -name VERILOG_FILE simulation/modelsim/RAMLoadTB.v
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name VERILOG_FILE simulation/modelsim/ResidualDecoderTB.v
 set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/FixedDecoderTB.v -section_id FixedDecoderTB
 set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/RiceDecoderTB.v -section_id RiceDecoderTB
 set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/RiceFeederTB.v -section_id RiceFeederTB
 set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/RiceStreamReaderTB.v -section_id RiceStreamReaderTB
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/RAMLoadTB.v -section_id RAMLoadTB
+set_global_assignment -name EDA_TEST_BENCH_NAME ResidualDecoderTB -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id ResidualDecoderTB
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME ResidualDecoderTB -section_id ResidualDecoderTB
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/ResidualDecoderTB.v -section_id ResidualDecoderTB
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name VERILOG_FILE FixedSubFrameDecoder.v
-set_global_assignment -name VERILOG_FILE ResidualDecoder.v

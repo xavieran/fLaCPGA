@@ -28,13 +28,18 @@
 *.csd
 *.ini
 *.wlf
+*.ipinfo
+*.sdc
+*rtl_work*
+*gate_work*
+*vstf
 
 Hardware/db/*
 Hardware/incremental_db/
 Hardware/output_files/
-Hardware/simulation
 Software/build/*
-Software/tests/*
 Software/gtest/*
 Software/.kateproject.d/*
+Software/audio/*
+Software/tests/reports
 .directory

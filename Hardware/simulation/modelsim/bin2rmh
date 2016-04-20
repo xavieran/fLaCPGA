@@ -1,0 +1,2 @@
+#!/bin/bash
+hexdump -v -e '2/1 "%X"' residual.bin | sed 's/.\{4\}/&\n/g' $1

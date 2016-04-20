@@ -12,7 +12,7 @@
 #include <vector>
 #include <algorithm>
 
-std::vector<int> RiceEncoder::calc_best_rice_params(int32_t data[], int samples){
+std::vector<uint8_t> RiceEncoder::calc_best_rice_params(int32_t data[], int samples){
     // Test all 8 rice params
     auto prefixsums = std::vector<std::vector<int>>(8, std::vector<int>(samples));
 
@@ -51,7 +51,7 @@ std::vector<int> RiceEncoder::calc_best_rice_params(int32_t data[], int samples)
                                        std::min_element(part_size_sums.begin(), 
                                                         part_size_sums.end()));
 
-    auto nv = std::vector<int>(1 << min_part_size);
+    auto nv = std::vector<uint8_t>(1 << min_part_size);
     for (int i = 0; i < (1<<min_part_size); i++) nv[i] = rice_params[min_part_size][i];
 
     return nv;

@@ -30,7 +30,7 @@ public:
     int write_rice(int32_t data, unsigned rice_param);
     
     int write_residual(int32_t *data, int blk_size, int pred_order,
-                       uint8_t coding_method, uint8_t part_order, 
+                       uint8_t coding_method, 
                        std::vector<uint8_t> &part_rice_params);
     int write_rice_partition(int32_t *data, uint64_t nsamples, int extended, uint8_t rice_param);
     

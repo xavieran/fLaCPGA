@@ -1,10 +1,10 @@
-module FixedSubFrameDecoder(input iClock,
+/*module FixedSubFrameDecoder(input iClock,
 									 input iReset, 
 									 input iData,
 									 input iOrder, 
 									 input iSamples,
 									 input 
-	/* SUBFRAME_FIXED
+	SUBFRAME_FIXED
 <n> 	Unencoded warm-up samples (n = frame's bits-per-sample * predictor order).
 RESIDUAL 	Encoded residual 
 RESIDUAL
@@ -18,7 +18,7 @@ RESIDUAL
 
     if the partition order is zero, n = frame's blocksize - predictor order
     else if this is not the first partition of the subframe, n = (frame's blocksize / (2^partition order))
-    else n = (frame's blocksize / (2^partition order)) - predictor order*/
+    else n = (frame's blocksize / (2^partition order)) - predictor order
 								 
 	
 	FixedDecoder decoder (input iClock,
@@ -35,3 +35,6 @@ RESIDUAL
 						input [3:0] iRiceParam, 
 						output reg signed [15:0] oData,
 						output oDone);
+						
+endmodule
+*/
