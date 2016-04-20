@@ -26,6 +26,9 @@ public:
     int seek_bytes(uint64_t nbytes);
     int set_input_file(std::shared_ptr<std::fstream> f);
     int reset_bit_count();
+    
+    void mark_frame_start();
+    uint8_t frame_crc8();
 
     int read_rice_signed(int32_t *x, uint8_t M);
     
@@ -50,6 +53,8 @@ private:
     
     uint64_t _bitp;
     uint8_t *_curr_byte;
+    uint8_t _frame_header[15];
+    uint8_t *_frame_start;
     uint8_t _buffer[BUFFER_SIZE];
     int _eof;
     

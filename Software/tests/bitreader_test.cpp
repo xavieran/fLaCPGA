@@ -1,3 +1,6 @@
+#include "bitreader.hpp"
+#include "crc.hpp"
+
 
 #include <stdio.h>
 #include <stdint.h>
@@ -12,8 +15,6 @@
 #include <memory>
 
 #include "gtest/gtest.h"
-
-#include "bitreader.hpp"
 
 /* Test File Contents */
 /* test1.bin
@@ -92,50 +93,6 @@ INSTANTIATE_TEST_CASE_P(ReadBits_UINT8, BitReaderTestReadBits, ::testing::Values
 int main(int argc, char **argv){
     ::testing::InitGoogleTest( &argc, argv );
     return RUN_ALL_TESTS();
-    /*
-    f = std::make_shared<std::ifstream>("test2.bin", std::ios::in | std::ios::binary);
-    FILE *f2 = fopen("test2copy.bin", "rb");
-    
-    fr = std::make_unique<BitReader>(f);
-    
-    uint8_t *buf8 = (uint8_t *)calloc(sizeof(uint8_t), 60);
-    uint8_t *buf28 = (uint8_t *)calloc(sizeof(uint8_t), 60);
-    
-    printf("Reading 8 bytes\n");
-    fr->read_chunk(buf8, 8);
-    fread(buf28, 1, 8, f2);
-    int i;
-    for (i = 0; i < 8; i++){
-        printf("%d =? <%d>\n", buf8[i], buf28[i]);
-        assert(buf8[i] == buf28[i]);
-    }
-    
-    
-    uint16_t *buf16 = (uint16_t *)calloc(sizeof(uint16_t), 60);
-    uint16_t *buf216 = (uint16_t *)calloc(sizeof(uint16_t), 60);
-    
-    printf("Reading 16 uint16_t's\n");
-    fr->read_chunk(buf16, 16);
-    fread(buf216, 2, 16, f2);
-    for (i = 0; i < 16; i++){
-        printf("%d =? <%d>\n", buf16[i], buf216[i]);fflush(stdout);
-        assert(buf16[i] == buf216[i]);
-    }
-    
-    uint32_t *buf32 = (uint32_t *)calloc(sizeof(uint32_t), 60);
-    uint32_t *buf232 = (uint32_t *)calloc(sizeof(uint32_t), 60);
-    
-    printf("Reading 8 uint32_t's\n");
-    fr->read_chunk(buf32, 8);
-    fread(buf232, 4, 8, f2);
-    for (i = 0; i < 8; i++){
-        printf("%d =? <%d>\n", buf32[i], buf232[i]);fflush(stdout);
-        assert(buf32[i] == buf232[i]);
-    }
-    */
-    
-    return 1;
-    
 }
 
 

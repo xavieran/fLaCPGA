@@ -1,5 +1,8 @@
 /* Implementation of a bitreader */
 
+#include "bitreader.hpp"
+#include "crc.hpp"
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -8,16 +11,6 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
-
-#include "bitreader.hpp"
-
-uint64_t BitReader::get_current_bit(){
-    return _bitp;
-}
-
-uint64_t BitReader::get_current_byte(){
-    return _curr_byte - _buffer;
-}
 
 BitReader::BitReader(std::shared_ptr<std::fstream> f){
     _fin = f;
@@ -40,6 +33,15 @@ int BitReader::reset_file(){
     return 1;
 }
 
+uint64_t BitReader::get_current_bit(){
+    return _bitp;
+}
+
+uint64_t BitReader::get_current_byte(){
+    return _curr_byte - _buffer;
+}
+
+
 int BitReader::bytes_left(){
     return BUFFER_SIZE - (_curr_byte - _buffer);
 }
@@ -48,6 +50,18 @@ int BitReader::refill_buffer(){
     _curr_byte = _buffer;
     _fin->read((char *)_buffer, BUFFER_SIZE); // This cast irritates me...
     return 1;
+}
+
+void BitReader::mark_frame_start(){
+    /* FIXME: This doesn't take into account a frame that 
+     * breaks over the edge of the buffer */
+    _frame_start = _curr_byte;
+    memcpy(_frame_header,_frame_start, 15);
+}
+    
+    
+uint8_t BitReader::frame_crc8(){
+    return FLAC_CRC::crc8(_frame_header, (int) (_curr_byte - _frame_start));
 }
 
 int BitReader::seek_bits(uint64_t nbits){
@@ -85,11 +99,14 @@ int BitReader::read_rice_signed(int32_t *x, uint8_t M){
         return false;
     }
     
+    
+    
     unsigned uval = (msbs << M) | lsbs;
     if (uval & 1)
         *x = -((int)(uval >> 1)) - 1;
     else
         *x = (int)(uval >> 1);
+    ///std::cout << "MSBS: " << msbs <<" LSBS: " << lsbs << " == " << (int) *x << "\n";
     return true;
 }
 
@@ -99,6 +116,8 @@ int BitReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extended
     uint8_t param_bits = (extended == 0) ? 4 : 5;
     unsigned i;
     read_bits(&rice_param, param_bits);
+    
+    //std::cout << "Rice Param: " << (int) rice_param << "\n";
     
     if (rice_param == 0xF || rice_param == 0x1F)
         read_bits(&bps, 5);

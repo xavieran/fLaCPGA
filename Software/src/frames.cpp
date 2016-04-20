@@ -111,6 +111,7 @@ int FLACFrameHeader::getNumChannels(){
 }
 
 int FLACFrameHeader::read(std::shared_ptr<BitReader> fr){
+    fr->mark_frame_start();
     fr->read_bits(&_syncCode, 14);
     if (_syncCode != FRAME_SYNC){ // 0x3ffe
         fprintf(stderr, "Invalid frame sync 0x%x\n", _syncCode);
@@ -181,7 +182,9 @@ int FLACFrameHeader::read(std::shared_ptr<BitReader> fr){
         // ERROR !!!
     }
     
+    uint8_t crc8 = fr->frame_crc8();
     fr->read_bits(&_CRC8Poly, 8);
+    assert(crc8 == _CRC8Poly); // We probably shouldn't fail if we get his wrong, rather skip to the next frame
     return 1; // Add error handling
 }
 
@@ -197,8 +200,6 @@ int FLACFrameHeader::read_padding(std::shared_ptr<BitReader> fr){
 int FLACFrameHeader::read_footer(std::shared_ptr<BitReader> fr){
     return fr->read_bits(&_frameFooter, 16);
 }
-
-
 
 int FLACFrameHeader::write(std::shared_ptr<BitWriter> bw){
     bw->write_bits(_syncCode, 14);

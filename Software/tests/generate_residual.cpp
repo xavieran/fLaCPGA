@@ -23,7 +23,7 @@ int log2(int x){
     return l;
 }
 
-int main(int argc, char **argv){
+int main(int argc, char **argv){/*
     auto fin = std::make_shared<std::ifstream>("test_residual", std::ios::in);
     auto fout = std::make_shared<std::fstream>("residual.bin", std::ios::out | std::ios::binary | std::ios::trunc);
     auto bw = std::make_unique<BitWriter>(fout);
@@ -50,9 +50,9 @@ int main(int argc, char **argv){
     bw->flush();
     fout->close();
     
-    return 1;
+    return 1;*/
     
-    /*
+    
     auto fin = std::make_shared<std::fstream>("residual.bin", std::ios::in);
     int samples = 4096;
     int32_t read[samples];
@@ -64,5 +64,5 @@ int main(int argc, char **argv){
     for (int i = 0; i < samples; i++){
         std::cerr << read[i] << "\n";
     }
-    std::cerr << std::endl;*/
+    std::cerr << std::endl;
 }
