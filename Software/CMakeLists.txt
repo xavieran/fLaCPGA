@@ -33,6 +33,8 @@ add_executable (../tests/bitwriter_test ../tests/bitwriter_test.cpp  ${BIT_IO_SR
 target_link_libraries(../tests/bitwriter_test gtest rt pthread)
 add_executable (../tests/riceencoder_test ../tests/riceencoder_test.cpp  ${BIT_IO_SRC} src/riceencoder.cpp ${BIT_IO_INC} includes/riceencoder.hpp)
 target_link_libraries(../tests/riceencoder_test gtest rt pthread)
+add_executable (../tests/fixedencoder_test ../tests/fixedencoder_test.cpp  ${BIT_IO_SRC} src/fixedencoder.cpp ${BIT_IO_INC} includes/fixedencoder.hpp)
+target_link_libraries(../tests/fixedencoder_test gtest rt pthread)
 #add_executable (../tests/crc_test ../tests/crc_test.cpp  ${BIT_IO_SRC} src/crc.cpp ${BIT_IO_INC} includes/crc.hpp)
 #target_link_libraries(../tests/crc gtest rt pthread)
 
