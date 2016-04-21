@@ -92,9 +92,11 @@ public:
     uint64_t getTotalSamples();
     uint64_t getMD5u();
     uint64_t getMD5l();
+    
+    void setTotalSamples(uint64_t samples);
     void print(FILE *f);
     int read(std::shared_ptr<BitReader> fr);
-    int write(BitWriter *bw);
+    bool write(std::shared_ptr<BitWriter> bw);
     
 }; 
 /****************************************************/

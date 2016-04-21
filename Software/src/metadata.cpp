@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "bitreader.hpp"
+#include "bitwriter.hpp"
 #include "metadata.hpp"
 
 /********************************************/
@@ -165,6 +166,39 @@ uint8_t FLACMetaStreamInfo::getNumChannels(){
 uint16_t FLACMetaStreamInfo::getMaxBlockSize(){
     return _maxBlockSize;
 }
+
+void FLACMetaStreamInfo::setTotalSamples(uint64_t samples){
+    _totalSamples = samples;
+}
+
+bool FLACMetaStreamInfo::write(std::shared_ptr<BitWriter> bw){
+    bw->write_bits(0x66, 8); // f
+    bw->write_bits(0x4c, 8); // L
+    bw->write_bits(0x61, 8); // a
+    bw->write_bits(0x43, 8); // C
+    
+    /* Metadata header */
+    bw->write_bits(1, 1); // Last block before audio starts
+    bw->write_bits(0, 7); // STREAMINFO block
+    bw->write_bits(34, 24); // 34 bytes to follow
+    
+    /* STREAMINFO Block */
+    bw->write_bits(4096, 16);
+    bw->write_bits(4096, 16);
+    bw->write_bits(0, 24); // Unknown
+    bw->write_bits(0, 24); // Unkwon
+    bw->write_bits(44100, 20); // 44.1kHz
+    bw->write_bits(0, 3); // Stick with 1 channel for now
+    bw->write_bits(15, 5); // 16 - 1 = 15
+    bw->write_utf8((uint32_t) _totalSamples); // Unknown for now
+    bw->write_bits(0, 64); // Ignore MD5
+    bw->write_bits(0, 64); 
+    
+    return true;
+}
+
+
+
 /****************************************************/
 /************** OTHER METABLOCKS *******************/
 /**************************************************/

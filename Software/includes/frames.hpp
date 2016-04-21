@@ -37,14 +37,16 @@ public:
     int getNumChannels();
     uint64_t getBlockSize();
     
+    void setFrameNumber(uint32_t n);
+    
     void print(FILE *f);
     int read(std::shared_ptr<BitReader> fr);
     int read_padding(std::shared_ptr<BitReader> fr);
     int read_footer(std::shared_ptr<BitReader> fr);
     
     int write(std::shared_ptr<BitWriter> bw);
-    int write_padding(std::shared_ptr<BitReader> fr);
-    int write_footer(std::shared_ptr<BitReader> fr);
+    void write_padding(std::shared_ptr<BitWriter> bw);
+    int write_footer(std::shared_ptr<BitWriter> bw);
     
 private:
 /* Sync code */

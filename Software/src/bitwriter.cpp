@@ -179,3 +179,68 @@ int BitWriter::write_rice_partition(int32_t *data, uint64_t nsamples, int extend
             write_rice(*(data + i), rice_param);
     return i;
 }
+
+void BitWriter::mark_frame_start(){
+    _frame_start = _curr_byte;
+}
+
+uint8_t BitWriter::calc_crc8(){
+    return FLAC_CRC::crc8(_frame_start, (unsigned) (_curr_byte - _frame_start));
+}
+
+uint16_t BitWriter::calc_crc16(){
+    return FLAC_CRC::crc16(_frame_start, (unsigned) (_curr_byte - _frame_start));
+}
+
+void BitWriter::write_padding(){
+    if (!is_byte_aligned()){ // Not byte aligned
+        _bitp += (8 - _bitp / 8);
+        _curr_byte++; /* FIXME: Should do bounds checking here... */
+    }
+}
+
+
+/* This code borrowed from libFLAC */
+
+bool BitWriter::write_utf8(uint32_t val)
+{
+
+    assert(!(val & 0x80000000)); /* this version only handles 31 bits */
+
+    if(val < 0x80) {
+        write_bits(val, 8);
+        return true;
+    } else if(val < 0x800) {
+        write_bits(0xC0 | (val >> 6), 8);
+        write_bits(0x80 | (val&0x3F), 8);
+        return true;
+    } else if(val < 0x10000) {
+        write_bits(0xE0 | (val>>12), 8);
+        write_bits(0x80 | ((val>>6)&0x3F), 8);
+        write_bits(0x80 | (val&0x3F), 8);
+        return true;
+    } else if(val < 0x200000) {
+        write_bits(0xF0 | (val>>18), 8);
+        write_bits(0x80 | ((val>>12)&0x3F), 8);
+        write_bits(0x80 | ((val>>6)&0x3F), 8);
+        write_bits(0x80 | (val&0x3F), 8);
+        return true;
+    } else if(val < 0x4000000) {
+        std::cerr << val << "!!!!\n";
+        write_bits((uint8_t) (0xF8 | (val>>24)), 8);
+        write_bits((uint8_t) (0x80 | ((val>>18)&0x3F)), 8);
+        write_bits((uint8_t) (0x80 | ((val>>12)&0x3F)), 8);
+        write_bits((uint8_t) (0x80 | ((val>>6)&0x3F)), 8);
+        write_bits((uint8_t) (0x80 | (val&0x3F)), 8);
+        return true;
+    } else {
+        write_bits(0xFC | (val>>30), 8);
+        write_bits(0x80 | ((val>>24)&0x3F), 8);
+        write_bits(0x80 | ((val>>18)&0x3F), 8);
+        write_bits(0x80 | ((val>>12)&0x3F), 8);
+        write_bits(0x80 | ((val>>6)&0x3F), 8);
+        write_bits(0x80 | (val&0x3F), 8);
+        return true;
+    }
+}
+

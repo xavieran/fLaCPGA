@@ -23,6 +23,11 @@ set(FLAC_DECODER_INCLUDES  includes/frames.hpp includes/subframes.hpp
     includes/metadata.hpp includes/flacdecoder.hpp includes/wavereader.hpp 
     ${BIT_IO_INC})
 
+set(FLAC_ENCODER_SOURCES ${FLAC_DECODER_SOURCES} src/flacencoder.cpp src/riceencoder.cpp 
+                         src/fixedencoder.cpp)
+set(FLAC_ENCODER_INCLUDES ${FLAC_DECODER_INCLUDES} includes/flacencoder.hpp includes/riceencoder.hpp 
+                         includes/fixedencoder.hpp)
+
 set(CMAKE_CXX_FLAGS "-g -static -Og -std=c++14 -Wall -Wno-unused-variable -Wno-switch")
 
 
@@ -46,5 +51,6 @@ target_link_libraries(../tests/generate_residual)
 
 add_executable (read_wav src/read_wav.cpp ${BIT_IO_SRC} ${BIT_IO_INC} ${WAVE_SRC} ${WAVE_INC})
 add_executable (flacd src/flacd.cpp ${FLAC_DECODER_SOURCES} ${FLAC_DECODER_INCLUDES})
-target_link_libraries(flacd)
+
+add_executable (flace src/flace.cpp ${FLAC_ENCODER_SOURCES} ${FLAC_ENCODER_INCLUDES})
 

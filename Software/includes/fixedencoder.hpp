@@ -19,11 +19,8 @@
 
 class FixedEncoder {
 public:
-    FixedEncoder();
     static int calc_best_order(int32_t data[], int samples);
-    static unsigned calc_residuals(int32_t *data, int samples);
-    
-private:
+    static void calc_residuals(int32_t *data, int32_t *residuals, int samples, int order);
 };
 
 #endif

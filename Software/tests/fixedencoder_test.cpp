@@ -1,8 +1,6 @@
 #include "bitwriter.hpp"
 #include "fixedencoder.hpp"
 
-
-
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -13,7 +11,6 @@
 #include <algorithm>
 
 #include "gtest/gtest.h"
-/* fixedencoder_test.cpp */
 
 TEST(FixedEncoder, TestAgainstFLAC){
     auto finp = std::make_shared<std::ifstream>("wu.pcm", std::ios::in);

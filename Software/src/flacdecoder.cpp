@@ -159,8 +159,8 @@ void FLACDecoder::print_all_metadata(){
     print_meta();
     
     int numChannels = _meta->getStreamInfo()->getNumChannels();
-    int intraSamples = _meta->getStreamInfo()->getTotalSamples();
-    int totalInterSamples = intraSamples * numChannels;
+    uint64_t intraSamples = _meta->getStreamInfo()->getTotalSamples();
+    uint64_t totalInterSamples = intraSamples * numChannels;
     int samplesRead = 0;
     int samplesFrame = 0;
     

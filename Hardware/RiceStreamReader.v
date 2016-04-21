@@ -34,7 +34,7 @@ module RiceStreamReader(input iClock,
 			case (state)
 				UNARY:
 					begin
-						if (iData == 1) begin
+						if (iData == 0) begin // Count the 0s not 1s...
 							procMSBs <= procMSBs + 1;
 						end else begin
 							oMSB <= procMSBs;

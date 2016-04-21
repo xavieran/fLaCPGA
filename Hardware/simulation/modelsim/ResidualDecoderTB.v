@@ -61,7 +61,7 @@ ResidualDecoder DUT (
     
 /* 29A5 E46F 
  * 0010 1001 1010 0101 1110 0100 0110 1111
- * ccpp pprr rr 1 0101 11
+ * ccpp pprr rr0 00101 0111001
  *      10    6 MSB: 1 LSB: 23 D: */
                 
 endmodule
