@@ -32,6 +32,8 @@
 //Altera or its authorized distributors.  Please refer to the 
 //applicable agreement for further details.
 
+`ifndef RAM_H
+`define RAM_H
 
 // synopsys translate_off
 `timescale 1 ps / 1 ps
@@ -211,3 +213,5 @@ endmodule
 // Retrieval info: GEN_FILE: TYPE_NORMAL RAM_inst.v FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL RAM_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf
+
+`endif

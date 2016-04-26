@@ -66,7 +66,7 @@ always
   #20 data = 1;
   #20 data = 1;
   
-  #20 $stop
+  #20 $stop;
   end
   
   
