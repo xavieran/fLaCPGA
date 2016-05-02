@@ -123,11 +123,14 @@ int BitWriter::write_rice(int32_t data, unsigned rice_param){
     msbs = uval >> rice_param;
     lsbs = uval & ((1 << rice_param) - 1); // LSBs are the last rice_param number of bits
     
-    //printf("msbs: %d lsbs: 0x%x\n\n", msbs, lsbs);
+    fprintf(stderr, "val: %d rp: %d msbs: %d lsbs: 0x%x\n", data, rice_param, msbs, lsbs);
     
     write_unary(msbs);
     write_bits(lsbs, rice_param);
-    //printf("AF RI Current byte: %d current bit: %d\n", _curr_byte - _buffer, _bitp % 8);
+    /*for (int i = 0; i < (_curr_byte - _buffer); i++){
+        fprintf(stderr, "%x", _buffer[i]);
+    }
+    fprintf(stderr, "\n");*/
     return 1;
 }
 

@@ -207,7 +207,7 @@ int FLACFrameHeader::read_footer(std::shared_ptr<BitReader> fr){
 
 int FLACFrameHeader::write(std::shared_ptr<BitWriter> bw){
     bw->mark_frame_start();
-    bw->write_bits(0b11111111111111), 14);
+    bw->write_bits(0b11111111111111, 14);
     
     bw->write_bits(0, 1); // Reserved to always be zero
     bw->write_bits(0, 1); // Fixed blocking

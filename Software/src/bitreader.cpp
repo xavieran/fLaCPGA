@@ -99,14 +99,13 @@ int BitReader::read_rice_signed(int32_t *x, uint8_t M){
         return false;
     }
     
-    
-    
     unsigned uval = (msbs << M) | lsbs;
     if (uval & 1)
         *x = -((int)(uval >> 1)) - 1;
     else
-        *x = (int)(uval >> 1);
-    ///std::cout << "MSBS: " << msbs <<" LSBS: " << lsbs << " == " << (int) *x << "\n";
+        *x = (int)(uval >> 1);    
+
+    std::cout << "MSBS: " << msbs <<" LSBS: " << lsbs << " == " << (int) *x << "\n";
     return true;
 }
 

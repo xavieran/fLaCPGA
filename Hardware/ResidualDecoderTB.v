@@ -22,13 +22,13 @@ wire [15:0] rdaddr, RamData;
 reg [12:0] wraddr;
 reg [15:0] iData;
 
-reg[15:0] memory [0:4096];
+reg[15:0] memory [0:6000];
 
 ResidualDecoder DUT (
          .iClock(clk),
          .iReset(rst),
          .iEnable(ena),
-         .iStartBit(5'b00111),
+         .iStartBit(5'b01111),
          .iStartAddr(16'b0),
          .iNSamples(n),
          .iPredOrder(pred_o),
@@ -51,27 +51,35 @@ RAM ram (.clock(clk),
     end
     
     integer samples_read;
+    integer file;
+    reg [7:0] hi, lo;
     
     always @(posedge clk) begin
         if (done) begin
             $display ("%d", oData);
             samples_read <= samples_read + 1;
         end
-        if (samples_read == 16*4) $stop;
+        //if (samples_read == 16*4) $stop;
+        if (samples_read == 4096) $stop;
     end
     
     initial begin
         /* Read the memory into the RAM */
         clk = 0; wren = 0; rst = 1; ena = 0;
-        $readmemh("fixed_subframe.rmh", memory);
+        //$readmemh("fixed_subframe.rmh", memory);
         //$readmemh("residual.rmh", memory);
+        file = $fopen("residual.bin", "rb");
         
-        for (i = 0; i < 4096; i = i + 1) begin
+        
+        for (i = 0; i < 5775; i = i + 1) begin
             wraddr = i;
-            iData = memory[i];
+            hi = $fgetc(file);
+            lo = $fgetc(file);
+            iData = {hi[7:0], lo[7:0]};
             wren = 1;
             #20;
         end
+        $fclose(file);
         iData = 0;
         samples_read = 0;
         /* Now run the residual decoder */

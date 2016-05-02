@@ -11,7 +11,7 @@ module SubframeDecoderTB;
 
 integer i;
 reg clk, rst, ena, wren;
-wire done;
+wire done, frame_done;
 
 reg [15:0] n;
 reg [3:0] pred_o;
@@ -28,7 +28,8 @@ SubframeDecoder DUT (.iClock(clk),
                      .iReset(rst),
                      .iEnable(ena),
                      .iNSamples(4096),
-                     .oDone(done),
+                     .oSampleValid(done),
+                     .oFrameDone(frame_done),
                      .oSample(oData),
                      
                      /* RAM I/O */
@@ -55,7 +56,8 @@ RAM ram (.clock(clk),
             $display ("%d", oData);
             samples_read <= samples_read + 1;
         end
-        if (samples_read == 16*4) $stop;
+        //if (samples_read == 16*4) $stop;
+        if (frame_done) $stop;
     end
     
     initial begin
