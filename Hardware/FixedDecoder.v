@@ -1,10 +1,10 @@
 module FixedDecoder(input iClock,
-						  input iReset, 
-						  input iEnable, 
-						  input [7:0] iOrder, 
-						  input signed [15:0] iSample, 
-						  output signed [15:0] oData);
-						  
+                    input iReset, 
+                    input iEnable, 
+                    input [3:0] iOrder, 
+                    input signed [15:0] iSample, 
+                    output signed [15:0] oData);
+                        
 reg signed [15:0] dataq [0:4];
 reg [3:0] warmup_count;
 
@@ -12,36 +12,57 @@ assign oData = dataq[0];
 
 always @(posedge iClock)
 begin
-	if (iReset) begin
-		warmup_count <= 0;
-		dataq[0] <= 0;
-		dataq[1] <= 0;
-		dataq[2] <= 0;
-		dataq[3] <= 0;
-		dataq[4] <= 0;
-	end else if (iEnable) begin
-		dataq[4] = dataq[3];
-		dataq[3] = dataq[2];
-		dataq[2] = dataq[1];
-		dataq[1] = dataq[0];
-		
-		if (warmup_count < iOrder) begin
-			dataq[0] <= iSample;
-			warmup_count <= warmup_count + 1'b1;
-		end else if (iOrder == 0) begin
-			dataq[0] <= iSample;
-		end else if (iOrder == 1) begin
-			dataq[0] <= iSample + dataq[1];	
-		end else if (iOrder == 2) begin
-			dataq[0] <= iSample + 2*dataq[1] - dataq[2];	
-		end else if (iOrder == 3) begin
-			dataq[0] <= iSample + 3*dataq[1] - 3*dataq[2] + dataq[3];	
-		end else if (iOrder == 4) begin
-			dataq[0] <= iSample + 4*dataq[1] - 6*dataq[2] + 4*dataq[3] - dataq[4];	
-		end 
-	end
+    if (iReset) begin
+        warmup_count <= 0;
+        dataq[0] <= 0;
+        dataq[1] <= 0;
+        dataq[2] <= 0;
+        dataq[3] <= 0;
+        dataq[4] <= 0;
+    end else if (iEnable) begin
+    /*
+        dataq[4] = dataq[3];
+        dataq[3] = dataq[2];
+        dataq[2] = dataq[1];
+        dataq[1] = dataq[0];
+        
+        if (warmup_count < iOrder) begin
+            dataq[0] <= iSample;
+            warmup_count <= warmup_count + 1'b1;
+        end else if (iOrder == 0) begin
+            dataq[0] <= iSample;
+        end else if (iOrder == 1) begin
+            dataq[0] <= iSample + dataq[1];	
+        end else if (iOrder == 2) begin
+            dataq[0] <= iSample + 2*dataq[1] - dataq[2];	
+        end else if (iOrder == 3) begin
+            dataq[0] <= iSample + 3*dataq[1] - 3*dataq[2] + dataq[3];	
+        end else if (iOrder == 4) begin
+            dataq[0] <= iSample + 4*dataq[1] - 6*dataq[2] + 4*dataq[3] - dataq[4];	
+        end
+    */
+        dataq[4] <= dataq[3];
+        dataq[3] <= dataq[2];
+        dataq[2] <= dataq[1];
+        dataq[1] <= dataq[0];
+        
+        if (warmup_count < iOrder) begin
+            dataq[0] <= iSample;
+            warmup_count <= warmup_count + 1'b1;
+        end else if (iOrder == 0) begin
+            dataq[0] <= iSample;
+        end else if (iOrder == 1) begin
+            dataq[0] <= iSample + dataq[0]; 
+        end else if (iOrder == 2) begin
+            dataq[0] <= iSample + 2*dataq[0] - dataq[1];    
+        end else if (iOrder == 3) begin
+            dataq[0] <= iSample + 3*dataq[0] - 3*dataq[1] + dataq[2];   
+        end else if (iOrder == 4) begin
+            dataq[0] <= iSample + 4*dataq[0] - 6*dataq[1] + 4*dataq[2] - dataq[3];  
+        end
+    end
 end
-	
+    
 /*    switch(_predictorOrder) {
         case 0:
             memcpy(data, residuals, sizeof(int32_t)*_blockSize);
@@ -65,6 +86,5 @@ end
         default:
             break;
     }*/
-	 
- endmodule
- 
+    
+endmodule

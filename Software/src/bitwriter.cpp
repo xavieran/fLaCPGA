@@ -226,7 +226,6 @@ bool BitWriter::write_utf8(uint32_t val)
         write_bits(0x80 | (val&0x3F), 8);
         return true;
     } else if(val < 0x4000000) {
-        std::cerr << val << "!!!!\n";
         write_bits((uint8_t) (0xF8 | (val>>24)), 8);
         write_bits((uint8_t) (0x80 | ((val>>18)&0x3F)), 8);
         write_bits((uint8_t) (0x80 | ((val>>12)&0x3F)), 8);

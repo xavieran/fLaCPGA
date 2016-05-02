@@ -7,7 +7,7 @@
             $display("ASSERTION FAILED in %m: signal != value"); \
         end
     
-module ResidualDecoderTB;
+module SubframeDecoderTB;
 
 integer i;
 reg clk, rst, ena, wren;
@@ -24,27 +24,25 @@ reg [15:0] iData;
 
 reg[15:0] memory [0:4096];
 
-ResidualDecoder DUT (
-         .iClock(clk),
-         .iReset(rst),
-         .iEnable(ena),
-         .iStartBit(5'b00111),
-         .iStartAddr(16'b0),
-         .iNSamples(n),
-         .iPredOrder(pred_o),
-         .oResidual(oData),
-         .oDone(done),
-         
-         .iData(RamData),
-         .oReadAddr(rdaddr)
-         );
+SubframeDecoder DUT (.iClock(clk),
+                     .iReset(rst),
+                     .iEnable(ena),
+                     .iNSamples(4096),
+                     .oDone(done),
+                     .oSample(oData),
+                     
+                     /* RAM I/O */
+                     .iData(RamData),
+                     .oReadAddr(rdaddr)
+                     );
 
 RAM ram (.clock(clk),
-      .data(iData),
-      .rdaddress(rdaddr),
-      .wraddress(wraddr),
-      .wren(wren),
-      .q(RamData));
+         .data(iData),
+         .rdaddress(rdaddr),
+         .wraddress(wraddr),
+         .wren(wren),
+         .q(RamData)
+         );
 
     always begin
         #10 clk = !clk;
@@ -79,18 +77,8 @@ RAM ram (.clock(clk),
         #20;
         n = 4096; pred_o = 0;
         #40 rst = 0; ena = 1;
-        #4000;
-        //#4000 $stop;
+        
 
     end
     
-/* 29A5                 E46F                 3FB0                 BE7D                    
- * 0010 1001 1010 0101  1110 0100 0110 1111  0011 1111 1011 0000  1011 1110 0111 1101
- * ccpp pprr rrml llll  lmll llll mmll llll  mmml llll lrrr rmmm  mlll lllm mmll llll
- *      10    6|        ||    |    |      |   |    |
- *             0       11|    |    1     47   2   15
- *             |         0   36    |          |
- *             |         |         |          |
- *            -6         18       -56        -96
- */
 endmodule

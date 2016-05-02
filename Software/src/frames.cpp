@@ -39,7 +39,7 @@ CRC Code: 0x%x\n\n", _syncCode, _reserved1, _blockingStrategy,
 }
 
 FLACFrameHeader::FLACFrameHeader(){    
-    _syncCode = 0;
+    _syncCode = 0b11111111111111;
     _reserved1 = 0;
     _blockingStrategy = 0;
     _blockSizeHint = 0;
@@ -56,7 +56,7 @@ FLACFrameHeader::FLACFrameHeader(){
 }
 
 void FLACFrameHeader::reconstruct(){    
-    _syncCode = 0;
+    _syncCode = 0b11111111111111;
     _reserved1 = 0;
     _blockingStrategy = 0;
     _blockSizeHint = 0;
@@ -117,7 +117,7 @@ int FLACFrameHeader::getNumChannels(){
 int FLACFrameHeader::read(std::shared_ptr<BitReader> fr){
     fr->mark_frame_start();
     fr->read_bits(&_syncCode, 14);
-    if (_syncCode != FRAME_SYNC){ // 0x3ffe
+    if (_syncCode != FRAME_SYNC){
         fprintf(stderr, "Invalid frame sync 0x%x\n", _syncCode);
         fr->read_error();
     }
@@ -207,7 +207,7 @@ int FLACFrameHeader::read_footer(std::shared_ptr<BitReader> fr){
 
 int FLACFrameHeader::write(std::shared_ptr<BitWriter> bw){
     bw->mark_frame_start();
-    bw->write_bits(_syncCode, 14);
+    bw->write_bits(0b11111111111111), 14);
     
     bw->write_bits(0, 1); // Reserved to always be zero
     bw->write_bits(0, 1); // Fixed blocking

@@ -40,6 +40,8 @@ add_executable (../tests/riceencoder_test ../tests/riceencoder_test.cpp  ${BIT_I
 target_link_libraries(../tests/riceencoder_test gtest rt pthread)
 add_executable (../tests/fixedencoder_test ../tests/fixedencoder_test.cpp  ${BIT_IO_SRC} src/fixedencoder.cpp ${BIT_IO_INC} includes/fixedencoder.hpp)
 target_link_libraries(../tests/fixedencoder_test gtest rt pthread)
+add_executable (../tests/encoder_test ../tests/encoder_test.cpp  ${BIT_IO_SRC} ${BIT_IO_INC} ${FLAC_ENCODER_SOURCES} ${FLAC_ENCODER_INCLUDES})
+target_link_libraries(../tests/encoder_test gtest rt pthread)
 #add_executable (../tests/crc_test ../tests/crc_test.cpp  ${BIT_IO_SRC} src/crc.cpp ${BIT_IO_INC} includes/crc.hpp)
 #target_link_libraries(../tests/crc gtest rt pthread)
 

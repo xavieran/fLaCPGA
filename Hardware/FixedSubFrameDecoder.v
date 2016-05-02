@@ -1,10 +1,11 @@
 /*module FixedSubFrameDecoder(input iClock,
-									 input iReset, 
-									 input iData,
-									 input iOrder, 
-									 input iSamples,
-									 input 
-	SUBFRAME_FIXED
+                              input iReset, 
+                              input iData,
+                              input iOrder, 
+                              input iSamples,
+                              input 
+/*
+    SUBFRAME_FIXED
 <n> 	Unencoded warm-up samples (n = frame's bits-per-sample * predictor order).
 RESIDUAL 	Encoded residual 
 RESIDUAL
@@ -18,23 +19,26 @@ RESIDUAL
 
     if the partition order is zero, n = frame's blocksize - predictor order
     else if this is not the first partition of the subframe, n = (frame's blocksize / (2^partition order))
-    else n = (frame's blocksize / (2^partition order)) - predictor order
-								 
-	
-	FixedDecoder decoder (input iClock,
-						  input iReset, 
-						  input iEnable, 
-						  input [7:0] iOrder, 
-						  input signed [15:0] iSample, 
-						  output signed [15:0] oData);	 
-									 
-   RiceFeeder residuals (input iClock,
-						input iReset,
-						input iEnable,
-						input iData,
-						input [3:0] iRiceParam, 
-						output reg signed [15:0] oData,
-						output oDone);
-						
+    else n = (frame's blocksize / (2^partition order)) - predictor order*/
+                                
+    
+    FixedDecoder decoder (input iClock,
+                        input iReset, 
+                        input iEnable, 
+                        input [7:0] iOrder, 
+                        input signed [15:0] iSample, 
+                        output signed [15:0] oData);	 
+                                    
+ResidualDecoder rd (input iClock, 
+                    input iReset, 
+                    input iEnable,
+                    input [15:0] iNSamples,
+                    input [3:0] iPredOrder,
+                    output signed [15:0] oResidual,
+                    output oDone,
+                    /* RAM I/O */
+                    input [15:0] iData,
+                    output [15:0] oReadAddr
+                    );
 endmodule
 */

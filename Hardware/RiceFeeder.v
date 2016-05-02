@@ -41,6 +41,7 @@ module RiceFeeder(input iClock,
 			done_hist[1] <= 0;
 			done_hist[0] <= 0;
 			oData <= 0;
+			done <= 0;
 		end else if (iEnable) begin
 			// Detect a positive edge on the done signal from sr
 			if (done_hist[0] == 1'b1 && done_hist[1] == 1'b0) begin

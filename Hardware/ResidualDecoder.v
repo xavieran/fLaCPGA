@@ -3,6 +3,8 @@ module ResidualDecoder(input iClock,
          input iEnable,
          input [15:0] iNSamples,
          input [3:0] iPredOrder,
+         input [4:0] iStartBit,
+         input [15:0] iStartAddr,
          output signed [15:0] oResidual,
          output oDone,
          /* RAM I/O */
@@ -23,12 +25,11 @@ module ResidualDecoder(input iClock,
  reg [15:0] rd_addr;
  reg need_data;
  
- reg [2:0] state;
- reg [2:0] prev_state;
+ reg [3:0] state;
  
- 
- 
- parameter S_RD_INIT = 0, S_RD_PART_INIT1 = 1, S_RD_PART_INIT2 = 2, S_RD_PART_RES = 3, S_NEED_DATA = 4;
+ parameter S_RD_INIT1 = 0, S_RD_INIT2 = 1, S_RD_INIT3 = 2, 
+           S_RD_PART_INIT1 = 3, S_RD_PART_INIT2 = 4,
+           S_RD_PART_RES = 5, S_NEED_DATA = 6;
  
  /* RiceFeeder nets */
  reg rf_idata, rf_enable, rf_rst;
@@ -36,6 +37,8 @@ module ResidualDecoder(input iClock,
  reg signed [15:0] residual;
  wire rf_done;
  reg done;
+ 
+ reg [1:0] delay;
  
  assign oResidual = residual;
  assign oDone = done;
@@ -65,8 +68,9 @@ module ResidualDecoder(input iClock,
  */
 always @(posedge iClock) begin
     if (iReset) begin
-        state <= S_RD_INIT;
+        state <= S_RD_INIT1;
         
+        delay <= 0;
         part_order <= 0;
         rice_param <= 0;
         current_partition <= 0;
@@ -74,16 +78,16 @@ always @(posedge iClock) begin
         
         total_samples_read <= 0;
         samples_read <= 0;
-        curr_bit <= 15;
+        
+        curr_bit <= iStartBit;
+        rd_addr <= iStartAddr; // Have next data ready
         
         data_buffer <= iData;
-        rd_addr <= 0;
         need_data <= 1;
-        prev_state <= 0;
         
         rf_idata <= 0;
         rf_enable <= 0;
-        rf_rst <= 0;
+        rf_rst <= 1;
         
         done <= 0;
     end else if (iEnable) begin
@@ -96,8 +100,9 @@ always @(posedge iClock) begin
         case (state)        
         default:
         begin
-            state <= S_RD_INIT;
+            state <= S_RD_INIT1;
             
+            delay <= 0;
             part_order <= 0;
             rice_param <= 0;
             current_partition <= 0;
@@ -105,30 +110,71 @@ always @(posedge iClock) begin
             
             total_samples_read <= 0;
             samples_read <= 0;
-            curr_bit <= 15;
+            curr_bit <= iStartBit;
+            rd_addr <= iStartAddr;
             
             data_buffer <= iData;
             need_data <= 1;
-            rd_addr <= 0;
-            prev_state <= 0;
             
             rf_idata <= 0;
             rf_enable <= 0;
+            rf_rst <= 1;
             
             done <= 0;
         end
                 
-        S_RD_INIT: 
+        S_RD_INIT1: 
         begin
             /* Assuming the residual is byte aligned, which it always should be */
-            // coding_method <= data_buffer[15:14];  Ignore coding method (2 bits) 
-            part_order <= data_buffer[13:10]; // read partition order (4 bits)
-            curr_bit <= curr_bit - 6;
-            data_buffer <= data_buffer << 6; // Shift data
-            current_partition <= 0;
-            total_samples_read <= 0;
-            state <= S_RD_PART_INIT1;
-            rf_rst <= 1;
+            // coding_method <= data_buffer[15:14];  Ignore coding method (2 bits)
+            // ccpp pprr rrml
+            
+            if (curr_bit == 15) begin
+                part_order <= data_buffer[13:10]; // read partition order (4 bits)
+                curr_part_size <= (iNSamples >> data_buffer[13:10]) - iPredOrder;
+                rice_param <= data_buffer[9:6];
+                curr_bit <= 5;
+                data_buffer <= data_buffer << 10; // Shift data
+                
+                current_partition <= 0;
+                total_samples_read <= 0;
+                rf_rst <= 0;
+                
+                state <= S_RD_PART_RES;
+            /* When residual is second byte-aligned */
+            end else if (curr_bit == 7) begin
+                part_order <= data_buffer[5:2]; // read partition order (4 bits)
+                curr_part_size <= (iNSamples >> data_buffer[5:2]) - iPredOrder;
+                rice_param[3:2] <= data_buffer[1:0];
+                curr_bit <= 1;
+                
+                rd_addr <= rd_addr + 1'b1;
+                
+                current_partition <= 0;
+                total_samples_read <= 0;
+                rf_rst <= 0;
+                
+                state <= S_RD_INIT2;
+            end
+            
+        end
+        
+        S_RD_INIT2:
+        begin
+            if (delay == 2) begin
+                state <= S_RD_INIT3; // Need to delay to wait for RAM
+                data_buffer[15:0] <= iData;
+                need_data <= 1;
+            end else 
+                delay <= delay + 1;
+        end
+        
+        S_RD_INIT3:
+        begin
+            rice_param[1:0] <= data_buffer[15:14];
+            data_buffer <= data_buffer << 2;
+            curr_bit <= 13;
+            state <= S_RD_PART_RES;
         end
         
         S_RD_PART_INIT1: /* Read the first part of the rice param */
@@ -139,33 +185,28 @@ always @(posedge iClock) begin
             end else if (current_partition != 0) begin /* else if this is not the first partition of the subframe, n = (frame's blocksize / (2^partition order)) */
                 curr_part_size <= iNSamples >> part_order;
             end else begin
-                curr_part_size <= (iNSamples >> part_order) - iPredOrder; /* else n = (frame's blocksize / (2^partition order)) - predictor order */
+                 /* else n = (frame's blocksize / (2^partition order)) - predictor order */
             end
             
             /* Can't assume byte alignment here */
-            if (current_partition != 0) begin
-                /* Note that the rice feeder done signal is delayed 3 clock cycles, so we 
-                   Use the past values to fill the rice param */
-                rice_param <= data_buffer[19:16];
-                
-                if (curr_bit < 3) begin
-                    data_buffer[15:0] <= iData;
-                    need_data <= 1;
-                    
-                    state <= S_RD_PART_INIT2;
-                end else begin
-                    curr_bit <= curr_bit - 4;
-                    
-                    state <= S_RD_PART_RES;
-                    rf_rst <= 0;
-                end
-            end else begin
-                rice_param <= data_buffer[15:12];
-                curr_bit <= curr_bit - 4;
-                data_buffer <= data_buffer << 4;
-                
+            /* Note that the rice feeder done signal is delayed 3 clock cycles, so we 
+                Use the past values to fill the rice param */
+            rice_param <= data_buffer[19:16];
+            
+            if (curr_bit < 3) begin
+                data_buffer[15:0] <= iData;
+                need_data <= 1;
+                state <= S_RD_PART_INIT2;
+            /* This case is when we have read a new value from the RAM just before we
+                transitioned here. This means that the curr bit needs to be 15 at the
+                end of this iteration... */
+            end else if (curr_bit == 3) begin
+                curr_bit <= 15;
                 state <= S_RD_PART_RES;
-                rf_enable <= 0;
+                rf_rst <= 0;
+            end else begin
+                curr_bit <= curr_bit - 4;
+                state <= S_RD_PART_RES;
                 rf_rst <= 0;
             end
         end
@@ -187,6 +228,7 @@ always @(posedge iClock) begin
                 end
                 
                 state <= S_RD_PART_RES;
+                rf_rst <= 0;
             end
 
         S_RD_PART_RES:

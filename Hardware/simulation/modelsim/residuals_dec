@@ -1,0 +1,5121 @@
+blk_size: 4096 Code: 0 order: 10
+Rice Param: 6
+MSBS: 0 LSBS: 11 == -6
+MSBS: 0 LSBS: 36 == 18
+MSBS: 1 LSBS: 47 == -56
+MSBS: 2 LSBS: 63 == -96
+Rice Param: 6
+MSBS: 3 LSBS: 31 == -112
+MSBS: 2 LSBS: 61 == -95
+MSBS: 0 LSBS: 16 == 8
+MSBS: 1 LSBS: 3 == -34
+Rice Param: 5
+MSBS: 2 LSBS: 3 == -34
+MSBS: 2 LSBS: 22 == 43
+MSBS: 0 LSBS: 6 == 3
+MSBS: 1 LSBS: 28 == 30
+Rice Param: 5
+MSBS: 3 LSBS: 3 == -50
+MSBS: 0 LSBS: 2 == 1
+MSBS: 0 LSBS: 19 == -10
+MSBS: 4 LSBS: 26 == 77
+Rice Param: 6
+MSBS: 1 LSBS: 22 == 43
+MSBS: 0 LSBS: 48 == 24
+MSBS: 0 LSBS: 54 == 27
+MSBS: 1 LSBS: 51 == -58
+Rice Param: 5
+MSBS: 0 LSBS: 22 == 11
+MSBS: 4 LSBS: 17 == -73
+MSBS: 2 LSBS: 20 == 42
+MSBS: 0 LSBS: 6 == 3
+Rice Param: 4
+MSBS: 0 LSBS: 13 == -7 
+MSBS: 4 LSBS: 6 == 35 ** 7th part
+MSBS: 0 LSBS: 13 == -7
+MSBS: 1 LSBS: 13 == -15
+Rice Param: 5
+MSBS: 0 LSBS: 6 == 3
+MSBS: 1 LSBS: 7 == -20
+MSBS: 1 LSBS: 3 == -18
+MSBS: 1 LSBS: 18 == 25
+Rice Param: 6
+MSBS: 0 LSBS: 6 == 3
+MSBS: 0 LSBS: 46 == 23
+MSBS: 1 LSBS: 38 == 51
+MSBS: 1 LSBS: 17 == -41
+Rice Param: 6
+MSBS: 1 LSBS: 21 == -43
+MSBS: 2 LSBS: 23 == -76
+MSBS: 0 LSBS: 21 == -11
+MSBS: 1 LSBS: 55 == -60
+Rice Param: 6
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 57 == -29
+MSBS: 0 LSBS: 33 == -17
+MSBS: 1 LSBS: 47 == -56
+Rice Param: 5
+MSBS: 3 LSBS: 21 == -59
+MSBS: 0 LSBS: 18 == 9
+MSBS: 3 LSBS: 25 == -61
+MSBS: 1 LSBS: 21 == -27
+Rice Param: 6
+MSBS: 0 LSBS: 47 == -24
+MSBS: 0 LSBS: 27 == -14
+MSBS: 1 LSBS: 42 == 53
+MSBS: 2 LSBS: 33 == -81
+Rice Param: 6
+MSBS: 1 LSBS: 28 == 46
+MSBS: 1 LSBS: 3 == -34
+MSBS: 1 LSBS: 16 == 40 ** 14th 
+MSBS: 2 LSBS: 2 == 65
+Rice Param: 6
+MSBS: 0 LSBS: 24 == 12
+MSBS: 4 LSBS: 58 == 157
+MSBS: 0 LSBS: 27 == -14
+MSBS: 0 LSBS: 16 == 8
+Rice Param: 5
+MSBS: 2 LSBS: 31 == -48
+MSBS: 1 LSBS: 3 == -18
+MSBS: 0 LSBS: 14 == 7
+MSBS: 2 LSBS: 19 == -42
+Rice Param: 6
+MSBS: 0 LSBS: 1 == -1
+MSBS: 0 LSBS: 56 == 28
+MSBS: 1 LSBS: 30 == 47
+MSBS: 1 LSBS: 45 == -55
+Rice Param: 5
+MSBS: 0 LSBS: 1 == -1
+MSBS: 4 LSBS: 3 == -66
+MSBS: 1 LSBS: 17 == -25
+MSBS: 0 LSBS: 9 == -5
+Rice Param: 6
+MSBS: 0 LSBS: 58 == 29
+MSBS: 1 LSBS: 42 == 53
+MSBS: 0 LSBS: 30 == 15
+MSBS: 1 LSBS: 44 == 54
+Rice Param: 5
+MSBS: 1 LSBS: 25 == -29
+MSBS: 1 LSBS: 12 == 22
+MSBS: 2 LSBS: 7 == -36
+MSBS: 0 LSBS: 27 == -14
+Rice Param: 5
+MSBS: 3 LSBS: 14 == 55
+MSBS: 0 LSBS: 27 == -14
+MSBS: 4 LSBS: 20 == 74
+MSBS: 2 LSBS: 8 == 36
+Rice Param: 6
+MSBS: 0 LSBS: 48 == 24
+MSBS: 1 LSBS: 22 == 43
+MSBS: 1 LSBS: 49 == -57
+MSBS: 2 LSBS: 7 == -68
+Rice Param: 4
+MSBS: 1 LSBS: 6 == 11
+MSBS: 3 LSBS: 15 == -32
+MSBS: 0 LSBS: 6 == 3
+MSBS: 1 LSBS: 14 == 15
+Rice Param: 4
+MSBS: 4 LSBS: 10 == 37
+MSBS: 0 LSBS: 9 == -5
+MSBS: 2 LSBS: 6 == 19
+MSBS: 3 LSBS: 10 == 29
+Rice Param: 5
+MSBS: 2 LSBS: 23 == -44
+MSBS: 2 LSBS: 30 == 47
+MSBS: 0 LSBS: 2 == 1
+MSBS: 4 LSBS: 22 == 75
+Rice Param: 5
+MSBS: 2 LSBS: 19 == -42
+MSBS: 3 LSBS: 20 == 58
+MSBS: 0 LSBS: 5 == -3
+MSBS: 1 LSBS: 0 == 16
+Rice Param: 5
+MSBS: 1 LSBS: 11 == -22
+MSBS: 0 LSBS: 20 == 10
+MSBS: 3 LSBS: 8 == 52
+MSBS: 1 LSBS: 19 == -26
+Rice Param: 5
+MSBS: 0 LSBS: 15 == -8
+MSBS: 1 LSBS: 14 == 23
+MSBS: 0 LSBS: 21 == -11
+MSBS: 2 LSBS: 20 == 42
+Rice Param: 5
+MSBS: 0 LSBS: 4 == 2
+MSBS: 1 LSBS: 17 == -25
+MSBS: 4 LSBS: 2 == 65
+MSBS: 0 LSBS: 22 == 11
+Rice Param: 5
+MSBS: 2 LSBS: 12 == 38
+MSBS: 2 LSBS: 11 == -38
+MSBS: 1 LSBS: 18 == 25
+MSBS: 1 LSBS: 6 == 19
+Rice Param: 5
+MSBS: 1 LSBS: 16 == 24
+MSBS: 3 LSBS: 0 == 48
+MSBS: 0 LSBS: 13 == -7
+MSBS: 2 LSBS: 22 == 43
+Rice Param: 5
+MSBS: 1 LSBS: 21 == -27
+MSBS: 1 LSBS: 14 == 23
+MSBS: 1 LSBS: 29 == -31
+MSBS: 2 LSBS: 14 == 39
+Rice Param: 5
+MSBS: 0 LSBS: 2 == 1
+MSBS: 0 LSBS: 27 == -14
+MSBS: 3 LSBS: 14 == 55
+MSBS: 2 LSBS: 2 == 33
+Rice Param: 4
+MSBS: 1 LSBS: 9 == -13
+MSBS: 4 LSBS: 6 == 35
+MSBS: 1 LSBS: 12 == 14
+MSBS: 0 LSBS: 10 == 5
+Rice Param: 6
+MSBS: 0 LSBS: 50 == 25
+MSBS: 1 LSBS: 22 == 43
+MSBS: 1 LSBS: 41 == -53
+MSBS: 0 LSBS: 35 == -18
+Rice Param: 5
+MSBS: 1 LSBS: 15 == -24
+MSBS: 0 LSBS: 12 == 6
+MSBS: 0 LSBS: 24 == 12
+MSBS: 2 LSBS: 19 == -42
+Rice Param: 6
+MSBS: 1 LSBS: 24 == 44
+MSBS: 2 LSBS: 21 == -75
+MSBS: 0 LSBS: 43 == -22
+MSBS: 0 LSBS: 61 == -31
+Rice Param: 4
+MSBS: 3 LSBS: 14 == 31
+MSBS: 6 LSBS: 3 == -50
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 3 == -2
+Rice Param: 6
+MSBS: 0 LSBS: 22 == 11
+MSBS: 0 LSBS: 47 == -24
+MSBS: 1 LSBS: 37 == -51
+MSBS: 1 LSBS: 41 == -53
+Rice Param: 5
+MSBS: 0 LSBS: 26 == 13
+MSBS: 0 LSBS: 29 == -15
+MSBS: 1 LSBS: 5 == -19
+MSBS: 3 LSBS: 22 == 59
+Rice Param: 5
+MSBS: 1 LSBS: 9 == -21
+MSBS: 2 LSBS: 8 == 36
+MSBS: 1 LSBS: 5 == -19
+MSBS: 1 LSBS: 8 == 20
+Rice Param: 6
+MSBS: 0 LSBS: 7 == -4
+MSBS: 1 LSBS: 51 == -58
+MSBS: 0 LSBS: 41 == -21
+MSBS: 0 LSBS: 54 == 27
+Rice Param: 5
+MSBS: 3 LSBS: 28 == 62
+MSBS: 3 LSBS: 0 == 48
+MSBS: 0 LSBS: 25 == -13
+MSBS: 0 LSBS: 13 == -7
+Rice Param: 5
+MSBS: 0 LSBS: 25 == -13
+MSBS: 4 LSBS: 6 == 67
+MSBS: 0 LSBS: 27 == -14
+MSBS: 2 LSBS: 19 == -42
+Rice Param: 5
+MSBS: 2 LSBS: 0 == 32
+MSBS: 1 LSBS: 13 == -23
+MSBS: 2 LSBS: 5 == -35
+MSBS: 0 LSBS: 30 == 15
+Rice Param: 5
+MSBS: 2 LSBS: 27 == -46
+MSBS: 1 LSBS: 6 == 19
+MSBS: 0 LSBS: 31 == -16
+MSBS: 1 LSBS: 31 == -32
+Rice Param: 5
+MSBS: 0 LSBS: 3 == -2
+MSBS: 0 LSBS: 19 == -10
+MSBS: 2 LSBS: 5 == -35
+MSBS: 3 LSBS: 19 == -58
+Rice Param: 4
+MSBS: 2 LSBS: 3 == -18
+MSBS: 5 LSBS: 12 == 46
+MSBS: 0 LSBS: 15 == -8
+MSBS: 0 LSBS: 4 == 2
+Rice Param: 5
+MSBS: 0 LSBS: 18 == 9
+MSBS: 2 LSBS: 1 == -33
+MSBS: 2 LSBS: 28 == 46
+MSBS: 2 LSBS: 11 == -38
+Rice Param: 5
+MSBS: 1 LSBS: 7 == -20
+MSBS: 0 LSBS: 18 == 9
+MSBS: 0 LSBS: 6 == 3
+MSBS: 4 LSBS: 14 == 71
+Rice Param: 5
+MSBS: 0 LSBS: 4 == 2
+MSBS: 2 LSBS: 26 == 45
+MSBS: 1 LSBS: 23 == -28
+MSBS: 1 LSBS: 0 == 16
+Rice Param: 5
+MSBS: 2 LSBS: 9 == -37
+MSBS: 3 LSBS: 5 == -51
+MSBS: 2 LSBS: 17 == -41
+MSBS: 0 LSBS: 6 == 3
+Rice Param: 6
+MSBS: 1 LSBS: 25 == -45
+MSBS: 0 LSBS: 27 == -14
+MSBS: 3 LSBS: 42 == 117
+MSBS: 1 LSBS: 58 == 61
+Rice Param: 5
+MSBS: 4 LSBS: 12 == 70
+MSBS: 1 LSBS: 20 == 26
+MSBS: 0 LSBS: 18 == 9
+MSBS: 1 LSBS: 20 == 26
+Rice Param: 3
+MSBS: 17 LSBS: 1 == -69
+MSBS: 2 LSBS: 1 == -9
+MSBS: 2 LSBS: 5 == -11
+MSBS: 1 LSBS: 7 == -8
+Rice Param: 4
+MSBS: 1 LSBS: 10 == 13
+MSBS: 2 LSBS: 9 == -21
+MSBS: 0 LSBS: 13 == -7
+MSBS: 4 LSBS: 9 == -37
+Rice Param: 6
+MSBS: 0 LSBS: 16 == 8
+MSBS: 2 LSBS: 15 == -72
+MSBS: 0 LSBS: 43 == -22
+MSBS: 2 LSBS: 0 == 64
+Rice Param: 4
+MSBS: 4 LSBS: 12 == 38
+MSBS: 4 LSBS: 2 == 33
+MSBS: 0 LSBS: 8 == 4
+MSBS: 0 LSBS: 15 == -8
+Rice Param: 6
+MSBS: 0 LSBS: 24 == 12
+MSBS: 1 LSBS: 39 == -52
+MSBS: 0 LSBS: 36 == 18
+MSBS: 0 LSBS: 34 == 17
+Rice Param: 4
+MSBS: 2 LSBS: 14 == 23
+MSBS: 0 LSBS: 0 == 0
+MSBS: 3 LSBS: 14 == 31
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 6
+MSBS: 0 LSBS: 2 == 1
+MSBS: 2 LSBS: 61 == -95
+MSBS: 0 LSBS: 60 == 30
+MSBS: 0 LSBS: 23 == -12
+Rice Param: 5
+MSBS: 0 LSBS: 22 == 11
+MSBS: 0 LSBS: 15 == -8
+MSBS: 1 LSBS: 24 == 28
+MSBS: 2 LSBS: 16 == 40
+Rice Param: 5
+MSBS: 2 LSBS: 13 == -39
+MSBS: 1 LSBS: 14 == 23
+MSBS: 1 LSBS: 0 == 16
+MSBS: 2 LSBS: 12 == 38
+Rice Param: 4
+MSBS: 3 LSBS: 12 == 30
+MSBS: 3 LSBS: 6 == 27
+MSBS: 1 LSBS: 13 == -15
+MSBS: 0 LSBS: 12 == 6
+Rice Param: 6
+MSBS: 0 LSBS: 39 == -20
+MSBS: 2 LSBS: 23 == -76
+MSBS: 2 LSBS: 5 == -67
+MSBS: 0 LSBS: 9 == -5
+Rice Param: 6
+MSBS: 1 LSBS: 14 == 39
+MSBS: 0 LSBS: 27 == -14
+MSBS: 0 LSBS: 57 == -29
+MSBS: 2 LSBS: 56 == 92
+Rice Param: 5
+MSBS: 2 LSBS: 24 == 44
+MSBS: 0 LSBS: 20 == 10
+MSBS: 1 LSBS: 16 == 24
+MSBS: 1 LSBS: 14 == 23
+Rice Param: 5
+MSBS: 1 LSBS: 14 == 23
+MSBS: 2 LSBS: 5 == -35
+MSBS: 2 LSBS: 18 == 41
+MSBS: 1 LSBS: 26 == 29
+Rice Param: 5
+MSBS: 0 LSBS: 30 == 15
+MSBS: 0 LSBS: 18 == 9
+MSBS: 2 LSBS: 12 == 38
+MSBS: 1 LSBS: 30 == 31
+Rice Param: 1
+MSBS: 31 LSBS: 1 == -32
+MSBS: 3 LSBS: 0 == 3
+MSBS: 2 LSBS: 1 == -3
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 3
+MSBS: 11 LSBS: 5 == -47
+MSBS: 4 LSBS: 2 == 17
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 2 == 1
+Rice Param: 5
+MSBS: 1 LSBS: 27 == -30
+MSBS: 2 LSBS: 7 == -36
+MSBS: 1 LSBS: 20 == 26
+MSBS: 2 LSBS: 23 == -44
+Rice Param: 5
+MSBS: 1 LSBS: 6 == 19
+MSBS: 1 LSBS: 29 == -31
+MSBS: 1 LSBS: 24 == 28
+MSBS: 2 LSBS: 17 == -41
+Rice Param: 4
+MSBS: 4 LSBS: 6 == 35
+MSBS: 0 LSBS: 3 == -2
+MSBS: 3 LSBS: 11 == -30
+MSBS: 0 LSBS: 7 == -4
+Rice Param: 6
+MSBS: 0 LSBS: 14 == 7
+MSBS: 2 LSBS: 44 == 86
+MSBS: 0 LSBS: 15 == -8
+MSBS: 0 LSBS: 34 == 17
+Rice Param: 6
+MSBS: 1 LSBS: 14 == 39
+MSBS: 0 LSBS: 27 == -14
+MSBS: 2 LSBS: 5 == -67
+MSBS: 1 LSBS: 53 == -59
+Rice Param: 6
+MSBS: 1 LSBS: 63 == -64
+MSBS: 0 LSBS: 45 == -23
+MSBS: 2 LSBS: 5 == -67
+MSBS: 0 LSBS: 40 == 20
+Rice Param: 6
+MSBS: 0 LSBS: 44 == 22
+MSBS: 0 LSBS: 34 == 17
+MSBS: 1 LSBS: 25 == -45
+MSBS: 1 LSBS: 36 == 50
+Rice Param: 5
+MSBS: 2 LSBS: 9 == -37
+MSBS: 1 LSBS: 4 == 18
+MSBS: 2 LSBS: 0 == 32
+MSBS: 2 LSBS: 26 == 45
+Rice Param: 6
+MSBS: 0 LSBS: 44 == 22
+MSBS: 1 LSBS: 10 == 37
+MSBS: 2 LSBS: 3 == -66
+MSBS: 0 LSBS: 62 == 31
+Rice Param: 3
+MSBS: 22 LSBS: 7 == -92
+MSBS: 1 LSBS: 0 == 4
+MSBS: 0 LSBS: 0 == 0
+MSBS: 3 LSBS: 4 == 14
+Rice Param: 3
+MSBS: 11 LSBS: 6 == 47
+MSBS: 2 LSBS: 5 == -11
+MSBS: 1 LSBS: 5 == -7
+MSBS: 2 LSBS: 1 == -9
+Rice Param: 5
+MSBS: 0 LSBS: 16 == 8
+MSBS: 2 LSBS: 7 == -36
+MSBS: 1 LSBS: 30 == 31
+MSBS: 1 LSBS: 26 == 29
+Rice Param: 4
+MSBS: 5 LSBS: 2 == 41
+MSBS: 4 LSBS: 1 == -33
+MSBS: 0 LSBS: 12 == 6
+MSBS: 0 LSBS: 9 == -5
+Rice Param: 5
+MSBS: 5 LSBS: 29 == -95
+MSBS: 3 LSBS: 1 == -49
+MSBS: 2 LSBS: 9 == -37
+MSBS: 0 LSBS: 23 == -12
+Rice Param: 4
+MSBS: 6 LSBS: 11 == -54
+MSBS: 2 LSBS: 4 == 18
+MSBS: 0 LSBS: 12 == 6
+MSBS: 4 LSBS: 3 == -34
+Rice Param: 5
+MSBS: 4 LSBS: 5 == -67
+MSBS: 0 LSBS: 20 == 10
+MSBS: 2 LSBS: 27 == -46
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 4
+MSBS: 1 LSBS: 7 == -12
+MSBS: 0 LSBS: 10 == 5
+MSBS: 2 LSBS: 4 == 18
+MSBS: 2 LSBS: 3 == -18
+Rice Param: 6
+MSBS: 1 LSBS: 63 == -64
+MSBS: 1 LSBS: 37 == -51
+MSBS: 1 LSBS: 2 == 33
+MSBS: 2 LSBS: 32 == 80
+Rice Param: 4
+MSBS: 10 LSBS: 10 == 85
+MSBS: 4 LSBS: 6 == 35
+MSBS: 0 LSBS: 14 == 7
+MSBS: 0 LSBS: 4 == 2
+Rice Param: 5
+MSBS: 2 LSBS: 11 == -38
+MSBS: 1 LSBS: 25 == -29
+MSBS: 1 LSBS: 12 == 22
+MSBS: 1 LSBS: 27 == -30
+Rice Param: 5
+MSBS: 2 LSBS: 0 == 32
+MSBS: 3 LSBS: 16 == 56
+MSBS: 1 LSBS: 1 == -17
+MSBS: 0 LSBS: 14 == 7
+Rice Param: 6
+MSBS: 2 LSBS: 55 == -92
+MSBS: 2 LSBS: 45 == -87
+MSBS: 1 LSBS: 9 == -37
+MSBS: 0 LSBS: 23 == -12
+Rice Param: 6
+MSBS: 0 LSBS: 58 == 29
+MSBS: 0 LSBS: 54 == 27
+MSBS: 2 LSBS: 0 == 64
+MSBS: 0 LSBS: 54 == 27
+Rice Param: 6
+MSBS: 0 LSBS: 6 == 3
+MSBS: 1 LSBS: 53 == -59
+MSBS: 0 LSBS: 6 == 3
+MSBS: 1 LSBS: 60 == 62
+Rice Param: 5
+MSBS: 0 LSBS: 10 == 5
+MSBS: 1 LSBS: 30 == 31
+MSBS: 2 LSBS: 22 == 43
+MSBS: 1 LSBS: 24 == 28
+Rice Param: 5
+MSBS: 0 LSBS: 4 == 2
+MSBS: 1 LSBS: 11 == -22
+MSBS: 1 LSBS: 21 == -27
+MSBS: 0 LSBS: 31 == -16
+Rice Param: 4
+MSBS: 11 LSBS: 1 == -89
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 6 == 19
+MSBS: 2 LSBS: 3 == -18
+Rice Param: 4
+MSBS: 6 LSBS: 8 == 52
+MSBS: 2 LSBS: 15 == -24
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 10 == 21
+Rice Param: 4
+MSBS: 6 LSBS: 0 == 48
+MSBS: 0 LSBS: 12 == 6
+MSBS: 0 LSBS: 14 == 7
+MSBS: 6 LSBS: 0 == 48
+Rice Param: 5
+MSBS: 1 LSBS: 14 == 23
+MSBS: 2 LSBS: 7 == -36
+MSBS: 0 LSBS: 19 == -10
+MSBS: 1 LSBS: 12 == 22
+Rice Param: 5
+MSBS: 0 LSBS: 24 == 12
+MSBS: 1 LSBS: 18 == 25
+MSBS: 1 LSBS: 2 == 17
+MSBS: 1 LSBS: 30 == 31
+Rice Param: 5
+MSBS: 0 LSBS: 17 == -9
+MSBS: 0 LSBS: 25 == -13
+MSBS: 1 LSBS: 3 == -18
+MSBS: 1 LSBS: 20 == 26
+Rice Param: 5
+MSBS: 0 LSBS: 25 == -13
+MSBS: 2 LSBS: 4 == 34
+MSBS: 0 LSBS: 3 == -2
+MSBS: 1 LSBS: 30 == 31
+Rice Param: 4
+MSBS: 5 LSBS: 6 == 43
+MSBS: 0 LSBS: 10 == 5
+MSBS: 1 LSBS: 9 == -13
+MSBS: 1 LSBS: 3 == -10
+Rice Param: 5
+MSBS: 1 LSBS: 14 == 23
+MSBS: 1 LSBS: 24 == 28
+MSBS: 0 LSBS: 3 == -2
+MSBS: 1 LSBS: 24 == 28
+Rice Param: 5
+MSBS: 4 LSBS: 8 == 68
+MSBS: 2 LSBS: 8 == 36
+MSBS: 0 LSBS: 27 == -14
+MSBS: 1 LSBS: 4 == 18
+Rice Param: 6
+MSBS: 1 LSBS: 13 == -39
+MSBS: 1 LSBS: 32 == 48
+MSBS: 0 LSBS: 45 == -23
+MSBS: 2 LSBS: 36 == 82
+Rice Param: 4
+MSBS: 0 LSBS: 9 == -5
+MSBS: 0 LSBS: 1 == -1
+MSBS: 4 LSBS: 6 == 35
+MSBS: 0 LSBS: 9 == -5
+Rice Param: 5
+MSBS: 1 LSBS: 14 == 23
+MSBS: 2 LSBS: 29 == -47
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 29 == -31
+Rice Param: 5
+MSBS: 0 LSBS: 2 == 1
+MSBS: 0 LSBS: 10 == 5
+MSBS: 2 LSBS: 0 == 32
+MSBS: 2 LSBS: 15 == -40
+Rice Param: 4
+MSBS: 0 LSBS: 9 == -5
+MSBS: 3 LSBS: 9 == -29
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 15 == -8
+Rice Param: 5
+MSBS: 3 LSBS: 15 == -56
+MSBS: 4 LSBS: 18 == 73
+MSBS: 2 LSBS: 19 == -42
+MSBS: 0 LSBS: 13 == -7
+Rice Param: 4
+MSBS: 5 LSBS: 7 == -44
+MSBS: 1 LSBS: 1 == -9
+MSBS: 1 LSBS: 3 == -10
+MSBS: 1 LSBS: 11 == -14
+Rice Param: 4
+MSBS: 7 LSBS: 2 == 57
+MSBS: 1 LSBS: 15 == -16
+MSBS: 2 LSBS: 2 == 17
+MSBS: 0 LSBS: 15 == -8
+Rice Param: 4
+MSBS: 4 LSBS: 3 == -34
+MSBS: 2 LSBS: 2 == 17
+MSBS: 1 LSBS: 6 == 11
+MSBS: 1 LSBS: 12 == 14
+Rice Param: 5
+MSBS: 2 LSBS: 27 == -46
+MSBS: 3 LSBS: 6 == 51
+MSBS: 0 LSBS: 11 == -6
+MSBS: 1 LSBS: 16 == 24
+Rice Param: 4
+MSBS: 3 LSBS: 0 == 24
+MSBS: 3 LSBS: 2 == 25
+MSBS: 2 LSBS: 12 == 22
+MSBS: 0 LSBS: 5 == -3
+Rice Param: 5
+MSBS: 0 LSBS: 11 == -6
+MSBS: 1 LSBS: 16 == 24
+MSBS: 1 LSBS: 31 == -32
+MSBS: 2 LSBS: 6 == 35
+Rice Param: 5
+MSBS: 0 LSBS: 17 == -9
+MSBS: 0 LSBS: 29 == -15
+MSBS: 0 LSBS: 18 == 9
+MSBS: 3 LSBS: 5 == -51
+Rice Param: 5
+MSBS: 0 LSBS: 16 == 8
+MSBS: 2 LSBS: 29 == -47
+MSBS: 1 LSBS: 28 == 30
+MSBS: 1 LSBS: 29 == -31
+Rice Param: 5
+MSBS: 1 LSBS: 27 == -30
+MSBS: 1 LSBS: 3 == -18
+MSBS: 1 LSBS: 13 == -23
+MSBS: 2 LSBS: 8 == 36
+Rice Param: 4
+MSBS: 4 LSBS: 11 == -38
+MSBS: 3 LSBS: 3 == -26
+MSBS: 1 LSBS: 7 == -12
+MSBS: 0 LSBS: 4 == 2
+Rice Param: 4
+MSBS: 1 LSBS: 7 == -12
+MSBS: 0 LSBS: 3 == -2
+MSBS: 0 LSBS: 9 == -5
+MSBS: 5 LSBS: 8 == 44
+Rice Param: 5
+MSBS: 0 LSBS: 21 == -11
+MSBS: 0 LSBS: 8 == 4
+MSBS: 2 LSBS: 7 == -36
+MSBS: 3 LSBS: 26 == 61
+Rice Param: 3
+MSBS: 4 LSBS: 4 == 18
+MSBS: 0 LSBS: 6 == 3
+MSBS: 3 LSBS: 3 == -14
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 6
+MSBS: 1 LSBS: 13 == -39
+MSBS: 1 LSBS: 39 == -52
+MSBS: 1 LSBS: 13 == -39
+MSBS: 0 LSBS: 49 == -25
+Rice Param: 6
+MSBS: 0 LSBS: 55 == -28
+MSBS: 2 LSBS: 34 == 81
+MSBS: 2 LSBS: 40 == 84
+MSBS: 2 LSBS: 62 == 95
+Rice Param: 6
+MSBS: 0 LSBS: 28 == 14
+MSBS: 2 LSBS: 10 == 69
+MSBS: 1 LSBS: 41 == -53
+MSBS: 0 LSBS: 11 == -6
+Rice Param: 6
+MSBS: 1 LSBS: 53 == -59
+MSBS: 0 LSBS: 41 == -21
+MSBS: 1 LSBS: 22 == 43
+MSBS: 1 LSBS: 33 == -49
+Rice Param: 6
+MSBS: 1 LSBS: 18 == 41
+MSBS: 1 LSBS: 11 == -38
+MSBS: 1 LSBS: 35 == -50
+MSBS: 1 LSBS: 11 == -38
+Rice Param: 6
+MSBS: 1 LSBS: 13 == -39
+MSBS: 1 LSBS: 32 == 48
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 56 == 60
+Rice Param: 6
+MSBS: 0 LSBS: 14 == 7
+MSBS: 2 LSBS: 52 == 90
+MSBS: 1 LSBS: 25 == -45
+MSBS: 0 LSBS: 39 == -20
+Rice Param: 3
+MSBS: 2 LSBS: 5 == -11
+MSBS: 3 LSBS: 3 == -14
+MSBS: 1 LSBS: 7 == -8
+MSBS: 0 LSBS: 6 == 3
+Rice Param: 5
+MSBS: 1 LSBS: 18 == 25
+MSBS: 2 LSBS: 16 == 40
+MSBS: 0 LSBS: 23 == -12
+MSBS: 0 LSBS: 21 == -11
+Rice Param: 5
+MSBS: 0 LSBS: 25 == -13
+MSBS: 1 LSBS: 9 == -21
+MSBS: 0 LSBS: 30 == 15
+MSBS: 3 LSBS: 24 == 60
+Rice Param: 6
+MSBS: 0 LSBS: 26 == 13
+MSBS: 1 LSBS: 56 == 60
+MSBS: 1 LSBS: 1 == -33
+MSBS: 2 LSBS: 32 == 80
+Rice Param: 6
+MSBS: 1 LSBS: 57 == -61
+MSBS: 0 LSBS: 48 == 24
+MSBS: 1 LSBS: 63 == -64
+MSBS: 2 LSBS: 20 == 74
+Rice Param: 5
+MSBS: 0 LSBS: 18 == 9
+MSBS: 0 LSBS: 20 == 10
+MSBS: 0 LSBS: 9 == -5
+MSBS: 3 LSBS: 7 == -52
+Rice Param: 7
+MSBS: 0 LSBS: 43 == -22
+MSBS: 1 LSBS: 79 == -104
+MSBS: 0 LSBS: 78 == 39
+MSBS: 1 LSBS: 3 == -66
+Rice Param: 6
+MSBS: 0 LSBS: 20 == 10
+MSBS: 0 LSBS: 38 == 19
+MSBS: 1 LSBS: 52 == 58
+MSBS: 2 LSBS: 8 == 68
+Rice Param: 5
+MSBS: 0 LSBS: 4 == 2
+MSBS: 0 LSBS: 2 == 1
+MSBS: 2 LSBS: 20 == 42
+MSBS: 1 LSBS: 6 == 19
+Rice Param: 5
+MSBS: 0 LSBS: 27 == -14
+MSBS: 0 LSBS: 8 == 4
+MSBS: 2 LSBS: 20 == 42
+MSBS: 0 LSBS: 18 == 9
+Rice Param: 4
+MSBS: 4 LSBS: 4 == 34
+MSBS: 1 LSBS: 15 == -16
+MSBS: 4 LSBS: 8 == 36
+MSBS: 0 LSBS: 5 == -3
+Rice Param: 4
+MSBS: 0 LSBS: 12 == 6
+MSBS: 1 LSBS: 13 == -15
+MSBS: 3 LSBS: 15 == -32
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 6
+MSBS: 0 LSBS: 9 == -5
+MSBS: 0 LSBS: 53 == -27
+MSBS: 1 LSBS: 54 == 59
+MSBS: 1 LSBS: 51 == -58
+Rice Param: 4
+MSBS: 2 LSBS: 2 == 17
+MSBS: 2 LSBS: 10 == 21
+MSBS: 0 LSBS: 15 == -8
+MSBS: 0 LSBS: 7 == -4
+Rice Param: 5
+MSBS: 1 LSBS: 29 == -31
+MSBS: 1 LSBS: 14 == 23
+MSBS: 3 LSBS: 21 == -59
+MSBS: 0 LSBS: 30 == 15
+Rice Param: 4
+MSBS: 2 LSBS: 0 == 16
+MSBS: 2 LSBS: 12 == 22
+MSBS: 2 LSBS: 1 == -17
+MSBS: 2 LSBS: 15 == -24
+Rice Param: 4
+MSBS: 10 LSBS: 2 == 81
+MSBS: 0 LSBS: 9 == -5
+MSBS: 2 LSBS: 6 == 19
+MSBS: 1 LSBS: 0 == 8
+Rice Param: 7
+MSBS: 0 LSBS: 45 == -23
+MSBS: 0 LSBS: 43 == -22
+MSBS: 1 LSBS: 9 == -69
+MSBS: 2 LSBS: 71 == -164
+Rice Param: 5
+MSBS: 0 LSBS: 12 == 6
+MSBS: 4 LSBS: 5 == -67
+MSBS: 0 LSBS: 3 == -2
+MSBS: 1 LSBS: 5 == -19
+Rice Param: 6
+MSBS: 0 LSBS: 50 == 25
+MSBS: 1 LSBS: 40 == 52
+MSBS: 1 LSBS: 37 == -51
+MSBS: 0 LSBS: 38 == 19
+Rice Param: 6
+MSBS: 1 LSBS: 5 == -35
+MSBS: 2 LSBS: 28 == 78
+MSBS: 0 LSBS: 6 == 3
+MSBS: 1 LSBS: 44 == 54
+Rice Param: 5
+MSBS: 2 LSBS: 10 == 37
+MSBS: 1 LSBS: 31 == -32
+MSBS: 1 LSBS: 6 == 19
+MSBS: 2 LSBS: 23 == -44
+Rice Param: 5
+MSBS: 3 LSBS: 27 == -62
+MSBS: 0 LSBS: 24 == 12
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 26 == 45
+Rice Param: 6
+MSBS: 0 LSBS: 15 == -8
+MSBS: 1 LSBS: 0 == 32
+MSBS: 1 LSBS: 43 == -54
+MSBS: 0 LSBS: 40 == 20
+Rice Param: 5
+MSBS: 4 LSBS: 11 == -70
+MSBS: 2 LSBS: 30 == 47
+MSBS: 1 LSBS: 8 == 20
+MSBS: 1 LSBS: 13 == -23
+Rice Param: 6
+MSBS: 1 LSBS: 4 == 34
+MSBS: 0 LSBS: 35 == -18
+MSBS: 0 LSBS: 43 == -22
+MSBS: 1 LSBS: 61 == -63
+Rice Param: 5
+MSBS: 4 LSBS: 9 == -69
+MSBS: 2 LSBS: 27 == -46
+MSBS: 0 LSBS: 23 == -12
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 5
+MSBS: 5 LSBS: 3 == -82
+MSBS: 1 LSBS: 10 == 21
+MSBS: 1 LSBS: 9 == -21
+MSBS: 1 LSBS: 27 == -30
+Rice Param: 5
+MSBS: 3 LSBS: 21 == -59
+MSBS: 4 LSBS: 3 == -66
+MSBS: 0 LSBS: 24 == 12
+MSBS: 1 LSBS: 21 == -27
+Rice Param: 2
+MSBS: 23 LSBS: 0 == 46
+MSBS: 4 LSBS: 1 == -9
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 1 == -3
+Rice Param: 6
+MSBS: 0 LSBS: 36 == 18
+MSBS: 1 LSBS: 8 == 36
+MSBS: 0 LSBS: 19 == -10
+MSBS: 3 LSBS: 42 == 117
+Rice Param: 5
+MSBS: 2 LSBS: 24 == 44
+MSBS: 1 LSBS: 8 == 20
+MSBS: 1 LSBS: 17 == -25
+MSBS: 2 LSBS: 25 == -45
+Rice Param: 4
+MSBS: 0 LSBS: 1 == -1
+MSBS: 3 LSBS: 7 == -28
+MSBS: 2 LSBS: 11 == -22
+MSBS: 0 LSBS: 14 == 7
+Rice Param: 5
+MSBS: 2 LSBS: 2 == 33
+MSBS: 0 LSBS: 5 == -3
+MSBS: 2 LSBS: 23 == -44
+MSBS: 0 LSBS: 22 == 11
+Rice Param: 5
+MSBS: 3 LSBS: 5 == -51
+MSBS: 0 LSBS: 18 == 9
+MSBS: 0 LSBS: 5 == -3
+MSBS: 4 LSBS: 10 == 69
+Rice Param: 5
+MSBS: 1 LSBS: 7 == -20
+MSBS: 3 LSBS: 8 == 52
+MSBS: 0 LSBS: 12 == 6
+MSBS: 0 LSBS: 17 == -9
+Rice Param: 3
+MSBS: 5 LSBS: 2 == 21
+MSBS: 1 LSBS: 1 == -5
+MSBS: 2 LSBS: 6 == 11
+MSBS: 2 LSBS: 6 == 11
+Rice Param: 5
+MSBS: 1 LSBS: 28 == 30
+MSBS: 3 LSBS: 2 == 49
+MSBS: 0 LSBS: 28 == 14
+MSBS: 0 LSBS: 13 == -7
+Rice Param: 5
+MSBS: 0 LSBS: 1 == -1
+MSBS: 0 LSBS: 17 == -9
+MSBS: 2 LSBS: 4 == 34
+MSBS: 1 LSBS: 23 == -28
+Rice Param: 6
+MSBS: 1 LSBS: 31 == -48
+MSBS: 0 LSBS: 46 == 23
+MSBS: 0 LSBS: 42 == 21
+MSBS: 1 LSBS: 57 == -61
+Rice Param: 5
+MSBS: 0 LSBS: 5 == -3
+MSBS: 0 LSBS: 11 == -6
+MSBS: 4 LSBS: 4 == 66
+MSBS: 2 LSBS: 2 == 33
+Rice Param: 5
+MSBS: 0 LSBS: 18 == 9
+MSBS: 1 LSBS: 4 == 18
+MSBS: 0 LSBS: 10 == 5
+MSBS: 3 LSBS: 16 == 56
+Rice Param: 5
+MSBS: 0 LSBS: 24 == 12
+MSBS: 0 LSBS: 10 == 5
+MSBS: 1 LSBS: 27 == -30
+MSBS: 2 LSBS: 20 == 42
+Rice Param: 5
+MSBS: 4 LSBS: 20 == 74
+MSBS: 2 LSBS: 7 == -36
+MSBS: 2 LSBS: 16 == 40
+MSBS: 0 LSBS: 31 == -16
+Rice Param: 5
+MSBS: 1 LSBS: 10 == 21
+MSBS: 3 LSBS: 3 == -50
+MSBS: 0 LSBS: 4 == 2
+MSBS: 1 LSBS: 8 == 20
+Rice Param: 5
+MSBS: 0 LSBS: 22 == 11
+MSBS: 2 LSBS: 0 == 32
+MSBS: 1 LSBS: 8 == 20
+MSBS: 1 LSBS: 24 == 28
+Rice Param: 3
+MSBS: 5 LSBS: 0 == 20
+MSBS: 4 LSBS: 2 == 17
+MSBS: 2 LSBS: 6 == 11
+MSBS: 0 LSBS: 6 == 3
+Rice Param: 6
+MSBS: 0 LSBS: 8 == 4
+MSBS: 0 LSBS: 19 == -10
+MSBS: 1 LSBS: 56 == 60
+MSBS: 1 LSBS: 48 == 56
+Rice Param: 6
+MSBS: 1 LSBS: 46 == 55
+MSBS: 1 LSBS: 37 == -51
+MSBS: 0 LSBS: 52 == 26
+MSBS: 1 LSBS: 45 == -55
+Rice Param: 5
+MSBS: 1 LSBS: 7 == -20
+MSBS: 0 LSBS: 9 == -5
+MSBS: 2 LSBS: 0 == 32
+MSBS: 4 LSBS: 24 == 76
+Rice Param: 5
+MSBS: 4 LSBS: 0 == 64
+MSBS: 0 LSBS: 17 == -9
+MSBS: 3 LSBS: 4 == 50
+MSBS: 0 LSBS: 31 == -16
+Rice Param: 5
+MSBS: 1 LSBS: 3 == -18
+MSBS: 3 LSBS: 31 == -64
+MSBS: 0 LSBS: 21 == -11
+MSBS: 0 LSBS: 12 == 6
+Rice Param: 5
+MSBS: 1 LSBS: 15 == -24
+MSBS: 0 LSBS: 25 == -13
+MSBS: 0 LSBS: 28 == 14
+MSBS: 1 LSBS: 30 == 31
+Rice Param: 6
+MSBS: 0 LSBS: 63 == -32
+MSBS: 1 LSBS: 23 == -44
+MSBS: 1 LSBS: 37 == -51
+MSBS: 0 LSBS: 36 == 18
+Rice Param: 5
+MSBS: 0 LSBS: 31 == -16
+MSBS: 1 LSBS: 21 == -27
+MSBS: 0 LSBS: 26 == 13
+MSBS: 0 LSBS: 20 == 10
+Rice Param: 5
+MSBS: 1 LSBS: 29 == -31
+MSBS: 3 LSBS: 3 == -50
+MSBS: 0 LSBS: 8 == 4
+MSBS: 2 LSBS: 1 == -33
+Rice Param: 5
+MSBS: 1 LSBS: 3 == -18
+MSBS: 1 LSBS: 23 == -28
+MSBS: 0 LSBS: 22 == 11
+MSBS: 1 LSBS: 10 == 21
+Rice Param: 6
+MSBS: 0 LSBS: 13 == -7
+MSBS: 2 LSBS: 8 == 68
+MSBS: 0 LSBS: 19 == -10
+MSBS: 1 LSBS: 42 == 53
+Rice Param: 4
+MSBS: 8 LSBS: 9 == -69
+MSBS: 1 LSBS: 3 == -10
+MSBS: 2 LSBS: 10 == 21
+MSBS: 1 LSBS: 13 == -15
+Rice Param: 3
+MSBS: 16 LSBS: 6 == 67
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 0 == 0
+MSBS: 3 LSBS: 0 == 12
+Rice Param: 5
+MSBS: 1 LSBS: 9 == -21
+MSBS: 0 LSBS: 10 == 5
+MSBS: 0 LSBS: 25 == -13
+MSBS: 3 LSBS: 2 == 49
+Rice Param: 4
+MSBS: 9 LSBS: 11 == -78
+MSBS: 1 LSBS: 12 == 14
+MSBS: 1 LSBS: 15 == -16
+MSBS: 2 LSBS: 11 == -22
+Rice Param: 4
+MSBS: 3 LSBS: 3 == -26
+MSBS: 2 LSBS: 1 == -17
+MSBS: 2 LSBS: 10 == 21
+MSBS: 2 LSBS: 3 == -18
+Rice Param: 5
+MSBS: 4 LSBS: 5 == -67
+MSBS: 2 LSBS: 8 == 36
+MSBS: 3 LSBS: 21 == -59
+MSBS: 0 LSBS: 28 == 14
+Rice Param: 6
+MSBS: 1 LSBS: 9 == -37
+MSBS: 0 LSBS: 59 == -30
+MSBS: 1 LSBS: 56 == 60
+MSBS: 0 LSBS: 63 == -32
+Rice Param: 4
+MSBS: 6 LSBS: 6 == 51
+MSBS: 2 LSBS: 14 == 23
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 1 == -9
+Rice Param: 4
+MSBS: 2 LSBS: 15 == -24
+MSBS: 0 LSBS: 3 == -2
+MSBS: 4 LSBS: 2 == 33
+MSBS: 0 LSBS: 4 == 2
+Rice Param: 5
+MSBS: 2 LSBS: 2 == 33
+MSBS: 0 LSBS: 19 == -10
+MSBS: 2 LSBS: 0 == 32
+MSBS: 2 LSBS: 3 == -34
+Rice Param: 6
+MSBS: 0 LSBS: 41 == -21
+MSBS: 1 LSBS: 51 == -58
+MSBS: 1 LSBS: 59 == -62
+MSBS: 0 LSBS: 11 == -6
+Rice Param: 7
+MSBS: 0 LSBS: 44 == 22
+MSBS: 1 LSBS: 36 == 82
+MSBS: 0 LSBS: 98 == 49
+MSBS: 1 LSBS: 72 == 100
+Rice Param: 4
+MSBS: 1 LSBS: 12 == 14
+MSBS: 0 LSBS: 14 == 7
+MSBS: 0 LSBS: 6 == 3
+MSBS: 6 LSBS: 5 == -51
+Rice Param: 5
+MSBS: 0 LSBS: 21 == -11
+MSBS: 1 LSBS: 7 == -20
+MSBS: 2 LSBS: 14 == 39
+MSBS: 0 LSBS: 23 == -12
+Rice Param: 5
+MSBS: 2 LSBS: 29 == -47
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 1 == -33
+MSBS: 1 LSBS: 21 == -27
+Rice Param: 6
+MSBS: 0 LSBS: 27 == -14
+MSBS: 1 LSBS: 42 == 53
+MSBS: 0 LSBS: 19 == -10
+MSBS: 2 LSBS: 34 == 81
+Rice Param: 3
+MSBS: 7 LSBS: 0 == 28
+MSBS: 3 LSBS: 3 == -14
+MSBS: 2 LSBS: 4 == 10
+MSBS: 0 LSBS: 4 == 2
+Rice Param: 4
+MSBS: 1 LSBS: 15 == -16
+MSBS: 1 LSBS: 3 == -10
+MSBS: 2 LSBS: 14 == 23
+MSBS: 1 LSBS: 14 == 15
+Rice Param: 4
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 13 == -7
+MSBS: 0 LSBS: 6 == 3
+MSBS: 6 LSBS: 5 == -51
+Rice Param: 4
+MSBS: 0 LSBS: 11 == -6
+MSBS: 1 LSBS: 11 == -14
+MSBS: 2 LSBS: 2 == 17
+MSBS: 1 LSBS: 0 == 8
+Rice Param: 4
+MSBS: 0 LSBS: 10 == 5
+MSBS: 6 LSBS: 2 == 49
+MSBS: 0 LSBS: 9 == -5
+MSBS: 0 LSBS: 8 == 4
+Rice Param: 6
+MSBS: 0 LSBS: 3 == -2
+MSBS: 1 LSBS: 56 == 60
+MSBS: 0 LSBS: 11 == -6
+MSBS: 1 LSBS: 32 == 48
+Rice Param: 5
+MSBS: 0 LSBS: 15 == -8
+MSBS: 0 LSBS: 12 == 6
+MSBS: 2 LSBS: 3 == -34
+MSBS: 2 LSBS: 17 == -41
+Rice Param: 4
+MSBS: 9 LSBS: 3 == -74
+MSBS: 2 LSBS: 7 == -20
+MSBS: 0 LSBS: 6 == 3
+MSBS: 2 LSBS: 8 == 20
+Rice Param: 6
+MSBS: 0 LSBS: 31 == -16
+MSBS: 2 LSBS: 44 == 86
+MSBS: 1 LSBS: 2 == 33
+MSBS: 0 LSBS: 24 == 12
+Rice Param: 4
+MSBS: 3 LSBS: 8 == 28
+MSBS: 2 LSBS: 4 == 18
+MSBS: 2 LSBS: 4 == 18
+MSBS: 2 LSBS: 8 == 20
+Rice Param: 4
+MSBS: 3 LSBS: 14 == 31
+MSBS: 2 LSBS: 8 == 20
+MSBS: 2 LSBS: 2 == 17
+MSBS: 0 LSBS: 13 == -7
+Rice Param: 6
+MSBS: 1 LSBS: 6 == 35
+MSBS: 1 LSBS: 11 == -38
+MSBS: 1 LSBS: 42 == 53
+MSBS: 1 LSBS: 33 == -49
+Rice Param: 4
+MSBS: 5 LSBS: 12 == 46
+MSBS: 4 LSBS: 9 == -37
+MSBS: 2 LSBS: 13 == -23
+MSBS: 0 LSBS: 15 == -8
+Rice Param: 5
+MSBS: 2 LSBS: 9 == -37
+MSBS: 1 LSBS: 16 == 24
+MSBS: 2 LSBS: 17 == -41
+MSBS: 2 LSBS: 4 == 34
+Rice Param: 5
+MSBS: 1 LSBS: 17 == -25
+MSBS: 0 LSBS: 27 == -14
+MSBS: 1 LSBS: 12 == 22
+MSBS: 3 LSBS: 9 == -53
+Rice Param: 5
+MSBS: 0 LSBS: 26 == 13
+MSBS: 0 LSBS: 29 == -15
+MSBS: 0 LSBS: 29 == -15
+MSBS: 1 LSBS: 21 == -27
+Rice Param: 5
+MSBS: 0 LSBS: 29 == -15
+MSBS: 3 LSBS: 0 == 48
+MSBS: 0 LSBS: 17 == -9
+MSBS: 0 LSBS: 19 == -10
+Rice Param: 4
+MSBS: 7 LSBS: 0 == 56
+MSBS: 4 LSBS: 4 == 34
+MSBS: 0 LSBS: 12 == 6
+MSBS: 0 LSBS: 9 == -5
+Rice Param: 6
+MSBS: 0 LSBS: 11 == -6
+MSBS: 0 LSBS: 11 == -6
+MSBS: 2 LSBS: 21 == -75
+MSBS: 2 LSBS: 53 == -91
+Rice Param: 4
+MSBS: 0 LSBS: 10 == 5
+MSBS: 2 LSBS: 9 == -21
+MSBS: 2 LSBS: 15 == -24
+MSBS: 0 LSBS: 5 == -3
+Rice Param: 6
+MSBS: 0 LSBS: 9 == -5
+MSBS: 2 LSBS: 14 == 71
+MSBS: 1 LSBS: 3 == -34
+MSBS: 0 LSBS: 45 == -23
+Rice Param: 6
+MSBS: 1 LSBS: 18 == 41
+MSBS: 0 LSBS: 34 == 17
+MSBS: 2 LSBS: 12 == 70
+MSBS: 0 LSBS: 34 == 17
+Rice Param: 6
+MSBS: 0 LSBS: 1 == -1
+MSBS: 0 LSBS: 17 == -9
+MSBS: 2 LSBS: 47 == -88
+MSBS: 0 LSBS: 36 == 18
+Rice Param: 4
+MSBS: 4 LSBS: 5 == -35
+MSBS: 0 LSBS: 12 == 6
+MSBS: 1 LSBS: 10 == 13
+MSBS: 4 LSBS: 2 == 33
+Rice Param: 5
+MSBS: 0 LSBS: 26 == 13
+MSBS: 2 LSBS: 13 == -39
+MSBS: 0 LSBS: 28 == 14
+MSBS: 3 LSBS: 11 == -54
+Rice Param: 4
+MSBS: 3 LSBS: 14 == 31
+MSBS: 0 LSBS: 0 == 0
+MSBS: 3 LSBS: 14 == 31
+MSBS: 1 LSBS: 1 == -9
+Rice Param: 5
+MSBS: 1 LSBS: 4 == 18
+MSBS: 0 LSBS: 9 == -5
+MSBS: 1 LSBS: 21 == -27
+MSBS: 2 LSBS: 25 == -45
+Rice Param: 5
+MSBS: 6 LSBS: 3 == -98
+MSBS: 2 LSBS: 3 == -34
+MSBS: 1 LSBS: 23 == -28
+MSBS: 1 LSBS: 5 == -19
+Rice Param: 5
+MSBS: 1 LSBS: 7 == -20
+MSBS: 0 LSBS: 28 == 14
+MSBS: 0 LSBS: 5 == -3
+MSBS: 3 LSBS: 25 == -61
+Rice Param: 4
+MSBS: 4 LSBS: 15 == -40
+MSBS: 1 LSBS: 1 == -9
+MSBS: 1 LSBS: 10 == 13
+MSBS: 2 LSBS: 11 == -22
+Rice Param: 6
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 42 == 53
+MSBS: 1 LSBS: 7 == -36
+MSBS: 1 LSBS: 21 == -43
+Rice Param: 6
+MSBS: 0 LSBS: 8 == 4
+MSBS: 0 LSBS: 60 == 30
+MSBS: 2 LSBS: 52 == 90
+MSBS: 0 LSBS: 30 == 15
+Rice Param: 5
+MSBS: 0 LSBS: 18 == 9
+MSBS: 1 LSBS: 2 == 17
+MSBS: 0 LSBS: 6 == 3
+MSBS: 3 LSBS: 17 == -57
+Rice Param: 5
+MSBS: 1 LSBS: 29 == -31
+MSBS: 1 LSBS: 19 == -26
+MSBS: 2 LSBS: 30 == 47
+MSBS: 2 LSBS: 12 == 38
+Rice Param: 4
+MSBS: 1 LSBS: 7 == -12
+MSBS: 1 LSBS: 14 == 15
+MSBS: 3 LSBS: 3 == -26
+MSBS: 0 LSBS: 11 == -6
+Rice Param: 4
+MSBS: 3 LSBS: 13 == -31
+MSBS: 0 LSBS: 13 == -7
+MSBS: 0 LSBS: 13 == -7
+MSBS: 3 LSBS: 6 == 27
+Rice Param: 5
+MSBS: 0 LSBS: 28 == 14
+MSBS: 0 LSBS: 31 == -16
+MSBS: 0 LSBS: 27 == -14
+MSBS: 1 LSBS: 16 == 24
+Rice Param: 5
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 9 == -5
+MSBS: 2 LSBS: 24 == 44
+MSBS: 1 LSBS: 24 == 28
+Rice Param: 5
+MSBS: 4 LSBS: 0 == 64
+MSBS: 1 LSBS: 25 == -29
+MSBS: 2 LSBS: 11 == -38
+MSBS: 0 LSBS: 18 == 9
+Rice Param: 5
+MSBS: 2 LSBS: 21 == -43
+MSBS: 2 LSBS: 18 == 41
+MSBS: 0 LSBS: 27 == -14
+MSBS: 1 LSBS: 4 == 18
+Rice Param: 4
+MSBS: 4 LSBS: 13 == -39
+MSBS: 4 LSBS: 15 == -40
+MSBS: 0 LSBS: 12 == 6
+MSBS: 2 LSBS: 5 == -19
+Rice Param: 5
+MSBS: 1 LSBS: 29 == -31
+MSBS: 1 LSBS: 16 == 24
+MSBS: 4 LSBS: 12 == 70
+MSBS: 0 LSBS: 2 == 1
+Rice Param: 5
+MSBS: 1 LSBS: 12 == 22
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 24 == 44
+MSBS: 0 LSBS: 22 == 11
+Rice Param: 5
+MSBS: 0 LSBS: 14 == 7
+MSBS: 2 LSBS: 13 == -39
+MSBS: 0 LSBS: 4 == 2
+MSBS: 3 LSBS: 2 == 49
+Rice Param: 5
+MSBS: 0 LSBS: 22 == 11
+MSBS: 1 LSBS: 18 == 25
+MSBS: 0 LSBS: 4 == 2
+MSBS: 1 LSBS: 20 == 26
+Rice Param: 4
+MSBS: 0 LSBS: 5 == -3
+MSBS: 1 LSBS: 10 == 13
+MSBS: 0 LSBS: 14 == 7
+MSBS: 3 LSBS: 7 == -28
+Rice Param: 5
+MSBS: 0 LSBS: 18 == 9
+MSBS: 1 LSBS: 24 == 28
+MSBS: 1 LSBS: 4 == 18
+MSBS: 1 LSBS: 28 == 30
+Rice Param: 4
+MSBS: 0 LSBS: 4 == 2
+MSBS: 0 LSBS: 14 == 7
+MSBS: 1 LSBS: 10 == 13
+MSBS: 0 LSBS: 12 == 6
+Rice Param: 4
+MSBS: 1 LSBS: 0 == 8
+MSBS: 0 LSBS: 8 == 4
+MSBS: 2 LSBS: 4 == 18
+MSBS: 4 LSBS: 2 == 33
+Rice Param: 5
+MSBS: 2 LSBS: 12 == 38
+MSBS: 2 LSBS: 18 == 41
+MSBS: 0 LSBS: 2 == 1
+MSBS: 1 LSBS: 31 == -32
+Rice Param: 5
+MSBS: 2 LSBS: 4 == 34
+MSBS: 0 LSBS: 22 == 11
+MSBS: 1 LSBS: 30 == 31
+MSBS: 1 LSBS: 18 == 25
+Rice Param: 4
+MSBS: 6 LSBS: 10 == 53
+MSBS: 0 LSBS: 11 == -6
+MSBS: 1 LSBS: 11 == -14
+MSBS: 4 LSBS: 11 == -38
+Rice Param: 5
+MSBS: 4 LSBS: 21 == -75
+MSBS: 1 LSBS: 25 == -29
+MSBS: 0 LSBS: 8 == 4
+MSBS: 1 LSBS: 30 == 31
+Rice Param: 4
+MSBS: 2 LSBS: 3 == -18
+MSBS: 0 LSBS: 7 == -4
+MSBS: 3 LSBS: 12 == 30
+MSBS: 2 LSBS: 4 == 18
+Rice Param: 5
+MSBS: 1 LSBS: 21 == -27
+MSBS: 3 LSBS: 21 == -59
+MSBS: 0 LSBS: 9 == -5
+MSBS: 1 LSBS: 24 == 28
+Rice Param: 5
+MSBS: 0 LSBS: 26 == 13
+MSBS: 2 LSBS: 7 == -36
+MSBS: 1 LSBS: 9 == -21
+MSBS: 0 LSBS: 30 == 15
+Rice Param: 4
+MSBS: 6 LSBS: 1 == -49
+MSBS: 5 LSBS: 13 == -47
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 12 == 6
+Rice Param: 5
+MSBS: 3 LSBS: 20 == 58
+MSBS: 0 LSBS: 31 == -16
+MSBS: 3 LSBS: 10 == 53
+MSBS: 2 LSBS: 21 == -43
+Rice Param: 4
+MSBS: 4 LSBS: 1 == -33
+MSBS: 4 LSBS: 12 == 38
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 16
+Rice Param: 6
+MSBS: 0 LSBS: 50 == 25
+MSBS: 1 LSBS: 13 == -39
+MSBS: 0 LSBS: 44 == 22
+MSBS: 1 LSBS: 48 == 56
+Rice Param: 5
+MSBS: 3 LSBS: 22 == 59
+MSBS: 2 LSBS: 7 == -36
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 20 == 42
+Rice Param: 6
+MSBS: 1 LSBS: 3 == -34
+MSBS: 0 LSBS: 59 == -30
+MSBS: 1 LSBS: 38 == 51
+MSBS: 1 LSBS: 39 == -52
+Rice Param: 6
+MSBS: 0 LSBS: 58 == 29
+MSBS: 2 LSBS: 17 == -73
+MSBS: 1 LSBS: 16 == 40
+MSBS: 2 LSBS: 21 == -75
+Rice Param: 5
+MSBS: 0 LSBS: 21 == -11
+MSBS: 1 LSBS: 2 == 17
+MSBS: 2 LSBS: 31 == -48
+MSBS: 0 LSBS: 6 == 3
+Rice Param: 6
+MSBS: 0 LSBS: 21 == -11
+MSBS: 1 LSBS: 4 == 34
+MSBS: 2 LSBS: 1 == -65
+MSBS: 0 LSBS: 60 == 30
+Rice Param: 5
+MSBS: 0 LSBS: 17 == -9
+MSBS: 2 LSBS: 13 == -39
+MSBS: 2 LSBS: 2 == 33
+MSBS: 2 LSBS: 5 == -35
+Rice Param: 4
+MSBS: 7 LSBS: 2 == 57
+MSBS: 0 LSBS: 6 == 3
+MSBS: 2 LSBS: 5 == -19
+MSBS: 4 LSBS: 10 == 37
+Rice Param: 4
+MSBS: 5 LSBS: 9 == -45
+MSBS: 2 LSBS: 2 == 17
+MSBS: 0 LSBS: 8 == 4
+MSBS: 3 LSBS: 10 == 29
+Rice Param: 5
+MSBS: 1 LSBS: 29 == -31
+MSBS: 2 LSBS: 14 == 39
+MSBS: 0 LSBS: 8 == 4
+MSBS: 3 LSBS: 7 == -52
+Rice Param: 5
+MSBS: 3 LSBS: 23 == -60
+MSBS: 2 LSBS: 3 == -34
+MSBS: 1 LSBS: 15 == -24
+MSBS: 0 LSBS: 24 == 12
+Rice Param: 6
+MSBS: 1 LSBS: 32 == 48
+MSBS: 2 LSBS: 44 == 86
+MSBS: 2 LSBS: 22 == 75
+MSBS: 2 LSBS: 2 == 65
+Rice Param: 5
+MSBS: 2 LSBS: 29 == -47
+MSBS: 1 LSBS: 6 == 19
+MSBS: 2 LSBS: 17 == -41
+MSBS: 0 LSBS: 25 == -13
+Rice Param: 4
+MSBS: 6 LSBS: 3 == -50
+MSBS: 1 LSBS: 2 == 9
+MSBS: 2 LSBS: 10 == 21
+MSBS: 1 LSBS: 5 == -11
+Rice Param: 4
+MSBS: 2 LSBS: 1 == -17
+MSBS: 0 LSBS: 15 == -8
+MSBS: 2 LSBS: 11 == -22
+MSBS: 2 LSBS: 15 == -24
+Rice Param: 5
+MSBS: 1 LSBS: 30 == 31
+MSBS: 2 LSBS: 30 == 47
+MSBS: 2 LSBS: 2 == 33
+MSBS: 2 LSBS: 6 == 35
+Rice Param: 6
+MSBS: 0 LSBS: 17 == -9
+MSBS: 1 LSBS: 30 == 47
+MSBS: 2 LSBS: 37 == -83
+MSBS: 0 LSBS: 13 == -7
+Rice Param: 3
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 8
+MSBS: 1 LSBS: 5 == -7
+MSBS: 0 LSBS: 5 == -3
+Rice Param: 5
+MSBS: 2 LSBS: 20 == 42
+MSBS: 0 LSBS: 18 == 9
+MSBS: 4 LSBS: 3 == -66
+MSBS: 0 LSBS: 29 == -15
+Rice Param: 6
+MSBS: 0 LSBS: 2 == 1
+MSBS: 1 LSBS: 44 == 54
+MSBS: 1 LSBS: 40 == 52
+MSBS: 0 LSBS: 38 == 19
+Rice Param: 5
+MSBS: 3 LSBS: 4 == 50
+MSBS: 1 LSBS: 26 == 29
+MSBS: 0 LSBS: 26 == 13
+MSBS: 0 LSBS: 27 == -14
+Rice Param: 3
+MSBS: 4 LSBS: 5 == -19
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 5 == -3
+MSBS: 3 LSBS: 6 == 15
+Rice Param: 5
+MSBS: 0 LSBS: 24 == 12
+MSBS: 1 LSBS: 1 == -17
+MSBS: 4 LSBS: 5 == -67
+MSBS: 0 LSBS: 20 == 10
+Rice Param: 5
+MSBS: 3 LSBS: 23 == -60
+MSBS: 0 LSBS: 29 == -15
+MSBS: 0 LSBS: 29 == -15
+MSBS: 2 LSBS: 0 == 32
+Rice Param: 6
+MSBS: 0 LSBS: 30 == 15
+MSBS: 1 LSBS: 0 == 32
+MSBS: 1 LSBS: 28 == 46
+MSBS: 1 LSBS: 54 == 59
+Rice Param: 5
+MSBS: 1 LSBS: 25 == -29
+MSBS: 1 LSBS: 24 == 28
+MSBS: 1 LSBS: 22 == 27
+MSBS: 0 LSBS: 14 == 7
+Rice Param: 4
+MSBS: 1 LSBS: 8 == 12
+MSBS: 2 LSBS: 13 == -23
+MSBS: 2 LSBS: 10 == 21
+MSBS: 2 LSBS: 10 == 21
+Rice Param: 4
+MSBS: 2 LSBS: 12 == 22
+MSBS: 0 LSBS: 10 == 5
+MSBS: 2 LSBS: 10 == 21
+MSBS: 0 LSBS: 2 == 1
+Rice Param: 5
+MSBS: 2 LSBS: 25 == -45
+MSBS: 1 LSBS: 24 == 28
+MSBS: 1 LSBS: 31 == -32
+MSBS: 1 LSBS: 11 == -22
+Rice Param: 4
+MSBS: 0 LSBS: 14 == 7
+MSBS: 1 LSBS: 9 == -13
+MSBS: 1 LSBS: 14 == 15
+MSBS: 1 LSBS: 6 == 11
+Rice Param: 4
+MSBS: 0 LSBS: 13 == -7
+MSBS: 2 LSBS: 1 == -17
+MSBS: 2 LSBS: 7 == -20
+MSBS: 1 LSBS: 0 == 8
+Rice Param: 4
+MSBS: 0 LSBS: 15 == -8
+MSBS: 0 LSBS: 12 == 6
+MSBS: 3 LSBS: 9 == -29
+MSBS: 1 LSBS: 6 == 11
+Rice Param: 4
+MSBS: 0 LSBS: 6 == 3
+MSBS: 0 LSBS: 4 == 2
+MSBS: 1 LSBS: 14 == 15
+MSBS: 3 LSBS: 9 == -29
+Rice Param: 6
+MSBS: 0 LSBS: 18 == 9
+MSBS: 1 LSBS: 34 == 49
+MSBS: 1 LSBS: 48 == 56
+MSBS: 0 LSBS: 63 == -32
+Rice Param: 7
+MSBS: 0 LSBS: 43 == -22
+MSBS: 1 LSBS: 105 == -117
+MSBS: 0 LSBS: 125 == -63
+MSBS: 0 LSBS: 109 == -55
+Rice Param: 5
+MSBS: 1 LSBS: 9 == -21
+MSBS: 0 LSBS: 27 == -14
+MSBS: 2 LSBS: 31 == -48
+MSBS: 3 LSBS: 6 == 51
+Rice Param: 5
+MSBS: 0 LSBS: 3 == -2
+MSBS: 2 LSBS: 28 == 46
+MSBS: 2 LSBS: 13 == -39
+MSBS: 0 LSBS: 20 == 10
+Rice Param: 5
+MSBS: 1 LSBS: 22 == 27
+MSBS: 2 LSBS: 20 == 42
+MSBS: 3 LSBS: 4 == 50
+MSBS: 0 LSBS: 28 == 14
+Rice Param: 5
+MSBS: 1 LSBS: 5 == -19
+MSBS: 0 LSBS: 21 == -11
+MSBS: 2 LSBS: 29 == -47
+MSBS: 0 LSBS: 20 == 10
+Rice Param: 5
+MSBS: 3 LSBS: 13 == -55
+MSBS: 0 LSBS: 23 == -12
+MSBS: 4 LSBS: 2 == 65
+MSBS: 0 LSBS: 18 == 9
+Rice Param: 5
+MSBS: 2 LSBS: 15 == -40
+MSBS: 1 LSBS: 28 == 30
+MSBS: 1 LSBS: 19 == -26
+MSBS: 0 LSBS: 5 == -3
+Rice Param: 5
+MSBS: 2 LSBS: 5 == -35
+MSBS: 2 LSBS: 8 == 36
+MSBS: 1 LSBS: 19 == -26
+MSBS: 1 LSBS: 23 == -28
+Rice Param: 6
+MSBS: 0 LSBS: 9 == -5
+MSBS: 2 LSBS: 31 == -80
+MSBS: 0 LSBS: 51 == -26
+MSBS: 0 LSBS: 35 == -18
+Rice Param: 4
+MSBS: 6 LSBS: 7 == -52
+MSBS: 3 LSBS: 9 == -29
+MSBS: 2 LSBS: 9 == -21
+MSBS: 0 LSBS: 13 == -7
+Rice Param: 4
+MSBS: 1 LSBS: 15 == -16
+MSBS: 0 LSBS: 15 == -8
+MSBS: 0 LSBS: 7 == -4
+MSBS: 6 LSBS: 15 == -56
+Rice Param: 5
+MSBS: 0 LSBS: 31 == -16
+MSBS: 2 LSBS: 23 == -44
+MSBS: 0 LSBS: 14 == 7
+MSBS: 0 LSBS: 23 == -12
+Rice Param: 5
+MSBS: 1 LSBS: 15 == -24
+MSBS: 0 LSBS: 5 == -3
+MSBS: 2 LSBS: 7 == -36
+MSBS: 2 LSBS: 28 == 46
+Rice Param: 6
+MSBS: 1 LSBS: 4 == 34
+MSBS: 1 LSBS: 6 == 35
+MSBS: 2 LSBS: 62 == 95
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 6
+MSBS: 0 LSBS: 32 == 16
+MSBS: 0 LSBS: 59 == -30
+MSBS: 0 LSBS: 58 == 29
+MSBS: 1 LSBS: 37 == -51
+Rice Param: 5
+MSBS: 0 LSBS: 12 == 6
+MSBS: 2 LSBS: 5 == -35
+MSBS: 2 LSBS: 12 == 38
+MSBS: 1 LSBS: 0 == 16
+Rice Param: 5
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 27 == -14
+MSBS: 3 LSBS: 3 == -50
+MSBS: 1 LSBS: 8 == 20
+Rice Param: 5
+MSBS: 1 LSBS: 11 == -22
+MSBS: 0 LSBS: 21 == -11
+MSBS: 2 LSBS: 28 == 46
+MSBS: 4 LSBS: 12 == 70
+Rice Param: 4
+MSBS: 0 LSBS: 2 == 1
+MSBS: 0 LSBS: 10 == 5
+MSBS: 2 LSBS: 12 == 22
+MSBS: 1 LSBS: 3 == -10
+Rice Param: 5
+MSBS: 0 LSBS: 16 == 8
+MSBS: 0 LSBS: 21 == -11
+MSBS: 3 LSBS: 20 == 58
+MSBS: 0 LSBS: 24 == 12
+Rice Param: 5
+MSBS: 2 LSBS: 6 == 35
+MSBS: 1 LSBS: 31 == -32
+MSBS: 0 LSBS: 28 == 14
+MSBS: 0 LSBS: 21 == -11
+Rice Param: 4
+MSBS: 4 LSBS: 11 == -38
+MSBS: 5 LSBS: 12 == 46
+MSBS: 0 LSBS: 12 == 6
+MSBS: 0 LSBS: 5 == -3
+Rice Param: 4
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 11 == -6
+MSBS: 6 LSBS: 7 == -52
+MSBS: 0 LSBS: 6 == 3
+Rice Param: 5
+MSBS: 2 LSBS: 11 == -38
+MSBS: 4 LSBS: 18 == 73
+MSBS: 0 LSBS: 30 == 15
+MSBS: 2 LSBS: 4 == 34
+Rice Param: 4
+MSBS: 4 LSBS: 2 == 33
+MSBS: 0 LSBS: 6 == 3
+MSBS: 3 LSBS: 8 == 28
+MSBS: 0 LSBS: 12 == 6
+Rice Param: 4
+MSBS: 0 LSBS: 2 == 1
+MSBS: 0 LSBS: 8 == 4
+MSBS: 5 LSBS: 0 == 40
+MSBS: 0 LSBS: 2 == 1
+Rice Param: 6
+MSBS: 2 LSBS: 6 == 67
+MSBS: 1 LSBS: 34 == 49
+MSBS: 1 LSBS: 15 == -40
+MSBS: 0 LSBS: 48 == 24
+Rice Param: 5
+MSBS: 0 LSBS: 24 == 12
+MSBS: 2 LSBS: 2 == 33
+MSBS: 3 LSBS: 25 == -61
+MSBS: 0 LSBS: 4 == 2
+Rice Param: 5
+MSBS: 0 LSBS: 10 == 5
+MSBS: 2 LSBS: 20 == 42
+MSBS: 2 LSBS: 8 == 36
+MSBS: 1 LSBS: 19 == -26
+Rice Param: 5
+MSBS: 3 LSBS: 22 == 59
+MSBS: 0 LSBS: 19 == -10
+MSBS: 3 LSBS: 6 == 51
+MSBS: 2 LSBS: 27 == -46
+Rice Param: 5
+MSBS: 0 LSBS: 8 == 4
+MSBS: 0 LSBS: 26 == 13
+MSBS: 2 LSBS: 22 == 43
+MSBS: 2 LSBS: 26 == 45
+Rice Param: 5
+MSBS: 3 LSBS: 10 == 53
+MSBS: 2 LSBS: 22 == 43
+MSBS: 1 LSBS: 21 == -27
+MSBS: 1 LSBS: 31 == -32
+Rice Param: 6
+MSBS: 1 LSBS: 11 == -38
+MSBS: 0 LSBS: 4 == 2
+MSBS: 0 LSBS: 56 == 28
+MSBS: 3 LSBS: 16 == 104
+Rice Param: 5
+MSBS: 1 LSBS: 19 == -26
+MSBS: 2 LSBS: 30 == 47
+MSBS: 4 LSBS: 1 == -65
+MSBS: 0 LSBS: 14 == 7
+Rice Param: 4
+MSBS: 7 LSBS: 11 == -62
+MSBS: 2 LSBS: 15 == -24
+MSBS: 0 LSBS: 11 == -6
+MSBS: 3 LSBS: 4 == 26
+Rice Param: 6
+MSBS: 1 LSBS: 17 == -41
+MSBS: 1 LSBS: 32 == 48
+MSBS: 0 LSBS: 41 == -21
+MSBS: 0 LSBS: 55 == -28
+Rice Param: 5
+MSBS: 0 LSBS: 24 == 12
+MSBS: 2 LSBS: 17 == -41
+MSBS: 0 LSBS: 8 == 4
+MSBS: 1 LSBS: 10 == 21
+Rice Param: 5
+MSBS: 1 LSBS: 23 == -28
+MSBS: 1 LSBS: 17 == -25
+MSBS: 2 LSBS: 1 == -33
+MSBS: 0 LSBS: 23 == -12
+Rice Param: 6
+MSBS: 0 LSBS: 21 == -11
+MSBS: 1 LSBS: 43 == -54
+MSBS: 0 LSBS: 49 == -25
+MSBS: 0 LSBS: 50 == 25
+Rice Param: 4
+MSBS: 3 LSBS: 5 == -27
+MSBS: 1 LSBS: 10 == 13
+MSBS: 0 LSBS: 9 == -5
+MSBS: 0 LSBS: 9 == -5
+Rice Param: 5
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 6 == 67
+MSBS: 0 LSBS: 20 == 10
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 5
+MSBS: 1 LSBS: 16 == 24
+MSBS: 0 LSBS: 14 == 7
+MSBS: 2 LSBS: 25 == -45
+MSBS: 1 LSBS: 8 == 20
+Rice Param: 4
+MSBS: 1 LSBS: 10 == 13
+MSBS: 4 LSBS: 0 == 32
+MSBS: 1 LSBS: 3 == -10
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 6
+MSBS: 0 LSBS: 9 == -5
+MSBS: 2 LSBS: 43 == -86
+MSBS: 0 LSBS: 14 == 7
+MSBS: 1 LSBS: 8 == 36
+Rice Param: 5
+MSBS: 2 LSBS: 27 == -46
+MSBS: 1 LSBS: 31 == -32
+MSBS: 0 LSBS: 23 == -12
+MSBS: 2 LSBS: 29 == -47
+Rice Param: 5
+MSBS: 0 LSBS: 3 == -2
+MSBS: 1 LSBS: 4 == 18
+MSBS: 0 LSBS: 25 == -13
+MSBS: 1 LSBS: 21 == -27
+Rice Param: 4
+MSBS: 2 LSBS: 0 == 16
+MSBS: 2 LSBS: 15 == -24
+MSBS: 1 LSBS: 7 == -12
+MSBS: 2 LSBS: 1 == -17
+Rice Param: 4
+MSBS: 4 LSBS: 0 == 32
+MSBS: 1 LSBS: 9 == -13
+MSBS: 1 LSBS: 10 == 13
+MSBS: 1 LSBS: 14 == 15
+Rice Param: 4
+MSBS: 2 LSBS: 10 == 21
+MSBS: 2 LSBS: 7 == -20
+MSBS: 2 LSBS: 6 == 19
+MSBS: 2 LSBS: 14 == 23
+Rice Param: 5
+MSBS: 4 LSBS: 3 == -66
+MSBS: 1 LSBS: 26 == 29
+MSBS: 1 LSBS: 5 == -19
+MSBS: 2 LSBS: 18 == 41
+Rice Param: 6
+MSBS: 0 LSBS: 36 == 18
+MSBS: 0 LSBS: 63 == -32
+MSBS: 1 LSBS: 8 == 36
+MSBS: 2 LSBS: 5 == -67
+Rice Param: 5
+MSBS: 0 LSBS: 11 == -6
+MSBS: 4 LSBS: 17 == -73
+MSBS: 0 LSBS: 26 == 13
+MSBS: 0 LSBS: 28 == 14
+Rice Param: 6
+MSBS: 1 LSBS: 16 == 40
+MSBS: 3 LSBS: 4 == 98
+MSBS: 1 LSBS: 16 == 40
+MSBS: 0 LSBS: 50 == 25
+Rice Param: 5
+MSBS: 0 LSBS: 18 == 9
+MSBS: 2 LSBS: 9 == -37
+MSBS: 0 LSBS: 22 == 11
+MSBS: 1 LSBS: 9 == -21
+Rice Param: 5
+MSBS: 2 LSBS: 21 == -43
+MSBS: 2 LSBS: 20 == 42
+MSBS: 2 LSBS: 0 == 32
+MSBS: 1 LSBS: 21 == -27
+Rice Param: 4
+MSBS: 3 LSBS: 5 == -27
+MSBS: 0 LSBS: 10 == 5
+MSBS: 4 LSBS: 5 == -35
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 6
+MSBS: 0 LSBS: 16 == 8
+MSBS: 2 LSBS: 6 == 67
+MSBS: 0 LSBS: 62 == 31
+MSBS: 0 LSBS: 52 == 26
+Rice Param: 4
+MSBS: 3 LSBS: 2 == 25
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 3 == -34
+MSBS: 2 LSBS: 10 == 21
+Rice Param: 4
+MSBS: 3 LSBS: 3 == -26
+MSBS: 1 LSBS: 10 == 13
+MSBS: 1 LSBS: 3 == -10
+MSBS: 1 LSBS: 8 == 12
+Rice Param: 5
+MSBS: 1 LSBS: 13 == -23
+MSBS: 2 LSBS: 7 == -36
+MSBS: 1 LSBS: 29 == -31
+MSBS: 0 LSBS: 12 == 6
+Rice Param: 6
+MSBS: 0 LSBS: 1 == -1
+MSBS: 0 LSBS: 52 == 26
+MSBS: 0 LSBS: 62 == 31
+MSBS: 2 LSBS: 10 == 69
+Rice Param: 5
+MSBS: 3 LSBS: 3 == -50
+MSBS: 4 LSBS: 18 == 73
+MSBS: 0 LSBS: 2 == 1
+MSBS: 0 LSBS: 24 == 12
+Rice Param: 4
+MSBS: 0 LSBS: 5 == -3
+MSBS: 0 LSBS: 0 == 0
+MSBS: 3 LSBS: 12 == 30
+MSBS: 2 LSBS: 9 == -21
+Rice Param: 5
+MSBS: 1 LSBS: 1 == -17
+MSBS: 1 LSBS: 3 == -18
+MSBS: 2 LSBS: 13 == -39
+MSBS: 1 LSBS: 23 == -28
+Rice Param: 5
+MSBS: 1 LSBS: 7 == -20
+MSBS: 2 LSBS: 10 == 37
+MSBS: 2 LSBS: 5 == -35
+MSBS: 2 LSBS: 4 == 34
+Rice Param: 5
+MSBS: 4 LSBS: 0 == 64
+MSBS: 2 LSBS: 6 == 35
+MSBS: 1 LSBS: 20 == 26
+MSBS: 0 LSBS: 20 == 10
+Rice Param: 4
+MSBS: 5 LSBS: 10 == 45
+MSBS: 0 LSBS: 9 == -5
+MSBS: 4 LSBS: 12 == 38
+MSBS: 1 LSBS: 14 == 15
+Rice Param: 5
+MSBS: 0 LSBS: 20 == 10
+MSBS: 2 LSBS: 24 == 44
+MSBS: 0 LSBS: 25 == -13
+MSBS: 0 LSBS: 6 == 3
+Rice Param: 4
+MSBS: 0 LSBS: 6 == 3
+MSBS: 2 LSBS: 15 == -24
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 9 == -21
+Rice Param: 5
+MSBS: 0 LSBS: 27 == -14
+MSBS: 2 LSBS: 5 == -35
+MSBS: 1 LSBS: 20 == 26
+MSBS: 0 LSBS: 22 == 11
+Rice Param: 6
+MSBS: 1 LSBS: 11 == -38
+MSBS: 0 LSBS: 15 == -8
+MSBS: 1 LSBS: 33 == -49
+MSBS: 3 LSBS: 2 == 97
+Rice Param: 4
+MSBS: 11 LSBS: 9 == -93
+MSBS: 0 LSBS: 8 == 4
+MSBS: 4 LSBS: 3 == -34
+MSBS: 2 LSBS: 2 == 17
+Rice Param: 5
+MSBS: 0 LSBS: 3 == -2
+MSBS: 2 LSBS: 7 == -36
+MSBS: 0 LSBS: 8 == 4
+MSBS: 1 LSBS: 19 == -26
+Rice Param: 5
+MSBS: 0 LSBS: 5 == -3
+MSBS: 0 LSBS: 18 == 9
+MSBS: 1 LSBS: 2 == 17
+MSBS: 3 LSBS: 22 == 59
+Rice Param: 6
+MSBS: 0 LSBS: 40 == 20
+MSBS: 0 LSBS: 42 == 21
+MSBS: 2 LSBS: 30 == 79
+MSBS: 2 LSBS: 27 == -78
+Rice Param: 6
+MSBS: 1 LSBS: 13 == -39
+MSBS: 4 LSBS: 7 == -132
+MSBS: 0 LSBS: 50 == 25
+MSBS: 0 LSBS: 51 == -26
+Rice Param: 5
+MSBS: 2 LSBS: 25 == -45
+MSBS: 0 LSBS: 2 == 1
+MSBS: 2 LSBS: 9 == -37
+MSBS: 4 LSBS: 12 == 70
+Rice Param: 5
+MSBS: 1 LSBS: 29 == -31
+MSBS: 0 LSBS: 26 == 13
+MSBS: 1 LSBS: 28 == 30
+MSBS: 3 LSBS: 14 == 55
+Rice Param: 5
+MSBS: 1 LSBS: 13 == -23
+MSBS: 2 LSBS: 2 == 33
+MSBS: 3 LSBS: 28 == 62
+MSBS: 0 LSBS: 15 == -8
+Rice Param: 6
+MSBS: 0 LSBS: 17 == -9
+MSBS: 2 LSBS: 41 == -85
+MSBS: 0 LSBS: 26 == 13
+MSBS: 1 LSBS: 53 == -59
+Rice Param: 6
+MSBS: 1 LSBS: 4 == 34
+MSBS: 0 LSBS: 49 == -25
+MSBS: 1 LSBS: 44 == 54
+MSBS: 1 LSBS: 7 == -36
+Rice Param: 6
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 46 == 23
+MSBS: 2 LSBS: 59 == -94
+MSBS: 1 LSBS: 30 == 47
+Rice Param: 5
+MSBS: 1 LSBS: 27 == -30
+MSBS: 2 LSBS: 10 == 37
+MSBS: 0 LSBS: 11 == -6
+MSBS: 3 LSBS: 14 == 55
+Rice Param: 6
+MSBS: 0 LSBS: 33 == -17
+MSBS: 2 LSBS: 11 == -70
+MSBS: 0 LSBS: 0 == 0
+MSBS: 3 LSBS: 13 == -103
+Rice Param: 6
+MSBS: 0 LSBS: 13 == -7
+MSBS: 2 LSBS: 19 == -74
+MSBS: 0 LSBS: 12 == 6
+MSBS: 1 LSBS: 45 == -55
+Rice Param: 4
+MSBS: 1 LSBS: 8 == 12
+MSBS: 0 LSBS: 15 == -8
+MSBS: 5 LSBS: 3 == -42
+MSBS: 0 LSBS: 8 == 4
+Rice Param: 4
+MSBS: 5 LSBS: 7 == -44
+MSBS: 0 LSBS: 2 == 1
+MSBS: 3 LSBS: 13 == -31
+MSBS: 2 LSBS: 2 == 17
+Rice Param: 5
+MSBS: 0 LSBS: 26 == 13
+MSBS: 1 LSBS: 20 == 26
+MSBS: 2 LSBS: 7 == -36
+MSBS: 2 LSBS: 24 == 44
+Rice Param: 5
+MSBS: 4 LSBS: 14 == 71
+MSBS: 1 LSBS: 9 == -21
+MSBS: 2 LSBS: 30 == 47
+MSBS: 1 LSBS: 9 == -21
+Rice Param: 6
+MSBS: 0 LSBS: 16 == 8
+MSBS: 0 LSBS: 51 == -26
+MSBS: 1 LSBS: 49 == -57
+MSBS: 1 LSBS: 22 == 43
+Rice Param: 5
+MSBS: 1 LSBS: 19 == -26
+MSBS: 2 LSBS: 8 == 36
+MSBS: 0 LSBS: 4 == 2
+MSBS: 1 LSBS: 22 == 27
+Rice Param: 5
+MSBS: 1 LSBS: 7 == -20
+MSBS: 4 LSBS: 11 == -70
+MSBS: 2 LSBS: 10 == 37
+MSBS: 0 LSBS: 25 == -13
+Rice Param: 5
+MSBS: 2 LSBS: 8 == 36
+MSBS: 1 LSBS: 8 == 20
+MSBS: 2 LSBS: 8 == 36
+MSBS: 2 LSBS: 26 == 45
+Rice Param: 5
+MSBS: 0 LSBS: 8 == 4
+MSBS: 0 LSBS: 16 == 8
+MSBS: 1 LSBS: 31 == -32
+MSBS: 2 LSBS: 27 == -46
+Rice Param: 4
+MSBS: 2 LSBS: 6 == 19
+MSBS: 1 LSBS: 2 == 9
+MSBS: 3 LSBS: 14 == 31
+MSBS: 0 LSBS: 15 == -8
+Rice Param: 5
+MSBS: 0 LSBS: 4 == 2
+MSBS: 1 LSBS: 10 == 21
+MSBS: 2 LSBS: 3 == -34
+MSBS: 2 LSBS: 1 == -33
+Rice Param: 5
+MSBS: 0 LSBS: 17 == -9
+MSBS: 0 LSBS: 29 == -15
+MSBS: 3 LSBS: 22 == 59
+MSBS: 1 LSBS: 4 == 18
+Rice Param: 5
+MSBS: 0 LSBS: 9 == -5
+MSBS: 1 LSBS: 29 == -31
+MSBS: 4 LSBS: 27 == -78
+MSBS: 0 LSBS: 23 == -12
+Rice Param: 5
+MSBS: 0 LSBS: 20 == 10
+MSBS: 1 LSBS: 10 == 21
+MSBS: 2 LSBS: 0 == 32
+MSBS: 2 LSBS: 0 == 32
+Rice Param: 4
+MSBS: 5 LSBS: 6 == 43
+MSBS: 1 LSBS: 9 == -13
+MSBS: 1 LSBS: 2 == 9
+MSBS: 0 LSBS: 11 == -6
+Rice Param: 5
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 18 == 9
+MSBS: 3 LSBS: 12 == 54
+MSBS: 0 LSBS: 19 == -10
+Rice Param: 5
+MSBS: 0 LSBS: 16 == 8
+MSBS: 3 LSBS: 2 == 49
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 2 == 17
+Rice Param: 5
+MSBS: 0 LSBS: 15 == -8
+MSBS: 2 LSBS: 8 == 36
+MSBS: 1 LSBS: 23 == -28
+MSBS: 2 LSBS: 20 == 42
+Rice Param: 5
+MSBS: 3 LSBS: 17 == -57
+MSBS: 3 LSBS: 0 == 48
+MSBS: 0 LSBS: 22 == 11
+MSBS: 1 LSBS: 30 == 31
+Rice Param: 5
+MSBS: 0 LSBS: 2 == 1
+MSBS: 0 LSBS: 18 == 9
+MSBS: 1 LSBS: 20 == 26
+MSBS: 2 LSBS: 23 == -44
+Rice Param: 5
+MSBS: 2 LSBS: 28 == 46
+MSBS: 0 LSBS: 8 == 4
+MSBS: 2 LSBS: 11 == -38
+MSBS: 3 LSBS: 18 == 57
+Rice Param: 4
+MSBS: 5 LSBS: 14 == 47
+MSBS: 0 LSBS: 8 == 4
+MSBS: 2 LSBS: 6 == 19
+MSBS: 4 LSBS: 14 == 39
+Rice Param: 5
+MSBS: 1 LSBS: 4 == 18
+MSBS: 0 LSBS: 9 == -5
+MSBS: 1 LSBS: 14 == 23
+MSBS: 4 LSBS: 16 == 72
+Rice Param: 5
+MSBS: 2 LSBS: 9 == -37
+MSBS: 2 LSBS: 15 == -40
+MSBS: 0 LSBS: 7 == -4
+MSBS: 2 LSBS: 17 == -41
+Rice Param: 5
+MSBS: 2 LSBS: 29 == -47
+MSBS: 1 LSBS: 13 == -23
+MSBS: 1 LSBS: 19 == -26
+MSBS: 1 LSBS: 30 == 31
+Rice Param: 5
+MSBS: 2 LSBS: 13 == -39
+MSBS: 2 LSBS: 14 == 39
+MSBS: 0 LSBS: 16 == 8
+MSBS: 1 LSBS: 1 == -17
+Rice Param: 4
+MSBS: 3 LSBS: 5 == -27
+MSBS: 0 LSBS: 3 == -2
+MSBS: 3 LSBS: 8 == 28
+MSBS: 0 LSBS: 9 == -5
+Rice Param: 5
+MSBS: 0 LSBS: 9 == -5
+MSBS: 0 LSBS: 26 == 13
+MSBS: 4 LSBS: 13 == -71
+MSBS: 2 LSBS: 11 == -38
+Rice Param: 5
+MSBS: 0 LSBS: 24 == 12
+MSBS: 2 LSBS: 13 == -39
+MSBS: 1 LSBS: 2 == 17
+MSBS: 1 LSBS: 22 == 27
+Rice Param: 4
+MSBS: 3 LSBS: 0 == 24
+MSBS: 1 LSBS: 2 == 9
+MSBS: 0 LSBS: 3 == -2
+MSBS: 3 LSBS: 12 == 30
+Rice Param: 5
+MSBS: 2 LSBS: 17 == -41
+MSBS: 0 LSBS: 23 == -12
+MSBS: 0 LSBS: 7 == -4
+MSBS: 4 LSBS: 28 == 78
+Rice Param: 5
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 5 == -19
+MSBS: 2 LSBS: 8 == 36
+MSBS: 1 LSBS: 24 == 28
+Rice Param: 2
+MSBS: 13 LSBS: 0 == 26
+MSBS: 4 LSBS: 3 == -10
+MSBS: 0 LSBS: 3 == -2
+MSBS: 1 LSBS: 3 == -4
+Rice Param: 5
+MSBS: 0 LSBS: 29 == -15
+MSBS: 4 LSBS: 15 == -72
+MSBS: 0 LSBS: 19 == -10
+MSBS: 0 LSBS: 20 == 10
+Rice Param: 5
+MSBS: 0 LSBS: 7 == -4
+MSBS: 1 LSBS: 5 == -19
+MSBS: 2 LSBS: 23 == -44
+MSBS: 0 LSBS: 21 == -11
+Rice Param: 5
+MSBS: 3 LSBS: 20 == 58
+MSBS: 3 LSBS: 3 == -50
+MSBS: 0 LSBS: 16 == 8
+MSBS: 1 LSBS: 27 == -30
+Rice Param: 5
+MSBS: 3 LSBS: 10 == 53
+MSBS: 4 LSBS: 7 == -68
+MSBS: 1 LSBS: 10 == 21
+MSBS: 0 LSBS: 17 == -9
+Rice Param: 5
+MSBS: 1 LSBS: 28 == 30
+MSBS: 1 LSBS: 12 == 22
+MSBS: 2 LSBS: 7 == -36
+MSBS: 1 LSBS: 25 == -29
+Rice Param: 3
+MSBS: 9 LSBS: 0 == 36
+MSBS: 2 LSBS: 7 == -12
+MSBS: 0 LSBS: 4 == 2
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 6
+MSBS: 1 LSBS: 0 == 32
+MSBS: 0 LSBS: 9 == -5
+MSBS: 0 LSBS: 43 == -22
+MSBS: 2 LSBS: 46 == 87
+Rice Param: 5
+MSBS: 5 LSBS: 15 == -88
+MSBS: 0 LSBS: 16 == 8
+MSBS: 2 LSBS: 10 == 37
+MSBS: 3 LSBS: 3 == -50
+Rice Param: 4
+MSBS: 8 LSBS: 5 == -67
+MSBS: 1 LSBS: 0 == 8
+MSBS: 1 LSBS: 13 == -15
+MSBS: 1 LSBS: 0 == 8
+Rice Param: 6
+MSBS: 2 LSBS: 2 == 65
+MSBS: 1 LSBS: 14 == 39
+MSBS: 1 LSBS: 52 == 58
+MSBS: 1 LSBS: 48 == 56
+Rice Param: 6
+MSBS: 0 LSBS: 36 == 18
+MSBS: 2 LSBS: 27 == -78
+MSBS: 0 LSBS: 57 == -29
+MSBS: 0 LSBS: 56 == 28
+Rice Param: 5
+MSBS: 1 LSBS: 7 == -20
+MSBS: 1 LSBS: 31 == -32
+MSBS: 1 LSBS: 6 == 19
+MSBS: 1 LSBS: 6 == 19
+Rice Param: 4
+MSBS: 0 LSBS: 6 == 3
+MSBS: 3 LSBS: 15 == -32
+MSBS: 0 LSBS: 3 == -2
+MSBS: 0 LSBS: 6 == 3
+Rice Param: 5
+MSBS: 0 LSBS: 30 == 15
+MSBS: 2 LSBS: 30 == 47
+MSBS: 0 LSBS: 16 == 8
+MSBS: 3 LSBS: 24 == 60
+Rice Param: 5
+MSBS: 0 LSBS: 12 == 6
+MSBS: 2 LSBS: 5 == -35
+MSBS: 1 LSBS: 25 == -29
+MSBS: 0 LSBS: 23 == -12
+Rice Param: 4
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 9 == -21
+MSBS: 1 LSBS: 12 == 14
+MSBS: 2 LSBS: 8 == 20
+Rice Param: 5
+MSBS: 1 LSBS: 7 == -20
+MSBS: 1 LSBS: 0 == 16
+MSBS: 1 LSBS: 17 == -25
+MSBS: 1 LSBS: 16 == 24
+Rice Param: 6
+MSBS: 0 LSBS: 61 == -31
+MSBS: 0 LSBS: 54 == 27
+MSBS: 1 LSBS: 46 == 55
+MSBS: 1 LSBS: 30 == 47
+Rice Param: 5
+MSBS: 4 LSBS: 14 == 71
+MSBS: 2 LSBS: 12 == 38
+MSBS: 2 LSBS: 17 == -41
+MSBS: 0 LSBS: 28 == 14
+Rice Param: 4
+MSBS: 0 LSBS: 8 == 4
+MSBS: 4 LSBS: 9 == -37
+MSBS: 0 LSBS: 5 == -3
+MSBS: 1 LSBS: 11 == -14
+Rice Param: 5
+MSBS: 1 LSBS: 7 == -20
+MSBS: 1 LSBS: 6 == 19
+MSBS: 3 LSBS: 5 == -51
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 5
+MSBS: 0 LSBS: 8 == 4
+MSBS: 0 LSBS: 29 == -15
+MSBS: 1 LSBS: 9 == -21
+MSBS: 1 LSBS: 16 == 24
+Rice Param: 6
+MSBS: 1 LSBS: 20 == 42
+MSBS: 0 LSBS: 34 == 17
+MSBS: 0 LSBS: 40 == 20
+MSBS: 2 LSBS: 8 == 68
+Rice Param: 5
+MSBS: 0 LSBS: 29 == -15
+MSBS: 3 LSBS: 2 == 49
+MSBS: 1 LSBS: 13 == -23
+MSBS: 0 LSBS: 18 == 9
+Rice Param: 5
+MSBS: 1 LSBS: 8 == 20
+MSBS: 0 LSBS: 9 == -5
+MSBS: 0 LSBS: 27 == -14
+MSBS: 2 LSBS: 22 == 43
+Rice Param: 4
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 5 == -19
+MSBS: 0 LSBS: 14 == 7
+MSBS: 1 LSBS: 9 == -13
+Rice Param: 5
+MSBS: 0 LSBS: 26 == 13
+MSBS: 3 LSBS: 7 == -52
+MSBS: 1 LSBS: 24 == 28
+MSBS: 0 LSBS: 31 == -16
+Rice Param: 5
+MSBS: 1 LSBS: 26 == 29
+MSBS: 0 LSBS: 7 == -4
+MSBS: 2 LSBS: 19 == -42
+MSBS: 0 LSBS: 26 == 13
+Rice Param: 5
+MSBS: 1 LSBS: 27 == -30
+MSBS: 1 LSBS: 14 == 23
+MSBS: 1 LSBS: 23 == -28
+MSBS: 1 LSBS: 9 == -21
+Rice Param: 6
+MSBS: 1 LSBS: 6 == 35
+MSBS: 0 LSBS: 52 == 26
+MSBS: 1 LSBS: 41 == -53
+MSBS: 1 LSBS: 16 == 40
+Rice Param: 5
+MSBS: 2 LSBS: 3 == -34
+MSBS: 1 LSBS: 16 == 24
+MSBS: 0 LSBS: 19 == -10
+MSBS: 0 LSBS: 24 == 12
+Rice Param: 5
+MSBS: 3 LSBS: 30 == 63
+MSBS: 0 LSBS: 8 == 4
+MSBS: 3 LSBS: 1 == -49
+MSBS: 2 LSBS: 7 == -36
+Rice Param: 6
+MSBS: 1 LSBS: 19 == -42
+MSBS: 2 LSBS: 59 == -94
+MSBS: 0 LSBS: 17 == -9
+MSBS: 0 LSBS: 35 == -18
+Rice Param: 4
+MSBS: 7 LSBS: 7 == -60
+MSBS: 0 LSBS: 4 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 6 LSBS: 12 == 54
+Rice Param: 6
+MSBS: 0 LSBS: 57 == -29
+MSBS: 1 LSBS: 38 == 51
+MSBS: 0 LSBS: 54 == 27
+MSBS: 0 LSBS: 62 == 31
+Rice Param: 6
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 10 == 37
+MSBS: 1 LSBS: 42 == 53
+MSBS: 2 LSBS: 29 == -79
+Rice Param: 6
+MSBS: 1 LSBS: 10 == 37
+MSBS: 2 LSBS: 25 == -77
+MSBS: 0 LSBS: 22 == 11
+MSBS: 1 LSBS: 41 == -53
+Rice Param: 5
+MSBS: 0 LSBS: 19 == -10
+MSBS: 3 LSBS: 14 == 55
+MSBS: 0 LSBS: 15 == -8
+MSBS: 0 LSBS: 25 == -13
+Rice Param: 3
+MSBS: 7 LSBS: 7 == -32
+MSBS: 4 LSBS: 2 == 17
+MSBS: 2 LSBS: 1 == -9
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 4
+MSBS: 9 LSBS: 11 == -78
+MSBS: 2 LSBS: 12 == 22
+MSBS: 1 LSBS: 15 == -16
+MSBS: 0 LSBS: 4 == 2
+Rice Param: 5
+MSBS: 3 LSBS: 31 == -64
+MSBS: 3 LSBS: 9 == -53
+MSBS: 0 LSBS: 6 == 3
+MSBS: 1 LSBS: 25 == -29
+Rice Param: 5
+MSBS: 3 LSBS: 3 == -50
+MSBS: 2 LSBS: 7 == -36
+MSBS: 1 LSBS: 11 == -22
+MSBS: 2 LSBS: 7 == -36
+Rice Param: 5
+MSBS: 1 LSBS: 22 == 27
+MSBS: 1 LSBS: 25 == -29
+MSBS: 0 LSBS: 16 == 8
+MSBS: 4 LSBS: 1 == -65
+Rice Param: 4
+MSBS: 0 LSBS: 1 == -1
+MSBS: 0 LSBS: 10 == 5
+MSBS: 4 LSBS: 13 == -39
+MSBS: 1 LSBS: 4 == 10
+Rice Param: 6
+MSBS: 1 LSBS: 13 == -39
+MSBS: 1 LSBS: 48 == 56
+MSBS: 1 LSBS: 35 == -50
+MSBS: 1 LSBS: 44 == 54
+Rice Param: 5
+MSBS: 2 LSBS: 2 == 33
+MSBS: 2 LSBS: 18 == 41
+MSBS: 0 LSBS: 20 == 10
+MSBS: 1 LSBS: 15 == -24
+Rice Param: 5
+MSBS: 0 LSBS: 21 == -11
+MSBS: 0 LSBS: 8 == 4
+MSBS: 1 LSBS: 24 == 28
+MSBS: 2 LSBS: 11 == -38
+Rice Param: 5
+MSBS: 2 LSBS: 10 == 37
+MSBS: 1 LSBS: 0 == 16
+MSBS: 0 LSBS: 16 == 8
+MSBS: 2 LSBS: 25 == -45
+Rice Param: 5
+MSBS: 2 LSBS: 26 == 45
+MSBS: 1 LSBS: 31 == -32
+MSBS: 0 LSBS: 17 == -9
+MSBS: 1 LSBS: 12 == 22
+Rice Param: 5
+MSBS: 1 LSBS: 2 == 17
+MSBS: 0 LSBS: 24 == 12
+MSBS: 2 LSBS: 30 == 47
+MSBS: 0 LSBS: 31 == -16
+Rice Param: 5
+MSBS: 2 LSBS: 24 == 44
+MSBS: 1 LSBS: 25 == -29
+MSBS: 2 LSBS: 26 == 45
+MSBS: 0 LSBS: 5 == -3
+Rice Param: 5
+MSBS: 0 LSBS: 7 == -4
+MSBS: 1 LSBS: 18 == 25
+MSBS: 0 LSBS: 20 == 10
+MSBS: 2 LSBS: 18 == 41
+Rice Param: 6
+MSBS: 1 LSBS: 13 == -39
+MSBS: 0 LSBS: 3 == -2
+MSBS: 2 LSBS: 15 == -72
+MSBS: 1 LSBS: 32 == 48
+Rice Param: 5
+MSBS: 1 LSBS: 21 == -27
+MSBS: 4 LSBS: 4 == 66
+MSBS: 0 LSBS: 12 == 6
+MSBS: 2 LSBS: 2 == 33
+Rice Param: 5
+MSBS: 2 LSBS: 9 == -37
+MSBS: 0 LSBS: 31 == -16
+MSBS: 4 LSBS: 1 == -65
+MSBS: 1 LSBS: 9 == -21
+Rice Param: 5
+MSBS: 4 LSBS: 28 == 78
+MSBS: 1 LSBS: 3 == -18
+MSBS: 4 LSBS: 22 == 75
+MSBS: 0 LSBS: 7 == -4
+Rice Param: 3
+MSBS: 14 LSBS: 4 == 58
+MSBS: 0 LSBS: 7 == -4
+MSBS: 0 LSBS: 5 == -3
+MSBS: 1 LSBS: 7 == -8
+Rice Param: 4
+MSBS: 5 LSBS: 14 == 47
+MSBS: 0 LSBS: 3 == -2
+MSBS: 3 LSBS: 6 == 27
+MSBS: 1 LSBS: 7 == -12
+Rice Param: 4
+MSBS: 11 LSBS: 10 == 93
+MSBS: 2 LSBS: 12 == 22
+MSBS: 2 LSBS: 4 == 18
+MSBS: 1 LSBS: 0 == 8
+Rice Param: 5
+MSBS: 2 LSBS: 2 == 33
+MSBS: 0 LSBS: 30 == 15
+MSBS: 1 LSBS: 13 == -23
+MSBS: 3 LSBS: 17 == -57
+Rice Param: 5
+MSBS: 1 LSBS: 12 == 22
+MSBS: 2 LSBS: 10 == 37
+MSBS: 0 LSBS: 6 == 3
+MSBS: 2 LSBS: 4 == 34
+Rice Param: 4
+MSBS: 3 LSBS: 10 == 29
+MSBS: 0 LSBS: 10 == 5
+MSBS: 1 LSBS: 5 == -11
+MSBS: 1 LSBS: 11 == -14
+Rice Param: 5
+MSBS: 0 LSBS: 20 == 10
+MSBS: 0 LSBS: 8 == 4
+MSBS: 1 LSBS: 4 == 18
+MSBS: 2 LSBS: 26 == 45
+Rice Param: 5
+MSBS: 5 LSBS: 0 == 80
+MSBS: 3 LSBS: 2 == 49
+MSBS: 1 LSBS: 27 == -30
+MSBS: 0 LSBS: 21 == -11
+Rice Param: 6
+MSBS: 0 LSBS: 39 == -20
+MSBS: 0 LSBS: 61 == -31
+MSBS: 2 LSBS: 40 == 84
+MSBS: 1 LSBS: 0 == 32
+Rice Param: 5
+MSBS: 0 LSBS: 14 == 7
+MSBS: 3 LSBS: 9 == -53
+MSBS: 0 LSBS: 31 == -16
+MSBS: 2 LSBS: 7 == -36
+Rice Param: 4
+MSBS: 5 LSBS: 13 == -47
+MSBS: 0 LSBS: 4 == 2
+MSBS: 0 LSBS: 13 == -7
+MSBS: 3 LSBS: 0 == 24
+Rice Param: 2
+MSBS: 23 LSBS: 1 == -47
+MSBS: 4 LSBS: 2 == 9
+MSBS: 1 LSBS: 1 == -3
+MSBS: 0 LSBS: 3 == -2
+Rice Param: 4
+MSBS: 0 LSBS: 13 == -7
+MSBS: 3 LSBS: 4 == 26
+MSBS: 2 LSBS: 9 == -21
+MSBS: 0 LSBS: 7 == -4
+Rice Param: 5
+MSBS: 1 LSBS: 17 == -25
+MSBS: 0 LSBS: 18 == 9
+MSBS: 3 LSBS: 23 == -60
+MSBS: 0 LSBS: 3 == -2
+Rice Param: 5
+MSBS: 5 LSBS: 25 == -93
+MSBS: 1 LSBS: 24 == 28
+MSBS: 1 LSBS: 9 == -21
+MSBS: 2 LSBS: 2 == 33
+Rice Param: 5
+MSBS: 0 LSBS: 13 == -7
+MSBS: 2 LSBS: 15 == -40
+MSBS: 1 LSBS: 2 == 17
+MSBS: 0 LSBS: 21 == -11
+Rice Param: 5
+MSBS: 3 LSBS: 0 == 48
+MSBS: 2 LSBS: 6 == 35
+MSBS: 0 LSBS: 18 == 9
+MSBS: 1 LSBS: 12 == 22
+Rice Param: 4
+MSBS: 2 LSBS: 14 == 23
+MSBS: 2 LSBS: 3 == -18
+MSBS: 2 LSBS: 13 == -23
+MSBS: 0 LSBS: 13 == -7
+Rice Param: 5
+MSBS: 1 LSBS: 28 == 30
+MSBS: 0 LSBS: 22 == 11
+MSBS: 0 LSBS: 31 == -16
+MSBS: 2 LSBS: 1 == -33
+Rice Param: 5
+MSBS: 5 LSBS: 13 == -87
+MSBS: 0 LSBS: 10 == 5
+MSBS: 0 LSBS: 10 == 5
+MSBS: 3 LSBS: 19 == -58
+Rice Param: 5
+MSBS: 0 LSBS: 10 == 5
+MSBS: 1 LSBS: 25 == -29
+MSBS: 0 LSBS: 31 == -16
+MSBS: 1 LSBS: 8 == 20
+Rice Param: 4
+MSBS: 0 LSBS: 5 == -3
+MSBS: 2 LSBS: 15 == -24
+MSBS: 0 LSBS: 10 == 5
+MSBS: 0 LSBS: 5 == -3
+Rice Param: 6
+MSBS: 0 LSBS: 8 == 4
+MSBS: 0 LSBS: 48 == 24
+MSBS: 1 LSBS: 7 == -36
+MSBS: 1 LSBS: 34 == 49
+Rice Param: 4
+MSBS: 1 LSBS: 5 == -11
+MSBS: 0 LSBS: 4 == 2
+MSBS: 1 LSBS: 11 == -14
+MSBS: 2 LSBS: 7 == -20
+Rice Param: 5
+MSBS: 1 LSBS: 13 == -23
+MSBS: 1 LSBS: 14 == 23
+MSBS: 0 LSBS: 29 == -15
+MSBS: 1 LSBS: 24 == 28
+Rice Param: 3
+MSBS: 4 LSBS: 4 == 18
+MSBS: 0 LSBS: 5 == -3
+MSBS: 0 LSBS: 2 == 1
+MSBS: 3 LSBS: 5 == -15
+Rice Param: 5
+MSBS: 0 LSBS: 14 == 7
+MSBS: 0 LSBS: 20 == 10
+MSBS: 1 LSBS: 6 == 19
+MSBS: 3 LSBS: 11 == -54
+Rice Param: 5
+MSBS: 2 LSBS: 29 == -47
+MSBS: 0 LSBS: 28 == 14
+MSBS: 2 LSBS: 29 == -47
+MSBS: 2 LSBS: 12 == 38
+Rice Param: 6
+MSBS: 0 LSBS: 62 == 31
+MSBS: 2 LSBS: 40 == 84
+MSBS: 1 LSBS: 14 == 39
+MSBS: 1 LSBS: 44 == 54
+Rice Param: 4
+MSBS: 4 LSBS: 1 == -33
+MSBS: 2 LSBS: 7 == -20
+MSBS: 2 LSBS: 11 == -22
+MSBS: 1 LSBS: 3 == -10
+Rice Param: 5
+MSBS: 0 LSBS: 12 == 6
+MSBS: 3 LSBS: 4 == 50
+MSBS: 0 LSBS: 16 == 8
+MSBS: 1 LSBS: 16 == 24
+Rice Param: 5
+MSBS: 3 LSBS: 13 == -55
+MSBS: 0 LSBS: 6 == 3
+MSBS: 0 LSBS: 7 == -4
+MSBS: 4 LSBS: 27 == -78
+Rice Param: 6
+MSBS: 2 LSBS: 50 == 89
+MSBS: 0 LSBS: 5 == -3
+MSBS: 2 LSBS: 60 == 94
+MSBS: 1 LSBS: 8 == 36
+Rice Param: 5
+MSBS: 0 LSBS: 5 == -3
+MSBS: 1 LSBS: 10 == 21
+MSBS: 2 LSBS: 19 == -42
+MSBS: 0 LSBS: 14 == 7
+Rice Param: 4
+MSBS: 8 LSBS: 5 == -67
+MSBS: 0 LSBS: 12 == 6
+MSBS: 1 LSBS: 15 == -16
+MSBS: 3 LSBS: 4 == 26
+Rice Param: 5
+MSBS: 2 LSBS: 29 == -47
+MSBS: 0 LSBS: 22 == 11
+MSBS: 0 LSBS: 11 == -6
+MSBS: 2 LSBS: 22 == 43
+Rice Param: 5
+MSBS: 1 LSBS: 3 == -18
+MSBS: 0 LSBS: 14 == 7
+MSBS: 2 LSBS: 10 == 37
+MSBS: 3 LSBS: 4 == 50
+Rice Param: 5
+MSBS: 1 LSBS: 16 == 24
+MSBS: 0 LSBS: 5 == -3
+MSBS: 2 LSBS: 14 == 39
+MSBS: 3 LSBS: 14 == 55
+Rice Param: 7
+MSBS: 10 LSBS: 11 == -646
+MSBS: 21 LSBS: 41 == -1365
+MSBS: 6 LSBS: 28 == 398
+MSBS: 13 LSBS: 97 == -881
+Rice Param: 7
+MSBS: 37 LSBS: 123 == -2430
+MSBS: 11 LSBS: 93 == -751
+MSBS: 30 LSBS: 58 == 1949
+MSBS: 11 LSBS: 89 == -749
+Rice Param: 7
+MSBS: 2 LSBS: 55 == -156
+MSBS: 12 LSBS: 112 == 824
+MSBS: 3 LSBS: 98 == 241
+MSBS: 24 LSBS: 50 == 1561
+Rice Param: 7
+MSBS: 0 LSBS: 11 == -6
+MSBS: 12 LSBS: 23 == -780
+MSBS: 2 LSBS: 110 == 183
+MSBS: 29 LSBS: 44 == 1878
+Rice Param: 7
+MSBS: 32 LSBS: 110 == 2103
+MSBS: 13 LSBS: 94 == 879
+MSBS: 9 LSBS: 117 == -635
+MSBS: 8 LSBS: 66 == 545
+Rice Param: 7
+MSBS: 22 LSBS: 92 == 1454
+MSBS: 39 LSBS: 122 == 2557
+MSBS: 7 LSBS: 118 == 507
+MSBS: 3 LSBS: 73 == -229
+Rice Param: 7
+MSBS: 7 LSBS: 9 == -453
+MSBS: 11 LSBS: 52 == 730
+MSBS: 4 LSBS: 115 == -314
+MSBS: 36 LSBS: 101 == -2355
+Rice Param: 7
+MSBS: 13 LSBS: 40 == 852
+MSBS: 30 LSBS: 85 == -1963
+MSBS: 9 LSBS: 49 == -601
+MSBS: 24 LSBS: 45 == -1559
+Rice Param: 7
+MSBS: 29 LSBS: 34 == 1873
+MSBS: 11 LSBS: 43 == -726
+MSBS: 10 LSBS: 54 == 667
+MSBS: 13 LSBS: 68 == 866
+Rice Param: 7
+MSBS: 13 LSBS: 117 == -891
+MSBS: 13 LSBS: 35 == -850
+MSBS: 11 LSBS: 2 == 705
+MSBS: 19 LSBS: 118 == 1275
+Rice Param: 7
+MSBS: 35 LSBS: 106 == 2293
+MSBS: 32 LSBS: 55 == -2076
+MSBS: 29 LSBS: 45 == -1879
+MSBS: 10 LSBS: 72 == 676
+Rice Param: 7
+MSBS: 2 LSBS: 121 == -189
+MSBS: 11 LSBS: 101 == -755
+MSBS: 21 LSBS: 68 == 1378
+MSBS: 35 LSBS: 82 == 2281
+Rice Param: 7
+MSBS: 41 LSBS: 46 == 2647
+MSBS: 35 LSBS: 62 == 2271
+MSBS: 9 LSBS: 44 == 598
+MSBS: 7 LSBS: 34 == 465
+Rice Param: 7
+MSBS: 35 LSBS: 5 == -2243
+MSBS: 5 LSBS: 99 == -370
+MSBS: 25 LSBS: 29 == -1615
+MSBS: 10 LSBS: 37 == -659
+Rice Param: 7
+MSBS: 17 LSBS: 102 == 1139
+MSBS: 15 LSBS: 35 == -978
+MSBS: 5 LSBS: 64 == 352
+MSBS: 27 LSBS: 83 == -1770
+Rice Param: 7
+MSBS: 17 LSBS: 36 == 1106
+MSBS: 16 LSBS: 96 == 1072
+MSBS: 7 LSBS: 9 == -453
+MSBS: 16 LSBS: 62 == 1055
+Rice Param: 7
+MSBS: 34 LSBS: 72 == 2212
+MSBS: 13 LSBS: 55 == -860
+MSBS: 17 LSBS: 119 == -1148
+MSBS: 59 LSBS: 118 == 3835
+Rice Param: 7
+MSBS: 44 LSBS: 6 == 2819
+MSBS: 32 LSBS: 14 == 2055
+MSBS: 11 LSBS: 36 == 722
+MSBS: 8 LSBS: 72 == 548
+Rice Param: 7
+MSBS: 0 LSBS: 107 == -54
+MSBS: 22 LSBS: 95 == -1456
+MSBS: 22 LSBS: 5 == -1411
+MSBS: 15 LSBS: 13 == -967
+Rice Param: 7
+MSBS: 1 LSBS: 95 == -112
+MSBS: 13 LSBS: 20 == 842
+MSBS: 25 LSBS: 43 == -1622
+MSBS: 13 LSBS: 16 == 840
+Rice Param: 7
+MSBS: 4 LSBS: 37 == -275
+MSBS: 6 LSBS: 18 == 393
+MSBS: 0 LSBS: 17 == -9
+MSBS: 19 LSBS: 59 == -1246
+Rice Param: 7
+MSBS: 9 LSBS: 56 == 604
+MSBS: 1 LSBS: 61 == -95
+MSBS: 1 LSBS: 56 == 92
+MSBS: 47 LSBS: 2 == 3009
+Rice Param: 7
+MSBS: 8 LSBS: 44 == 534
+MSBS: 52 LSBS: 6 == 3331
+MSBS: 15 LSBS: 24 == 972
+MSBS: 24 LSBS: 65 == -1569
+Rice Param: 7
+MSBS: 30 LSBS: 3 == -1922
+MSBS: 7 LSBS: 99 == -498
+MSBS: 11 LSBS: 99 == -754
+MSBS: 6 LSBS: 37 == -403
+Rice Param: 7
+MSBS: 14 LSBS: 70 == 931
+MSBS: 16 LSBS: 19 == -1034
+MSBS: 11 LSBS: 50 == 729
+MSBS: 4 LSBS: 107 == -310
+Rice Param: 7
+MSBS: 20 LSBS: 39 == -1300
+MSBS: 16 LSBS: 72 == 1060
+MSBS: 14 LSBS: 43 == -918
+MSBS: 21 LSBS: 87 == -1388
+Rice Param: 7
+MSBS: 24 LSBS: 73 == -1573
+MSBS: 16 LSBS: 115 == -1082
+MSBS: 16 LSBS: 4 == 1026
+MSBS: 29 LSBS: 74 == 1893
+Rice Param: 7
+MSBS: 10 LSBS: 41 == -661
+MSBS: 1 LSBS: 124 == 126
+MSBS: 26 LSBS: 117 == -1723
+MSBS: 4 LSBS: 64 == 288
+Rice Param: 7
+MSBS: 2 LSBS: 2 == 129
+MSBS: 39 LSBS: 111 == -2552
+MSBS: 6 LSBS: 97 == -433
+MSBS: 13 LSBS: 87 == -876
+Rice Param: 7
+MSBS: 37 LSBS: 104 == 2420
+MSBS: 49 LSBS: 86 == 3179
+MSBS: 9 LSBS: 36 == 594
+MSBS: 7 LSBS: 123 == -510
+Rice Param: 7
+MSBS: 11 LSBS: 7 == -708
+MSBS: 45 LSBS: 1 == -2881
+MSBS: 50 LSBS: 11 == -3206
+MSBS: 11 LSBS: 60 == 734
+Rice Param: 7
+MSBS: 4 LSBS: 11 == -262
+MSBS: 3 LSBS: 35 == -210
+MSBS: 29 LSBS: 82 == 1897
+MSBS: 15 LSBS: 54 == 987
+Rice Param: 7
+MSBS: 12 LSBS: 0 == 768
+MSBS: 54 LSBS: 33 == -3473
+MSBS: 5 LSBS: 84 == 362
+MSBS: 21 LSBS: 101 == -1395
+Rice Param: 7
+MSBS: 24 LSBS: 108 == 1590
+MSBS: 0 LSBS: 81 == -41
+MSBS: 23 LSBS: 27 == -1486
+MSBS: 18 LSBS: 94 == 1199
+Rice Param: 7
+MSBS: 28 LSBS: 24 == 1804
+MSBS: 23 LSBS: 52 == 1498
+MSBS: 41 LSBS: 125 == -2687
+MSBS: 33 LSBS: 99 == -2162
+Rice Param: 7
+MSBS: 1 LSBS: 105 == -117
+MSBS: 54 LSBS: 12 == 3462
+MSBS: 65 LSBS: 124 == 4222
+MSBS: 26 LSBS: 95 == -1712
+Rice Param: 7
+MSBS: 32 LSBS: 33 == -2065
+MSBS: 0 LSBS: 110 == 55
+MSBS: 11 LSBS: 34 == 721
+MSBS: 9 LSBS: 17 == -585
+Rice Param: 7
+MSBS: 18 LSBS: 77 == -1191
+MSBS: 11 LSBS: 119 == -764
+MSBS: 18 LSBS: 104 == 1204
+MSBS: 11 LSBS: 108 == 758
+Rice Param: 7
+MSBS: 20 LSBS: 56 == 1308
+MSBS: 27 LSBS: 49 == -1753
+MSBS: 0 LSBS: 75 == -38
+MSBS: 18 LSBS: 72 == 1188
+Rice Param: 7
+MSBS: 13 LSBS: 43 == -854
+MSBS: 16 LSBS: 122 == 1085
+MSBS: 23 LSBS: 123 == -1534
+MSBS: 18 LSBS: 36 == 1170
+Rice Param: 7
+MSBS: 38 LSBS: 38 == 2451
+MSBS: 1 LSBS: 84 == 106
+MSBS: 20 LSBS: 21 == -1291
+MSBS: 12 LSBS: 50 == 793
+Rice Param: 7
+MSBS: 5 LSBS: 100 == 370
+MSBS: 31 LSBS: 96 == 2032
+MSBS: 29 LSBS: 88 == 1900
+MSBS: 55 LSBS: 68 == 3554
+Rice Param: 7
+MSBS: 14 LSBS: 0 == 896
+MSBS: 22 LSBS: 33 == -1425
+MSBS: 11 LSBS: 103 == -756
+MSBS: 28 LSBS: 0 == 1792
+Rice Param: 7
+MSBS: 19 LSBS: 65 == -1249
+MSBS: 25 LSBS: 37 == -1619
+MSBS: 2 LSBS: 28 == 142
+MSBS: 17 LSBS: 124 == 1150
+Rice Param: 7
+MSBS: 24 LSBS: 43 == -1558
+MSBS: 11 LSBS: 83 == -746
+MSBS: 5 LSBS: 124 == 382
+MSBS: 7 LSBS: 36 == 466
+Rice Param: 7
+MSBS: 0 LSBS: 75 == -38
+MSBS: 18 LSBS: 109 == -1207
+MSBS: 38 LSBS: 82 == 2473
+MSBS: 40 LSBS: 58 == 2589
+Rice Param: 7
+MSBS: 10 LSBS: 72 == 676
+MSBS: 16 LSBS: 65 == -1057
+MSBS: 6 LSBS: 97 == -433
+MSBS: 8 LSBS: 111 == -568
+Rice Param: 7
+MSBS: 2 LSBS: 47 == -152
+MSBS: 15 LSBS: 16 == 968
+MSBS: 18 LSBS: 123 == -1214
+MSBS: 5 LSBS: 7 == -324
+Rice Param: 7
+MSBS: 26 LSBS: 102 == 1715
+MSBS: 30 LSBS: 58 == 1949
+MSBS: 2 LSBS: 91 == -174
+MSBS: 9 LSBS: 79 == -616
+Rice Param: 7
+MSBS: 1 LSBS: 37 == -83
+MSBS: 1 LSBS: 58 == 93
+MSBS: 29 LSBS: 44 == 1878
+MSBS: 20 LSBS: 44 == 1302
+Rice Param: 7
+MSBS: 21 LSBS: 127 == -1408
+MSBS: 36 LSBS: 121 == -2365
+MSBS: 19 LSBS: 120 == 1276
+MSBS: 27 LSBS: 82 == 1769
+Rice Param: 7
+MSBS: 13 LSBS: 62 == 863
+MSBS: 71 LSBS: 121 == -4605
+MSBS: 14 LSBS: 123 == -958
+MSBS: 3 LSBS: 105 == -245
+Rice Param: 7
+MSBS: 9 LSBS: 3 == -578
+MSBS: 1 LSBS: 83 == -106
+MSBS: 8 LSBS: 66 == 545
+MSBS: 1 LSBS: 27 == -78
+Rice Param: 7
+MSBS: 2 LSBS: 113 == -185
+MSBS: 29 LSBS: 92 == 1902
+MSBS: 9 LSBS: 5 == -579
+MSBS: 39 LSBS: 109 == -2551
+Rice Param: 7
+MSBS: 2 LSBS: 20 == 138
+MSBS: 7 LSBS: 67 == -482
+MSBS: 37 LSBS: 64 == 2400
+MSBS: 12 LSBS: 112 == 824
+Rice Param: 7
+MSBS: 14 LSBS: 73 == -933
+MSBS: 14 LSBS: 92 == 942
+MSBS: 28 LSBS: 34 == 1809
+MSBS: 45 LSBS: 118 == 2939
+Rice Param: 7
+MSBS: 7 LSBS: 124 == 510
+MSBS: 6 LSBS: 127 == -448
+MSBS: 4 LSBS: 70 == 291
+MSBS: 2 LSBS: 24 == 140
+Rice Param: 7
+MSBS: 7 LSBS: 24 == 460
+MSBS: 23 LSBS: 121 == -1533
+MSBS: 14 LSBS: 13 == -903
+MSBS: 30 LSBS: 53 == -1947
+Rice Param: 7
+MSBS: 34 LSBS: 44 == 2198
+MSBS: 41 LSBS: 2 == 2625
+MSBS: 10 LSBS: 64 == 672
+MSBS: 2 LSBS: 0 == 128
+Rice Param: 7
+MSBS: 1 LSBS: 53 == -91
+MSBS: 2 LSBS: 97 == -177
+MSBS: 3 LSBS: 66 == 225
+MSBS: 19 LSBS: 65 == -1249
+Rice Param: 7
+MSBS: 4 LSBS: 29 == -271
+MSBS: 2 LSBS: 17 == -137
+MSBS: 4 LSBS: 89 == -301
+MSBS: 11 LSBS: 3 == -706
+Rice Param: 7
+MSBS: 35 LSBS: 57 == -2269
+MSBS: 29 LSBS: 84 == 1898
+MSBS: 0 LSBS: 114 == 57
+MSBS: 6 LSBS: 63 == -416
+Rice Param: 7
+MSBS: 34 LSBS: 7 == -2180
+MSBS: 4 LSBS: 102 == 307
+MSBS: 34 LSBS: 2 == 2177
+MSBS: 4 LSBS: 125 == -319
+Rice Param: 7
+MSBS: 0 LSBS: 104 == 52
+MSBS: 32 LSBS: 68 == 2082
+MSBS: 12 LSBS: 124 == 830
+MSBS: 0 LSBS: 11 == -6
+Rice Param: 7
+MSBS: 57 LSBS: 103 == -3700
+MSBS: 7 LSBS: 55 == -476
+MSBS: 13 LSBS: 91 == -878
+MSBS: 20 LSBS: 61 == -1311
+Rice Param: 7
+MSBS: 24 LSBS: 74 == 1573
+MSBS: 36 LSBS: 100 == 2354
+MSBS: 30 LSBS: 0 == 1920
+MSBS: 35 LSBS: 29 == -2255
+Rice Param: 7
+MSBS: 21 LSBS: 1 == -1345
+MSBS: 22 LSBS: 22 == 1419
+MSBS: 0 LSBS: 32 == 16
+MSBS: 13 LSBS: 114 == 889
+Rice Param: 7
+MSBS: 5 LSBS: 10 == 325
+MSBS: 29 LSBS: 100 == 1906
+MSBS: 33 LSBS: 78 == 2151
+MSBS: 41 LSBS: 68 == 2658
+Rice Param: 7
+MSBS: 4 LSBS: 43 == -278
+MSBS: 53 LSBS: 93 == -3439
+MSBS: 31 LSBS: 81 == -2025
+MSBS: 21 LSBS: 104 == 1396
+Rice Param: 7
+MSBS: 7 LSBS: 51 == -474
+MSBS: 34 LSBS: 127 == -2240
+MSBS: 5 LSBS: 8 == 324
+MSBS: 42 LSBS: 22 == 2699
+Rice Param: 7
+MSBS: 16 LSBS: 2 == 1025
+MSBS: 10 LSBS: 11 == -646
+MSBS: 8 LSBS: 107 == -566
+MSBS: 12 LSBS: 43 == -790
+Rice Param: 7
+MSBS: 40 LSBS: 55 == -2588
+MSBS: 10 LSBS: 33 == -657
+MSBS: 21 LSBS: 50 == 1369
+MSBS: 17 LSBS: 30 == 1103
+Rice Param: 7
+MSBS: 7 LSBS: 32 == 464
+MSBS: 36 LSBS: 4 == 2306
+MSBS: 5 LSBS: 66 == 353
+MSBS: 1 LSBS: 33 == -81
+Rice Param: 7
+MSBS: 2 LSBS: 56 == 156
+MSBS: 21 LSBS: 95 == -1392
+MSBS: 23 LSBS: 68 == 1506
+MSBS: 17 LSBS: 57 == -1117
+Rice Param: 7
+MSBS: 37 LSBS: 71 == -2404
+MSBS: 3 LSBS: 123 == -254
+MSBS: 6 LSBS: 123 == -446
+MSBS: 55 LSBS: 123 == -3582
+Rice Param: 7
+MSBS: 0 LSBS: 67 == -34
+MSBS: 9 LSBS: 94 == 623
+MSBS: 32 LSBS: 4 == 2050
+MSBS: 7 LSBS: 109 == -503
+Rice Param: 7
+MSBS: 12 LSBS: 108 == 822
+MSBS: 5 LSBS: 108 == 374
+MSBS: 22 LSBS: 56 == 1436
+MSBS: 9 LSBS: 9 == -581
+Rice Param: 7
+MSBS: 18 LSBS: 45 == -1175
+MSBS: 0 LSBS: 73 == -37
+MSBS: 4 LSBS: 89 == -301
+MSBS: 37 LSBS: 44 == 2390
+Rice Param: 7
+MSBS: 8 LSBS: 72 == 548
+MSBS: 11 LSBS: 125 == -767
+MSBS: 27 LSBS: 1 == -1729
+MSBS: 9 LSBS: 29 == -591
+Rice Param: 7
+MSBS: 8 LSBS: 2 == 513
+MSBS: 1 LSBS: 28 == 78
+MSBS: 31 LSBS: 28 == 1998
+MSBS: 15 LSBS: 68 == 994
+Rice Param: 7
+MSBS: 22 LSBS: 101 == -1459
+MSBS: 18 LSBS: 107 == -1206
+MSBS: 39 LSBS: 1 == -2497
+MSBS: 42 LSBS: 123 == -2750
+Rice Param: 7
+MSBS: 24 LSBS: 11 == -1542
+MSBS: 33 LSBS: 107 == -2166
+MSBS: 18 LSBS: 98 == 1201
+MSBS: 15 LSBS: 12 == 966
+Rice Param: 7
+MSBS: 22 LSBS: 77 == -1447
+MSBS: 29 LSBS: 119 == -1916
+MSBS: 32 LSBS: 41 == -2069
+MSBS: 14 LSBS: 31 == -912
+Rice Param: 7
+MSBS: 8 LSBS: 109 == -567
+MSBS: 4 LSBS: 78 == 295
+MSBS: 19 LSBS: 116 == 1274
+MSBS: 8 LSBS: 17 == -521
+Rice Param: 7
+MSBS: 19 LSBS: 96 == 1264
+MSBS: 8 LSBS: 5 == -515
+MSBS: 14 LSBS: 75 == -934
+MSBS: 16 LSBS: 69 == -1059
+Rice Param: 7
+MSBS: 29 LSBS: 104 == 1908
+MSBS: 34 LSBS: 78 == 2215
+MSBS: 0 LSBS: 112 == 56
+MSBS: 7 LSBS: 2 == 449
+Rice Param: 7
+MSBS: 1 LSBS: 13 == -71
+MSBS: 53 LSBS: 92 == 3438
+MSBS: 23 LSBS: 39 == -1492
+MSBS: 19 LSBS: 109 == -1271
+Rice Param: 7
+MSBS: 30 LSBS: 117 == -1979
+MSBS: 14 LSBS: 127 == -960
+MSBS: 14 LSBS: 88 == 940
+MSBS: 14 LSBS: 58 == 925
+Rice Param: 7
+MSBS: 17 LSBS: 0 == 1088
+MSBS: 13 LSBS: 24 == 844
+MSBS: 14 LSBS: 22 == 907
+MSBS: 6 LSBS: 27 == -398
+Rice Param: 7
+MSBS: 13 LSBS: 41 == -853
+MSBS: 4 LSBS: 62 == 287
+MSBS: 32 LSBS: 38 == 2067
+MSBS: 2 LSBS: 126 == 191
+Rice Param: 7
+MSBS: 10 LSBS: 30 == 655
+MSBS: 1 LSBS: 48 == 88
+MSBS: 3 LSBS: 52 == 218
+MSBS: 10 LSBS: 85 == -683
+Rice Param: 7
+MSBS: 15 LSBS: 40 == 980
+MSBS: 14 LSBS: 22 == 907
+MSBS: 17 LSBS: 7 == -1092
+MSBS: 34 LSBS: 58 == 2205
+Rice Param: 7
+MSBS: 6 LSBS: 23 == -396
+MSBS: 4 LSBS: 77 == -295
+MSBS: 15 LSBS: 58 == 989
+MSBS: 12 LSBS: 31 == -784
+Rice Param: 7
+MSBS: 7 LSBS: 35 == -466
+MSBS: 9 LSBS: 46 == 599
+MSBS: 27 LSBS: 88 == 1772
+MSBS: 6 LSBS: 91 == -430
+Rice Param: 7
+MSBS: 3 LSBS: 106 == 245
+MSBS: 27 LSBS: 77 == -1767
+MSBS: 18 LSBS: 5 == -1155
+MSBS: 19 LSBS: 102 == 1267
+Rice Param: 7
+MSBS: 4 LSBS: 31 == -272
+MSBS: 12 LSBS: 125 == -831
+MSBS: 5 LSBS: 118 == 379
+MSBS: 45 LSBS: 38 == 2899
+Rice Param: 7
+MSBS: 9 LSBS: 55 == -604
+MSBS: 6 LSBS: 83 == -426
+MSBS: 19 LSBS: 79 == -1256
+MSBS: 21 LSBS: 101 == -1395
+Rice Param: 7
+MSBS: 10 LSBS: 111 == -696
+MSBS: 13 LSBS: 27 == -846
+MSBS: 4 LSBS: 30 == 271
+MSBS: 2 LSBS: 43 == -150
+Rice Param: 7
+MSBS: 7 LSBS: 36 == 466
+MSBS: 7 LSBS: 103 == -500
+MSBS: 7 LSBS: 81 == -489
+MSBS: 13 LSBS: 83 == -874
+Rice Param: 7
+MSBS: 0 LSBS: 116 == 58
+MSBS: 2 LSBS: 121 == -189
+MSBS: 8 LSBS: 34 == 529
+MSBS: 4 LSBS: 110 == 311
+Rice Param: 7
+MSBS: 38 LSBS: 121 == -2493
+MSBS: 19 LSBS: 66 == 1249
+MSBS: 6 LSBS: 73 == -421
+MSBS: 17 LSBS: 11 == -1094
+Rice Param: 7
+MSBS: 39 LSBS: 21 == -2507
+MSBS: 3 LSBS: 62 == 223
+MSBS: 5 LSBS: 61 == -351
+MSBS: 24 LSBS: 55 == -1564
+Rice Param: 7
+MSBS: 4 LSBS: 72 == 292
+MSBS: 29 LSBS: 61 == -1887
+MSBS: 21 LSBS: 90 == 1389
+MSBS: 22 LSBS: 61 == -1439
+Rice Param: 7
+MSBS: 6 LSBS: 15 == -392
+MSBS: 18 LSBS: 96 == 1200
+MSBS: 2 LSBS: 15 == -136
+MSBS: 2 LSBS: 62 == 159
+Rice Param: 7
+MSBS: 36 LSBS: 65 == -2337
+MSBS: 6 LSBS: 73 == -421
+MSBS: 19 LSBS: 32 == 1232
+MSBS: 8 LSBS: 110 == 567
+Rice Param: 7
+MSBS: 18 LSBS: 41 == -1173
+MSBS: 15 LSBS: 92 == 1006
+MSBS: 7 LSBS: 1 == -449
+MSBS: 14 LSBS: 127 == -960
+Rice Param: 7
+MSBS: 5 LSBS: 72 == 356
+MSBS: 17 LSBS: 53 == -1115
+MSBS: 1 LSBS: 9 == -69
+MSBS: 7 LSBS: 123 == -510
+Rice Param: 7
+MSBS: 9 LSBS: 8 == 580
+MSBS: 18 LSBS: 87 == -1196
+MSBS: 19 LSBS: 61 == -1247
+MSBS: 9 LSBS: 97 == -625
+Rice Param: 7
+MSBS: 10 LSBS: 81 == -681
+MSBS: 12 LSBS: 11 == -774
+MSBS: 32 LSBS: 87 == -2092
+MSBS: 41 LSBS: 30 == 2639
+Rice Param: 7
+MSBS: 20 LSBS: 122 == 1341
+MSBS: 42 LSBS: 14 == 2695
+MSBS: 19 LSBS: 82 == 1257
+MSBS: 11 LSBS: 112 == 760
+Rice Param: 7
+MSBS: 6 LSBS: 53 == -411
+MSBS: 39 LSBS: 103 == -2548
+MSBS: 14 LSBS: 6 == 899
+MSBS: 35 LSBS: 53 == -2267
+Rice Param: 7
+MSBS: 20 LSBS: 19 == -1290
+MSBS: 1 LSBS: 45 == -87
+MSBS: 5 LSBS: 12 == 326
+MSBS: 11 LSBS: 34 == 721
+Rice Param: 7
+MSBS: 0 LSBS: 13 == -7
+MSBS: 59 LSBS: 3 == -3778
+MSBS: 49 LSBS: 123 == -3198
+MSBS: 28 LSBS: 63 == -1824
+Rice Param: 7
+MSBS: 16 LSBS: 99 == -1074
+MSBS: 57 LSBS: 70 == 3683
+MSBS: 20 LSBS: 18 == 1289
+MSBS: 34 LSBS: 100 == 2226
+Rice Param: 7
+MSBS: 17 LSBS: 88 == 1132
+MSBS: 6 LSBS: 38 == 403
+MSBS: 26 LSBS: 46 == 1687
+MSBS: 35 LSBS: 25 == -2253
+Rice Param: 7
+MSBS: 19 LSBS: 9 == -1221
+MSBS: 6 LSBS: 115 == -442
+MSBS: 5 LSBS: 104 == 372
+MSBS: 1 LSBS: 48 == 88
+Rice Param: 7
+MSBS: 23 LSBS: 89 == -1517
+MSBS: 9 LSBS: 68 == 610
+MSBS: 12 LSBS: 116 == 826
+MSBS: 8 LSBS: 15 == -520
+Rice Param: 7
+MSBS: 31 LSBS: 1 == -1985
+MSBS: 2 LSBS: 57 == -157
+MSBS: 47 LSBS: 24 == 3020
+MSBS: 11 LSBS: 47 == -728
+Rice Param: 7
+MSBS: 14 LSBS: 23 == -908
+MSBS: 26 LSBS: 20 == 1674
+MSBS: 18 LSBS: 104 == 1204
+MSBS: 13 LSBS: 36 == 850
+Rice Param: 7
+MSBS: 16 LSBS: 3 == -1026
+MSBS: 27 LSBS: 27 == -1742
+MSBS: 13 LSBS: 55 == -860
+MSBS: 11 LSBS: 56 == 732
+Rice Param: 7
+MSBS: 33 LSBS: 52 == 2138
+MSBS: 9 LSBS: 19 == -586
+MSBS: 17 LSBS: 104 == 1140
+MSBS: 12 LSBS: 89 == -813
+Rice Param: 7
+MSBS: 20 LSBS: 87 == -1324
+MSBS: 21 LSBS: 115 == -1402
+MSBS: 22 LSBS: 31 == -1424
+MSBS: 16 LSBS: 41 == -1045
+Rice Param: 7
+MSBS: 19 LSBS: 106 == 1269
+MSBS: 13 LSBS: 66 == 865
+MSBS: 23 LSBS: 44 == 1494
+MSBS: 42 LSBS: 76 == 2726
+Rice Param: 7
+MSBS: 24 LSBS: 19 == -1546
+MSBS: 9 LSBS: 30 == 591
+MSBS: 2 LSBS: 20 == 138
+MSBS: 4 LSBS: 86 == 299
+Rice Param: 7
+MSBS: 31 LSBS: 120 == 2044
+MSBS: 0 LSBS: 88 == 44
+MSBS: 14 LSBS: 126 == 959
+MSBS: 24 LSBS: 7 == -1540
+Rice Param: 7
+MSBS: 23 LSBS: 45 == -1495
+MSBS: 18 LSBS: 12 == 1158
+MSBS: 40 LSBS: 51 == -2586
+MSBS: 53 LSBS: 125 == -3455
+Rice Param: 7
+MSBS: 12 LSBS: 110 == 823
+MSBS: 17 LSBS: 94 == 1135
+MSBS: 28 LSBS: 41 == -1813
+MSBS: 26 LSBS: 47 == -1688
+Rice Param: 7
+MSBS: 16 LSBS: 30 == 1039
+MSBS: 29 LSBS: 24 == 1868
+MSBS: 31 LSBS: 14 == 1991
+MSBS: 3 LSBS: 51 == -218
+Rice Param: 7
+MSBS: 0 LSBS: 107 == -54
+MSBS: 1 LSBS: 112 == 120
+MSBS: 3 LSBS: 30 == 207
+MSBS: 13 LSBS: 11 == -838
+Rice Param: 7
+MSBS: 12 LSBS: 32 == 784
+MSBS: 11 LSBS: 110 == 759
+MSBS: 9 LSBS: 100 == 626
+MSBS: 19 LSBS: 111 == -1272
+Rice Param: 7
+MSBS: 28 LSBS: 41 == -1813
+MSBS: 8 LSBS: 126 == 575
+MSBS: 7 LSBS: 19 == -458
+MSBS: 14 LSBS: 121 == -957
+Rice Param: 7
+MSBS: 13 LSBS: 57 == -861
+MSBS: 8 LSBS: 77 == -551
+MSBS: 23 LSBS: 108 == 1526
+MSBS: 16 LSBS: 71 == -1060
+Rice Param: 7
+MSBS: 20 LSBS: 99 == -1330
+MSBS: 17 LSBS: 94 == 1135
+MSBS: 6 LSBS: 1 == -385
+MSBS: 0 LSBS: 108 == 54
+Rice Param: 7
+MSBS: 4 LSBS: 86 == 299
+MSBS: 17 LSBS: 90 == 1133
+MSBS: 13 LSBS: 58 == 861
+MSBS: 11 LSBS: 65 == -737
+Rice Param: 7
+MSBS: 11 LSBS: 124 == 766
+MSBS: 19 LSBS: 115 == -1274
+MSBS: 15 LSBS: 66 == 993
+MSBS: 6 LSBS: 111 == -440
+Rice Param: 7
+MSBS: 18 LSBS: 87 == -1196
+MSBS: 9 LSBS: 55 == -604
+MSBS: 7 LSBS: 121 == -509
+MSBS: 5 LSBS: 88 == 364
+Rice Param: 7
+MSBS: 9 LSBS: 28 == 590
+MSBS: 4 LSBS: 34 == 273
+MSBS: 1 LSBS: 33 == -81
+MSBS: 2 LSBS: 34 == 145
+Rice Param: 7
+MSBS: 0 LSBS: 67 == -34
+MSBS: 5 LSBS: 30 == 335
+MSBS: 5 LSBS: 31 == -336
+MSBS: 16 LSBS: 61 == -1055
+Rice Param: 7
+MSBS: 2 LSBS: 73 == -165
+MSBS: 17 LSBS: 68 == 1122
+MSBS: 17 LSBS: 45 == -1111
+MSBS: 34 LSBS: 63 == -2208
+Rice Param: 7
+MSBS: 18 LSBS: 10 == 1157
+MSBS: 11 LSBS: 82 == 745
+MSBS: 14 LSBS: 22 == 907
+MSBS: 29 LSBS: 6 == 1859
+Rice Param: 7
+MSBS: 23 LSBS: 66 == 1505
+MSBS: 42 LSBS: 40 == 2708
+MSBS: 1 LSBS: 23 == -76
+MSBS: 2 LSBS: 92 == 174
+Rice Param: 7
+MSBS: 7 LSBS: 105 == -501
+MSBS: 45 LSBS: 21 == -2891
+MSBS: 14 LSBS: 8 == 900
+MSBS: 6 LSBS: 122 == 445
+Rice Param: 7
+MSBS: 26 LSBS: 72 == 1700
+MSBS: 19 LSBS: 108 == 1270
+MSBS: 16 LSBS: 49 == -1049
+MSBS: 2 LSBS: 98 == 177
+Rice Param: 7
+MSBS: 22 LSBS: 68 == 1442
+MSBS: 19 LSBS: 6 == 1219
+MSBS: 3 LSBS: 105 == -245
+MSBS: 16 LSBS: 107 == -1078
+Rice Param: 7
+MSBS: 19 LSBS: 112 == 1272
+MSBS: 45 LSBS: 46 == 2903
+MSBS: 24 LSBS: 110 == 1591
+MSBS: 13 LSBS: 51 == -858
+Rice Param: 7
+MSBS: 0 LSBS: 57 == -29
+MSBS: 21 LSBS: 114 == 1401
+MSBS: 12 LSBS: 97 == -817
+MSBS: 11 LSBS: 39 == -724
+Rice Param: 7
+MSBS: 20 LSBS: 89 == -1325
+MSBS: 34 LSBS: 95 == -2224
+MSBS: 9 LSBS: 115 == -634
+MSBS: 7 LSBS: 120 == 508
+Rice Param: 7
+MSBS: 16 LSBS: 6 == 1027
+MSBS: 8 LSBS: 17 == -521
+MSBS: 22 LSBS: 54 == 1435
+MSBS: 12 LSBS: 15 == -776
+Rice Param: 7
+MSBS: 5 LSBS: 31 == -336
+MSBS: 23 LSBS: 5 == -1475
+MSBS: 26 LSBS: 89 == -1709
+MSBS: 2 LSBS: 67 == -162
+Rice Param: 7
+MSBS: 18 LSBS: 28 == 1166
+MSBS: 11 LSBS: 98 == 753
+MSBS: 44 LSBS: 3 == -2818
+MSBS: 12 LSBS: 12 == 774
+Rice Param: 7
+MSBS: 4 LSBS: 13 == -263
+MSBS: 6 LSBS: 106 == 437
+MSBS: 0 LSBS: 21 == -11
+MSBS: 11 LSBS: 79 == -744
+Rice Param: 7
+MSBS: 14 LSBS: 28 == 910
+MSBS: 24 LSBS: 78 == 1575
+MSBS: 5 LSBS: 114 == 377
+MSBS: 11 LSBS: 60 == 734
+Rice Param: 7
+MSBS: 9 LSBS: 14 == 583
+MSBS: 9 LSBS: 28 == 590
+MSBS: 6 LSBS: 17 == -393
+MSBS: 6 LSBS: 33 == -401
+Rice Param: 7
+MSBS: 40 LSBS: 84 == 2602
+MSBS: 11 LSBS: 122 == 765
+MSBS: 20 LSBS: 18 == 1289
+MSBS: 6 LSBS: 86 == 427
+Rice Param: 7
+MSBS: 18 LSBS: 27 == -1166
+MSBS: 13 LSBS: 22 == 843
+MSBS: 18 LSBS: 36 == 1170
+MSBS: 3 LSBS: 84 == 234
+Rice Param: 7
+MSBS: 30 LSBS: 13 == -1927
+MSBS: 0 LSBS: 66 == 33
+MSBS: 14 LSBS: 32 == 912
+MSBS: 8 LSBS: 54 == 539
+Rice Param: 7
+MSBS: 2 LSBS: 62 == 159
+MSBS: 22 LSBS: 24 == 1420
+MSBS: 2 LSBS: 76 == 166
+MSBS: 14 LSBS: 121 == -957
+Rice Param: 7
+MSBS: 0 LSBS: 106 == 53
+MSBS: 0 LSBS: 79 == -40
+MSBS: 15 LSBS: 46 == 983
+MSBS: 22 LSBS: 3 == -1410
+Rice Param: 7
+MSBS: 29 LSBS: 7 == -1860
+MSBS: 17 LSBS: 32 == 1104
+MSBS: 11 LSBS: 12 == 710
+MSBS: 19 LSBS: 44 == 1238
+Rice Param: 7
+MSBS: 21 LSBS: 10 == 1349
+MSBS: 0 LSBS: 50 == 25
+MSBS: 13 LSBS: 2 == 833
+MSBS: 40 LSBS: 82 == 2601
+Rice Param: 7
+MSBS: 2 LSBS: 22 == 139
+MSBS: 22 LSBS: 80 == 1448
+MSBS: 7 LSBS: 112 == 504
+MSBS: 15 LSBS: 113 == -1017
+Rice Param: 7
+MSBS: 15 LSBS: 79 == -1000
+MSBS: 26 LSBS: 107 == -1718
+MSBS: 0 LSBS: 61 == -31
+MSBS: 2 LSBS: 127 == -192
+Rice Param: 7
+MSBS: 4 LSBS: 96 == 304
+MSBS: 19 LSBS: 124 == 1278
+MSBS: 25 LSBS: 45 == -1623
+MSBS: 0 LSBS: 24 == 12
+Rice Param: 7
+MSBS: 1 LSBS: 100 == 114
+MSBS: 38 LSBS: 97 == -2481
+MSBS: 44 LSBS: 103 == -2868
+MSBS: 8 LSBS: 79 == -552
+Rice Param: 7
+MSBS: 23 LSBS: 126 == 1535
+MSBS: 23 LSBS: 98 == 1521
+MSBS: 17 LSBS: 110 == 1143
+MSBS: 39 LSBS: 36 == 2514
+Rice Param: 7
+MSBS: 28 LSBS: 124 == 1854
+MSBS: 15 LSBS: 108 == 1014
+MSBS: 0 LSBS: 90 == 45
+MSBS: 12 LSBS: 14 == 775
+Rice Param: 7
+MSBS: 54 LSBS: 64 == 3488
+MSBS: 6 LSBS: 19 == -394
+MSBS: 9 LSBS: 23 == -588
+MSBS: 31 LSBS: 60 == 2014
+Rice Param: 7
+MSBS: 34 LSBS: 52 == 2202
+MSBS: 9 LSBS: 95 == -624
+MSBS: 32 LSBS: 73 == -2085
+MSBS: 19 LSBS: 85 == -1259
+Rice Param: 7
+MSBS: 30 LSBS: 75 == -1958
+MSBS: 16 LSBS: 114 == 1081
+MSBS: 31 LSBS: 26 == 1997
+MSBS: 13 LSBS: 105 == -885
+Rice Param: 7
+MSBS: 6 LSBS: 21 == -395
+MSBS: 9 LSBS: 126 == 639
+MSBS: 4 LSBS: 4 == 258
+MSBS: 14 LSBS: 13 == -903
+Rice Param: 7
+MSBS: 2 LSBS: 122 == 189
+MSBS: 26 LSBS: 124 == 1726
+MSBS: 10 LSBS: 20 == 650
+MSBS: 35 LSBS: 106 == 2293
+Rice Param: 7
+MSBS: 22 LSBS: 24 == 1420
+MSBS: 13 LSBS: 82 == 873
+MSBS: 10 LSBS: 41 == -661
+MSBS: 13 LSBS: 116 == 890
+Rice Param: 7
+MSBS: 8 LSBS: 38 == 531
+MSBS: 0 LSBS: 19 == -10
+MSBS: 23 LSBS: 9 == -1477
+MSBS: 10 LSBS: 67 == -674
+Rice Param: 7
+MSBS: 22 LSBS: 98 == 1457
+MSBS: 14 LSBS: 65 == -929
+MSBS: 59 LSBS: 9 == -3781
+MSBS: 12 LSBS: 67 == -802
+Rice Param: 7
+MSBS: 8 LSBS: 102 == 563
+MSBS: 18 LSBS: 95 == -1200
+MSBS: 4 LSBS: 51 == -282
+MSBS: 35 LSBS: 22 == 2251
+Rice Param: 7
+MSBS: 0 LSBS: 126 == 63
+MSBS: 25 LSBS: 65 == -1633
+MSBS: 24 LSBS: 106 == 1589
+MSBS: 23 LSBS: 20 == 1482
+Rice Param: 7
+MSBS: 14 LSBS: 68 == 930
+MSBS: 4 LSBS: 51 == -282
+MSBS: 45 LSBS: 39 == -2900
+MSBS: 20 LSBS: 83 == -1322
+Rice Param: 7
+MSBS: 13 LSBS: 114 == 889
+MSBS: 24 LSBS: 122 == 1597
+MSBS: 43 LSBS: 47 == -2776
+MSBS: 49 LSBS: 101 == -3187
+Rice Param: 7
+MSBS: 25 LSBS: 35 == -1618
+MSBS: 0 LSBS: 22 == 11
+MSBS: 9 LSBS: 8 == 580
+MSBS: 4 LSBS: 81 == -297
+Rice Param: 7
+MSBS: 19 LSBS: 20 == 1226
+MSBS: 17 LSBS: 36 == 1106
+MSBS: 4 LSBS: 109 == -311
+MSBS: 4 LSBS: 55 == -284
+Rice Param: 7
+MSBS: 14 LSBS: 4 == 898
+MSBS: 12 LSBS: 121 == -829
+MSBS: 6 LSBS: 119 == -444
+MSBS: 13 LSBS: 61 == -863
+Rice Param: 7
+MSBS: 3 LSBS: 91 == -238
+MSBS: 9 LSBS: 126 == 639
+MSBS: 42 LSBS: 55 == -2716
+MSBS: 36 LSBS: 41 == -2325
+Rice Param: 7
+MSBS: 6 LSBS: 100 == 434
+MSBS: 10 LSBS: 68 == 674
+MSBS: 26 LSBS: 36 == 1682
+MSBS: 8 LSBS: 53 == -539
+Rice Param: 7
+MSBS: 9 LSBS: 39 == -596
+MSBS: 3 LSBS: 44 == 214
+MSBS: 27 LSBS: 22 == 1739
+MSBS: 4 LSBS: 36 == 274
+Rice Param: 7
+MSBS: 0 LSBS: 117 == -59
+MSBS: 0 LSBS: 15 == -8
+MSBS: 20 LSBS: 50 == 1305
+MSBS: 1 LSBS: 14 == 71
+Rice Param: 7
+MSBS: 9 LSBS: 115 == -634
+MSBS: 33 LSBS: 59 == -2142
+MSBS: 4 LSBS: 96 == 304
+MSBS: 0 LSBS: 119 == -60
+Rice Param: 7
+MSBS: 12 LSBS: 5 == -771
+MSBS: 26 LSBS: 57 == -1693
+MSBS: 3 LSBS: 27 == -206
+MSBS: 36 LSBS: 0 == 2304
+Rice Param: 7
+MSBS: 11 LSBS: 31 == -720
+MSBS: 28 LSBS: 11 == -1798
+MSBS: 0 LSBS: 34 == 17
+MSBS: 25 LSBS: 14 == 1607
+Rice Param: 7
+MSBS: 15 LSBS: 20 == 970
+MSBS: 5 LSBS: 26 == 333
+MSBS: 2 LSBS: 100 == 178
+MSBS: 7 LSBS: 37 == -467
+Rice Param: 7
+MSBS: 28 LSBS: 14 == 1799
+MSBS: 4 LSBS: 80 == 296
+MSBS: 37 LSBS: 96 == 2416
+MSBS: 11 LSBS: 14 == 711
+Rice Param: 7
+MSBS: 37 LSBS: 36 == 2386
+MSBS: 2 LSBS: 66 == 161
+MSBS: 20 LSBS: 61 == -1311
+MSBS: 7 LSBS: 29 == -463
+Rice Param: 7
+MSBS: 14 LSBS: 33 == -913
+MSBS: 16 LSBS: 38 == 1043
+MSBS: 20 LSBS: 18 == 1289
+MSBS: 21 LSBS: 76 == 1382
+Rice Param: 7
+MSBS: 39 LSBS: 86 == 2539
+MSBS: 4 LSBS: 0 == 256
+MSBS: 17 LSBS: 99 == -1138
+MSBS: 27 LSBS: 87 == -1772
+Rice Param: 7
+MSBS: 9 LSBS: 37 == -595
+MSBS: 12 LSBS: 127 == -832
+MSBS: 12 LSBS: 62 == 799
+MSBS: 0 LSBS: 98 == 49
+Rice Param: 7
+MSBS: 29 LSBS: 104 == 1908
+MSBS: 12 LSBS: 38 == 787
+MSBS: 2 LSBS: 5 == -131
+MSBS: 10 LSBS: 9 == -645
+Rice Param: 7
+MSBS: 33 LSBS: 29 == -2127
+MSBS: 12 LSBS: 104 == 820
+MSBS: 13 LSBS: 18 == 841
+MSBS: 28 LSBS: 56 == 1820
+Rice Param: 7
+MSBS: 4 LSBS: 8 == 260
+MSBS: 9 LSBS: 120 == 636
+MSBS: 36 LSBS: 74 == 2341
+MSBS: 3 LSBS: 107 == -246
+Rice Param: 7
+MSBS: 13 LSBS: 35 == -850
+MSBS: 18 LSBS: 77 == -1191
+MSBS: 7 LSBS: 122 == 509
+MSBS: 14 LSBS: 112 == 952
+Rice Param: 7
+MSBS: 10 LSBS: 53 == -667
+MSBS: 2 LSBS: 20 == 138
+MSBS: 15 LSBS: 74 == 997
+MSBS: 23 LSBS: 122 == 1533
+Rice Param: 7
+MSBS: 18 LSBS: 111 == -1208
+MSBS: 17 LSBS: 77 == -1127
+MSBS: 6 LSBS: 51 == -410
+MSBS: 12 LSBS: 85 == -811
+Rice Param: 7
+MSBS: 22 LSBS: 14 == 1415
+MSBS: 11 LSBS: 65 == -737
+MSBS: 10 LSBS: 73 == -677
+MSBS: 1 LSBS: 31 == -80
+Rice Param: 7
+MSBS: 6 LSBS: 77 == -423
+MSBS: 32 LSBS: 13 == -2055
+MSBS: 30 LSBS: 29 == -1935
+MSBS: 6 LSBS: 6 == 387
+Rice Param: 7
+MSBS: 0 LSBS: 60 == 30
+MSBS: 21 LSBS: 83 == -1386
+MSBS: 6 LSBS: 109 == -439
+MSBS: 34 LSBS: 38 == 2195
+Rice Param: 7
+MSBS: 30 LSBS: 84 == 1962
+MSBS: 30 LSBS: 124 == 1982
+MSBS: 41 LSBS: 98 == 2673
+MSBS: 3 LSBS: 49 == -217
+Rice Param: 7
+MSBS: 20 LSBS: 55 == -1308
+MSBS: 15 LSBS: 94 == 1007
+MSBS: 30 LSBS: 32 == 1936
+MSBS: 22 LSBS: 102 == 1459
+Rice Param: 7
+MSBS: 1 LSBS: 101 == -115
+MSBS: 3 LSBS: 16 == 200
+MSBS: 34 LSBS: 35 == -2194
+MSBS: 9 LSBS: 119 == -636
+Rice Param: 7
+MSBS: 7 LSBS: 3 == -450
+MSBS: 12 LSBS: 119 == -828
+MSBS: 13 LSBS: 70 == 867
+MSBS: 25 LSBS: 56 == 1628
+Rice Param: 7
+MSBS: 67 LSBS: 124 == 4350
+MSBS: 20 LSBS: 47 == -1304
+MSBS: 1 LSBS: 80 == 104
+MSBS: 4 LSBS: 123 == -318
+Rice Param: 7
+MSBS: 6 LSBS: 118 == 443
+MSBS: 14 LSBS: 23 == -908
+MSBS: 11 LSBS: 47 == -728
+MSBS: 15 LSBS: 96 == 1008
+Rice Param: 7
+MSBS: 20 LSBS: 49 == -1305
+MSBS: 6 LSBS: 97 == -433
+MSBS: 19 LSBS: 102 == 1267
+MSBS: 16 LSBS: 7 == -1028
+Rice Param: 7
+MSBS: 22 LSBS: 13 == -1415
+MSBS: 19 LSBS: 35 == -1234
+MSBS: 1 LSBS: 42 == 85
+MSBS: 17 LSBS: 33 == -1105
+Rice Param: 7
+MSBS: 3 LSBS: 47 == -216
+MSBS: 43 LSBS: 76 == 2790
+MSBS: 17 LSBS: 110 == 1143
+MSBS: 2 LSBS: 67 == -162
+Rice Param: 7
+MSBS: 39 LSBS: 47 == -2520
+MSBS: 11 LSBS: 24 == 716
+MSBS: 0 LSBS: 35 == -18
+MSBS: 23 LSBS: 94 == 1519
+Rice Param: 7
+MSBS: 26 LSBS: 122 == 1725
+MSBS: 7 LSBS: 76 == 486
+MSBS: 2 LSBS: 22 == 139
+MSBS: 31 LSBS: 53 == -2011
+Rice Param: 7
+MSBS: 16 LSBS: 58 == 1053
+MSBS: 3 LSBS: 108 == 246
+MSBS: 28 LSBS: 113 == -1849
+MSBS: 13 LSBS: 100 == 882
+Rice Param: 7
+MSBS: 13 LSBS: 7 == -836
+MSBS: 1 LSBS: 127 == -128
+MSBS: 15 LSBS: 94 == 1007
+MSBS: 10 LSBS: 8 == 644
+Rice Param: 7
+MSBS: 19 LSBS: 61 == -1247
+MSBS: 8 LSBS: 49 == -537
+MSBS: 22 LSBS: 13 == -1415
+MSBS: 30 LSBS: 18 == 1929
+Rice Param: 7
+MSBS: 23 LSBS: 114 == 1529
+MSBS: 31 LSBS: 122 == 2045
+MSBS: 22 LSBS: 8 == 1412
+MSBS: 21 LSBS: 126 == 1407
+Rice Param: 7
+MSBS: 13 LSBS: 98 == 881
+MSBS: 11 LSBS: 52 == 730
+MSBS: 4 LSBS: 100 == 306
+MSBS: 16 LSBS: 13 == -1031
+Rice Param: 7
+MSBS: 14 LSBS: 45 == -919
+MSBS: 1 LSBS: 95 == -112
+MSBS: 21 LSBS: 68 == 1378
+MSBS: 6 LSBS: 84 == 426
+Rice Param: 7
+MSBS: 8 LSBS: 95 == -560
+MSBS: 2 LSBS: 11 == -134
+MSBS: 11 LSBS: 109 == -759
+MSBS: 23 LSBS: 97 == -1521
+Rice Param: 7
+MSBS: 10 LSBS: 127 == -704
+MSBS: 14 LSBS: 46 == 919
+MSBS: 31 LSBS: 26 == 1997
+MSBS: 29 LSBS: 69 == -1891
+Rice Param: 7
+MSBS: 2 LSBS: 15 == -136
+MSBS: 5 LSBS: 115 == -378
+MSBS: 1 LSBS: 126 == 127
+MSBS: 5 LSBS: 72 == 356
+Rice Param: 7
+MSBS: 29 LSBS: 75 == -1894
+MSBS: 4 LSBS: 40 == 276
+MSBS: 5 LSBS: 93 == -367
+MSBS: 2 LSBS: 122 == 189
+Rice Param: 7
+MSBS: 1 LSBS: 94 == 111
+MSBS: 6 LSBS: 7 == -388
+MSBS: 7 LSBS: 110 == 503
+MSBS: 5 LSBS: 75 == -358
+Rice Param: 7
+MSBS: 37 LSBS: 57 == -2397
+MSBS: 9 LSBS: 81 == -617
+MSBS: 3 LSBS: 127 == -256
+MSBS: 1 LSBS: 1 == -65
+Rice Param: 7
+MSBS: 21 LSBS: 104 == 1396
+MSBS: 23 LSBS: 25 == -1485
+MSBS: 8 LSBS: 64 == 544
+MSBS: 24 LSBS: 42 == 1557
+Rice Param: 7
+MSBS: 27 LSBS: 126 == 1791
+MSBS: 7 LSBS: 17 == -457
+MSBS: 2 LSBS: 79 == -168
+MSBS: 19 LSBS: 69 == -1251
+Rice Param: 7
+MSBS: 10 LSBS: 11 == -646
+MSBS: 43 LSBS: 55 == -2780
+MSBS: 14 LSBS: 39 == -916
+MSBS: 6 LSBS: 127 == -448
+Rice Param: 7
+MSBS: 17 LSBS: 39 == -1108
+MSBS: 6 LSBS: 114 == 441
+MSBS: 13 LSBS: 121 == -893
+MSBS: 8 LSBS: 123 == -574
+Rice Param: 7
+MSBS: 19 LSBS: 45 == -1239
+MSBS: 26 LSBS: 79 == -1704
+MSBS: 10 LSBS: 69 == -675
+MSBS: 7 LSBS: 117 == -507
+Rice Param: 7
+MSBS: 52 LSBS: 80 == 3368
+MSBS: 20 LSBS: 82 == 1321
+MSBS: 24 LSBS: 59 == -1566
+MSBS: 47 LSBS: 13 == -3015
+Rice Param: 7
+MSBS: 11 LSBS: 25 == -717
+MSBS: 16 LSBS: 12 == 1030
+MSBS: 24 LSBS: 7 == -1540
+MSBS: 25 LSBS: 80 == 1640
+Rice Param: 7
+MSBS: 21 LSBS: 102 == 1395
+MSBS: 26 LSBS: 85 == -1707
+MSBS: 8 LSBS: 6 == 515
+MSBS: 14 LSBS: 64 == 928
+Rice Param: 7
+MSBS: 0 LSBS: 82 == 41
+MSBS: 14 LSBS: 65 == -929
+MSBS: 13 LSBS: 121 == -893
+MSBS: 11 LSBS: 83 == -746
+Rice Param: 7
+MSBS: 6 LSBS: 115 == -442
+MSBS: 13 LSBS: 44 == 854
+MSBS: 9 LSBS: 23 == -588
+MSBS: 29 LSBS: 13 == -1863
+Rice Param: 7
+MSBS: 9 LSBS: 109 == -631
+MSBS: 2 LSBS: 40 == 148
+MSBS: 5 LSBS: 30 == 335
+MSBS: 6 LSBS: 64 == 416
+Rice Param: 7
+MSBS: 28 LSBS: 25 == -1805
+MSBS: 4 LSBS: 41 == -277
+MSBS: 28 LSBS: 28 == 1806
+MSBS: 11 LSBS: 82 == 745
+Rice Param: 7
+MSBS: 16 LSBS: 4 == 1026
+MSBS: 7 LSBS: 55 == -476
+MSBS: 2 LSBS: 65 == -161
+MSBS: 0 LSBS: 52 == 26
+Rice Param: 7
+MSBS: 8 LSBS: 93 == -559
+MSBS: 11 LSBS: 9 == -709
+MSBS: 3 LSBS: 100 == 242
+MSBS: 22 LSBS: 30 == 1423
+Rice Param: 7
+MSBS: 23 LSBS: 42 == 1493
+MSBS: 3 LSBS: 14 == 199
+MSBS: 0 LSBS: 33 == -17
+MSBS: 2 LSBS: 122 == 189
+Rice Param: 7
+MSBS: 8 LSBS: 125 == -575
+MSBS: 6 LSBS: 122 == 445
+MSBS: 20 LSBS: 49 == -1305
+MSBS: 2 LSBS: 40 == 148
+Rice Param: 7
+MSBS: 12 LSBS: 28 == 782
+MSBS: 22 LSBS: 32 == 1424
+MSBS: 9 LSBS: 4 == 578
+MSBS: 30 LSBS: 122 == 1981
+Rice Param: 7
+MSBS: 26 LSBS: 43 == -1686
+MSBS: 8 LSBS: 49 == -537
+MSBS: 13 LSBS: 85 == -875
+MSBS: 21 LSBS: 11 == -1350
+Rice Param: 7
+MSBS: 6 LSBS: 24 == 396
+MSBS: 15 LSBS: 86 == 1003
+MSBS: 25 LSBS: 39 == -1620
+MSBS: 6 LSBS: 57 == -413
+Rice Param: 7
+MSBS: 3 LSBS: 118 == 251
+MSBS: 41 LSBS: 101 == -2675
+MSBS: 42 LSBS: 65 == -2721
+MSBS: 15 LSBS: 1 == -961
+Rice Param: 7
+MSBS: 0 LSBS: 124 == 62
+MSBS: 4 LSBS: 18 == 265
+MSBS: 18 LSBS: 106 == 1205
+MSBS: 1 LSBS: 62 == 95
+Rice Param: 7
+MSBS: 0 LSBS: 26 == 13
+MSBS: 20 LSBS: 107 == -1334
+MSBS: 14 LSBS: 6 == 899
+MSBS: 8 LSBS: 65 == -545
+Rice Param: 7
+MSBS: 33 LSBS: 5 == -2115
+MSBS: 19 LSBS: 77 == -1255
+MSBS: 7 LSBS: 26 == 461
+MSBS: 15 LSBS: 97 == -1009
+Rice Param: 7
+MSBS: 18 LSBS: 53 == -1179
+MSBS: 29 LSBS: 93 == -1903
+MSBS: 8 LSBS: 123 == -574
+MSBS: 8 LSBS: 79 == -552
+Rice Param: 7
+MSBS: 19 LSBS: 121 == -1277
+MSBS: 1 LSBS: 5 == -67
+MSBS: 20 LSBS: 65 == -1313
+MSBS: 17 LSBS: 51 == -1114
+Rice Param: 7
+MSBS: 17 LSBS: 99 == -1138
+MSBS: 7 LSBS: 127 == -512
+MSBS: 4 LSBS: 89 == -301
+MSBS: 1 LSBS: 80 == 104
+Rice Param: 7
+MSBS: 0 LSBS: 96 == 48
+MSBS: 63 LSBS: 35 == -4050
+MSBS: 5 LSBS: 3 == -322
+MSBS: 12 LSBS: 121 == -829
+Rice Param: 7
+MSBS: 16 LSBS: 112 == 1080
+MSBS: 12 LSBS: 12 == 774
+MSBS: 1 LSBS: 39 == -84
+MSBS: 8 LSBS: 44 == 534
+Rice Param: 7
+MSBS: 11 LSBS: 76 == 742
+MSBS: 21 LSBS: 72 == 1380
+MSBS: 28 LSBS: 59 == -1822
+MSBS: 11 LSBS: 117 == -763
+Rice Param: 7
+MSBS: 0 LSBS: 71 == -36
+MSBS: 6 LSBS: 20 == 394
+MSBS: 8 LSBS: 54 == 539
+MSBS: 23 LSBS: 76 == 1510
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 1 == -1
+MSBS: 3 LSBS: 0 == 3
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 3 LSBS: 0 == 3
+MSBS: 2 LSBS: 1 == -3
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 3 LSBS: 0 == -2
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 3 LSBS: 0 == -2
+MSBS: 6 LSBS: 0 == 3
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 3 LSBS: 0 == -2
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 3 LSBS: 0 == 3
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 1 LSBS: 1 == -2
+MSBS: 3 LSBS: 0 == 3
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 1 == -1
+MSBS: 3 LSBS: 0 == 3
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 1 == -2
+MSBS: 3 LSBS: 0 == 3
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 1 LSBS: 1 == -2
+MSBS: 3 LSBS: 0 == 3
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 3 LSBS: 0 == -2
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 1
+MSBS: 4 LSBS: 0 == 4
+MSBS: 0 LSBS: 1 == -1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 1 == -1
+MSBS: 3 LSBS: 0 == 3
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 1 == -1
+MSBS: 3 LSBS: 0 == 3
+MSBS: 1 LSBS: 1 == -2
+Rice Param: 1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 1
+MSBS: 3 LSBS: 0 == 3
+MSBS: 1 LSBS: 1 == -2
+MSBS: 1 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 3 LSBS: 0 == 3
+MSBS: 1 LSBS: 1 == -2
+Rice Param: 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == 1
+MSBS: 1 LSBS: 1 == -2
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 1 == -1
+MSBS: 3 LSBS: 0 == 3
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 1
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 1 == -1
+MSBS: 1 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 1
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+MSBS: 2 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 2
+MSBS: 0 LSBS: 2 == 1
+MSBS: 0 LSBS: 2 == 1
+MSBS: 0 LSBS: 3 == -2
+MSBS: 1 LSBS: 2 == 3
+Rice Param: 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 1 == -1
+MSBS: 2 LSBS: 0 == 2
+MSBS: 1 LSBS: 1 == -2
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+Rice Param: 0
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 4 LSBS: 0 == 2
+Rice Param: 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 2 LSBS: 0 == 1
+MSBS: 1 LSBS: 0 == -1
+MSBS: 0 LSBS: 0 == 0
+Rice Param: 0
+MSBS: 4 LSBS: 0 == 2
+MSBS: 0 LSBS: 0 == 0
+MSBS: 0 LSBS: 0 == 0
+MSBS: 1 LSBS: 0 == -1

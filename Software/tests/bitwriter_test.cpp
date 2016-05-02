@@ -210,6 +210,56 @@ INSTANTIATE_TEST_CASE_P(WritePartitionsData, WriteResidual, ::testing::Values(
     new std::vector<int>{4},
     new std::vector<int>{5}));
 
+class WriteUTF8 : public BitWriterTest {};
+
+TEST_P(WriteUTF8, UTF8_32){
+    std::vector<int> * const& p = GetParam();
+    uint32_t valw = p->at(0);
+    uint32_t valr32;
+    
+    bw->write_utf8(valw);
+    bw->flush();
+    
+    f->seekg(0);
+    f->sync();
+    br->refill_buffer();
+    br->read_utf8_uint32(&valr32);
+    
+    EXPECT_EQ(valw, valr32);
+}
+
+TEST_P(WriteUTF8, UTF8_64){
+    std::vector<int> * const& p = GetParam();
+    uint32_t valw = p->at(0);
+    
+    uint64_t valr64;
+    
+    bw->write_utf8(valw);
+    bw->flush();
+    
+    f->seekg(0);
+    f->sync();
+    br->refill_buffer();
+    br->read_utf8_uint64(&valr64);
+    
+    EXPECT_EQ(valw, valr64);
+}
+
+INSTANTIATE_TEST_CASE_P(WriteUTF8Data, WriteUTF8, ::testing::Values(
+    new std::vector<int>{0},
+    new std::vector<int>{1},
+    new std::vector<int>{2},
+    new std::vector<int>{3},
+    new std::vector<int>{4},
+    new std::vector<int>{5},
+    new std::vector<int>{1000},
+    new std::vector<int>{10022},
+    new std::vector<int>{100223},
+    new std::vector<int>{2300147},
+    new std::vector<int>{88339211},
+    new std::vector<int>{992281203}));
+
+
 int main(int argc, char **argv){
     ::testing::InitGoogleTest( &argc, argv );
     return RUN_ALL_TESTS();

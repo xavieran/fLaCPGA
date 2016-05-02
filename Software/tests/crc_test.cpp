@@ -21,7 +21,7 @@ public:
     std::unique_ptr<BitReader> fr;
     
     BitReaderTestSeek() { 
-        f = std::make_shared<std::fstream>("test1.bin", std::ios::in | std::ios::binary);
+        f = std::make_shared<std::fstream>("crc_test.bin", std::ios::in | std::ios::binary);
         fr = std::make_unique<BitReader>(f);
     } 
 
