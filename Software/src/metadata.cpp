@@ -186,11 +186,17 @@ bool FLACMetaStreamInfo::write(std::shared_ptr<BitWriter> bw){
     bw->write_bits(4096, 16);
     bw->write_bits(4096, 16);
     bw->write_bits(0, 24); // Unknown
-    bw->write_bits(0, 24); // Unkwon
+    bw->write_bits(0, 24); // Unknown
     bw->write_bits(44100, 20); // 44.1kHz
     bw->write_bits(0, 3); // Stick with 1 channel for now
     bw->write_bits(15, 5); // 16 - 1 = 15
-    bw->write_utf8((uint32_t) _totalSamples); // Unknown for now
+    //bw->write_bits(_totalSamples, 36); // Unknown for now
+    
+    /* should not have to split up these writes... oh well */
+    bw->write_bits((_totalSamples & 0xf00000000) >> 32, 4);
+    bw->write_bits((_totalSamples & 0xffff0000) >> 16, 16);
+    bw->write_bits(_totalSamples & 0xffff, 16);
+    
     bw->write_bits(0, 64); // Ignore MD5
     bw->write_bits(0, 64); 
     

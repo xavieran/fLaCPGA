@@ -49,6 +49,12 @@ int BitReader::bytes_left(){
 int BitReader::refill_buffer(){
     _curr_byte = _buffer;
     _fin->read((char *)_buffer, BUFFER_SIZE); // This cast irritates me...
+    
+    /*printf("BUFFER CONTENTS\n");
+    for (int i = 0; i < 30; i++){
+        printf("%x ", _buffer[i]);
+    }
+    printf("\n");*/
     return 1;
 }
 
@@ -105,7 +111,7 @@ int BitReader::read_rice_signed(int32_t *x, uint8_t M){
     else
         *x = (int)(uval >> 1);    
 
-    std::cout << "MSBS: " << msbs <<" LSBS: " << lsbs << " == " << (int) *x << "\n";
+    //std::cout << "MSBS: " << msbs <<" LSBS: " << lsbs << " == " << (int) *x << "\n";
     return true;
 }
 

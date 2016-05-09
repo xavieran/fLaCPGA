@@ -21,7 +21,9 @@ module ResidualDecoder(input iClock,
  reg [15:0] samples_read;
  reg [4:0] curr_bit;
  
- reg [31:0] data_buffer;
+ 
+ 
+ reg [47:0] data_buffer; // 3 word buffer prev|current|next
  reg [15:0] rd_addr;
  reg need_data;
  

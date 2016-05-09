@@ -41,17 +41,20 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
     frame_header.setFrameNumber(frame);
     frame_header.write(_bw);
     
+    
     /* Step 2. Find the best order for this frame */
      int order = FixedEncoder::calc_best_order(pcm_buf, samples);
+     
+     std::cerr << "Frame: " << frame << "\nBest order: " << order << "\n";
      
     /* Step 3. Now we write the Subframe header */
     // Yes, I will need to make this more general of course, but this 
     // writes a fixed header assuming no wasted bits
-    _bw->write_bits(0b1001 << 4 | (uint8_t) order << 1 | 0, 7);
+    _bw->write_bits(0b0001 << 4 | (uint8_t) order << 1, 8);
     
     /* Step 4. Write the warmup samples */
     for (int i = 0; i < order; i++){
-        _bw->write_bits(pcm_buf[i], 16);
+        _bw->write_bits(((int16_t) pcm_buf[i]), 16);
     }
     
     /* Step 5. Now we calculate the residuals */
@@ -62,8 +65,24 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
     
     auto rice_params = RiceEncoder::calc_best_rice_params(scratch_space + order, samples - order);
     
+    std::cerr << "Rice Params: \n";
+    for (auto r : rice_params){
+        std::cerr << (int) r << " ";
+    } std::cerr << "\n";
+    
     /* Step 8. Write the residuals to file */
     _bw->write_residual(scratch_space, samples, order, 0, rice_params);
+    
+    std::cerr << "SAMPLES:::\n";
+    for (int i = 0; i < samples; i++){
+        std::cerr << pcm_buf[i] <<" " ;
+    } std::cerr << "\n";
+    
+    std::cerr << "RESIUDALS:::\n";
+    for (int i = 0; i < samples; i++){
+        std::cerr << scratch_space[i] << " ";
+    }
+    std::cerr << "\n";
     
     /* Step 9. Write the padding */
     _bw->write_padding();
@@ -72,7 +91,7 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
     _bw->write_bits(_bw->calc_crc16(), 16);
     
     /* Should keep the buffer from overfilling... */
-    _bw->flush();
+    std::cerr << "Wrote " << _bw->flush() << "\n\n";
     
     return true;
 }

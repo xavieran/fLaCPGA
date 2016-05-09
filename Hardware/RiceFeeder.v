@@ -53,4 +53,3 @@ module RiceFeeder(input iClock,
 	end
 	
 endmodule
-			

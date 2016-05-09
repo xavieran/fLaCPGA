@@ -94,6 +94,7 @@ public:
     uint64_t getMD5l();
     
     void setTotalSamples(uint64_t samples);
+    
     void print(FILE *f);
     int read(std::shared_ptr<BitReader> fr);
     bool write(std::shared_ptr<BitWriter> bw);

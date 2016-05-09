@@ -39,7 +39,7 @@ CRC Code: 0x%x\n\n", _syncCode, _reserved1, _blockingStrategy,
 }
 
 FLACFrameHeader::FLACFrameHeader(){    
-    _syncCode = 0b11111111111111;
+    _syncCode = 0b11111111111110;
     _reserved1 = 0;
     _blockingStrategy = 0;
     _blockSizeHint = 0;
@@ -56,7 +56,7 @@ FLACFrameHeader::FLACFrameHeader(){
 }
 
 void FLACFrameHeader::reconstruct(){    
-    _syncCode = 0b11111111111111;
+    _syncCode = 0b11111111111110;
     _reserved1 = 0;
     _blockingStrategy = 0;
     _blockSizeHint = 0;
@@ -188,7 +188,10 @@ int FLACFrameHeader::read(std::shared_ptr<BitReader> fr){
     
     uint8_t crc8 = fr->frame_crc8();
     fr->read_bits(&_CRC8Poly, 8);
-    assert(crc8 == _CRC8Poly); // We probably shouldn't fail if we get his wrong, rather skip to the next frame
+    if (crc8 != _CRC8Poly){
+        fprintf(stderr, "Invalid frame checksum\n");
+        fr->read_error();
+    }
     return 1; // Add error handling
 }
 
@@ -207,7 +210,7 @@ int FLACFrameHeader::read_footer(std::shared_ptr<BitReader> fr){
 
 int FLACFrameHeader::write(std::shared_ptr<BitWriter> bw){
     bw->mark_frame_start();
-    bw->write_bits(0b11111111111111, 14);
+    bw->write_bits(0b11111111111110, 14);
     
     bw->write_bits(0, 1); // Reserved to always be zero
     bw->write_bits(0, 1); // Fixed blocking

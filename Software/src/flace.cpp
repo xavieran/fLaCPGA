@@ -74,15 +74,15 @@ int main(int argc, char *argv[]){
     
     for (i = 0; i + spb < meta->getNumSamples(); i += spb){
         wr->read_data(fr, pcm, spb);
-        for (unsigned j = 0; j < spb; j++) pcm32[j] = pcm[j];
+        for (unsigned j = 0; j < spb; j++){ pcm32[j] = (int32_t) pcm[j];}
         fe.write_frame(pcm32, spb, i/spb);
     }
-    
+    /*
     if (i != meta->getNumSamples()){
         int remainder = meta->getNumSamples() - i;
         wr->read_data(fr, pcm, remainder);
         for (int j = 0; j < remainder; j++){
         }
-    }
+    }*/
     
 }

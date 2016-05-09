@@ -25,9 +25,9 @@ std::vector<uint8_t> RiceEncoder::calc_best_rice_params(int32_t data[], int samp
     
     /* Now that we have calculated the prefix sums, find the best set of params to 
        minimize the final partition size*/
-    /* FLAC__format_get_max_rice_partition_order_from_blocksize_limited_max_and_predictor_order(max_partition_order, blocksize, predictor_order);
-    min_partition_order = flac_min(min_partition_order, max_partition_order); SoMETHING like this /\ */
-    int npartitions = 11; // npartitions should be log2(samples)... but since we deal with blocks of size 4096...
+    
+    int npartitions = 1; // npartitions should be log2(samples)... but since we deal with blocks of size 4096...
+    
     auto rice_params = std::vector<std::vector<int>>(npartitions, std::vector<int>(1 << npartitions - 1));
     auto bit_sums = std::vector<int>(8);
     auto part_size_sums = std::vector<int>(npartitions);

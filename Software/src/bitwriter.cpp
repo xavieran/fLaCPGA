@@ -40,12 +40,12 @@ int BitWriter::write_buffer(){
      * be written? Fix by not writing the last byte until a flush is called and
      * copy that last byte to the first part of the buffer */
     
-    // Make sure we also catch the last byte if it has been halfwritten
+    // Make sure we also catch the last byte if it has been half written
     int bytes_to_write = _curr_byte - _buffer + (_bitp % 8 != 0);
     // Shift the last piece of the buffer over if it is not full
      (*_curr_byte) <<= 8 - _bitp % 8; 
     //int bytes_written = fwrite(_buffer, sizeof(uint8_t), bytes_to_write, _fout);
-    int bytes_written = 0;
+    int bytes_written = bytes_to_write;
     _fout->write((char *)_buffer, bytes_to_write); // Not a fan of this cast
     _fout->flush();
     _curr_byte = _buffer;
@@ -123,7 +123,7 @@ int BitWriter::write_rice(int32_t data, unsigned rice_param){
     msbs = uval >> rice_param;
     lsbs = uval & ((1 << rice_param) - 1); // LSBs are the last rice_param number of bits
     
-    fprintf(stderr, "val: %d rp: %d msbs: %d lsbs: 0x%x\n", data, rice_param, msbs, lsbs);
+    ///fprintf(stderr, "val: %d rp: %d msbs: %d lsbs: 0x%x\n", data, rice_param, msbs, lsbs);
     
     write_unary(msbs);
     write_bits(lsbs, rice_param);
