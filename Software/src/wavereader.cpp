@@ -15,7 +15,20 @@
 #include "wavereader.hpp"
 
 WaveMetaData::WaveMetaData(){
-    ;
+    
+    memset(_ChunkID, 0, 5);
+    _ChunkSize = 0;
+    memset(_Format, 0, 5);
+    memset(_Subchunk1ID, 0, 5);
+    _Subchunk1Size = 0;
+    _AudioFormat = 0;
+    _NumChannels = 0;
+    _ByteRate =0;
+    _BlockAlign = 0;
+    _BitsPerSample =0;
+    memset(_Subchunk2ID, 0, 5);
+    _metadata_size = 0;
+    _metadata = NULL;
 }
 
 WaveMetaData::WaveMetaData(uint16_t NumChannels, uint32_t SampleRate, uint16_t BitsPerSample, 

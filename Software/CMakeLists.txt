@@ -28,7 +28,7 @@ set(FLAC_ENCODER_SOURCES ${FLAC_DECODER_SOURCES} src/flacencoder.cpp src/riceenc
 set(FLAC_ENCODER_INCLUDES ${FLAC_DECODER_INCLUDES} includes/flacencoder.hpp includes/riceencoder.hpp 
                          includes/fixedencoder.hpp)
 
-set(CMAKE_CXX_FLAGS "-g -static -Og -std=c++14 -Wall -Wno-unused-variable -Wno-switch")
+set(CMAKE_CXX_FLAGS "-g -fstack-protector-all -static -Og -std=c++14 -Wall -Wno-unused-variable -Wno-switch")
 
 
 # Tests

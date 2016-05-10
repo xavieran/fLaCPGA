@@ -12,7 +12,7 @@
 #include <memory>
 
 // 1MB default buffer size, should conduct experiments to see effect on performance
-#define BUFFER_SIZE 1000000 
+#define BUFFER_SIZE 10000000 
 
 class BitReader {
 public:

@@ -35,22 +35,17 @@ int BitWriter::is_byte_aligned(){
 }
 
 int BitWriter::write_buffer(){
-    /******** THIS IS REALLY REALLY BAD !!!!!!!!!! 
-     * What happens if we are writing a rice partition and the buffer needs to
-     * be written? Fix by not writing the last byte until a flush is called and
-     * copy that last byte to the first part of the buffer */
-    
-    // Make sure we also catch the last byte if it has been half written
-    int bytes_to_write = _curr_byte - _buffer + (_bitp % 8 != 0);
-    // Shift the last piece of the buffer over if it is not full
-     (*_curr_byte) <<= 8 - _bitp % 8; 
-    //int bytes_written = fwrite(_buffer, sizeof(uint8_t), bytes_to_write, _fout);
-    int bytes_written = bytes_to_write;
+    assert(is_byte_aligned() == 1);
+    fprintf(stderr, "BUFFER: %x %x %x %x\n", _curr_byte[-3], _curr_byte[-2], _curr_byte[-1], _curr_byte[0]);
+    fprintf(stderr, "Bitp: %d Bytes: %d\n", _bitp, _curr_byte - _buffer);
+    int bytes_to_write = _curr_byte - _buffer;
     _fout->write((char *)_buffer, bytes_to_write); // Not a fan of this cast
     _fout->flush();
-    _curr_byte = _buffer;
+    _curr_byte =_buffer;
+    _bitp = 0;
     memset(_buffer, 0, BUFFER_SIZE);
-    return bytes_written;
+
+    return bytes_to_write;
 }
 
 void BitWriter::reset(){
@@ -63,13 +58,13 @@ void BitWriter::reset(){
 int BitWriter::write_bits(uint64_t data, uint8_t bits){
     // blib = bits left in byte
     int blib = 0;
-    fprintf(stderr, "Writing: %d\n", data);
+    //fprintf(stderr, "Writing: %d\n", data);
     while (bits != 0){
         blib = 8 - (_bitp % 8);
         if (blib == 8 && this->bytes_left() == 0)
             this->write_buffer(); //Check for EOF
         
-        fprintf(stderr, "Bytes Left: %d Current Byte: %d \n", bytes_left(), (_curr_byte - _buffer));
+        //fprintf(stderr, "Bytes Left: %d Current Byte: %d \n", bytes_left(), (_curr_byte - _buffer));
         if (bits < blib){
             (*_curr_byte) <<= bits;
             (*_curr_byte) |= ((1 << bits) - 1) & data;
@@ -197,10 +192,12 @@ uint16_t BitWriter::calc_crc16(){
 }
 
 void BitWriter::write_padding(){
+    fprintf(stderr, "Writing padding: bitp: %d curr: %d\n", _bitp, _curr_byte - _buffer);
     if (!is_byte_aligned()){ // Not byte aligned
-        _bitp += (8 - _bitp / 8);
+        _bitp += (8 - _bitp % 8);
         _curr_byte++; /* FIXME: Should do bounds checking here... */
     }
+    fprintf(stderr, "Finished padding: bitp: %d curr: %d\n", _bitp, _curr_byte - _buffer);
 }
 
 
