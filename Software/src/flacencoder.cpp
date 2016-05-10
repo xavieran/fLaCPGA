@@ -45,7 +45,7 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
     /* Step 2. Find the best order for this frame */
      int order = FixedEncoder::calc_best_order(pcm_buf, samples);
      //int order = 4;
-     std::cerr << "Frame: " << frame << "\nBest order: " << order << "\n";
+     //std::cerr << "Frame: " << frame << "\nBest order: " << order << "\n";
      
     
     /* Step 5. Now we calculate the residuals */
@@ -58,10 +58,10 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
     uint32_t total_bits;
     auto rice_params = RiceEncoder::calc_best_rice_params(scratch_space + order, samples - order, total_bits);
     
-    std::cerr << "Rice Params: \n";
+    /*std::cerr << "Rice Params: \n";
     for (auto r : rice_params){
         std::cerr << (int) r << " ";
-    } std::cerr << "\n";
+    } std::cerr << "\n";*/
     
     
         /* Step 3. Now we write the Subframe header */
@@ -79,7 +79,7 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
     
         /* Step 8. Write the residuals to file */
         int samples_in_res = _bw->write_residual(scratch_space + order, samples, order, 0, rice_params);
-        
+        /*
         std::cerr << "Samples wrote in residual: " << samples_in_res << "\n";
         
         std::cerr << "SAMPLES:::\n";
@@ -91,7 +91,7 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
         for (int i = 0; i < samples; i++){
             std::cerr << scratch_space[i] << " ";
         }
-        std::cerr << "\n";
+        std::cerr << "\n";*/
     } else {
         // Write Verbatim frame
         _bw->write_bits(0b00000010, 8);
@@ -105,13 +105,15 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
     _bw->write_padding();
     
     /* Step 10. Finally, write the frame footer and we are done */
-    uint16_t crc16 = _bw->calc_crc16(); 
+    uint16_t crc16 = _bw->calc_crc16();
     _bw->write_bits(crc16, 16);
-    fprintf(stderr, "CRC16:: %x\n", crc16);
+    //fprintf(stderr, "CRC16:: %x\n", crc16);
     
+    
+    int bytes_written = _bw->flush();
     /* Should keep the buffer from overfilling... */
-    std::cerr << "Wrote " << _bw->flush() << "\n";
-    std::cerr << "Compared to " << 4096*2 << "\n\n";
+    //std::cerr << "Wrote " << bytes_written << "\n";
+    //std::cerr << "Compared to " << 4096*2 << "\n\n";
     
     
     

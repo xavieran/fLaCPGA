@@ -56,7 +56,7 @@ std::vector<uint8_t> RiceEncoder::calc_best_rice_params(int32_t data[], int samp
     
     total_bits = *std::min(part_size_sums.begin(), part_size_sums.end());
     
-    fprintf(stderr, "Residual Total Bits: %d\n", *std::min(part_size_sums.begin(), part_size_sums.end()));
+    //fprintf(stderr, "Residual Total Bits: %d\n", *std::min(part_size_sums.begin(), part_size_sums.end()));
     
     return nv;
 }

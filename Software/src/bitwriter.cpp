@@ -36,8 +36,8 @@ int BitWriter::is_byte_aligned(){
 
 int BitWriter::write_buffer(){
     assert(is_byte_aligned() == 1);
-    fprintf(stderr, "BUFFER: %x %x %x %x\n", _curr_byte[-3], _curr_byte[-2], _curr_byte[-1], _curr_byte[0]);
-    fprintf(stderr, "Bitp: %d Bytes: %d\n", _bitp, _curr_byte - _buffer);
+    //fprintf(stderr, "BUFFER: %x %x %x %x\n", _curr_byte[-3], _curr_byte[-2], _curr_byte[-1], _curr_byte[0]);
+    //fprintf(stderr, "Bitp: %d Bytes: %d\n", _bitp, _curr_byte - _buffer);
     int bytes_to_write = _curr_byte - _buffer;
     _fout->write((char *)_buffer, bytes_to_write); // Not a fan of this cast
     _fout->flush();
@@ -192,12 +192,12 @@ uint16_t BitWriter::calc_crc16(){
 }
 
 void BitWriter::write_padding(){
-    fprintf(stderr, "Writing padding: bitp: %d curr: %d\n", _bitp, _curr_byte - _buffer);
+    //fprintf(stderr, "Writing padding: bitp: %d curr: %d\n", _bitp, _curr_byte - _buffer);
     if (!is_byte_aligned()){ // Not byte aligned
         _bitp += (8 - _bitp % 8);
         _curr_byte++; /* FIXME: Should do bounds checking here... */
     }
-    fprintf(stderr, "Finished padding: bitp: %d curr: %d\n", _bitp, _curr_byte - _buffer);
+    //fprintf(stderr, "Finished padding: bitp: %d curr: %d\n", _bitp, _curr_byte - _buffer);
 }
 
 
