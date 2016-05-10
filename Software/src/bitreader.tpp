@@ -35,6 +35,30 @@ template<typename T> int BitReader::read_words_LE(T *x, uint64_t words){
     return true;
 }
 
+template<typename T> int BitReader::read_word_LE_aligned(T *x){
+    assert(this->is_byte_aligned()); // Only execute this when byte aligned...
+    T result = 0;
+    unsigned bytes = sizeof(T);
+    for (unsigned i = 0; i < bytes; i++){
+        result |= (*(_curr_byte++) << i*8);
+        _bitp += 8;
+        
+        if(this->bytes_left() ==0){
+            refill_buffer();
+        }
+    }
+    *x = result;
+    return true;
+}
+
+template<typename T> int BitReader::read_words_LE_aligned(T *x, uint64_t words){
+    for (unsigned i = 0; i < words; i++){
+        read_word_LE_aligned(x + i);
+    }
+    return true;
+}
+
+
 template<typename T> int  BitReader::read_chunk(T *dst, int nmemb){
     if (this->bytes_left() == 0)
         this->refill_buffer();

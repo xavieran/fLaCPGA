@@ -137,10 +137,10 @@ int WaveReader::read_data(std::shared_ptr<BitReader> fr, int16_t *pcm, uint64_t 
     /* Fill pcm with samples of data... */
     if (samples > getSamplesLeft()){
         _samplesRead = _meta->getNumSamples();
-        return fr->read_words_LE(pcm, getSamplesLeft());
+        return fr->read_words_LE_aligned(pcm, getSamplesLeft());
     } else {
         samples += _samplesRead;
-        return fr->read_words_LE(pcm, samples);
+        return fr->read_words_LE_aligned(pcm, samples);
     }
 }
 

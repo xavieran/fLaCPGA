@@ -12,7 +12,7 @@
 #include <vector>
 #include <algorithm>
 
-std::vector<uint8_t> RiceEncoder::calc_best_rice_params(int32_t data[], int samples){
+std::vector<uint8_t> RiceEncoder::calc_best_rice_params(int32_t data[], int samples, uint32_t &total_bits){
     // Test all 8 rice params
     auto prefixsums = std::vector<std::vector<int>>(8, std::vector<int>(samples));
 
@@ -26,7 +26,7 @@ std::vector<uint8_t> RiceEncoder::calc_best_rice_params(int32_t data[], int samp
     /* Now that we have calculated the prefix sums, find the best set of params to 
        minimize the final partition size*/
     
-    int npartitions = 1; // npartitions should be log2(samples)... but since we deal with blocks of size 4096...
+    int npartitions = 10; // npartitions should be log2(samples)... but since we deal with blocks of size 4096...
     
     auto rice_params = std::vector<std::vector<int>>(npartitions, std::vector<int>(1 << npartitions - 1));
     auto bit_sums = std::vector<int>(8);
@@ -53,9 +53,15 @@ std::vector<uint8_t> RiceEncoder::calc_best_rice_params(int32_t data[], int samp
 
     auto nv = std::vector<uint8_t>(1 << min_part_size);
     for (int i = 0; i < (1<<min_part_size); i++) nv[i] = rice_params[min_part_size][i];
-
+    
+    total_bits = *std::min(part_size_sums.begin(), part_size_sums.end());
+    
+    fprintf(stderr, "Residual Total Bits: %d\n", *std::min(part_size_sums.begin(), part_size_sums.end()));
+    
     return nv;
 }
+
+//unsigned RiceEncoder::calc_total_bits(int32_t data[], std::vector<uint8_t> &rice_params){}
 
 unsigned RiceEncoder::calc_rice_bits(int32_t data, unsigned rice_param){
     uint32_t uval = data;

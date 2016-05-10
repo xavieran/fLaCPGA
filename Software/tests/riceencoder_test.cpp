@@ -25,7 +25,10 @@ TEST(BestParameterLowResiduals, RiceEncTest){
     while (*f >> p){
         data[i++] = p;
     }
-    auto best_param = RiceEncoder::calc_best_rice_params(data, 4096);
+    
+    uint32_t total_bits;
+    
+    auto best_param = RiceEncoder::calc_best_rice_params(data, 4096, total_bits);
         for (auto r: best_param){
         std::cerr << " " << (int) r;
     }

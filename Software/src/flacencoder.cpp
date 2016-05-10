@@ -47,15 +47,7 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
      
      std::cerr << "Frame: " << frame << "\nBest order: " << order << "\n";
      
-    /* Step 3. Now we write the Subframe header */
-    // Yes, I will need to make this more general of course, but this 
-    // writes a fixed header assuming no wasted bits
-    _bw->write_bits(0b0001 << 4 | (uint8_t) order << 1, 8);
-    
-    /* Step 4. Write the warmup samples */
-    for (int i = 0; i < order; i++){
-        _bw->write_bits(((int16_t) pcm_buf[i]), 16);
-    }
+
     
     /* Step 5. Now we calculate the residuals */
     int32_t scratch_space[samples];
@@ -63,26 +55,51 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
     
     /* Step 7. Calculate the best residual parameters */
     
-    auto rice_params = RiceEncoder::calc_best_rice_params(scratch_space + order, samples - order);
+    uint32_t total_bits;
+    auto rice_params = RiceEncoder::calc_best_rice_params(scratch_space + order, samples - order, total_bits);
     
     std::cerr << "Rice Params: \n";
     for (auto r : rice_params){
         std::cerr << (int) r << " ";
     } std::cerr << "\n";
     
-    /* Step 8. Write the residuals to file */
-    _bw->write_residual(scratch_space, samples, order, 0, rice_params);
     
-    std::cerr << "SAMPLES:::\n";
-    for (int i = 0; i < samples; i++){
-        std::cerr << pcm_buf[i] <<" " ;
-    } std::cerr << "\n";
+        /* Step 3. Now we write the Subframe header */
+    // Yes, I will need to make this more general of course, but this 
+    // writes a fixed header assuming no wasted bits
     
-    std::cerr << "RESIUDALS:::\n";
-    for (int i = 0; i < samples; i++){
-        std::cerr << scratch_space[i] << " ";
+    if (total_bits < 4096*16){
+    
+        _bw->write_bits(0b0001 << 4 | (uint8_t) order << 1, 8);
+        
+        /* Step 4. Write the warmup samples */
+        for (int i = 0; i < order; i++){
+            _bw->write_bits(((int16_t) pcm_buf[i]), 16);
+        }
+    
+    
+        /* Step 8. Write the residuals to file */
+        _bw->write_residual(scratch_space, samples, order, 0, rice_params);
+        
+        std::cerr << "SAMPLES:::\n";
+        for (int i = 0; i < samples; i++){
+            std::cerr << pcm_buf[i] <<" " ;
+        } std::cerr << "\n";
+        
+        std::cerr << "RESIUDALS:::\n";
+        for (int i = 0; i < samples; i++){
+            std::cerr << scratch_space[i] << " ";
+        }
+        std::cerr << "\n";
+    } else {
+        // Write Verbatim frame
+        _bw->write_bits(0b00000010, 8);
+        
+        for (int i = 0; i < samples; i++)
+            _bw->write_bits(pcm_buf[i], 16);
+        
     }
-    std::cerr << "\n";
+    
     
     /* Step 9. Write the padding */
     _bw->write_padding();
@@ -91,7 +108,9 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
     _bw->write_bits(_bw->calc_crc16(), 16);
     
     /* Should keep the buffer from overfilling... */
-    std::cerr << "Wrote " << _bw->flush() << "\n\n";
+    std::cerr << "Wrote " << _bw->flush() << "\n";
+    std::cerr << "Compared to " << 4096*2 << "\n\n";
+    
     
     return true;
 }

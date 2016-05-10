@@ -42,6 +42,10 @@ public:
     template<typename T> int read_bits_unary(T *x);
     template<typename T> int read_word_LE(T *x);
     template<typename T> int read_words_LE(T *x, uint64_t words);
+    
+    template<typename T> int read_word_LE_aligned(T *x);
+    template<typename T> int read_words_LE_aligned(T *x, uint64_t words);
+    
     template<typename T> int read_chunk(T *dst, int nmemb);
     
     int read_file(void *buf, int size, int nmemb);

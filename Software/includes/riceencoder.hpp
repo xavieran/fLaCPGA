@@ -20,7 +20,7 @@
 class RiceEncoder {
 public:
     RiceEncoder();
-    static std::vector<uint8_t> calc_best_rice_params(int32_t data[], int samples);
+    static std::vector<uint8_t> calc_best_rice_params(int32_t data[], int samples, uint32_t &total_bits);
     static unsigned calc_rice_bits(int32_t data, unsigned rice_param);
     
 private:

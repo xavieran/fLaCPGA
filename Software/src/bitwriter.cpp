@@ -63,12 +63,13 @@ void BitWriter::reset(){
 int BitWriter::write_bits(uint64_t data, uint8_t bits){
     // blib = bits left in byte
     int blib = 0;
-    
+    fprintf(stderr, "Writing: %d\n", data);
     while (bits != 0){
         blib = 8 - (_bitp % 8);
         if (blib == 8 && this->bytes_left() == 0)
             this->write_buffer(); //Check for EOF
-            
+        
+        fprintf(stderr, "Bytes Left: %d Current Byte: %d \n", bytes_left(), (_curr_byte - _buffer));
         if (bits < blib){
             (*_curr_byte) <<= bits;
             (*_curr_byte) |= ((1 << bits) - 1) & data;

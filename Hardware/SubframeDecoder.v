@@ -76,12 +76,12 @@ always @(posedge iClock) begin
                 state <= S_READ_FIXED;
             // 01xxxx : reserved : SUBFRAME_LPC, xxxxx=order-1
             end else if (data_buffer[14] === 1'b1) begin
-            
+
             end else begin
                 // Raise error?
             end
         end
-        
+
         S_READ_FIXED:
         begin   
             rd_enable <= 1;
@@ -104,6 +104,9 @@ always @(posedge iClock) begin
 end
 
 
+
+
+
 FixedDecoder fd (.iClock(iClock),
                  .iReset(fd_reset),
                  .iEnable(rd_done),
@@ -111,7 +114,7 @@ FixedDecoder fd (.iClock(iClock),
                  .iSample(rd_residual),
                  .oData(oSample)
                  );
-                                    
+
 ResidualDecoder rd (.iClock(iClock),
                     .iReset(rd_reset),
                     .iEnable(rd_enable),
