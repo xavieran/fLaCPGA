@@ -51,6 +51,7 @@ TEST_P(WriteBits, WriteBitsFunction){
     uint8_t nbits = p->at(1);
     int32_t data = p->at(0);
     bw->write_bits(data, nbits);
+    bw->write_padding();
     bw->flush();
     std::cerr << "Wrote " << (int) nbits << " bits. Data: [" << data << "] =? [";
     f->seekg(0);
@@ -90,6 +91,7 @@ TEST_P(WriteUnary, WriteUnaryFunction){
     }
     std::cerr << "\n";
     
+    bw->write_padding();
     bw->flush();
     f->seekg(0);
     f->sync();
@@ -137,6 +139,7 @@ TEST_F(WriteRicePartition, SimplePartition){
     }
     
     bw->write_rice_partition(data, samples, 0, 3);
+    bw->write_padding();
     bw->flush();
     
     f->seekg(0);
@@ -184,6 +187,7 @@ TEST_P(WriteResidual, Partitions){
     //std::cout << "\n";
     
     bw->write_residual(data + pred_order, samples, pred_order, 0, rice_params);
+    bw->write_padding();
     bw->flush();
     
     f->seekg(0);
@@ -218,6 +222,7 @@ TEST_P(WriteUTF8, UTF8_32){
     uint32_t valr32;
     
     bw->write_utf8(valw);
+    bw->write_padding();
     bw->flush();
     
     f->seekg(0);
@@ -235,6 +240,7 @@ TEST_P(WriteUTF8, UTF8_64){
     uint64_t valr64;
     
     bw->write_utf8(valw);
+    bw->write_padding();
     bw->flush();
     
     f->seekg(0);

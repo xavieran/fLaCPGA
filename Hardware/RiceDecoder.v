@@ -10,8 +10,8 @@ assign oData = data;
 always @(posedge iClock)
 begin
 	if (iLSB[0])
-		data <= -(((iMSB << iRiceParam) | iLSB) >> 1) - 1;
+		data <= -(((iMSB << iRiceParam) | iLSB) >> 1'b1) - 1'b1;
 	else
-		data <= ((iMSB << iRiceParam) | iLSB) >> 1;
+		data <= ((iMSB << iRiceParam) | iLSB) >> 1'b1;
 end
 endmodule 

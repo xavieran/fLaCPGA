@@ -11,37 +11,41 @@ module ResidualDecoderTB;
 
 integer i;
 reg clk, rst, ena, wren;
-wire done;
+wire Done;
 
-reg [15:0] n;
-reg [3:0] pred_o;
+reg [15:0] block_size;
+reg [3:0] predictor_order;
+reg [3:0] partition_order;
 
 wire signed [15:0] oData;
-wire [15:0] rdaddr, RamData;
+wire [15:0] ReadAddr, RamData;
 
-reg [12:0] wraddr;
+reg [12:0] WriteAddr;
 reg [15:0] iData;
 
-reg[15:0] memory [0:6000];
-
 ResidualDecoder DUT (
-         .iClock(clk),
-         .iReset(rst),
+         .iClock(clk), 
+         .iReset(rst), 
          .iEnable(ena),
-         .iStartBit(5'b01111),
-         .iStartAddr(16'b0),
-         .iPredOrder(pred_o),
-         .oResidual(oData),
-         .oDone(done),
+         .iBlockSize(block_size),
+         .iPredictorOrder(predictor_order),
+         .iPartitionOrder(partition_order),
          
+         .iStartBit(5'd9),
+         .iStartAddr(16'b0),
+         
+         .oResidual(oData),
+         .oDone(Done),
+         
+         /* RAM I/O */
          .iData(RamData),
-         .oReadAddr(rdaddr)
+         .oReadAddr(ReadAddr)
          );
 
 RAM ram (.clock(clk),
       .data(iData),
-      .rdaddress(rdaddr),
-      .wraddress(wraddr),
+      .rdaddress(ReadAddr),
+      .wraddress(WriteAddr),
       .wren(wren),
       .q(RamData));
 
@@ -54,24 +58,22 @@ RAM ram (.clock(clk),
     reg [7:0] hi, lo;
     
     always @(posedge clk) begin
-        if (done) begin
+        if (Done) begin
             $display ("%d", oData);
             samples_read <= samples_read + 1;
         end
         //if (samples_read == 16*4) $stop;
-        if (samples_read == 4096) $stop;
+        if (samples_read == block_size) $stop;
     end
     
     initial begin
         /* Read the memory into the RAM */
         clk = 0; wren = 0; rst = 1; ena = 0;
-        //$readmemh("fixed_subframe.rmh", memory);
-        //$readmemh("residual.rmh", memory);
         file = $fopen("residual.bin", "rb");
         
         
         for (i = 0; i < 5775; i = i + 1) begin
-            wraddr = i;
+            WriteAddr = i;
             hi = $fgetc(file);
             lo = $fgetc(file);
             iData = {hi[7:0], lo[7:0]};
@@ -84,10 +86,8 @@ RAM ram (.clock(clk),
         /* Now run the residual decoder */
         wren = 0;
         #20;
-        n = 4096; pred_o = 0;
+        predictor_order = 0; partition_order = RamData[13:10]; block_size = 15'd4096;
         #40 rst = 0; ena = 1;
-        #4000;
-        //#4000 $stop;
 
     end
     

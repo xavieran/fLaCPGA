@@ -7,18 +7,18 @@
 		  
 module RiceFeederTB;
  
-  reg iClock, rst, en, data;
-  reg [3:0] rice_param;
-  wire done;
-  wire signed [15:0] residual;
+reg iClock, rst, en, data;
+reg [3:0] rice_param;
+wire done;
+wire signed [15:0] residual;
   
-	RiceFeeder DUT (.iClock(iClock), 
-								 .iReset(rst), 
-								 .iEnable(en), 
-								 .iData(data), 
-								 .iRiceParam(rice_param), 
-								 .oData(residual),
-								 .oDone(done));
+RiceFeeder DUT (.iClock(iClock), 
+    .iReset(rst), 
+    .iEnable(en), 
+    .iData(data), 
+    .iRiceParam(rice_param), 
+    .oData(residual),
+    .oDone(done));
 
 always
   begin
