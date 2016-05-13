@@ -57,18 +57,26 @@ always
   #20 data = 0;
   #20 data = 0;
   #20 data = 0;
-  #20 data = 0;
-  #20 data = 0;
-  #20 data = 0;
-  #20 data = 0;
-  #20 data = 0;
+  #20 data = 1; // 5 msbs
   #20 data = 1;
   #20 data = 1;
-  #20 data = 1;
-  #20 data = 1;
+  #20 data = 1; // 7 lsbs
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 1; // 11 msbs
+  #20 data = 0;
+  #20 data = 0;
+  #20 data = 1; // 1 lsbs
+  #20 $stop;
   end
-  
-  	initial
-	#1000 $stop;
   
 endmodule

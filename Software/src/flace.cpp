@@ -18,17 +18,20 @@ void exit_with_help(char *argv[]){
     fprintf(stderr, "usage: %s [ OPTIONS ] infile.flac [outfile.wav]\n", argv[0]);
     fprintf(stderr, "  -f : Use fixed frames\n");
     fprintf(stderr, "  -v : Encode verbatim (no compression)\n");
+    fprintf(stderr, "  -s=order : Encode single frame with order given\n");
     exit(1);
 }
 
 int main(int argc, char *argv[]){
-    int opt = 0, fixed = 0, verbatim = 0, decode = 1;
+    int opt = 0, fixed = 0, verbatim = 0, single = 0;
+    int order = 0;
     int print_residuals = 0;
-    while ((opt = getopt(argc,argv,"fv:")) != EOF)
+    while ((opt = getopt(argc,argv,"fvs:")) != EOF)
         switch(opt)
         {
-            case 'f': fixed = 1; break;
-            case 'v': verbatim = 1; break;
+            case 'f': fixed = 1; encode = 1; break;
+            case 'v': verbatim = 1; encode = 1; break;
+            case 's': single = 1; encode = 1; order = optarg; break;
             case 'h':
             case '?': 
             default:
@@ -48,13 +51,14 @@ int main(int argc, char *argv[]){
         }
     }
         
-    if (decode){
+    if (encode){
         fout = std::make_shared<std::fstream>(argv[optind + 1], std::ios::out | std::ios::binary);
         if(fout->fail()) {
             fprintf(stderr, "ERROR: opening %s for output\n", argv[optind + 1]);
             return 1;
         }
     }
+    
     
     auto fr = std::make_shared<BitReader>(fin);
     WaveReader *wr = new WaveReader();
@@ -67,26 +71,38 @@ int main(int argc, char *argv[]){
     int16_t pcm[spb];
     int32_t pcm32[spb];
     unsigned i;
-    fprintf(stdout, "%ld samples to encode\n", meta->getNumSamples());
-    auto fe = FLACEncoder(fout);
-    fe.setSamples(meta->getNumSamples());
-    fe.write_header();
     
-    double total_samples = meta->getNumSamples();
-    
-    for (i = 0; i + spb < meta->getNumSamples(); i += spb){
-        wr->read_data(fr, pcm, spb);
-        for (unsigned j = 0; j < spb; j++){ pcm32[j] = (int32_t) pcm[j];}
-        fe.write_frame(pcm32, spb, i/spb);
+    if (fixed){
         
-        printf("%.2f%% Encoded\n", ((double) i)/total_samples * 100);
+        fprintf(stdout, "%ld samples to encode\n", meta->getNumSamples());
+        auto fe = FLACEncoder(fout);
+        fe.setSamples(meta->getNumSamples());
+        fe.write_header();
+        
+        double total_samples = meta->getNumSamples();
+        
+        for (i = 0; i + spb < meta->getNumSamples(); i += spb){
+            wr->read_data(fr, pcm, spb);
+            for (unsigned j = 0; j < spb; j++){ pcm32[j] = (int32_t) pcm[j];}
+            fe.write_frame(pcm32, spb, i/spb);
+            
+            printf("%.2f%% Encoded\n", ((double) i)/total_samples * 100);
+        }
+        
+        /*if (i != meta->getNumSamples()){
+            int remainder = meta->getNumSamples() - i;
+            wr->read_data(fr, pcm, remainder);
+            for (unsigned j = 0; j < remainder; j++){ pcm32[j] = (int32_t) pcm[j];}
+            
+        }*/
+    } else if (single){
+        auto fe = FLACEncoder(fout);
+        
+        for (i = 0; i + spb < 4097; i += spb){
+            wr->read_data(fr, pcm, spb);
+            for (unsigned j = 0; j < spb; j++){ pcm32[j] = (int32_t) pcm[j];}
+            fe.write_frame_order(pcm32, spb, i/spb, order);
+        }
     }
-    
-    /*if (i != meta->getNumSamples()){
-        int remainder = meta->getNumSamples() - i;
-        wr->read_data(fr, pcm, remainder);
-        for (unsigned j = 0; j < remainder; j++){ pcm32[j] = (int32_t) pcm[j];}
-        
-    }*/
     
 }

@@ -78,7 +78,11 @@ TEST_F(WriteFrameHeader, FrameHeaderTest){
     frame_hv.print(stdout);
 }
 
+class WriteSingleFrame : public BitReaderTestSeek {};
 
+TEST_F(WriteSingleFrame, SingleFrameTest){
+    
+}
 
 
 int main(int argc, char **argv){

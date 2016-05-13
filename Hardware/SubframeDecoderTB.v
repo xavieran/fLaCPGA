@@ -27,9 +27,7 @@ reg[15:0] memory [0:4096];
 SubframeDecoder DUT (.iClock(clk),
                      .iReset(rst),
                      .iEnable(ena),
-                     .iNSamples(4096),
                      .oSampleValid(done),
-                     .oFrameDone(frame_done),
                      .oSample(oData),
                      
                      /* RAM I/O */

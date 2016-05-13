@@ -19,14 +19,11 @@ reg [15:0] sample_count, read_address;
 
 wire rd_done;
 wire signed [15:0] rd_residual;
-wire [15:0] rd_address;
+wire [15:0] rd_read_address;
 
 assign oSampleValid = done;
 
-//if (rd_enable == 1) assign oReadAddr = rd_address;
-//else assign oReadAddr = read_address;
-
-assign oReadAddr = rd_enable ? rd_address : read_address;
+assign oReadAddr = rd_enable ? rd_read_address : read_address;
 
 parameter S_READ_HEADER = 0, S_READ_FIXED = 1;
 
@@ -118,7 +115,6 @@ FixedDecoder fd (.iClock(iClock),
 ResidualDecoder rd (.iClock(iClock),
                     .iReset(rd_reset),
                     .iEnable(rd_enable),
-                    .iNSamples(iNSamples),
                     .iPredOrder(order),
                     .iStartBit(5'b00111),
                     .iStartAddr(read_address),
@@ -126,6 +122,6 @@ ResidualDecoder rd (.iClock(iClock),
                     .oDone(rd_done),
                     /* RAM I/O */
                     .iData(iData),
-                    .oReadAddr(rd_address)
+                    .oReadAddr(rd_read_address)
                     );
 endmodule

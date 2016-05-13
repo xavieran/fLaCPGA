@@ -17,7 +17,6 @@ module ResidualDecoder(input iClock,
  reg [7:0] current_partition;
  reg [15:0] curr_part_size;
  
- reg [15:0] total_samples_read;
  reg [15:0] samples_read;
  reg [4:0] curr_bit;
  
@@ -78,7 +77,6 @@ always @(posedge iClock) begin
         current_partition <= 0;
         curr_part_size <= 0;
         
-        total_samples_read <= 0;
         samples_read <= 0;
         
         curr_bit <= iStartBit;
@@ -110,7 +108,6 @@ always @(posedge iClock) begin
             current_partition <= 0;
             curr_part_size <= 0;
             
-            total_samples_read <= 0;
             samples_read <= 0;
             curr_bit <= iStartBit;
             rd_addr <= iStartAddr;
@@ -139,7 +136,6 @@ always @(posedge iClock) begin
                 data_buffer <= data_buffer << 10; // Shift data
                 
                 current_partition <= 0;
-                total_samples_read <= 0;
                 rf_rst <= 0;
                 
                 state <= S_RD_PART_RES;
@@ -153,7 +149,6 @@ always @(posedge iClock) begin
                 rd_addr <= rd_addr + 1'b1;
                 
                 current_partition <= 0;
-                total_samples_read <= 0;
                 rf_rst <= 0;
                 
                 state <= S_RD_INIT2;
@@ -258,14 +253,12 @@ always @(posedge iClock) begin
                 curr_bit <= curr_bit + 3;
                 
                 samples_read <= 0;
-                total_samples_read <= total_samples_read + 1;
                 
                 residual <= rf_odata;
                 done <= 1;
             /* We've decoded a residual */
             end else if (rf_done) begin
                 samples_read <= samples_read + 1;
-                total_samples_read <= total_samples_read + 1;
                 
                 residual <= rf_odata;
                 done <= 1;

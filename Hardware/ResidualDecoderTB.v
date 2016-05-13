@@ -30,7 +30,6 @@ ResidualDecoder DUT (
          .iEnable(ena),
          .iStartBit(5'b01111),
          .iStartAddr(16'b0),
-         .iNSamples(n),
          .iPredOrder(pred_o),
          .oResidual(oData),
          .oDone(done),
