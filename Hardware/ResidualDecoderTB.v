@@ -60,10 +60,15 @@ RAM ram (.clock(clk),
     always @(posedge clk) begin
         if (Done) begin
             $display ("%d", oData);
+            $fwrite(file, "%d\n", oData);
             samples_read <= samples_read + 1;
         end
+        
         //if (samples_read == 16*4) $stop;
-        if (samples_read == block_size) $stop;
+        if (samples_read == block_size) begin
+            $fclose(file);
+            $stop;
+        end
     end
     
     initial begin
@@ -81,6 +86,7 @@ RAM ram (.clock(clk),
             #20;
         end
         $fclose(file);
+        file = $fopen("decoded_residuals_v.txt", "w");
         iData = 0;
         samples_read = 0;
         /* Now run the residual decoder */

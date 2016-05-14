@@ -66,6 +66,8 @@ module RiceStreamReader(input iClock,
                         done <= 1'b0;
                         sample_count <= 16'b0;
                         
+                        procLSBs <= 1'b0;
+                        
                         if (bits_remaining != 4'b0) begin
                             procRiceParam[bits_remaining] <= iData;
                             bits_remaining <= bits_remaining - 1'b1;
@@ -77,17 +79,22 @@ module RiceStreamReader(input iClock,
                         
                 UNARY:
                     begin
+                        done <= 1'b0;
                         if (iData == 1'b0) begin // Count the 0s not 1s...
                             procMSBs <= procMSBs + 1'b1;
-                            done <= 1'b0;
                         end else begin
                             oMSB <= procMSBs;
+                            
+                            /* If the RiceParam is zero, this means there is no 
+                               remainder part, and we need to handle outputting the MSBs
+                               and jumping back to read rice param as necessary */
                             if (oRiceParam != 0) begin
                                 bits_remaining <= oRiceParam - 1'b1;
                                 procLSBs <= 1'b0;
                                 state <= REMAINDER;
                             end else begin
                                 procMSBs <= 16'b0;
+                                oLSB <= procLSBs;
                                 done <= 1'b1;
                                 if (sample_count != expected_samples) begin
                                     state <= UNARY;
@@ -104,8 +111,9 @@ module RiceStreamReader(input iClock,
                 
                 REMAINDER:
                     begin
+                        done <= 1'b0;
+                        
                         if (bits_remaining != 4'b0) begin
-                            done <= 1'b0;
                             procLSBs[bits_remaining] <= iData;
                             bits_remaining <= bits_remaining - 1'b1;
                         end else begin

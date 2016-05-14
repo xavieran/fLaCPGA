@@ -42,4 +42,5 @@ Software/gtest/*
 Software/.kateproject.d/*
 Software/audio/*
 Software/tests/reports
+Software/tests/*
 .directory

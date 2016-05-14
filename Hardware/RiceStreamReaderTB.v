@@ -17,7 +17,7 @@ module RiceStreamReaderTB;
                           .iEnable(en), 
                           .iData(data), 
                           .iBlockSize(16'd16),
-                          .iPredictorOrder(4'b1),
+                          .iPredictorOrder(4'b0),
                           .iPartitionOrder(4'd2),
                           .oMSB(MSB), 
                           .oLSB(LSB),
@@ -44,8 +44,13 @@ module RiceStreamReaderTB;
    
    Rice Param = 2
    Data = 1M0L2, 3M1L2, -23M11L1, -2M0L3 
+   
+   Expected Data:
+   M: 2,6,3, 1,1,3,11, 0,0,0,5, 0,1,11,0
+   L: 0,0,0, 0,1,0, 0, 2,6,3,5, 2,2, 1,3
  */
-
+ 
+/*
     reg [15:0] memory [0:20];
     initial begin     //rrrr  2       6
         #0
@@ -63,12 +68,42 @@ module RiceStreamReaderTB;
                     //   ll
         memory[6] = 16'b1110000000000000;
     end
+*/
+
+/*  Difficult Case
+    Rice Param: 1
+    Data = 0M0L0, -1M0L1, 2M2L0, -1M0L1
+    Rice Param: 0
+    Data = 2M4L0, 1M2L0, -1M1L0, 1M2L0
+    Rice Param: 1
+    Data = -1M0L1, 2M2L0,0M0L0, 2M2L0
+    Rice Param: 0
+    Data = 0M0L0, 0M0L0, 1M2L0, 0M0L0
+    
+    Expected Data:
+    M: 0,0,2,0, 4,2,1,2, 0,2,0,2, 0,0,2,0
+    L: 0,1,0,1, 0,0,0,0, 1,0,0,0, 0,0,0,0
+*/
+
+    reg [15:0] memory [0:20];
+    initial begin     //rrrr  2       6
+        #0                //          rr
+        memory[0] = 16'b0001101100101100;
+                    //  rr             r
+        memory[1] = 16'b0000001001010010;
+                    //  rrr            r
+        memory[2] = 16'b0011100101000100;
+                    //  rrr
+        memory[3] = 16'b000110011xxxxxxx;
+    end
+
+
 
     initial begin
         #0 iClock = 0; rst = 1; en = 0; data = 0; 
         #30 en = 1; rst = 0;
         
-        for (i = 0; i < 6; i = i + 1) begin
+        for (i = 0; i < 4; i = i + 1) begin
             for (j = 15; j >= 0; j = j - 1) begin
                 data = memory[i][j];
                 #20;
