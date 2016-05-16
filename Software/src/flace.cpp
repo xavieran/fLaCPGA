@@ -23,7 +23,7 @@ void exit_with_help(char *argv[]){
 }
 
 int main(int argc, char *argv[]){
-    int opt = 0, fixed = 0, verbatim = 0, single = 0;
+    int opt = 0, fixed = 0, verbatim = 0, single = 0, encode = 0;
     int order = 0;
     int print_residuals = 0;
     while ((opt = getopt(argc,argv,"fvs:")) != EOF)
@@ -31,7 +31,14 @@ int main(int argc, char *argv[]){
         {
             case 'f': fixed = 1; encode = 1; break;
             case 'v': verbatim = 1; encode = 1; break;
-            case 's': single = 1; encode = 1; order = optarg; break;
+            case 's': single = 1; 
+                      encode = 1; 
+                      std::cerr << "OPTARG::: " << optarg << "\n";
+                      if (strcmp(optarg, "v") == 0)
+                          verbatim = 1;
+                      else
+                        order = atoi(optarg);
+                      break;
             case 'h':
             case '?': 
             default:
@@ -98,10 +105,13 @@ int main(int argc, char *argv[]){
     } else if (single){
         auto fe = FLACEncoder(fout);
         
-        for (i = 0; i + spb < 4097; i += spb){
-            wr->read_data(fr, pcm, spb);
-            for (unsigned j = 0; j < spb; j++){ pcm32[j] = (int32_t) pcm[j];}
-            fe.write_frame_order(pcm32, spb, i/spb, order);
+        wr->read_data(fr, pcm, spb);
+        for (unsigned j = 0; j < spb; j++){ pcm32[j] = (int32_t) pcm[j];}
+        
+        if (verbatim){
+            fe.write_frame_verbatim(pcm32, 4096, 0);
+        } else {
+            fe.write_frame_fixed(pcm32, 4096, order, 0);
         }
     }
     

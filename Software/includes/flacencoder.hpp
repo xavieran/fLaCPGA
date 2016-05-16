@@ -24,6 +24,10 @@ public:
     
     bool write_header(); // No args for now.
     bool write_frame(int32_t *pcm_buf, int samples, uint32_t frame);
+    
+    bool write_frame_verbatim(int32_t *pcm_buf, int samples, uint32_t frame);
+    bool write_frame_fixed(int32_t *pcm_buf, int samples, int order, uint32_t frame);
+    
     void setSamples(uint64_t samples);
     /*int read(int32_t ***pcm_buf);
     int read_meta();

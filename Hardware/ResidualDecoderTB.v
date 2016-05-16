@@ -19,6 +19,7 @@ reg [3:0] partition_order;
 
 wire signed [15:0] oData;
 wire [15:0] ReadAddr, RamData;
+reg [15:0] startData;
 
 reg [12:0] WriteAddr;
 reg [15:0] iData;
@@ -33,6 +34,7 @@ ResidualDecoder DUT (
          
          .iStartBit(5'd9),
          .iStartAddr(16'b0),
+         .iStartData(startData),
          
          .oResidual(oData),
          .oDone(Done),
@@ -93,6 +95,8 @@ RAM ram (.clock(clk),
         wren = 0;
         #20;
         predictor_order = 0; partition_order = RamData[13:10]; block_size = 15'd4096;
+        startData = RamData[15:0];
+
         #40 rst = 0; ena = 1;
 
     end

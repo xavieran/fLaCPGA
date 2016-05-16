@@ -13,13 +13,10 @@ integer i;
 reg clk, rst, ena, wren;
 wire done, frame_done;
 
-reg [15:0] n;
-reg [3:0] pred_o;
-
 wire signed [15:0] oData;
 wire [15:0] rdaddr, RamData;
 
-reg [12:0] wraddr;
+reg [12:0] WriteAddr;
 reg [15:0] iData;
 
 reg[15:0] memory [0:4096];
@@ -27,6 +24,8 @@ reg[15:0] memory [0:4096];
 SubframeDecoder DUT (.iClock(clk),
                      .iReset(rst),
                      .iEnable(ena),
+                     .iBlockSize(16'd4096),
+                     .oFrameDone(frame_done),
                      .oSampleValid(done),
                      .oSample(oData),
                      
@@ -38,7 +37,7 @@ SubframeDecoder DUT (.iClock(clk),
 RAM ram (.clock(clk),
          .data(iData),
          .rdaddress(rdaddr),
-         .wraddress(wraddr),
+         .wraddress(WriteAddr),
          .wren(wren),
          .q(RamData)
          );
@@ -47,7 +46,8 @@ RAM ram (.clock(clk),
         #10 clk = !clk;
     end
     
-    integer samples_read;
+    integer samples_read, file;
+    reg [7:0] hi, lo;
     
     always @(posedge clk) begin
         if (done) begin
@@ -55,27 +55,28 @@ RAM ram (.clock(clk),
             samples_read <= samples_read + 1;
         end
         //if (samples_read == 16*4) $stop;
-        if (frame_done) $stop;
+        if (samples_read == 4096) $stop;
     end
     
     initial begin
         /* Read the memory into the RAM */
         clk = 0; wren = 0; rst = 1; ena = 0;
-        $readmemh("fixed_subframe.rmh", memory);
-        //$readmemh("residual.rmh", memory);
-        
-        for (i = 0; i < 4096; i = i + 1) begin
-            wraddr = i;
-            iData = memory[i];
+        /* Read the memory into the RAM */
+        file = $fopen("fixed_o0.frame", "rb");
+        for (i = 0; i < 8192; i = i + 1) begin
+            WriteAddr = i;
+            hi = $fgetc(file);
+            lo = $fgetc(file);
+            iData = {hi[7:0], lo[7:0]};
             wren = 1;
             #20;
         end
-        iData = 0;
+        $fclose(file);
+
         samples_read = 0;
         /* Now run the residual decoder */
         wren = 0;
         #20;
-        n = 4096; pred_o = 0;
         #40 rst = 0; ena = 1;
         
 

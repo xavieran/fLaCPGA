@@ -85,7 +85,7 @@ always @(posedge iClock) begin
         data_buffer <= data_buffer << 1'b1;
         curr_bit <= curr_bit - 1'b1;
         
-        if (curr_bit == 5'b0) begin
+        if (curr_bit <= 5'b0) begin
             data_buffer[15:0] <= iData;
             curr_bit <= 5'd15;
             need_data <= 1'b1;

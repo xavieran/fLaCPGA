@@ -13,34 +13,13 @@ assign oData = dataq[0];
 always @(posedge iClock)
 begin
     if (iReset) begin
-        warmup_count <= 0;
-        dataq[0] <= 0;
-        dataq[1] <= 0;
-        dataq[2] <= 0;
-        dataq[3] <= 0;
-        dataq[4] <= 0;
+        warmup_count <= 4'b0;
+        dataq[0] <= 15'b0;
+        dataq[1] <= 15'b0;
+        dataq[2] <= 15'b0;
+        dataq[3] <= 15'b0;
+        dataq[4] <= 15'b0;
     end else if (iEnable) begin
-    /*
-        dataq[4] = dataq[3];
-        dataq[3] = dataq[2];
-        dataq[2] = dataq[1];
-        dataq[1] = dataq[0];
-        
-        if (warmup_count < iOrder) begin
-            dataq[0] <= iSample;
-            warmup_count <= warmup_count + 1'b1;
-        end else if (iOrder == 0) begin
-            dataq[0] <= iSample;
-        end else if (iOrder == 1) begin
-            dataq[0] <= iSample + dataq[1];	
-        end else if (iOrder == 2) begin
-            dataq[0] <= iSample + 2*dataq[1] - dataq[2];	
-        end else if (iOrder == 3) begin
-            dataq[0] <= iSample + 3*dataq[1] - 3*dataq[2] + dataq[3];	
-        end else if (iOrder == 4) begin
-            dataq[0] <= iSample + 4*dataq[1] - 6*dataq[2] + 4*dataq[3] - dataq[4];	
-        end
-    */
         dataq[4] <= dataq[3];
         dataq[3] <= dataq[2];
         dataq[2] <= dataq[1];
@@ -49,42 +28,17 @@ begin
         if (warmup_count < iOrder) begin
             dataq[0] <= iSample;
             warmup_count <= warmup_count + 1'b1;
-        end else if (iOrder == 0) begin
+        end else if (iOrder == 3'd0) begin
             dataq[0] <= iSample;
-        end else if (iOrder == 1) begin
+        end else if (iOrder == 3'd1) begin
             dataq[0] <= iSample + dataq[0]; 
-        end else if (iOrder == 2) begin
-            dataq[0] <= iSample + 2*dataq[0] - dataq[1];    
-        end else if (iOrder == 3) begin
-            dataq[0] <= iSample + 3*dataq[0] - 3*dataq[1] + dataq[2];   
-        end else if (iOrder == 4) begin
-            dataq[0] <= iSample + 4*dataq[0] - 6*dataq[1] + 4*dataq[2] - dataq[3];  
+        end else if (iOrder == 3'd2) begin
+            dataq[0] <= iSample + 15'd2*dataq[0] - dataq[1];    
+        end else if (iOrder == 3'd3) begin
+            dataq[0] <= iSample + 15'd3*dataq[0] - 15'd3*dataq[1] + dataq[2];   
+        end else if (iOrder == 3'd4) begin
+            dataq[0] <= iSample + 15'd4*dataq[0] - 15'd6*dataq[1] + 15'd4*dataq[2] - dataq[3];  
         end
     end
 end
-    
-/*    switch(_predictorOrder) {
-        case 0:
-            memcpy(data, residuals, sizeof(int32_t)*_blockSize);
-            break;
-        case 1:
-            for(i = 1; i < _blockSize; i++)
-                data[i] = residuals[i - 1] + data[i-1];
-            break;
-        case 2:
-            for(i = 2; i < _blockSize; i++)
-                data[i] = residuals[i - 2] + 2*data[i-1] - data[i-2];
-            break;
-        case 3:
-            for(i = 3; i < _blockSize; i++)
-                data[i] = residuals[i - 3] + 3*data[i-1] - 3*data[i-2] + data[i-3];
-            break;
-        case 4:
-            for(i = 4; i < _blockSize; i++)
-                data[i] = residuals[i - 4] + 4*data[i-1] - 6*data[i-2] + 4*data[i-3] - data[i-4];
-            break;
-        default:
-            break;
-    }*/
-    
 endmodule
