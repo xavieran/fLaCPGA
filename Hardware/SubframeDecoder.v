@@ -17,8 +17,10 @@ reg [3:0] predictor_order;
 reg [3:0] partition_order;
 reg [15:0] block_size;
 
-reg rd_enable, rd_reset, fd_reset, done;
-reg [15:0] sample_count, read_address;
+reg rd_enable, rd_reset, fd_reset, fd_enable, done;
+reg [15:0] sample_count, read_address, warmup_sample;
+reg [3:0] warmup_count;
+
 
 wire rd_done;
 wire signed [15:0] rd_residual;
@@ -43,8 +45,11 @@ always @(posedge iClock) begin
         
         rd_enable <= 0;
         rd_reset <= 1;
+        fd_enable <= 0;
         fd_reset <= 1;
         
+        warmup_count <= 0;
+        warmup_sample <= 0;
         sample_count <= 0;
         oFrameDone <= 0;
         done <= 0;
@@ -63,10 +68,15 @@ always @(posedge iClock) begin
             // 54321098 765432
             // 00010000 001010
             // ztttoooz ccpppp
+            
             end else if (data_buffer[14:12] == 3'b001) begin 
+                /* Warning!!! All this stuff assumes that the header starts as the high byte of the RAM */
                 predictor_order <= data_buffer[11:9];
                 partition_order <= data_buffer[5:2];
+                read_address <= read_address + 1'b1;
                 state <= S_READ_FIXED;
+                warmup_count <= data_buffer[11:9];
+                warmup_sample[15:8] <= data_buffer[7:0];
             // 01xxxx : reserved : SUBFRAME_LPC, xxxxx=order-1
             end else if (data_buffer[14] == 1'b1) begin
 
@@ -76,20 +86,31 @@ always @(posedge iClock) begin
         end
 
         S_READ_FIXED:
-        begin   
-            rd_enable <= 1'b1;
-            
-            rd_reset <= 1'b0;
-            fd_reset <= 1'b0;
-            
-            done <= rd_done; // Delay rd_done by 1 cycle
-            
-            if (rd_done) begin
-                sample_count <= sample_count + 1'b1;
-                if (sample_count == iBlockSize) begin
-                    state <= S_READ_HEADER;
-                    oFrameDone <= 1'b1;
+        begin
+            if (warmup_count == 4'b0) begin
+                rd_enable <= 1'b1;
+                fd_enable <= 1'b0;
+                rd_reset <= 1'b0;
+                fd_reset <= 1'b0;
+                
+                done <= rd_done; // Delay rd_done by 1 cycle
+                
+                if (rd_done) begin
+                    sample_count <= sample_count + 1'b1;
+                    if (sample_count == iBlockSize) begin
+                        state <= S_READ_HEADER;
+                        oFrameDone <= 1'b1;
+                    end
                 end
+            end else begin
+                if (warmup_count == 4'b1) begin
+                    warmup_sample[7:0] <= data_buffer[15:8];
+                    warmup_count <= warmup_count - 1'b1;
+                    fd_enable <= 1'b1;
+                    sample_count <= sample_count + 1'b1;
+                    partition_order <= data_buffer[5:2];
+                    read_address <= read_address + 1'b1;
+                end 
             end
         end
         endcase
@@ -98,9 +119,9 @@ end
 
 FixedDecoder fd (.iClock(iClock),
                  .iReset(fd_reset),
-                 .iEnable(rd_done),
+                 .iEnable(rd_done | fd_enable),
                  .iOrder(predictor_order),
-                 .iSample(rd_residual),
+                 .iSample(rd_residual | warmup_sample),
                  .oData(oSample)
                  );
 

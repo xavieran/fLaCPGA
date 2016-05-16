@@ -18,11 +18,13 @@ reg [3:0] predictor_order;
 reg [3:0] partition_order;
 
 wire signed [15:0] oData;
-wire [15:0] ReadAddr, RamData;
-reg [15:0] startData;
+wire [15:0] ReadAddr, RamData, RamReadAddr;
 
 reg [12:0] WriteAddr;
+reg [15:0] SetupReadAddr;
 reg [15:0] iData;
+
+assign RamReadAddr = ena ? ReadAddr : SetupReadAddr;
 
 ResidualDecoder DUT (
          .iClock(clk), 
@@ -33,8 +35,7 @@ ResidualDecoder DUT (
          .iPartitionOrder(partition_order),
          
          .iStartBit(5'd9),
-         .iStartAddr(16'b0),
-         .iStartData(startData),
+         .iStartAddr(SetupReadAddr + 1'b1),
          
          .oResidual(oData),
          .oDone(Done),
@@ -46,7 +47,7 @@ ResidualDecoder DUT (
 
 RAM ram (.clock(clk),
       .data(iData),
-      .rdaddress(ReadAddr),
+      .rdaddress(RamReadAddr),
       .wraddress(WriteAddr),
       .wren(wren),
       .q(RamData));
@@ -59,23 +60,11 @@ RAM ram (.clock(clk),
     integer file;
     reg [7:0] hi, lo;
     
-    always @(posedge clk) begin
-        if (Done) begin
-            $display ("%d", oData);
-            $fwrite(file, "%d\n", oData);
-            samples_read <= samples_read + 1;
-        end
-        
-        //if (samples_read == 16*4) $stop;
-        if (samples_read == block_size) begin
-            $fclose(file);
-            $stop;
-        end
-    end
-    
+
     initial begin
         /* Read the memory into the RAM */
-        clk = 0; wren = 0; rst = 1; ena = 0;
+        clk = 0; wren = 0; rst = 1; ena = 0; 
+        SetupReadAddr = 0;
         file = $fopen("residual.bin", "rb");
         
         
@@ -95,11 +84,24 @@ RAM ram (.clock(clk),
         wren = 0;
         #20;
         predictor_order = 0; partition_order = RamData[13:10]; block_size = 15'd4096;
-        startData = RamData[15:0];
 
         #40 rst = 0; ena = 1;
-
     end
+    
+    always @(posedge clk) begin
+        if (Done) begin
+            $display ("%d", oData);
+            $fwrite(file, "%d\n", oData);
+            samples_read <= samples_read + 1;
+        end
+        
+        //if (samples_read == 16*4) $stop;
+        if (samples_read == block_size) begin
+            $fclose(file);
+            $stop;
+        end
+    end
+    
     
 /* 29A5                 E46F                 3FB0                 BE7D                    
  * 0010 1001 1010 0101  1110 0100 0110 1111  0011 1111 1011 0000  1011 1110 0111 1101

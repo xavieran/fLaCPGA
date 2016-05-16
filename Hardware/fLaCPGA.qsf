@@ -77,6 +77,16 @@ set_global_assignment -name EDA_TEST_BENCH_NAME SubframeDecoderTB -section_id ed
 set_global_assignment -name EDA_TEST_BENCH_NAME RiceStreamReader2TB -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id RiceStreamReader2TB
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME RiceStreamReader2TB -section_id RiceStreamReader2TB
+set_global_assignment -name RTLV_GROUP_COMB_LOGIC_IN_CLOUD OFF
+set_global_assignment -name EDA_TEST_BENCH_NAME FixedDecoderOrder3TB -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id FixedDecoderOrder3TB
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME FixedDecoderOrder3TB -section_id FixedDecoderOrder3TB
+set_global_assignment -name VERILOG_FILE FixedDecoderOrder2.v
+set_global_assignment -name VERILOG_FILE Adder16Test.v
+set_global_assignment -name VERILOG_FILE FixedDecoderOrder3TB.v
+set_global_assignment -name VERILOG_FILE FixedDecoderOrder3.v
+set_global_assignment -name VERILOG_FILE FixedDecoderOrder0.v
+set_global_assignment -name VERILOG_FILE FixedDecoderOrder1.v
 set_global_assignment -name VERILOG_FILE FrameDecoder.v
 set_global_assignment -name VERILOG_FILE RiceStreamReader2TB.v
 set_global_assignment -name VERILOG_FILE RiceStreamReader2.v
@@ -94,7 +104,6 @@ set_global_assignment -name SDC_FILE fLaCPGA.sdc
 set_global_assignment -name VERILOG_FILE RiceStreamReader.v
 set_global_assignment -name VERILOG_FILE ResidualDecoder.v
 set_global_assignment -name QIP_FILE RAM.qip
-set_global_assignment -name RTLV_GROUP_COMB_LOGIC_IN_CLOUD OFF
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -106,4 +115,5 @@ set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/RAMLoadTB.v 
 set_global_assignment -name EDA_TEST_BENCH_FILE ResidualDecoderTB.v -section_id ResidualDecoderTB
 set_global_assignment -name EDA_TEST_BENCH_FILE SubframeDecoderTB.v -section_id SubframeDecoderTB
 set_global_assignment -name EDA_TEST_BENCH_FILE RiceStreamReader2TB.v -section_id RiceStreamReader2TB
+set_global_assignment -name EDA_TEST_BENCH_FILE FixedDecoderOrder3TB.v -section_id FixedDecoderOrder3TB
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -63,7 +63,7 @@ always @(posedge iClock) begin
         // Note the assumption is that the address currently loaded in the 
         // RAM is already iStartAddr, so iData is already valid......
         data_buffer <= iData << (5'd15 - curr_bit);
-        need_data <= 1'b1;
+        need_data <= 1'b0;
         
         rs_idata <= 1'b0;
         rs_enable <= 1'b0;
@@ -85,7 +85,7 @@ always @(posedge iClock) begin
         data_buffer <= data_buffer << 1'b1;
         curr_bit <= curr_bit - 1'b1;
         
-        if (curr_bit <= 5'b0) begin
+        if (curr_bit == 5'b0) begin
             data_buffer[15:0] <= iData;
             curr_bit <= 5'd15;
             need_data <= 1'b1;

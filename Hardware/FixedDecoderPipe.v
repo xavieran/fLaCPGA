@@ -1,8 +1,4 @@
-/* 
- * Fmax: 100MHz
- */ 
-
-module FixedDecoder(input iClock,
+module FixedDecoderPipe(input iClock,
                     input iReset, 
                     input iEnable, 
                     input [3:0] iOrder, 

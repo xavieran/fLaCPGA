@@ -1,3 +1,7 @@
+/*
+ * FMax: 150 MHz
+ */
+
 module RiceStreamReader(input iClock,
                         input iReset,
                         input iEnable,

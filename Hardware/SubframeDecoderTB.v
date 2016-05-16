@@ -52,17 +52,21 @@ RAM ram (.clock(clk),
     always @(posedge clk) begin
         if (done) begin
             $display ("%d", oData);
+            $fwrite(file, "%d\n", oData);
             samples_read <= samples_read + 1;
         end
         //if (samples_read == 16*4) $stop;
-        if (samples_read == 4096) $stop;
+        if (samples_read == 4096) begin
+            $stop;
+            $fclose(file);
+        end
     end
     
     initial begin
         /* Read the memory into the RAM */
         clk = 0; wren = 0; rst = 1; ena = 0;
         /* Read the memory into the RAM */
-        file = $fopen("fixed_o0.frame", "rb");
+        file = $fopen("fixed_o1.frame", "rb");
         for (i = 0; i < 8192; i = i + 1) begin
             WriteAddr = i;
             hi = $fgetc(file);
@@ -72,7 +76,7 @@ RAM ram (.clock(clk),
             #20;
         end
         $fclose(file);
-
+        file = $fopen("decoded_fixed_o1.txt", "w");
         samples_read = 0;
         /* Now run the residual decoder */
         wren = 0;
