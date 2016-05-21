@@ -20,9 +20,10 @@ reg rd_enable, rd_reset, fd_reset, fd_enable, done;
 reg [4:0] rd_start_bit;
 reg [15:0] sample_count, read_address;
 reg signed [15:0] warmup_sample;
-reg [3:0] warmup_count;
+reg [15:0] warmup_count;
 reg warmup_done;
 
+parameter S_READ_HEADER = 0, S_READ_WARM = 1, S_READ_FIXED = 2, S_READ_VERBATIM = 3;
 reg [2:0] state;
 reg [2:0] next_state;
 reg wait_for_ram;
@@ -34,10 +35,10 @@ wire signed [15:0] rd_residual, fd_sample;
 wire [15:0] rd_read_address;
 assign oSampleValid = done;
 
-assign oSample = fd_sample;
+
+assign oSample = (state == S_READ_FIXED) ? fd_sample : warmup_sample;
 assign oReadAddr = rd_enable ? rd_read_address : read_address;
 
-parameter S_READ_HEADER = 0, S_READ_WARM = 1, S_READ_FIXED = 2, S_READ_VERBATIM = 3;
 
 always @(posedge iClock) begin
     if (iReset) begin
@@ -70,13 +71,20 @@ always @(posedge iClock) begin
         case (state)
         S_READ_HEADER:
         begin
+            done <= warmup_done; // !!!??? Shouldnt we make verbatim cleaner then ??
             // 000000 : SUBFRAME_CONSTANT
             if (data_buffer[14:9] == 6'b000000) begin
             
             // 000001 : SUBFRAME_VERBATIM
-            end else if (data_buffer[14:10] == 6'b00001) begin
+            end else if (data_buffer[14:9] == 6'b000001) begin
+                warmup_count <= iBlockSize + 1;
+                warmup_sample[15:8] <= data_buffer[7:0];
+                warmup_hi <= 1'b1;
+                read_address <= read_address + 1'b1;
+                
                 state <= S_READ_VERBATIM;
-            
+                
+                
             // 001xxx : if(xxx <= 4) SUBFRAME_FIXED, xxx=order ; else reserved-
             // 54321098 76543210
             // 00010000 001010xx
@@ -90,7 +98,6 @@ always @(posedge iClock) begin
                 if (data_buffer[11:9] == 0) begin
                     partition_order <= data_buffer[5:2];
                     rd_start_bit <= 5'b1;
-                    
                     state <= S_READ_FIXED;
                 end else if (data_buffer[11:9] != 0) begin
                     warmup_sample[15:8] <= data_buffer[7:0];
@@ -108,6 +115,35 @@ always @(posedge iClock) begin
             end else begin
                 // Raise error?
             end
+        end
+        
+        S_READ_VERBATIM:
+        begin
+            if (!wait_for_ram) begin
+                if (warmup_count == 4'b0) begin
+                    warmup_count <= 0;
+                    if (warmup_hi) begin
+                        warmup_hi <= 1'b0;
+                        warmup_sample[7:0] <= iData[15:8];
+                        done <= 1'b1;
+                        wait_for_ram <= 1'b1;
+                        state <= S_READ_HEADER;
+                    end
+                end else if (warmup_count > 4'b1) begin
+                    if (warmup_hi) begin
+                        warmup_hi <= 1'b0;
+                        warmup_sample[7:0] <= iData[15:8];
+                        done <= 1'b1;
+                    end else begin
+                        done <= 1'b0;
+                        warmup_sample[15:8] <= iData[7:0];
+                        warmup_hi <= 1'b1;
+                        warmup_count <= warmup_count - 1'b1;
+                        read_address <= read_address + 1'b1;
+                        wait_for_ram <= 1'b1;
+                    end
+                end 
+            end else wait_for_ram <= 1'b0;
         end
 
         S_READ_FIXED:

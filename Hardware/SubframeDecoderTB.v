@@ -61,7 +61,7 @@ dual_port_ram ram(.clk(clk),
         /* Read the memory into the RAM */
         clk = 0; wren = 0; rst = 1; ena = 0;
         /* Read the memory into the RAM */
-        file = $fopen("fixed_o4.frame", "rb");
+        file = $fopen("fixed_ov.frame", "rb");
         for (i = 0; i < 16000; i = i + 1) begin
             WriteAddr = i;
             hi = $fgetc(file);
@@ -71,7 +71,7 @@ dual_port_ram ram(.clk(clk),
             #20;
         end
         $fclose(file);
-        file = $fopen("decoded_fixed_o4.txt", "w");
+        file = $fopen("decoded_fixed_ov.txt", "w");
         samples_read = 0;
         /* Now run the residual decoder */
         wren = 0;
