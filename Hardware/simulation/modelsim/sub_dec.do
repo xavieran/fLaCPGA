@@ -1,7 +1,5 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate -radix unsigned /SubframeDecoderTB/WriteAddr
-add wave -noupdate -radix hexadecimal /SubframeDecoderTB/iData
 add wave -noupdate -radix decimal /SubframeDecoderTB/file
 add wave -noupdate -radix unsigned /SubframeDecoderTB/hi
 add wave -noupdate -radix unsigned /SubframeDecoderTB/lo
@@ -17,15 +15,19 @@ add wave -noupdate -radix unsigned /SubframeDecoderTB/done
 add wave -noupdate -radix decimal /SubframeDecoderTB/oData
 add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/block_size
 add wave -noupdate -radix hexadecimal /SubframeDecoderTB/RamData
+add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/oReadAddr
+add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd/oReadAddr
+add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd_read_address
 add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/partition_order
 add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/predictor_order
-add wave -noupdate -radix binary /SubframeDecoderTB/DUT/data_buffer
+add wave -noupdate -radix hexadecimal /SubframeDecoderTB/DUT/data_buffer
+add wave -noupdate -radix hexadecimal /SubframeDecoderTB/DUT/rd/iData
+add wave -noupdate -radix hexadecimal /SubframeDecoderTB/DUT/rd/data_buffer
 add wave -noupdate -radix binary /SubframeDecoderTB/DUT/rd/data_buffer
+add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd_start_bit
 add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd/curr_bit
-add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd/oReadAddr
 add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd_done
 add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd_enable
-add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd_read_address
 add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd_reset
 add wave -noupdate -radix decimal /SubframeDecoderTB/DUT/rd_residual
 add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/rd/rs/oLSB
@@ -37,10 +39,11 @@ add wave -noupdate /SubframeDecoderTB/DUT/rd/rs/iData
 add wave -noupdate /SubframeDecoderTB/DUT/rd/rs/oDone
 add wave -noupdate /SubframeDecoderTB/DUT/rd/rd/oData
 add wave -noupdate /SubframeDecoderTB/DUT/fd_enable
-add wave -noupdate /SubframeDecoderTB/DUT/warmup_count
-add wave -noupdate /SubframeDecoderTB/DUT/warmup_sample
+add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/warmup_count
+add wave -noupdate -radix decimal /SubframeDecoderTB/DUT/warmup_sample
+add wave -noupdate -radix unsigned /SubframeDecoderTB/DUT/state
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {163941300 ps} 0}
+WaveRestoreCursors {{Cursor 1} {163883133 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 420
 configure wave -valuecolwidth 138
@@ -56,4 +59,7 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {163802047 ps} {164161845 ps}
+WaveRestoreZoom {163818734 ps} {164171854 ps}
+
+restart -f
+run -all

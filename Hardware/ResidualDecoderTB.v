@@ -1,4 +1,5 @@
 `include "RAM.v"
+`include "dual_port_ram.v"
 
 `timescale 1ns / 100ps
 
@@ -20,7 +21,7 @@ reg [3:0] partition_order;
 wire signed [15:0] oData;
 wire [15:0] ReadAddr, RamData, RamReadAddr;
 
-reg [12:0] WriteAddr;
+reg [15:0] WriteAddr;
 reg [15:0] SetupReadAddr;
 reg [15:0] iData;
 
@@ -45,12 +46,21 @@ ResidualDecoder DUT (
          .oReadAddr(ReadAddr)
          );
 
+/*
 RAM ram (.clock(clk),
       .data(iData),
       .rdaddress(RamReadAddr),
       .wraddress(WriteAddr),
       .wren(wren),
       .q(RamData));
+*/
+
+dual_port_ram ram(.clk(clk), 
+                  .data(iData),
+                  .read_addr(RamReadAddr), 
+                  .write_addr(WriteAddr),
+                  .we(wren), 
+                  .q(RamData));
 
     always begin
         #10 clk = !clk;

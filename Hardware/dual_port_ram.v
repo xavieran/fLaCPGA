@@ -1,3 +1,6 @@
+`ifndef DUAL_PORT_RAM
+`define DUAL_PORT_RAM
+
 // Quartus II Verilog Template
 // Simple Dual Port RAM with separate read/write addresses and
 // single read/write clock
@@ -27,4 +30,6 @@ module dual_port_ram
         q <= ram[read_addr];
     end
 
-endmodule)
+endmodule
+
+`endif
