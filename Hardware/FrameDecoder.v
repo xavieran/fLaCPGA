@@ -1,17 +1,25 @@
 module FrameDecoder(input iClock,
-                    input iReset,
-                    input iEnable, 
-                    output reg oFrameDone,
-                    output signed [15:0] oSample,
-                    output oSampleValid,
-                    /* RAM I/O */
-                    input [15:0] iData, 
-                    output [15:0] oReadAddr
-                    );
+                       input iReset,
+                       input iEnable, 
+                       input [15:0] iBlockSize,
+                       output oSampleValid,
+                       output reg oFrameDone,
+                       output signed [15:0] oSample,
+                       
+                       /* RAM I/O */
+                       input [15:0] iData, 
+                       output [15:0] oReadAddr
+                       );
 
 reg [15:0] data_buffer;
-reg [2:0] state;
 reg [15:0] read_address;
+
+reg [2:0] state;
+
+// (sync code - 14) (0-1) (0-1)
+// (block size - 4) (sample rate - 4) (channels - 4) (bps - 3) (0 - 1)
+// UTF-8
+// CRC-8 (8 bits)
 
 
 wire [15:0] sd_read_address;

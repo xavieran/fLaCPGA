@@ -213,6 +213,7 @@ always @(posedge iClock) begin
     end
 end
 
+
 FixedDecoder fd (.iClock(iClock),
                  .iReset(fd_reset),
                  .iEnable(rd_done | fd_enable),
@@ -220,6 +221,7 @@ FixedDecoder fd (.iClock(iClock),
                  .iSample(rd_residual | warmup_sample),
                  .oData(fd_sample)
                  );
+
 
 ResidualDecoder rd (
          .iClock(iClock),
