@@ -82,7 +82,7 @@ always @(posedge iClock) begin
         rs_enable <= 1'b1;
         
         rs_idata <= data_buffer[4'd15];
-        data_buffer <= data_buffer << 1'b1;
+        data_buffer <= {data_buffer[14:0], 1'b0};
         curr_bit <= curr_bit - 1'b1;
         
         if (curr_bit == 5'b0) begin
@@ -91,9 +91,7 @@ always @(posedge iClock) begin
             need_data <= 1'b1;
         end
         
-        if (rs_done) begin
-            done <= 1'b1;
-        end
+        if (rs_done) done <= 1'b1;
     end
 end
     

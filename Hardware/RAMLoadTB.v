@@ -1,5 +1,5 @@
 
-`timescale 1ns / 1ns
+`timescale 1ns / 100ps
 
 `define assert(signal, value) \
         if (signal !== value) begin \
@@ -43,7 +43,7 @@ integer i;
         
         wren = 0;
         #20;
-        
+        #10
         for (i = 0; i < 4096; i = i + 1) begin
             #20;
             rdaddr = i;

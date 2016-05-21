@@ -51,8 +51,10 @@ begin
              
             /* Clock 1. */
             term1 <= SampleD1 + dataq2; 
-            term2 <= 3*dataq0;          
-            term3 <= 3*dataq1;
+            term2 <= {dataq0, 1'b0} + dataq0;
+            term3 <= {dataq1, 1'b0} + dataq1;
+            //term2 <= 3*dataq0;          
+            //term3 <= 3*dataq1;
             
             /* Clock 2. */
             term3d1 <= term3;

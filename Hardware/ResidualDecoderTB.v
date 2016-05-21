@@ -1,6 +1,6 @@
 `include "RAM.v"
 
-`timescale 1ns / 1ns
+`timescale 1ns / 100ps
 
 `define assert(signal, value) \
         if (signal !== value) begin \
@@ -85,7 +85,7 @@ RAM ram (.clock(clk),
         #20;
         predictor_order = 0; partition_order = RamData[13:10]; block_size = 15'd4096;
 
-        #40 rst = 0; ena = 1;
+        #50 rst = 0; ena = 1;
     end
     
     always @(posedge clk) begin

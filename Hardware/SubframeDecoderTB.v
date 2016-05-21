@@ -1,6 +1,6 @@
 `include "RAM.v"
 
-`timescale 1ns / 1ns
+`timescale 1ns / 100ps
 
 `define assert(signal, value) \
         if (signal !== value) begin \
@@ -49,19 +49,6 @@ RAM ram (.clock(clk),
     integer samples_read, file;
     reg [7:0] hi, lo;
     
-    always @(posedge clk) begin
-        if (done) begin
-            $display ("%d", oData);
-            $fwrite(file, "%d\n", oData);
-            samples_read <= samples_read + 1;
-        end
-        //if (samples_read == 16*4) $stop;
-        if (samples_read == 4096) begin
-            $stop;
-            $fclose(file);
-        end
-    end
-    
     initial begin
         /* Read the memory into the RAM */
         clk = 0; wren = 0; rst = 1; ena = 0;
@@ -81,9 +68,20 @@ RAM ram (.clock(clk),
         /* Now run the residual decoder */
         wren = 0;
         #20;
-        #40 rst = 0; ena = 1;
-        
-
+        #50 rst = 0; ena = 1;
+    end
+    
+    always @(posedge clk) begin
+        if (done) begin
+            $display ("%d", oData);
+            $fwrite(file, "%d\n", oData);
+            samples_read <= samples_read + 1;
+        end
+        //if (samples_read == 16*4) $stop;
+        if (samples_read == 16) begin
+            $stop;
+            $fclose(file);
+        end
     end
     
 endmodule

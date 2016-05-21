@@ -5,9 +5,10 @@ module SubframeDecoder(input iClock,
                        output oSampleValid,
                        output reg oFrameDone,
                        output signed [15:0] oSample,
+                       
                        /* RAM I/O */
                        input [15:0] iData, 
-                       output [15:0] oReadAddr
+                       output reg [15:0] oReadAddr
                        );
    
 reg [15:0] data_buffer;
@@ -28,7 +29,12 @@ wire [15:0] rd_read_address;
 
 assign oSampleValid = done;
 
-assign oReadAddr = rd_enable ? rd_read_address : read_address;
+always @(posedge iClock) begin
+    if (rd_enable)
+        oReadAddr <= rd_read_address;
+    else 
+        oReadAddr <= read_address;
+end
 
 parameter S_READ_HEADER = 0, S_READ_FIXED = 1, S_READ_VERBATIM = 2;
 
@@ -88,6 +94,7 @@ always @(posedge iClock) begin
         S_READ_FIXED:
         begin
             if (warmup_count == 4'b0) begin
+                warmup_sample <= 15'b0;
                 rd_enable <= 1'b1;
                 fd_enable <= 1'b0;
                 rd_reset <= 1'b0;

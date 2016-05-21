@@ -67,8 +67,8 @@ module FixedDecoderTB;
 		#20 iSample = 1;
 		#20 iSample = 0;*/
 		
-		#20 iReset = 1;
-		#20 iReset = 0; iEnable = 1; iOrder = 3; 
+		#20 iReset = 1; iEnable = 0; iOrder = 3; iSample = 0;
+		#30 iReset = 0; iEnable = 1; iOrder = 3; 
             iSample = 20;
 		#20 iSample = 10;
 		#20 iSample = -7;
