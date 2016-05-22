@@ -17,6 +17,7 @@ wire Done;
 reg [15:0] block_size;
 reg [3:0] predictor_order;
 reg [3:0] partition_order;
+wire [3:0] curr_bit;
 
 wire signed [15:0] oData;
 wire [15:0] ReadAddr, RamData, RamReadAddr;
@@ -40,6 +41,7 @@ ResidualDecoder DUT (
          
          .oResidual(oData),
          .oDone(Done),
+         .oCurrBit(curr_bit),
          
          /* RAM I/O */
          .iData(RamData),

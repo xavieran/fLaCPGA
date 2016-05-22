@@ -33,7 +33,8 @@ module SubframeDecoder(input iClock,
                        input [15:0] iStartAddress,
                        
                        input [15:0] iData, 
-                       output [15:0] oReadAddr
+                       output [15:0] oReadAddr,
+                       output [3:0] oCurrBit
                        );
 
 
@@ -44,8 +45,6 @@ reg upper, lower;
 
 reg [3:0] predictor_order;
 reg [3:0] partition_order;
-
-
 
 reg [15:0] sample_count, read_address;
 
@@ -69,12 +68,13 @@ wire signed [15:0] rd_residual, fd_sample;
 reg [4:0] rd_start_bit;
 wire rd_done;
 wire [15:0] rd_read_address;
+wire [3:0] rd_curr_bit;
 
 assign oSampleValid = done;
 
 assign oSample = (state == S_READU_FIXED || state == S_READL_FIXED) ? fd_sample : warmup_sample;
 assign oReadAddr = rd_enable ? rd_read_address : read_address;
-
+assign oCurrBit = rd_curr_bit;
 
 always @(posedge iClock) begin
     if (iReset) begin
@@ -396,7 +396,8 @@ ResidualDecoder rd (
          
          /* RAM I/O */
          .iData(iData),
-         .oReadAddr(rd_read_address)
+         .oReadAddr(rd_read_address),
+         .oCurrBit(rd_curr_bit)
          );
 
 endmodule

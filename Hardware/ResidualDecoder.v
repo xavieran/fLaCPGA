@@ -14,13 +14,14 @@ module ResidualDecoder(input iClock,
          
          /* RAM I/O */
          input [15:0] iData,
-         output [15:0] oReadAddr
+         output [15:0] oReadAddr,
+         output [3:0] oCurrBit
          );
 
 reg [15:0] data_buffer;
 reg [15:0] rd_addr;
 reg need_data;
-reg [4:0] curr_bit;
+reg [3:0] curr_bit;
 
 reg wait_rd;
 reg rs_idata, rs_enable, rs_rst;
@@ -35,6 +36,7 @@ reg done;
 assign oResidual = rd_odata;
 assign oDone = done;
 assign oReadAddr = rd_addr;
+assign oCurrBit = curr_bit;
 
 RiceDecoder rd (.oData(rd_odata),
                 .iRiceParam (RiceParam),
