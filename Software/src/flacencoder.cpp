@@ -122,9 +122,10 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
 
 bool FLACEncoder::write_frame_verbatim(int32_t *pcm_buf, int samples, uint32_t frame){
     /* Step 1. Write the frame header */
-    /*auto frame_header = FLACFrameHeader();
+    auto frame_header = FLACFrameHeader();
     frame_header.setFrameNumber(frame);
-    frame_header.write(_bw);*/
+    frame_header.write(_bw);
+    
     
     std::cout << "Encoding Subframe Verbatim\n";
     // Write Verbatim frame
@@ -150,6 +151,9 @@ bool FLACEncoder::write_frame_fixed(int32_t *pcm_buf, int samples, int order, ui
     /*auto frame_header = FLACFrameHeader();
     frame_header.setFrameNumber(frame);
     frame_header.write(_bw);*/
+    
+    _bw->write_bits(0xBF, 8); // FOR TESTING ONLY!!!!!!!!!!!
+    
     std::cout << "Encoding Subframe Fixed of order: " << order << "\n";
     /* Step 5. Now we calculate the residuals from the fixed model */
     int32_t scratch_space[samples];
