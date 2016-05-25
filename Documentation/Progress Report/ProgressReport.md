@@ -11,6 +11,8 @@ The goal of my final year project is to investigate hardware optimization techni
 Progress To Date
 ================
 
+Note that all code, documentation, and other material produced during the course of this project is freely available to view and download at GitHub. <https://github.com/xavieran/fLaCPGA>
+
 -   -   -   Implement a fLaC compatible encoder in Verilog.
 
 -   -   -   -   Optimize the fLaC encoder in the areas identified.
@@ -33,15 +35,13 @@ A C++ fLaC encoder was also completed during the semester. This was finished by 
 Hardware fLaC Decoder
 ---------------------
 
-A hardware fLaC decoder was written using Verilog and tested using Modelsim. This was the most time intensive task of the semester. Whilst I had initially expected the hardware decoder to be more difficult than the software, I certainly underestimated the size of the task. My main problem was a lack of familiarity with Verilog and the process of writing and testing hardware description code. I also ended up having to rewrite a major portion of the decoder late into the semester due to a poor design earlier on which set me back a bit. Interestingly, the part I struggled with the most was the residual decoding, the part of the decoding process which requires single bit accesses. It took a number of iterations before I settled on an appropriate way of implementing this.
+A hardware fLaC decoder was written using Verilog and tested using Modelsim. This was the most time intensive task of the semester. Whilst I had initially expected the hardware decoder to be more difficult than the software, I certainly underestimated the size of the task. My main problem was a lack of familiarity with Verilog and the process of writing and testing hardware description code. I also ended up having to rewrite a major portion of the decoder late into the semester due to a poor design earlier on which set me back a bit. Interestingly, the part I struggled with the most was the residual decoding, the part of the decoding process which requires single bit accesses. It took a number of iterations before I settled on an appropriate way of implementing this. In the end, I was able to complete an implementation which could completely decode a single frame at a time. Decoding consecutive frames proved to be more difficult due to some unforeseen problems determining the byte-alignment of the frame.
 
 During the process of implementing the hardware decoder, I was able to identify a number of areas that could benefit from optimization. The residual decoding process seems well suited to a FPGA paradigm. Whilst my current method is to decode the residuals by feeding one bit at a time into a state machine, it could be possible to analyze chunks of bits instead, which would greatly speed up the time to decode residuals. Initial investigations into this show that going beyond two bits at once would lead to an explosion in the number of cases to be handled, since the number of different cases is equal to \(2^{n}\), where \(n\) is the number of bits. This problem seems like it would be more readily tackled by first identifying how to decode each, then using a code generation tool to generate the appropriate hardware description of the logic block.
 
 Another area where optimization would be essential is in the implementation of the linear predictor decoder. The encoding process essentially uses a finite impulse response filter of the form \(x[n] = a_0*x[n-1] + ... + a_k*x[n-k]\) as the linear prediction model. The issue is that this implies that the decoder is in fact an infinite impulse response filter. This has the form \(y[n] = a_0*x[n - 1] + ... + a_k*x[n-k] + b_0*y[n - 1]\). Note that \(y[n]\) is dependent on \(y[n-1]\). This feedback dependence leads to difficulties when pipelining the decoding algorithm, since the pipeline must wait until the appropriate feedback term is available, effectively delaying the pipeline. There are two ways in which this could be improved. One is to use the theory of IIR filters to calculate a zero-cancelling filter to convert the IIR filter into an all-pole FIR filter. This could prove to be an interesting problem in hardware. The other is to somehow precalculate the feedback terms and feed them through the pipeline.
 
-### RTL Diagrams
-
-Overall, implementing the hardware decoder provided me with valuable experience with the FPGA design flow and RTL simulation.
+Overall, implementing the hardware decoder provided me with valuable experience with the FPGA design flow and RTL simulation, and has prepared me for the next step, implementing the hardware encoder.
 
 Plan for Next Semester
 ======================

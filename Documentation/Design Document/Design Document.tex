@@ -23,6 +23,10 @@
 \pagestyle{myheadings}
 \markright{Emmanuel Jacyna\hfill 24227498\hfill}
   \maketitle
+  \begin{figure}[H]
+    \centering{\includegraphics[scale=1]{imgs/FLAC_logo_inverted.png}}
+  \end{figure}
+  
   \tableofcontents
   
   \section*{Abstract}
@@ -72,7 +76,7 @@
     \caption{Finding the best lpc model}
     \label{fig:lpc_optimisation}
   \end{figure}
-  In the case of the Levinson-Durbin method, more effort is required. First, the input data must be windowed in order for it to be correctly modeled in the frequency domain\cite{hamming_reason}. The window selected tends to have a significant effect on the quality of the resulting model, so it must be chosen carefully. The autocorrelation of the windowed data is then calculated. Next, the Levinson-Durbin algorithm is used to find the model coefficients for orders from the minimum to the maximum order (the fLaC specification allows up to twelfth order predictors\cite{flac_format}). The total absolute error is then calculated for each model similar to the fixed method, and the optimum model is selected. The encoder must then quantise the model coefficients, since the Levinson-Durbin method produces floating point coefficients.
+  In the case of the Levinson-Durbin method, more effort is required. First, the input data must be windowed in order for it to be correctly modeled in the frequency domain. The window selected tends to have a significant effect on the quality of the resulting model, so it must be chosen carefully. The autocorrelation of the windowed data is then calculated. Next, the Levinson-Durbin algorithm is used to find the model coefficients for orders from the minimum to the maximum order (the fLaC specification allows up to twelfth order predictors\cite{flac_format}). The total absolute error is then calculated for each model similar to the fixed method, and the optimum model is selected. The encoder must then quantise the model coefficients, since the Levinson-Durbin method produces floating point coefficients.
   
   \subsubsection*{Finding the best entropy encoding}
   \begin{figure}[H]
@@ -80,7 +84,7 @@
     \caption{Finding the best entropy coding}
     \label{fig:entropy_optimisation}
   \end{figure}
-  Once the best linear predictor has been found, the encoder calculates the residuals (the difference between the model and the actual audio samples) and sends them through to the entropy encoder. Whilst there are a number of different entropy encoding methods available, including Huffman coding (used in JPEG\cite{huffman_jpeg}), arithmetic coding, and Golomb codes, fLaC uses a subset of the Golomb codes known as Rice coding. Rice coding is used because it is very easy to implement on digital computers, as it consists only of bit shifts. The Rice coding method takes a binary number \(x\) and divides it by the rice parameter \(K\). The quotient is encoded in unary (\(n\) zeros followed by a one), and the remainder as K binary bits. The advantage of this method is that so long as the majority of the residuals are less than the rice parameter \(K\), a net reduction in encoded residual size will result. 
+  Once the best linear predictor has been found, the encoder calculates the residuals (the difference between the model and the actual audio samples) and sends them through to the entropy encoder. Whilst there are a number of different entropy encoding methods available, including Huffman coding (used in JPEG\cite{jpeg_standard}), arithmetic coding, and Golomb codes, fLaC uses a subset of the Golomb codes known as Rice coding. Rice coding is used because it is very easy to implement on digital computers, as it consists only of bit shifts. The Rice coding method takes a binary number \(x\) and divides it by the rice parameter \(K\). The quotient is encoded in unary (\(n\) zeros followed by a one), and the remainder as K binary bits. The advantage of this method is that so long as the majority of the residuals are less than the rice parameter \(K\), a net reduction in encoded residual size will result. 
   
   In order to optimize the rice parameter for a particular stream of data, the fLaC algorithm allows the parameter to vary within a block of residuals. Each \textit{partition} within a block may have a different rice parameter, with as many partitions as there are residuals allowed.  A prefix sum algorithm is used to find the optimum combination of partition size and rice parameter allocation.
   
@@ -119,12 +123,14 @@
   \end{itemize}
   
   \subsection{Changes to original requirements}
-  Whilst the original requirements specified a fully fLaC compatible encoder and decoder, I have decided to reduce the goal to a subset of the fLaC specification. The new target is to decode and encode single channel 16 bit fLaC files. Whilst it would not be a major leap to add stereo support, I believe that there is little to be gained from a theoretical perspective by doing so and would prefer to limit the problem domain in order to focus on the more interesting areas of optimizing the decoder and encoder, rather than concern myself with implementing extraneous features.\\
+  Whilst the original requirements specified a fully fLaC compatible encoder and decoder, I have decided to reduce the goal to a subset of the fLaC specification. The new target is to decode and encode single channel 16 bit fLaC files. Whilst it would not be a major leap to add stereo support, I believe that there is little to be gained from an academic perspective by doing so and would prefer to limit the problem domain in order to focus on the more interesting areas of optimizing the decoder and encoder, rather than concern myself with implementing extraneous features.\\
       
-  The main target of the optimization has also shifted. Whilst it would be good to optimize both the decoder and the encoder, I have decided to focus my efforts on the encoder for a number of reasons. Firstly, the encoder is the more computationally expensive part of the process, so it makes more sense to optimize that. Real time software decoding of fLaC is already possible, so optimizing the decoder is not as pressing an issue. The encoder also has some more interesting opportunities for improvement. For example, the Levinson-Durbin algorithm as implemented in the fLaC reference implementation uses floating point operations. It would be interesting to see whether this process could be changed to use fixed point operations instead. Also, encoding of the residuals lends itself to large parallel computations, perfect for an FPGA. Overall, the encoding process is the more interesting component.
+  Similarly, the project will not focus on producing an implementation to run on an FPGA, although it would be a nice artefact, the main goal is to investigate and implement the opportunities for optimization.
+      
+  The main target of the optimization has also shifted. Whilst it was originally planned to optimize both the decoder and the encoder, I have decided to focus my efforts on the encoder for a number of reasons. Firstly, the encoder is the more computationally expensive part of the process, so it makes more sense to optimize that. Real time software decoding of fLaC is already possible, so optimizing the decoder is not as pressing an issue. The encoder also has some more interesting opportunities for improvement. For example, the Levinson-Durbin algorithm as implemented in the fLaC reference implementation uses floating point operations. It would be interesting to see whether this process could be changed to use fixed point operations instead. Encoding of the residuals lends itself to large parallel computations, perfect for an FPGA. Overall, the encoding process is the more interesting component, and thus will be the focus of next semester's work.
   
   \section{Conclusion}
-  
+  The goals of this project have changed somewhat from the original plan. The project will focus much more on optimizing the encoder, and perhaps even focusing on one small subset of it. The fLaC format provides many opportunities for optimization and investigation into hardware acceleration techniques on FPGAs.
   
   \bibliography{references}
   
