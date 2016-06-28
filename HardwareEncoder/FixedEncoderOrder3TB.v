@@ -6,14 +6,14 @@
             $display("ASSERTION FAILED in %m: signal != value"); \
         end
 
-module FixedEncoderOrder4TB;
+module FixedEncoderOrder3TB;
   reg    iEnable;
   reg    iReset;
   reg    iClock;
   reg signed  [15:0] iSample;
   wire  signed [15:0] oResidual;
   
-  FixedEncoderOrder4  
+  FixedEncoderOrder3
    DUT  ( 
        .iEnable (iEnable ) ,
       .iReset (iReset ) ,
