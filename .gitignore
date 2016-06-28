@@ -33,7 +33,9 @@
 *rtl_work*
 *gate_work*
 *vstf
-
+HardwareEncoder/db/*
+HardwareEncoder/incremental_db/
+HardwareEncoder/output_files/
 Hardware/db/*
 Hardware/incremental_db/
 Hardware/output_files/
