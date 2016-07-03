@@ -20,17 +20,17 @@ assign oResidual = residual;
 always @(posedge iClock)
 begin
     if (iReset) begin
-        sample_r <= 0;
+        sample_r <= 16'b0;
         warmup_count <= 0;
         for (i = 0; i <= 4; i = i + 1) begin
-            dataq[i] <= 0;
+            dataq[i] <= 16'b0;
         end
-        residual <= 0;
-        termA <= 0;
-        termB <= 0;
-        termC <= 0;
-        termD <= 0;
-        termCd1 <= 0;
+        residual <= 16'b0;
+        termA <= 16'b0;
+        termB <= 16'b0;
+        termC <= 16'b0;
+        termD <= 16'b0;
+        termCd1 <= 16'b0;
     end else if (iEnable) begin
         // Register the input
         sample_r <= iSample;
