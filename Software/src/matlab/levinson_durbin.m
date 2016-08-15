@@ -7,7 +7,7 @@ flac_qlp = [1427,-154,416,-517,-134,-281,-54,136,140,131,116,-206]
 
 data = dlmread('Pavane16Blocks.txt');
 % Window using hamming window...
-data = data(1:4096).*hamming(4096);
+data = data(1:4096);%.*hamming(4096);
 
 order = 12;
 
@@ -37,5 +37,5 @@ filtered = filter([0, -A(2:order)], 1, data);
 %sound(filtered - data, 44100)
 
 plot(1:order, A(2:end)*flac_qlp(1)/A(2), 1:order,flac_qlp, 'r')
-legend('Us', 'FLAC');
+legend('Me', 'FLAC');
 title('Calculated model and FLAC quantized model');

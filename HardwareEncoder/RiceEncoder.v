@@ -4,14 +4,16 @@ module RiceEncoder (
     input iReset,
     input signed [15:0] iSample, 
     output [15:0] oMSB,
-    output [15:0] oLSB);
+    output [15:0] oLSB, 
+    output [16:0] oBitsUsed);
 
-parameter rice_param = 6;
+parameter [3:0] rice_param = 6;
 
 reg [15:0] sample, unsigned_sample;
 
-assign oMSB = unsigned_sample[15:15-rice_param];
+assign oMSB = unsigned_sample[15:rice_param];
 assign oLSB = unsigned_sample[rice_param:0];
+assign oBitsUsed = rice_param + oMSB;
 
 always @(posedge iClk) begin
     if (iReset) begin

@@ -1,8 +1,11 @@
-module FixedEncoderOrder4 (input iClock, 
-                           input iEnable,
-                           input iReset,
-                           input signed [15:0] iSample,
-                           output signed [15:0] oResidual);
+`ifndef FE4_H
+`define FE4_H
+
+module FixedEncoderOrder4 (input wire iClock, 
+                           input wire iEnable,
+                           input wire iReset,
+                           input wire signed [15:0] iSample,
+                           output wire signed [15:0] oResidual);
 /* 
  * This is the slowest, i.e. longest latency, encoder
  * Latency is 8 cycles after enable signal
@@ -70,3 +73,5 @@ endmodule
 // data = data0 - 4data1 + 6data2 - 4data3 + data4
 // A = d0 + d4 | B = d1 << 2 + d3 << 2 | C = d2 << 2 + d2 << 1
 // residual = A - B + C
+
+`endif

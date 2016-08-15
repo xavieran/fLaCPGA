@@ -1,21 +1,27 @@
 `default_nettype none
 
+`include "FixedEncoderOrder0.v"
+`include "FixedEncoderOrder1.v"
+`include "FixedEncoderOrder2.v"
+`include "FixedEncoderOrder3.v"
+`include "FixedEncoderOrder4.v"
+
 module ChooseBestFixed(
     input wire iClock,
     input wire iEnable, 
     input wire iReset,
-    input wire signed [15:0] iSample,
+    
+    input wire signed [15:0] FE0_residual,
+    input wire signed [15:0] FE1_residual,
+    input wire signed [15:0] FE2_residual,
+    input wire signed [15:0] FE3_residual,
+    input wire signed [15:0] FE4_residual,
+    
     output wire [2:0] oBest
     );
 
 reg [2:0] best;
 assign oBest = best;
-
-wire signed [15:0] FE0_residual;
-wire signed [15:0] FE1_residual;
-wire signed [15:0] FE2_residual;
-wire signed [15:0] FE3_residual;
-wire signed [15:0] FE4_residual;
 
 wire [15:0] FE0_res_abs = FE0_residual[15] ? -FE0_residual : FE0_residual;
 wire [15:0] FE1_res_abs = FE1_residual[15] ? -FE1_residual : FE1_residual;
@@ -29,42 +35,6 @@ reg signed [27:0] FE1_error;
 reg signed [27:0] FE2_error;
 reg signed [27:0] FE3_error;
 reg signed [27:0] FE4_error;
-
-FixedEncoderOrder0 FEO0 (
-      .iEnable(iEnable),
-      .iReset(iReset),
-      .iClock(iClock),
-      .iSample(iSample),
-      .oResidual(FE0_residual)); 
-
-FixedEncoderOrder1 FEO1 ( 
-      .iEnable(iEnable),
-      .iReset(iReset),
-      .iClock(iClock),
-      .iSample(iSample),
-      .oResidual(FE1_residual)); 
-
-FixedEncoderOrder2 FEO2  ( 
-      .iEnable(iEnable),
-      .iReset(iReset),
-      .iClock(iClock),
-      .iSample(iSample),
-      .oResidual(FE2_residual)); 
-
-FixedEncoderOrder3 FEO3  ( 
-      .iEnable(iEnable),
-      .iReset(iReset),
-      .iClock(iClock),
-      .iSample(iSample),
-      .oResidual(FE3_residual)); 
-
-FixedEncoderOrder4 FEO4 ( 
-      .iEnable(iEnable),
-      .iReset(iReset),
-      .iClock(iClock),
-      .iSample(iSample),
-      .oResidual(FE4_residual)); 
-
 
 always @(posedge iClock) begin
     if (iReset) begin
