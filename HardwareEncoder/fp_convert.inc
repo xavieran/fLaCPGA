@@ -17,7 +17,7 @@ FUNCTION fp_convert
 (
 	clk_en,
 	clock,
-	dataa[31..0]
+	dataa[63..0]
 )
 
 RETURNS (

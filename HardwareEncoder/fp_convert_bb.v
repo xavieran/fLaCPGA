@@ -1,5 +1,3 @@
-`ifndef FP_CONVERT_H
-`define FP_CONVERT_H
 // megafunction wizard: %ALTFP_CONVERT%VBB%
 // GENERATION: STANDARD
 // VERSION: WM1.0
@@ -41,7 +39,7 @@ module fp_convert (
 
 	input	  clk_en;
 	input	  clock;
-	input	[31:0]  dataa;
+	input	[63:0]  dataa;
 	output	[31:0]  result;
 
 endmodule
@@ -56,10 +54,10 @@ endmodule
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altfp_convert"
 // Retrieval info: CONSTANT: OPERATION STRING "INT2FLOAT"
 // Retrieval info: CONSTANT: ROUNDING STRING "TO_NEAREST"
-// Retrieval info: CONSTANT: WIDTH_DATA NUMERIC "32"
+// Retrieval info: CONSTANT: WIDTH_DATA NUMERIC "64"
 // Retrieval info: CONSTANT: WIDTH_EXP_INPUT NUMERIC "8"
 // Retrieval info: CONSTANT: WIDTH_EXP_OUTPUT NUMERIC "8"
-// Retrieval info: CONSTANT: WIDTH_INT NUMERIC "32"
+// Retrieval info: CONSTANT: WIDTH_INT NUMERIC "64"
 // Retrieval info: CONSTANT: WIDTH_MAN_INPUT NUMERIC "23"
 // Retrieval info: CONSTANT: WIDTH_MAN_OUTPUT NUMERIC "23"
 // Retrieval info: CONSTANT: WIDTH_RESULT NUMERIC "32"
@@ -67,8 +65,8 @@ endmodule
 // Retrieval info: CONNECT: @clk_en 0 0 0 0 clk_en 0 0 0 0
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT NODEFVAL "clock"
 // Retrieval info: CONNECT: @clock 0 0 0 0 clock 0 0 0 0
-// Retrieval info: USED_PORT: dataa 0 0 32 0 INPUT NODEFVAL "dataa[31..0]"
-// Retrieval info: CONNECT: @dataa 0 0 32 0 dataa 0 0 32 0
+// Retrieval info: USED_PORT: dataa 0 0 64 0 INPUT NODEFVAL "dataa[63..0]"
+// Retrieval info: CONNECT: @dataa 0 0 64 0 dataa 0 0 64 0
 // Retrieval info: USED_PORT: result 0 0 32 0 OUTPUT NODEFVAL "result[31..0]"
 // Retrieval info: CONNECT: result 0 0 32 0 @result 0 0 32 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL fp_convert.v TRUE FALSE
@@ -80,4 +78,3 @@ endmodule
 // Retrieval info: GEN_FILE: TYPE_NORMAL fp_convert.cmp TRUE TRUE
 // Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX NUMERIC "1"
 // Retrieval info: LIB_FILE: lpm
-`endif

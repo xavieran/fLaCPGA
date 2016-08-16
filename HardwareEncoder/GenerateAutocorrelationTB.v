@@ -31,11 +31,22 @@ end
 
 initial begin
     ena = 0; rst = 1;
-    #30;
-    ena = 1; rst = 0;
+
 
     // Fill the internal sample RAM
     infile = $fopen("Pavane16Blocks.txt", "r");
+    /* skip the first block...
+    for (i = 0; i < 4096; i = i + 1) begin
+        $fscanf(infile, "%d\n", sample);
+    end*/
+    
+    #30;
+    ena = 1; rst = 0;
+    for (i = 0; i < 4096; i = i + 1) begin
+        $fscanf(infile, "%d\n", sample);
+        #20;
+    end
+    
     for (i = 0; i < 4096; i = i + 1) begin
         $fscanf(infile, "%d\n", sample);
         #20;
@@ -46,7 +57,7 @@ initial begin
     /* Step 2 - Division */
     #20;
     ena = 1; rst = 0;
-    for (i = 0; i < 14 + 7 + 5; i = i + 1) begin
+    for (i = 0; i < 14 + 7 + 12*2; i = i + 1) begin
         #20;
     end
     $stop;

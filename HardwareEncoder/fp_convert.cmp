@@ -18,7 +18,7 @@ component fp_convert
 	(
 		clk_en		: IN STD_LOGIC ;
 		clock		: IN STD_LOGIC ;
-		dataa		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+		dataa		: IN STD_LOGIC_VECTOR (63 DOWNTO 0);
 		result		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
 	);
 end component;

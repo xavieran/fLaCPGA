@@ -8,6 +8,7 @@ flac_qlp = [1427,-154,416,-517,-134,-281,-54,136,140,131,116,-206]
 data = dlmread('Pavane16Blocks.txt');
 % Window using hamming window...
 data = data(1:4096);%.*hamming(4096);
+%data = data(1+4096:4096+4096);%.*hamming(4096);
 
 order = 12;
 
@@ -25,12 +26,13 @@ ACF =  my_autocorr(data, order)
 % Inversion is O(N^3), so for N=12 which is the case for FLAC
 % ~1728 operations...
 
-R = toeplitz(ACF(1:end-1));
-b = -ACF(2:end);
-A = inv(R)*b;
-A = [1, A']
+%R = toeplitz(ACF(1:end-1));
+%b = -ACF(2:end);
+%A = inv(R)*b;
+%A = [1, A']
 
-%a = my_levinson(ACF, order)
+A = my_levinson(ACF, order)
+A = A(13,:)
 
 filtered = filter([0, -A(2:order)], 1, data);
 
