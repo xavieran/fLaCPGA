@@ -13,6 +13,7 @@ module GenerateAutocorrelation (
     output wire [31:0] oACF1,
     output wire [31:0] oACF2,
     output wire [31:0] oACF3,
+    
     output reg oDone
     );
 
@@ -144,7 +145,6 @@ always @(posedge iClock) begin
                 floating_acf[i + 1] <= floating_acf[i];
             end
             floating_acf[0] <= result;
-        
         end
         
         integer_data <= converter_mux_out;
@@ -166,12 +166,12 @@ always @(posedge iClock) begin
             end
         end
         
-        if (oDone <= 1'b1) begin
+        if (oDone == 1'b1) begin
             oDone <= 1'b0;
         end
     end
 end
-        
+
 always @(converter_select or integer_acf) begin
     if (converter_select <= LAGS) begin
         converter_mux_out = {21'b0, integer_acf[converter_select]};

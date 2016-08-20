@@ -2,34 +2,21 @@
  *****   lpcencoder.         *****
  *********************************/
 
+#include "lpcencoder.hpp"
 
-/* 1. Window the data 
-FLAC__lpc_window_data(integer_signal, 
-                      encoder->private_->window[a],
-                      encoder->private_->windowed_signal, 
-                      frame_header->blocksize);
-                      
-   2. Calculate the autocorrelation of the input data 
-encoder->private_->local_lpc_compute_autocorrelation(encoder->private_->windowed_signal, 
-                                                    frame_header->blocksize, 
-                                                    max_lpc_order+1,
-                                                    autoc);
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
 
- 3. Solve the linear equation using levinson-durbin recursion equation 
- FLAC__lpc_compute_lp_coefficients(autoc, 
-                                   &max_lpc_order, 
-                                   encoder->private_->lp_coeff, 
-                                   lpc_error);
- 
- 3. Obtain appropriate coefficients 
- 
-
- 4. Compute residuals */
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
 
 
-
-void LPCEncoder::calc_autocorrelation(int32_t samples[], int nsamples, int order, int32_t autoc[]){
+void LPCEncoder::calc_autocorrelation(int32_t samples[], int nsamples, int order, double autoc[]){
     double d;
     unsigned i;
     
@@ -40,17 +27,42 @@ void LPCEncoder::calc_autocorrelation(int32_t samples[], int nsamples, int order
      * the mean from the data.
      */
     
-    for (int i = 0; i < order - 1; i++){
-        for (int j = 0; j < nsamples - i; j++){
-            autoc[i] += samples[j]*samples[j + i];
+    for (int i = 0; i < nsamples - order; i++){
+        for (int j = 0; j < order; j++){
+            autoc[j] += samples[i]*samples[i + j];
         }
     }
-    /*
-    while(order--) {
-        for(i = order, d = 0.0; i < data_len; i++)
-            d += data[i] * data[i - order];
-        autoc[order] = d;
-    }*/
+    
+    double autoc0 = autoc[0];
+    
+    for (int i = 0; i < order; i++){
+        autoc[i] = autoc[i]/autoc0;
+    }
 }
 
-void LPCEncoder::calculate_lpc_coeffs(int32_t autoc[], int order, int32_t lpc_coeff[])
+void LPCEncoder::calculate_lpc_coeffs(double autoc[], int order, double lpc_coeff[]){
+    double error = autoc[0];
+    double alpha = autoc[1];
+    double k = 0;
+    
+    lpc_coeff[0] = 1.0;
+    
+    for (int i = 0; i < order; i++){
+        k = -alpha/error;
+        /* Note that we can do "two at once" and thus do in place calculation */
+        for (int j = 0; j <= (i + 1)/2; j++){
+            double temp = lpc_coeff[j] + k*lpc_coeff[i + 1 - j];
+            lpc_coeff[i + 1 - j] = lpc_coeff[i + 1 - j] + k*lpc_coeff[i];
+            lpc_coeff[j] = temp;
+        }
+        
+        error = error - k*k*error;
+        
+        alpha = 0;
+        for (int j = 0; j < i; j++){
+            alpha = alpha + lpc_coeff[j]*autoc[i -j + 1];
+        }
+    }
+}
+
+//void LPCEncoder::quantize_coefficients(double lpc_coeff[], int16_t qlp_coeff[], int16_t shift);

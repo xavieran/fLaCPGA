@@ -31,13 +31,14 @@ ACF =  my_autocorr(data, order)
 %A = inv(R)*b;
 %A = [1, A']
 
-A = my_levinson(ACF, order)
+A = my_levinson(ACF, order);
 A = A(13,:)
+k
 
 filtered = filter([0, -A(2:order)], 1, data);
 
 %sound(filtered - data, 44100)
 
-plot(1:order, A(2:end)*flac_qlp(1)/A(2), 1:order,flac_qlp, 'r')
+plot(1:order, A(2:end)*flac_qlp(1)/A(2), 'ob',1:order,flac_qlp, '+r')
 legend('Me', 'FLAC');
 title('Calculated model and FLAC quantized model');

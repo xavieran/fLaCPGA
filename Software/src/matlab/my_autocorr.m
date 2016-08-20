@@ -1,6 +1,6 @@
 function ACF = my_autocorr(data, lags)
-data = single(data);
-ACF = single(zeros(lags + 1, 1));
+%data = single(data);
+ACF = zeros(lags + 1, 1);
 
 for i = 1:max(size(data))
     for j = 0:lags
