@@ -1,7 +1,7 @@
 `timescale 1ns/100ps
 `define MY_SIMULATION 1
 
-module ModelSelectorTB;
+module TestModelAndAlphaTB;
 
 reg clk, ena, rst;
 integer i;

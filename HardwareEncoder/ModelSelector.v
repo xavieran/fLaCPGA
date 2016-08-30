@@ -4,9 +4,9 @@ module ModelSelector(
     input wire iEnable,
     
     input wire [3:0] iM,
-    input wire signed [31:0] iKm,
-    input wire signed [31:0] iModel1,
-    input wire signed [31:0] iModel2,
+    input wire [31:0] iKm,
+    input wire [31:0] iModel1,
+    input wire [31:0] iModel2,
     
     output wire [3:0] oSel1,
     output wire [3:0] oSel2,
@@ -14,8 +14,8 @@ module ModelSelector(
     output wire [3:0] oTarget1, 
     output wire [3:0] oTarget2,
     
-    output reg signed [31:0] oNewModel1,
-    output reg signed [31:0] oNewModel2,
+    output reg [31:0] oNewModel1,
+    output reg [31:0] oNewModel2,
     
     output wire oOnlyOne, // Indicate when we only write one coefficient
     output wire oValid,
@@ -35,14 +35,15 @@ reg [3:0] dTarget2 [0:TOTAL_LATENCY];
 reg  [TOTAL_LATENCY:0] only_one;
 reg [TOTAL_LATENCY:0] valid;
 
-reg signed [31:0] dModel1 [0:MULT_LATENCY];
-reg signed [31:0] dModel2 [0:MULT_LATENCY];
+reg [31:0] dModel1 [0:MULT_LATENCY];
+reg [31:0] dModel2 [0:MULT_LATENCY];
+reg [31:0] rModel1, rModel2;
 
-wire signed [31:0] mult1, mult2, NewModel1, NewModel2;
+wire [31:0] mult1, mult2, NewModel1, NewModel2;
 
 reg [3:0] a, b; // Hold the targets
 reg [3:0] m;
-reg signed [31:0] km;
+reg [31:0] km;
 
 reg mult_en, add_en;
 
@@ -58,15 +59,16 @@ fp_mult m1 (
     .clk_en(mult_en),
     .clock(iClock),
     .dataa(km),
-    .datab(iModel1),
+    .datab(rModel1),
     .nan(),
     .result(mult1));
+
 
 fp_mult m2 (
     .clk_en(mult_en),
     .clock(iClock),
     .dataa(km),
-    .datab(iModel2),
+    .datab(rModel2),
     .nan(),
     .result(mult2));
 
@@ -99,8 +101,9 @@ always @(posedge iClock) begin
         a <= 15;
         b <= 0;
         oDone <= 1'b1;
-        
     end else if (iEnable) begin
+        rModel1 <= iModel1;
+        rModel2 <= iModel2;
         
         oNewModel1 <= NewModel1;
         oNewModel2 <= NewModel2;

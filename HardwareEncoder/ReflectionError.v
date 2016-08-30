@@ -19,4 +19,9 @@ endmodule
  * error = error - error*k*k;
  */
  
- 
+fp_divider div (
+    .clk_en(div_en),
+    .clock(iClock),
+    .dataa(numerator),
+    .datab(denominator),
+    .result(result));

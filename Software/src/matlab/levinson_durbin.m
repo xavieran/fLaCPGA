@@ -33,7 +33,7 @@ ACF =  my_autocorr(data, order)
 
 A = my_levinson(ACF, order);
 A = A(13,:)
-k
+
 
 filtered = filter([0, -A(2:order)], 1, data);
 
