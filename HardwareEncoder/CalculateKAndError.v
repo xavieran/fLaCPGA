@@ -1,4 +1,7 @@
-`default_nettype none
+//`default_nettype none
+
+`ifndef CALCULATE_KE_H
+`define CALCULATE_KE_H
 
 module CalculateKAndError (
     input wire iClock,
@@ -6,7 +9,6 @@ module CalculateKAndError (
     input wire iReset,
     
     input wire [31:0] iAlpham,
-    input wire [31:0] iKm, // K_m
     input wire [31:0] iErrorm, // E_m
     
     output wire [31:0] oKmp1, // K_m+1
@@ -27,7 +29,7 @@ reg calculate;
 reg done;
 reg [7:0] counter;
 
-reg [31:0] alpha, km, errorm;
+reg [31:0] alpha, errorm;
 
 reg [31:0] o_error;
 reg [31:0] o_k;
@@ -82,7 +84,6 @@ always @(posedge iClock) begin
         o_k <= 0;
         
         alpha <= 0;
-        km <= 0;
         errorm <= 0;
         kmp1 <= 0;
         kmp1_sq <= 0;
@@ -100,7 +101,6 @@ always @(posedge iClock) begin
         end
         
         alpha <= neg_alpha;
-        km <= iKm;
         errorm <= iErrorm;
         
         kmp1 <= d1_out;
@@ -117,3 +117,4 @@ end
 endmodule
         
         
+`endif

@@ -1,3 +1,9 @@
+
+`ifndef MODEL_SEL_H
+`define MODEL_SEL_H
+
+`default_nettype none
+
 module ModelSelector(
     input wire iClock,
     input wire iReset,
@@ -26,7 +32,7 @@ integer i;
 parameter ORDER = 12;
 parameter MULT_LATENCY = 5;
 parameter ADD_LATENCY = 7;
-parameter TOTAL_LATENCY = MULT_LATENCY + ADD_LATENCY + 1;
+parameter TOTAL_LATENCY = MULT_LATENCY + ADD_LATENCY + 2;
 
 reg [3:0] n;
 
@@ -142,3 +148,4 @@ end
     
 endmodule
 
+`endif

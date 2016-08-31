@@ -58,10 +58,10 @@ module  fp_divider_altfp_div_pst_m0f
 	result) ;
 	input   aclr;
 	input   clk_en;
-	input   clock;
-	input   [31:0]  dataa;
-	input   [31:0]  datab;
-	output   [31:0]  result;
+	input  wire clock;
+	input  wire [31:0]  dataa;
+	input  wire [31:0]  datab;
+	output  wire [31:0]  result;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -1541,11 +1541,11 @@ module  fp_divider_altfp_div_jth
 	dataa,
 	datab,
 	result) ;
-	input   clk_en;
-	input   clock;
-	input   [31:0]  dataa;
-	input   [31:0]  datab;
-	output   [31:0]  result;
+	input  clk_en;
+	input  wire clock;
+	input wire  [31:0]  dataa;
+	input  wire [31:0]  datab;
+	output wire  [31:0]  result;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -1582,10 +1582,10 @@ module fp_divider (
 	datab,
 	result);
 
-	input	  clk_en;
-	input	  clock;
-	input	[31:0]  dataa;
-	input	[31:0]  datab;
+	input wire	  clk_en;
+	input wire	  clock;
+	input wire	[31:0]  dataa;
+	input wire	[31:0]  datab;
 	output	[31:0]  result;
 
 	wire [31:0] sub_wire0;
@@ -1599,6 +1599,7 @@ module fp_divider (
 				.result (sub_wire0));
 
 endmodule
+
 
 // ============================================================
 // CNX file retrieval info

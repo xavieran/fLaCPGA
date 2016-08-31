@@ -45,6 +45,8 @@
 
 //synthesis_resources = reg 27 
 //synopsys translate_off
+
+
 `timescale 1 ps / 1 ps
 //synopsys translate_on
 module  fp_add_sub_altbarrel_shift_h0e
@@ -58,9 +60,9 @@ module  fp_add_sub_altbarrel_shift_h0e
 	input   aclr;
 	input   clk_en;
 	input   clock;
-	input   [25:0]  data;
-	input   [4:0]  distance;
-	output   [25:0]  result;
+	input wire [25:0]  data;
+	input wire [4:0]  distance;
+	output wire [25:0]  result;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -117,9 +119,9 @@ module  fp_add_sub_altbarrel_shift_6hb
 	data,
 	distance,
 	result) ;
-	input   [25:0]  data;
-	input   [4:0]  distance;
-	output   [25:0]  result;
+	input   wire [25:0]  data;
+	input   wire [4:0]  distance;
+	output   wire [25:0]  result;
 
 	wire  [5:0]  dir_w;
 	wire  direction_w;
@@ -167,9 +169,9 @@ module  fp_add_sub_altpriority_encoder_3e8
 	data,
 	q,
 	zero) ;
-	input   [1:0]  data;
-	output   [0:0]  q;
-	output   zero;
+	input   wire [1:0]  data;
+	output  wire [0:0]  q;
+	output  wire zero;
 
 
 	assign
@@ -186,9 +188,9 @@ module  fp_add_sub_altpriority_encoder_6e8
 	data,
 	q,
 	zero) ;
-	input   [3:0]  data;
-	output   [1:0]  q;
-	output   zero;
+	input  wire [3:0]  data;
+	output wire  [1:0]  q;
+	output  wire zero;
 
 	wire  [0:0]   wire_altpriority_encoder13_q;
 	wire  wire_altpriority_encoder13_zero;
@@ -219,9 +221,9 @@ module  fp_add_sub_altpriority_encoder_be8
 	data,
 	q,
 	zero) ;
-	input   [7:0]  data;
-	output   [2:0]  q;
-	output   zero;
+	input  wire [7:0]  data;
+	output  wire [2:0]  q;
+	output  wire zero;
 
 	wire  [1:0]   wire_altpriority_encoder11_q;
 	wire  wire_altpriority_encoder11_zero;
@@ -263,8 +265,8 @@ module  fp_add_sub_altpriority_encoder_3v7
 	( 
 	data,
 	q) ;
-	input   [1:0]  data;
-	output   [0:0]  q;
+	input  wire [1:0]  data;
+	output  wire [0:0]  q;
 
 
 	assign
@@ -279,8 +281,8 @@ module  fp_add_sub_altpriority_encoder_6v7
 	( 
 	data,
 	q) ;
-	input   [3:0]  data;
-	output   [1:0]  q;
+	input  wire [3:0]  data;
+	output wire  [1:0]  q;
 
 	wire  [0:0]   wire_altpriority_encoder17_q;
 	wire  [0:0]   wire_altpriority_encoder18_q;
@@ -307,8 +309,8 @@ module  fp_add_sub_altpriority_encoder_bv7
 	( 
 	data,
 	q) ;
-	input   [7:0]  data;
-	output   [2:0]  q;
+	input  wire [7:0]  data;
+	output  wire [2:0]  q;
 
 	wire  [1:0]   wire_altpriority_encoder15_q;
 	wire  [1:0]   wire_altpriority_encoder16_q;
@@ -335,8 +337,8 @@ module  fp_add_sub_altpriority_encoder_r08
 	( 
 	data,
 	q) ;
-	input   [15:0]  data;
-	output   [3:0]  q;
+	input  wire [15:0]  data;
+	output  wire [3:0]  q;
 
 	wire  [2:0]   wire_altpriority_encoder10_q;
 	wire  wire_altpriority_encoder10_zero;
@@ -368,9 +370,9 @@ module  fp_add_sub_altpriority_encoder_rf8
 	data,
 	q,
 	zero) ;
-	input   [15:0]  data;
-	output   [3:0]  q;
-	output   zero;
+	input wire  [15:0]  data;
+	output  wire [3:0]  q;
+	output wire  zero;
 
 	wire  [2:0]   wire_altpriority_encoder19_q;
 	wire  wire_altpriority_encoder19_zero;
@@ -400,8 +402,8 @@ module  fp_add_sub_altpriority_encoder_qb6
 	( 
 	data,
 	q) ;
-	input   [31:0]  data;
-	output   [4:0]  q;
+	input wire  [31:0]  data;
+	output  wire [4:0]  q;
 
 	wire  [3:0]   wire_altpriority_encoder7_q;
 	wire  [3:0]   wire_altpriority_encoder8_q;
@@ -449,9 +451,9 @@ module  fp_add_sub_altpriority_encoder_nh8
 	data,
 	q,
 	zero) ;
-	input   [1:0]  data;
-	output   [0:0]  q;
-	output   zero;
+	input  wire [1:0]  data;
+	output wire  [0:0]  q;
+	output  wire zero;
 
 
 	assign
@@ -468,9 +470,9 @@ module  fp_add_sub_altpriority_encoder_qh8
 	data,
 	q,
 	zero) ;
-	input   [3:0]  data;
-	output   [1:0]  q;
-	output   zero;
+	input  wire [3:0]  data;
+	output wire  [1:0]  q;
+	output wire  zero;
 
 	wire  [0:0]   wire_altpriority_encoder27_q;
 	wire  wire_altpriority_encoder27_zero;
@@ -501,9 +503,9 @@ module  fp_add_sub_altpriority_encoder_vh8
 	data,
 	q,
 	zero) ;
-	input   [7:0]  data;
-	output   [2:0]  q;
-	output   zero;
+	input wire  [7:0]  data;
+	output  wire [2:0]  q;
+	output wire  zero;
 
 	wire  [1:0]   wire_altpriority_encoder25_q;
 	wire  wire_altpriority_encoder25_zero;
@@ -534,9 +536,9 @@ module  fp_add_sub_altpriority_encoder_fj8
 	data,
 	q,
 	zero) ;
-	input   [15:0]  data;
-	output   [3:0]  q;
-	output   zero;
+	input  wire [15:0]  data;
+	output  wire [3:0]  q;
+	output  wire zero;
 
 	wire  [2:0]   wire_altpriority_encoder23_q;
 	wire  wire_altpriority_encoder23_zero;
@@ -582,8 +584,8 @@ module  fp_add_sub_altpriority_encoder_n28
 	( 
 	data,
 	q) ;
-	input   [1:0]  data;
-	output   [0:0]  q;
+	input  wire [1:0]  data;
+	output  wire [0:0]  q;
 
 
 	assign
@@ -598,8 +600,8 @@ module  fp_add_sub_altpriority_encoder_q28
 	( 
 	data,
 	q) ;
-	input   [3:0]  data;
-	output   [1:0]  q;
+	input  wire [3:0]  data;
+	output wire  [1:0]  q;
 
 	wire  [0:0]   wire_altpriority_encoder33_q;
 	wire  wire_altpriority_encoder33_zero;
@@ -626,8 +628,8 @@ module  fp_add_sub_altpriority_encoder_v28
 	( 
 	data,
 	q) ;
-	input   [7:0]  data;
-	output   [2:0]  q;
+	input  wire [7:0]  data;
+	output  wire [2:0]  q;
 
 	wire  [1:0]   wire_altpriority_encoder31_q;
 	wire  wire_altpriority_encoder31_zero;
@@ -654,8 +656,8 @@ module  fp_add_sub_altpriority_encoder_f48
 	( 
 	data,
 	q) ;
-	input   [15:0]  data;
-	output   [3:0]  q;
+	input  wire [15:0]  data;
+	output  wire [3:0]  q;
 
 	wire  [2:0]   wire_altpriority_encoder29_q;
 	wire  wire_altpriority_encoder29_zero;
@@ -682,8 +684,8 @@ module  fp_add_sub_altpriority_encoder_e48
 	( 
 	data,
 	q) ;
-	input   [31:0]  data;
-	output   [4:0]  q;
+	input wire  [31:0]  data;
+	output wire  [4:0]  q;
 
 	wire  [3:0]   wire_altpriority_encoder21_q;
 	wire  wire_altpriority_encoder21_zero;
@@ -716,10 +718,10 @@ module  fp_add_sub_altfp_add_sub_etk
 	result) ;
 	input   add_sub;
 	input   clk_en;
-	input   clock;
-	input   [31:0]  dataa;
-	input   [31:0]  datab;
-	output   [31:0]  result;
+	input  wire clock;
+	input wire  [31:0]  dataa;
+	input  wire [31:0]  datab;
+	output  wire [31:0]  result;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -2669,12 +2671,12 @@ module fp_add_sub (
 	datab,
 	result);
 
-	input	  add_sub;
-	input	  clk_en;
-	input	  clock;
-	input	[31:0]  dataa;
-	input	[31:0]  datab;
-	output	[31:0]  result;
+	input	 wire add_sub;
+	input	 wire clk_en;
+	input	 wire clock;
+	input wire	[31:0]  dataa;
+	input wire	[31:0]  datab;
+	output [31:0]  result;
 
 	wire [31:0] sub_wire0;
 	wire [31:0] result = sub_wire0[31:0];
@@ -2688,6 +2690,7 @@ module fp_add_sub (
 				.result (sub_wire0));
 
 endmodule
+
 
 // ============================================================
 // CNX file retrieval info

@@ -41,6 +41,7 @@
 
 //synthesis_resources = lpm_add_sub 4 lpm_mult 1 reg 137 
 //synopsys translate_off
+
 `timescale 1 ps / 1 ps
 //synopsys translate_on
 module  fp_mult_altfp_mult_kmo
@@ -51,16 +52,15 @@ module  fp_mult_altfp_mult_kmo
 	datab,
 	nan,
 	result) ;
-	input   clk_en;
-	input   clock;
-	input   [31:0]  dataa;
-	input   [31:0]  datab;
-	output   nan;
-	output   [31:0]  result;
+	input   tri1 clk_en;
+	input   wire clock;
+	input   wire [31:0]  dataa;
+	input   wire [31:0]  datab;
+	output   wire nan;
+	output   wire [31:0]  result;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
-	tri1   clk_en;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_on
 `endif
@@ -532,12 +532,12 @@ module fp_mult (
 	nan,
 	result);
 
-	input	  clk_en;
-	input	  clock;
-	input	[31:0]  dataa;
-	input	[31:0]  datab;
+	input	  wire clk_en;
+	input	  wire clock;
+	input	wire [31:0]  dataa;
+	input	wire [31:0]  datab;
 	output	  nan;
-	output	[31:0]  result;
+	output [31:0]  result;
 
 	wire  sub_wire0;
 	wire [31:0] sub_wire1;
@@ -553,7 +553,6 @@ module fp_mult (
 				.result (sub_wire1));
 
 endmodule
-
 // ============================================================
 // CNX file retrieval info
 // ============================================================

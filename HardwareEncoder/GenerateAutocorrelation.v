@@ -1,6 +1,6 @@
 //`include "fp_divider_bb.v"
 //`include "fp_convert_bb.v"
-`default_nettype none
+//`default_nettype none
 
 module GenerateAutocorrelation (
     input wire iClock,

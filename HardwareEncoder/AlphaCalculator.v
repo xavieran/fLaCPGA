@@ -1,4 +1,7 @@
-`default_nettype none
+//`default_nettype none
+
+`ifndef ALPHA_CALC_H
+`define ALPHA_CALC_H
 
 module AlphaCalculator (
     input wire iClock,
@@ -242,7 +245,7 @@ end
 
 
 
-always @(stage or a2_i1_s2 or a2_i1_s3) begin
+always @(stage or a2_i1_s2 or a2_i1_s3 or partial_sums_stage3a) begin
     if (stage == 1) begin
         a2_i1 <= a2_i1_s2;
     end else if (stage == 2) begin
@@ -254,7 +257,7 @@ always @(stage or a2_i1_s2 or a2_i1_s3) begin
     end
 end
 
-always @(stage or a2_i2_s2 or a2_i2_s3) begin
+always @(stage or a2_i2_s2 or a2_i2_s3 or partial_sums_stage3b) begin
     if (stage == 1) begin
         a2_i2 <= a2_i2_s2;
     end else if (stage == 2) begin
@@ -308,3 +311,4 @@ end
 endmodule
         
         
+`endif

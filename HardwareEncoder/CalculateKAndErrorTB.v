@@ -6,7 +6,7 @@ module CalculateKAndErrorTB;
 reg clk, ena, rst;
 integer i;
 integer cycles;
-reg [31:0] km, alpham, errorm;
+reg [31:0] alpham, errorm;
 
 wire [31:0] kmp1, errormp1;
 wire done;
@@ -17,7 +17,6 @@ CalculateKAndError ckae(
     .iReset(rst),
     
     .iAlpham(alpham),
-    .iKm(km), // K_m
     .iErrorm(errorm), // E_m
     
     .oKmp1(kmp1), // K_m+1
@@ -36,7 +35,6 @@ initial begin
     ena = 0; rst = 1;
     #30;    
     alpham = 32'h3ca3d70a; // .02
-    km = 32'h3f99999a; // 1.2
     errorm = 32'h3f666666; // .9
     #20; 
     

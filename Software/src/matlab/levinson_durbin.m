@@ -2,6 +2,7 @@
 % The following flac command was used
 % flac -V -b 4096 -l 12  -A hamming ../../audio/Pavane16Blocks.wav -f
 % resulting coefficients were 
+format long
 flac_qlp = [1427,-154,416,-517,-134,-281,-54,136,140,131,116,-206]
 
 
