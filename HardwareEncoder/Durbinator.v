@@ -26,7 +26,7 @@ parameter S_FIRST_ALPHA = 2;
 parameter S_CALC_K_E = 3;
 parameter S_CALC_MODEL = 4;
 parameter S_CALC_ALPHA = 5;
-parameter S_CALC_ALPHA = 6;
+parameter S_DONE = 6;
 
 integer i;
 

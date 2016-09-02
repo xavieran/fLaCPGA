@@ -135,7 +135,7 @@ initial begin
     
     ena = 0; rst = 1;
     km <= 32'h3ea20c4a;
-    m = 4;
+    m = 11;
     #20;
     #20 
     ena = 1; rst = 0;

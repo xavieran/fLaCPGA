@@ -46,14 +46,7 @@ initial begin
     model2 = 32'h40800000; // 4
     valid = 1; // 2
     
-    #20; // 1
-    #20; // 2
-    ena = 0;
-    #40; // ...
-    ena = 1;
-    #20; // 3
-    #20; // 4
-    
+    for (i = 0; i < 1; i = i + 1) #20; // 6 input cycles
     
     valid = 0;
     for (i = 0; i < 100; i = i + 1) begin
