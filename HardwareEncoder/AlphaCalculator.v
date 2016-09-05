@@ -3,6 +3,8 @@
 `ifndef ALPHA_CALC_H
 `define ALPHA_CALC_H
 
+`define DFP(X) $bitstoshortreal(X)
+
 module AlphaCalculator (
     input wire iClock,
     input wire iEnable, 
@@ -36,6 +38,8 @@ reg [3:0] input_count;
 reg [31:0] alpha;
 
 reg [31:0] rACF1, rACF2, rModel1, rModel2;
+
+
 
 reg [31:0] partial_sums_stage1a [0:3];
 reg [31:0] partial_sums_stage1b [0:3];
@@ -75,7 +79,7 @@ wire a2_en = iEnable;
 fp_mult m1 (
     .clk_en(mult_en),
     .clock(iClock),
-    .dataa(rACF1),
+    .dataa(rACF2),
     .datab(rModel1),
     .nan(),
     .result(m1_out));
@@ -83,7 +87,7 @@ fp_mult m1 (
 fp_mult m2 (
     .clk_en(mult_en),
     .clock(iClock),
-    .dataa(rACF2),
+    .dataa(rACF1),
     .datab(rModel2),
     .nan(),
     .result(m2_out));
@@ -152,6 +156,7 @@ always @(posedge iClock) begin
         
         if (rValid) begin
             input_count <= input_count + 1'b1;
+            $display("%f*%f +%f*%f", `DFP(rModel1), `DFP(rACF2), `DFP(rModel2), `DFP(rACF1));
         end else begin
             input_count <= input_count;
         end

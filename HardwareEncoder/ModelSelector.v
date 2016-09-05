@@ -32,7 +32,7 @@ integer i;
 parameter ORDER = 12;
 parameter MULT_LATENCY = 5;
 parameter ADD_LATENCY = 7;
-parameter TOTAL_LATENCY = MULT_LATENCY + ADD_LATENCY + 2;
+parameter TOTAL_LATENCY = MULT_LATENCY + ADD_LATENCY + 2 + 1;
 
 reg [3:0] n;
 
@@ -52,6 +52,7 @@ reg [3:0] m;
 reg [31:0] km;
 
 reg mult_en, add_en;
+reg start;
 
 assign oTarget1 = dTarget1[TOTAL_LATENCY];
 assign oTarget2 = dTarget2[TOTAL_LATENCY];
@@ -107,6 +108,7 @@ always @(posedge iClock) begin
         a <= 15;
         b <= 0;
         oDone <= 1'b1;
+        start <= 0;
     end else if (iEnable) begin
         rModel1 <= iModel1;
         rModel2 <= iModel2;
@@ -116,12 +118,14 @@ always @(posedge iClock) begin
         oDone <= 1'b0;
         mult_en <= 1'b1;
         add_en <= 1'b1;
+        
         if (n == ((m >> 1) + 1)) begin
             oDone <= 1'b1;
         end else begin
             n <= n + 1'b1;
         end
         
+        start <= 1;
         a <= n;
         b <= m - n;
         

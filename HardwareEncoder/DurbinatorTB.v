@@ -36,32 +36,33 @@ initial begin
     #20;    
     
     ena = 1; rst = 0;
-    acf = 32'h0x3f4401d3;
-    #20;
-    acf = 32'h0x3f4c6cdf;
-    #20;
-    acf = 32'h0x3f54715b;
-    #20;
-    acf = 32'h0x3f5bfe6b;
-    #20;
-    acf = 32'h0x3f63029e;
-    #20;
-    acf = 32'h0x3f696ae8;
-    #20;
-    acf = 32'h0x3f6f2663;
-    #20;
-    acf = 32'h0x3f742267;
-    #20;
-    acf = 32'h0x3f784f5a;
-    #20;
-    acf = 32'h0x3f7b9f88;
-    #20;
-    acf = 32'h0x3f7e0430;
+    acf = 32'h0x3f800000;
     #20;
     acf = 32'h0x3f7f7bb8;
     #20;
-    acf = 32'h0x3f800000;
+    acf = 32'h0x3f7e0430;
     #20;
+    acf = 32'h0x3f7b9f88;
+    #20;
+    acf = 32'h0x3f784f5a;
+    #20;
+    acf = 32'h0x3f742267;
+    #20;
+    acf = 32'h0x3f6f2663;
+    #20;
+    acf = 32'h0x3f696ae8;
+    #20;
+    acf = 32'h0x3f63029e;
+    #20;
+    acf = 32'h0x3f5bfe6b;
+    #20;
+    acf = 32'h0x3f54715b;
+    #20;
+    acf = 32'h0x3f4c6cdf;
+    #20;
+    acf = 32'h0x3f4401d3;
+    #20;
+
 
     
     for (i = 0; i < 1200; i = i + 1) #20;
