@@ -1,6 +1,6 @@
 //`include "fp_divider_bb.v"
 //`include "fp_convert_bb.v"
-//`default_nettype none
+`default_nettype none
 
 `define DFP(X) $bitstoshortreal(X)
 
@@ -215,16 +215,13 @@ always @(posedge iClock) begin
         km <= 0;
         m <= 0;
         durb_state <= S_LOAD_ACF;
+        done <= 0;
         
         ckae_alpham <= 0;
         ckae_errorm <= 0;
         ckae_rst <= 1;
         ckae_ena <= 0;
         
-        //ac_model1 <= 0;
-        //ac_model2 <= 0;
-        //ac_acf1 <= 0;
-        //ac_acf2 <= 0;
         ac_validr <= 0;
         ac_first_load <= 0;
         ac_rst <= 1;
@@ -373,7 +370,6 @@ always @(posedge iClock) begin
                 model_in1 <= ckae_kmp1;
                 model_we1 <= 1;
                 model_wr1 <= m;
-                //model[m] <= ckae_kmp1;
                 
                 durb_state <= S_CALC_MODEL;
                 
@@ -409,14 +405,10 @@ always @(posedge iClock) begin
                     model_we1 <= 1;
                     model_wr1 <= target1;
                     
-                    //ac_model1 <= 0;
-                    //ac_model2 <= newmodel1;
                     model_rd1 <= target1;
                     model_rd2 <= 15; // these will read a zero
                     acf_rd1 <= 15;
                     acf_rd2 <= target1 + 1; // these will read a zero
-                    //ac_acf1 <= 0;
-                    //ac_acf2 <= acf_out1;
                     
                 end else begin
                     model_we1 <= 1;
@@ -426,16 +418,11 @@ always @(posedge iClock) begin
                     model_wr1 <= target1;
                     model_wr2 <= target2;
                     
-                    //ac_model1 <= newmodel1;
-                    //ac_model2 <= newmodel2;
                     model_rd1 <= target1;
                     model_rd2 <= target2;
                     
                     acf_rd1 <= target1 + 1;
                     acf_rd2 <= target2 + 1;
-                    
-                    //ac_acf1 <= acf_out1;
-                    //ac_acf2 <= acf_out2;
                 end
                 
                 $display("NEW MODEL COEFF: Target1: %d Model1: %f Target2: %d Model2: %f", target1, `DFP(newmodel1), target2, `DFP(newmodel2));
