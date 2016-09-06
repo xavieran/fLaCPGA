@@ -15,6 +15,10 @@ module Durbinator (
     output wire [31:0] alpha,
     output wire [31:0] error,
     output wire [31:0] k,
+    
+    output wire [3:0] oM,
+    output wire [31:0] oModel,
+    
     output wire oDone
     );
 
@@ -48,9 +52,7 @@ reg [31:0] model1, model2;
 reg [31:0] model1_mux, model2_mux;
 wire [31:0] newmodel1, newmodel2;
 
-reg [31:0] rnmodel1, rnmodel2;
-reg [31:0] dnmodel1, dnmodel2;
-reg rms_valid, dms_valid, d2ms_valid;
+reg rms_valid, dms_valid;
 
 wire [3:0] sel1, sel2, target1, target2;
 wire ms_only_one, ms_valid;
@@ -227,8 +229,6 @@ always @(posedge iClock) begin
         ac_rst <= 1;
         ac_enar <= 0;
         
-        model1 <= 0;
-        model2 <= 0;
         rms_valid <= 0;
         dms_valid <= 0;
         ms_ena <= 0;
@@ -239,14 +239,8 @@ always @(posedge iClock) begin
         
     end else if (iEnable) begin            
         /* Delay the valid and model signals for the acf calculator */
-        rnmodel1 <= newmodel1;
-        rnmodel2 <= newmodel2;
-        dnmodel1 <= rnmodel1;
-        dnmodel2 <= rnmodel2;
-        
         rms_valid <= ms_valid;
         dms_valid <= rms_valid;
-        d2ms_valid <= dms_valid;
     
         case (durb_state) 
         S_LOAD_ACF: 

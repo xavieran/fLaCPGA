@@ -3,7 +3,11 @@
  * Modify at your own risk
  */
  
+ 
+`define SHIFT 10
+ 
 
+    
 module FIR1(
     input wire iClock,
     input wire iEnable,
@@ -19,56 +23,58 @@ module FIR1(
     output wire oValid
     );
 
-parameter LATENCY = 1;
 parameter ORDER = 1;
+parameter LATENCY = 1 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level0_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
 
+            data0_l0 <= iSample;
+
+            residual <= data0_l0 - (level0_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR2(
     input wire iClock,
     input wire iEnable,
@@ -84,63 +90,65 @@ module FIR2(
     output wire oValid
     );
 
-parameter LATENCY = 2;
 parameter ORDER = 2;
+parameter LATENCY = 2 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level1_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level1_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level1_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
 
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+
             level1_0 <= level0_0 + level0_1;
 
+            residual <= data0_l1 - (level1_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR3(
     input wire iClock,
     input wire iEnable,
@@ -156,73 +164,74 @@ module FIR3(
     output wire oValid
     );
 
-parameter LATENCY = 3;
 parameter ORDER = 3;
+parameter LATENCY = 3 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level1_0;
-reg signed [15:0] rlevel1_1;
-reg signed [15:0] level2_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] rlevel1_1;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level2_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level1_0 <= 0;
-        rlevel1_1 <= 0;
-        level2_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
             level0_2 <= qlp_coeff[2]*data[2];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
 
             level1_0 <= level0_0 + level0_1;
             rlevel1_1 <= level0_2;
 
             level2_0 <= level1_0 + rlevel1_1;
 
+            residual <= data0_l2 - (level2_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR4(
     input wire iClock,
     input wire iEnable,
@@ -238,76 +247,76 @@ module FIR4(
     output wire oValid
     );
 
-parameter LATENCY = 3;
 parameter ORDER = 4;
+parameter LATENCY = 3 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level0_3;
-reg signed [15:0] level1_0;
-reg signed [15:0] level1_1;
-reg signed [15:0] level2_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level2_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level0_3 <= 0;
-        level1_0 <= 0;
-        level1_1 <= 0;
-        level2_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
             level0_2 <= qlp_coeff[2]*data[2];
             level0_3 <= qlp_coeff[3]*data[3];
 
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+
             level1_0 <= level0_0 + level0_1;
             level1_1 <= level0_2 + level0_3;
 
             level2_0 <= level1_0 + level1_1;
 
+            residual <= data0_l2 - (level2_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR5(
     input wire iClock,
     input wire iEnable,
@@ -323,74 +332,70 @@ module FIR5(
     output wire oValid
     );
 
-parameter LATENCY = 4;
 parameter ORDER = 5;
+parameter LATENCY = 4 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level0_3;
-reg signed [15:0] level0_4;
-reg signed [15:0] level1_0;
-reg signed [15:0] level1_1;
-reg signed [15:0] rlevel1_2;
-reg signed [15:0] level2_0;
-reg signed [15:0] rlevel2_1;
-reg signed [15:0] level3_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level0_4;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] rlevel1_2;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [`SHIFT + 16:0] rlevel2_1;
+reg signed [`SHIFT + 16:0] level3_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] data0_l3;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level3_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level0_3 <= 0;
-        level0_4 <= 0;
-        level1_0 <= 0;
-        level1_1 <= 0;
-        rlevel1_2 <= 0;
-        level2_0 <= 0;
-        rlevel2_1 <= 0;
-        level3_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
             level0_2 <= qlp_coeff[2]*data[2];
             level0_3 <= qlp_coeff[3]*data[3];
             level0_4 <= qlp_coeff[4]*data[4];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+            data0_l3 <= data0_l2;
 
             level1_0 <= level0_0 + level0_1;
             level1_1 <= level0_2 + level0_3;
@@ -401,11 +406,13 @@ always @(posedge iClock) begin
 
             level3_0 <= level2_0 + rlevel2_1;
 
+            residual <= data0_l3 - (level3_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR6(
     input wire iClock,
     input wire iEnable,
@@ -421,70 +428,60 @@ module FIR6(
     output wire oValid
     );
 
-parameter LATENCY = 4;
 parameter ORDER = 6;
+parameter LATENCY = 4 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level0_3;
-reg signed [15:0] level0_4;
-reg signed [15:0] level0_5;
-reg signed [15:0] level1_0;
-reg signed [15:0] level1_1;
-reg signed [15:0] level1_2;
-reg signed [15:0] level2_0;
-reg signed [15:0] rlevel2_1;
-reg signed [15:0] level3_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level0_4;
+reg signed [`SHIFT + 16:0] level0_5;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] level1_2;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [`SHIFT + 16:0] rlevel2_1;
+reg signed [`SHIFT + 16:0] level3_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] data0_l3;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level3_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level0_3 <= 0;
-        level0_4 <= 0;
-        level0_5 <= 0;
-        level1_0 <= 0;
-        level1_1 <= 0;
-        level1_2 <= 0;
-        level2_0 <= 0;
-        rlevel2_1 <= 0;
-        level3_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
@@ -492,6 +489,11 @@ always @(posedge iClock) begin
             level0_3 <= qlp_coeff[3]*data[3];
             level0_4 <= qlp_coeff[4]*data[4];
             level0_5 <= qlp_coeff[5]*data[5];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+            data0_l3 <= data0_l2;
 
             level1_0 <= level0_0 + level0_1;
             level1_1 <= level0_2 + level0_3;
@@ -502,11 +504,13 @@ always @(posedge iClock) begin
 
             level3_0 <= level2_0 + rlevel2_1;
 
+            residual <= data0_l3 - (level3_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR7(
     input wire iClock,
     input wire iEnable,
@@ -522,74 +526,62 @@ module FIR7(
     output wire oValid
     );
 
-parameter LATENCY = 4;
 parameter ORDER = 7;
+parameter LATENCY = 4 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level0_3;
-reg signed [15:0] level0_4;
-reg signed [15:0] level0_5;
-reg signed [15:0] level0_6;
-reg signed [15:0] level1_0;
-reg signed [15:0] level1_1;
-reg signed [15:0] level1_2;
-reg signed [15:0] rlevel1_3;
-reg signed [15:0] level2_0;
-reg signed [15:0] level2_1;
-reg signed [15:0] level3_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level0_4;
+reg signed [`SHIFT + 16:0] level0_5;
+reg signed [`SHIFT + 16:0] level0_6;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] level1_2;
+reg signed [`SHIFT + 16:0] rlevel1_3;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [`SHIFT + 16:0] level2_1;
+reg signed [`SHIFT + 16:0] level3_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] data0_l3;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level3_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level0_3 <= 0;
-        level0_4 <= 0;
-        level0_5 <= 0;
-        level0_6 <= 0;
-        level1_0 <= 0;
-        level1_1 <= 0;
-        level1_2 <= 0;
-        rlevel1_3 <= 0;
-        level2_0 <= 0;
-        level2_1 <= 0;
-        level3_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
@@ -598,6 +590,11 @@ always @(posedge iClock) begin
             level0_4 <= qlp_coeff[4]*data[4];
             level0_5 <= qlp_coeff[5]*data[5];
             level0_6 <= qlp_coeff[6]*data[6];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+            data0_l3 <= data0_l2;
 
             level1_0 <= level0_0 + level0_1;
             level1_1 <= level0_2 + level0_3;
@@ -609,11 +606,13 @@ always @(posedge iClock) begin
 
             level3_0 <= level2_0 + level2_1;
 
+            residual <= data0_l3 - (level3_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR8(
     input wire iClock,
     input wire iEnable,
@@ -629,76 +628,63 @@ module FIR8(
     output wire oValid
     );
 
-parameter LATENCY = 4;
 parameter ORDER = 8;
+parameter LATENCY = 4 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level0_3;
-reg signed [15:0] level0_4;
-reg signed [15:0] level0_5;
-reg signed [15:0] level0_6;
-reg signed [15:0] level0_7;
-reg signed [15:0] level1_0;
-reg signed [15:0] level1_1;
-reg signed [15:0] level1_2;
-reg signed [15:0] level1_3;
-reg signed [15:0] level2_0;
-reg signed [15:0] level2_1;
-reg signed [15:0] level3_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level0_4;
+reg signed [`SHIFT + 16:0] level0_5;
+reg signed [`SHIFT + 16:0] level0_6;
+reg signed [`SHIFT + 16:0] level0_7;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] level1_2;
+reg signed [`SHIFT + 16:0] level1_3;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [`SHIFT + 16:0] level2_1;
+reg signed [`SHIFT + 16:0] level3_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] data0_l3;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level3_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level0_3 <= 0;
-        level0_4 <= 0;
-        level0_5 <= 0;
-        level0_6 <= 0;
-        level0_7 <= 0;
-        level1_0 <= 0;
-        level1_1 <= 0;
-        level1_2 <= 0;
-        level1_3 <= 0;
-        level2_0 <= 0;
-        level2_1 <= 0;
-        level3_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
@@ -708,6 +694,11 @@ always @(posedge iClock) begin
             level0_5 <= qlp_coeff[5]*data[5];
             level0_6 <= qlp_coeff[6]*data[6];
             level0_7 <= qlp_coeff[7]*data[7];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+            data0_l3 <= data0_l2;
 
             level1_0 <= level0_0 + level0_1;
             level1_1 <= level0_2 + level0_3;
@@ -719,11 +710,13 @@ always @(posedge iClock) begin
 
             level3_0 <= level2_0 + level2_1;
 
+            residual <= data0_l3 - (level3_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR9(
     input wire iClock,
     input wire iEnable,
@@ -739,86 +732,69 @@ module FIR9(
     output wire oValid
     );
 
-parameter LATENCY = 5;
 parameter ORDER = 9;
+parameter LATENCY = 5 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level0_3;
-reg signed [15:0] level0_4;
-reg signed [15:0] level0_5;
-reg signed [15:0] level0_6;
-reg signed [15:0] level0_7;
-reg signed [15:0] level0_8;
-reg signed [15:0] level1_0;
-reg signed [15:0] level1_1;
-reg signed [15:0] level1_2;
-reg signed [15:0] level1_3;
-reg signed [15:0] rlevel1_4;
-reg signed [15:0] level2_0;
-reg signed [15:0] level2_1;
-reg signed [15:0] rlevel2_2;
-reg signed [15:0] level3_0;
-reg signed [15:0] rlevel3_1;
-reg signed [15:0] level4_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level0_4;
+reg signed [`SHIFT + 16:0] level0_5;
+reg signed [`SHIFT + 16:0] level0_6;
+reg signed [`SHIFT + 16:0] level0_7;
+reg signed [`SHIFT + 16:0] level0_8;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] level1_2;
+reg signed [`SHIFT + 16:0] level1_3;
+reg signed [`SHIFT + 16:0] rlevel1_4;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [`SHIFT + 16:0] level2_1;
+reg signed [`SHIFT + 16:0] rlevel2_2;
+reg signed [`SHIFT + 16:0] level3_0;
+reg signed [`SHIFT + 16:0] rlevel3_1;
+reg signed [`SHIFT + 16:0] level4_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] data0_l3;
+reg signed [15:0] data0_l4;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level4_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level0_3 <= 0;
-        level0_4 <= 0;
-        level0_5 <= 0;
-        level0_6 <= 0;
-        level0_7 <= 0;
-        level0_8 <= 0;
-        level1_0 <= 0;
-        level1_1 <= 0;
-        level1_2 <= 0;
-        level1_3 <= 0;
-        rlevel1_4 <= 0;
-        level2_0 <= 0;
-        level2_1 <= 0;
-        rlevel2_2 <= 0;
-        level3_0 <= 0;
-        rlevel3_1 <= 0;
-        level4_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
@@ -829,6 +805,12 @@ always @(posedge iClock) begin
             level0_6 <= qlp_coeff[6]*data[6];
             level0_7 <= qlp_coeff[7]*data[7];
             level0_8 <= qlp_coeff[8]*data[8];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+            data0_l3 <= data0_l2;
+            data0_l4 <= data0_l3;
 
             level1_0 <= level0_0 + level0_1;
             level1_1 <= level0_2 + level0_3;
@@ -845,11 +827,13 @@ always @(posedge iClock) begin
 
             level4_0 <= level3_0 + rlevel3_1;
 
+            residual <= data0_l4 - (level4_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR10(
     input wire iClock,
     input wire iEnable,
@@ -865,88 +849,70 @@ module FIR10(
     output wire oValid
     );
 
-parameter LATENCY = 5;
 parameter ORDER = 10;
+parameter LATENCY = 5 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level0_3;
-reg signed [15:0] level0_4;
-reg signed [15:0] level0_5;
-reg signed [15:0] level0_6;
-reg signed [15:0] level0_7;
-reg signed [15:0] level0_8;
-reg signed [15:0] level0_9;
-reg signed [15:0] level1_0;
-reg signed [15:0] level1_1;
-reg signed [15:0] level1_2;
-reg signed [15:0] level1_3;
-reg signed [15:0] level1_4;
-reg signed [15:0] level2_0;
-reg signed [15:0] level2_1;
-reg signed [15:0] rlevel2_2;
-reg signed [15:0] level3_0;
-reg signed [15:0] rlevel3_1;
-reg signed [15:0] level4_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level0_4;
+reg signed [`SHIFT + 16:0] level0_5;
+reg signed [`SHIFT + 16:0] level0_6;
+reg signed [`SHIFT + 16:0] level0_7;
+reg signed [`SHIFT + 16:0] level0_8;
+reg signed [`SHIFT + 16:0] level0_9;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] level1_2;
+reg signed [`SHIFT + 16:0] level1_3;
+reg signed [`SHIFT + 16:0] level1_4;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [`SHIFT + 16:0] level2_1;
+reg signed [`SHIFT + 16:0] rlevel2_2;
+reg signed [`SHIFT + 16:0] level3_0;
+reg signed [`SHIFT + 16:0] rlevel3_1;
+reg signed [`SHIFT + 16:0] level4_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] data0_l3;
+reg signed [15:0] data0_l4;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level4_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level0_3 <= 0;
-        level0_4 <= 0;
-        level0_5 <= 0;
-        level0_6 <= 0;
-        level0_7 <= 0;
-        level0_8 <= 0;
-        level0_9 <= 0;
-        level1_0 <= 0;
-        level1_1 <= 0;
-        level1_2 <= 0;
-        level1_3 <= 0;
-        level1_4 <= 0;
-        level2_0 <= 0;
-        level2_1 <= 0;
-        rlevel2_2 <= 0;
-        level3_0 <= 0;
-        rlevel3_1 <= 0;
-        level4_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
@@ -958,6 +924,12 @@ always @(posedge iClock) begin
             level0_7 <= qlp_coeff[7]*data[7];
             level0_8 <= qlp_coeff[8]*data[8];
             level0_9 <= qlp_coeff[9]*data[9];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+            data0_l3 <= data0_l2;
+            data0_l4 <= data0_l3;
 
             level1_0 <= level0_0 + level0_1;
             level1_1 <= level0_2 + level0_3;
@@ -974,11 +946,13 @@ always @(posedge iClock) begin
 
             level4_0 <= level3_0 + rlevel3_1;
 
+            residual <= data0_l4 - (level4_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR11(
     input wire iClock,
     input wire iEnable,
@@ -994,92 +968,72 @@ module FIR11(
     output wire oValid
     );
 
-parameter LATENCY = 5;
 parameter ORDER = 11;
+parameter LATENCY = 5 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level0_3;
-reg signed [15:0] level0_4;
-reg signed [15:0] level0_5;
-reg signed [15:0] level0_6;
-reg signed [15:0] level0_7;
-reg signed [15:0] level0_8;
-reg signed [15:0] level0_9;
-reg signed [15:0] level0_10;
-reg signed [15:0] level1_0;
-reg signed [15:0] level1_1;
-reg signed [15:0] level1_2;
-reg signed [15:0] level1_3;
-reg signed [15:0] level1_4;
-reg signed [15:0] rlevel1_5;
-reg signed [15:0] level2_0;
-reg signed [15:0] level2_1;
-reg signed [15:0] level2_2;
-reg signed [15:0] level3_0;
-reg signed [15:0] rlevel3_1;
-reg signed [15:0] level4_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level0_4;
+reg signed [`SHIFT + 16:0] level0_5;
+reg signed [`SHIFT + 16:0] level0_6;
+reg signed [`SHIFT + 16:0] level0_7;
+reg signed [`SHIFT + 16:0] level0_8;
+reg signed [`SHIFT + 16:0] level0_9;
+reg signed [`SHIFT + 16:0] level0_10;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] level1_2;
+reg signed [`SHIFT + 16:0] level1_3;
+reg signed [`SHIFT + 16:0] level1_4;
+reg signed [`SHIFT + 16:0] rlevel1_5;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [`SHIFT + 16:0] level2_1;
+reg signed [`SHIFT + 16:0] level2_2;
+reg signed [`SHIFT + 16:0] level3_0;
+reg signed [`SHIFT + 16:0] rlevel3_1;
+reg signed [`SHIFT + 16:0] level4_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] data0_l3;
+reg signed [15:0] data0_l4;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level4_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level0_3 <= 0;
-        level0_4 <= 0;
-        level0_5 <= 0;
-        level0_6 <= 0;
-        level0_7 <= 0;
-        level0_8 <= 0;
-        level0_9 <= 0;
-        level0_10 <= 0;
-        level1_0 <= 0;
-        level1_1 <= 0;
-        level1_2 <= 0;
-        level1_3 <= 0;
-        level1_4 <= 0;
-        rlevel1_5 <= 0;
-        level2_0 <= 0;
-        level2_1 <= 0;
-        level2_2 <= 0;
-        level3_0 <= 0;
-        rlevel3_1 <= 0;
-        level4_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
@@ -1092,6 +1046,12 @@ always @(posedge iClock) begin
             level0_8 <= qlp_coeff[8]*data[8];
             level0_9 <= qlp_coeff[9]*data[9];
             level0_10 <= qlp_coeff[10]*data[10];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+            data0_l3 <= data0_l2;
+            data0_l4 <= data0_l3;
 
             level1_0 <= level0_0 + level0_1;
             level1_1 <= level0_2 + level0_3;
@@ -1109,11 +1069,13 @@ always @(posedge iClock) begin
 
             level4_0 <= level3_0 + rlevel3_1;
 
+            residual <= data0_l4 - (level4_0 >> `SHIFT);
         end
     end
 end
 endmodule
 
+    
 module FIR12(
     input wire iClock,
     input wire iEnable,
@@ -1129,94 +1091,73 @@ module FIR12(
     output wire oValid
     );
 
-parameter LATENCY = 5;
 parameter ORDER = 12;
+parameter LATENCY = 5 + ORDER;
 parameter PRECISION = 12;
-parameter SHIFT = 10;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER];
-reg signed [15:0] data[0:ORDER];
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 
-reg signed [15:0] level0_0;
-reg signed [15:0] level0_1;
-reg signed [15:0] level0_2;
-reg signed [15:0] level0_3;
-reg signed [15:0] level0_4;
-reg signed [15:0] level0_5;
-reg signed [15:0] level0_6;
-reg signed [15:0] level0_7;
-reg signed [15:0] level0_8;
-reg signed [15:0] level0_9;
-reg signed [15:0] level0_10;
-reg signed [15:0] level0_11;
-reg signed [15:0] level1_0;
-reg signed [15:0] level1_1;
-reg signed [15:0] level1_2;
-reg signed [15:0] level1_3;
-reg signed [15:0] level1_4;
-reg signed [15:0] level1_5;
-reg signed [15:0] level2_0;
-reg signed [15:0] level2_1;
-reg signed [15:0] level2_2;
-reg signed [15:0] level3_0;
-reg signed [15:0] rlevel3_1;
-reg signed [15:0] level4_0;
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level0_4;
+reg signed [`SHIFT + 16:0] level0_5;
+reg signed [`SHIFT + 16:0] level0_6;
+reg signed [`SHIFT + 16:0] level0_7;
+reg signed [`SHIFT + 16:0] level0_8;
+reg signed [`SHIFT + 16:0] level0_9;
+reg signed [`SHIFT + 16:0] level0_10;
+reg signed [`SHIFT + 16:0] level0_11;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] level1_2;
+reg signed [`SHIFT + 16:0] level1_3;
+reg signed [`SHIFT + 16:0] level1_4;
+reg signed [`SHIFT + 16:0] level1_5;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [`SHIFT + 16:0] level2_1;
+reg signed [`SHIFT + 16:0] level2_2;
+reg signed [`SHIFT + 16:0] level3_0;
+reg signed [`SHIFT + 16:0] rlevel3_1;
+reg signed [`SHIFT + 16:0] level4_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] data0_l3;
+reg signed [15:0] data0_l4;
+reg signed [15:0] residual;
 
 assign oValid = valid[LATENCY];
-assign oResidual = level4_0;
+assign oResidual = residual; // right shift the result
 
 always @(posedge iClock) begin
     if (iReset) begin
-        for (i = 0; i < ORDER; i = i + 1) begin
-            qlp_coeff[i] <= 0;
-            data[i] <= 0;
-        end
+        qlp_coeff[0] <= 0;
+        data[0] <= 0;
         
         valid <= 0;
         coeff_count <= 0;
 
-        level0_0 <= 0;
-        level0_1 <= 0;
-        level0_2 <= 0;
-        level0_3 <= 0;
-        level0_4 <= 0;
-        level0_5 <= 0;
-        level0_6 <= 0;
-        level0_7 <= 0;
-        level0_8 <= 0;
-        level0_9 <= 0;
-        level0_10 <= 0;
-        level0_11 <= 0;
-        level1_0 <= 0;
-        level1_1 <= 0;
-        level1_2 <= 0;
-        level1_3 <= 0;
-        level1_4 <= 0;
-        level1_5 <= 0;
-        level2_0 <= 0;
-        level2_1 <= 0;
-        level2_2 <= 0;
-        level3_0 <= 0;
-        rlevel3_1 <= 0;
-        level4_0 <= 0;
 
     end else if (iEnable) begin
-        if (iLoad && coeff_count < ORDER) begin
-            for (i = ORDER; i > 0; i = i - 1) begin
+        if (iLoad && coeff_count <= ORDER) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 qlp_coeff[i] <= qlp_coeff[i - 1];
             end 
-            qlp_coeff[0] <= iQLP;
             coeff_count <= coeff_count + 1'b1;
-        end else if (iValid) begin
+        end else begin
             valid <= (valid << 1) | iValid;
             
-            for (i = ORDER; i > 0; i = i - 1) begin
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 
-            data[0] <= iSample;
     
             level0_0 <= qlp_coeff[0]*data[0];
             level0_1 <= qlp_coeff[1]*data[1];
@@ -1230,6 +1171,12 @@ always @(posedge iClock) begin
             level0_9 <= qlp_coeff[9]*data[9];
             level0_10 <= qlp_coeff[10]*data[10];
             level0_11 <= qlp_coeff[11]*data[11];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+            data0_l3 <= data0_l2;
+            data0_l4 <= data0_l3;
 
             level1_0 <= level0_0 + level0_1;
             level1_1 <= level0_2 + level0_3;
@@ -1247,6 +1194,7 @@ always @(posedge iClock) begin
 
             level4_0 <= level3_0 + rlevel3_1;
 
+            residual <= data0_l4 - (level4_0 >> `SHIFT);
         end
     end
 end
