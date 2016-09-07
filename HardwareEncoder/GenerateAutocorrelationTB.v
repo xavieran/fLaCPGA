@@ -1,6 +1,8 @@
 `timescale 1ns/100ps
 `define MY_SIMULATION 1
 
+`define DFP(X) $bitstoshortreal(X)
+
 module GenerateAutocorrelationTB;
 
 reg clk, ena, rst;
@@ -8,8 +10,8 @@ reg signed [15:0] sample;
 
 integer infile, i;
 
-wire signed [31:0] acf0, acf1, acf2, acf3;
-
+wire signed [31:0] acf;
+wire valid;
 GenerateAutocorrelation ga(
     .iClock(clk),
     .iEnable(ena), 
@@ -17,10 +19,8 @@ GenerateAutocorrelation ga(
     
     .iSample(sample),
 
-    .oACF0(acf0),
-    .oACF1(acf1),
-    .oACF2(acf2),
-    .oACF3(acf3)
+    .oACF(acf),
+    .oValid(valid)
     );
 
 always begin
@@ -47,17 +47,16 @@ initial begin
         #20;
     end
     
+    /*
     for (i = 0; i < 4096; i = i + 1) begin
         $fscanf(infile, "%d\n", sample);
         #20;
-    end
-    #10
-    $fclose(infile);
+    end*/
     
     /* Step 2 - Division */
-    #20;
     ena = 1; rst = 0;
-    for (i = 0; i < 14 + 7 + 12*2; i = i + 1) begin
+    for (i = 0; i < 60; i = i + 1) begin
+        if (valid) $display("%f", `DFP(acf));
         #20;
     end
     $stop;

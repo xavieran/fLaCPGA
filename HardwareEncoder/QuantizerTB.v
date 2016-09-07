@@ -10,7 +10,7 @@ integer cycles;
 
 reg valid;
 reg [31:0] coeff;
-wire signed [11:0] quant;
+wire signed [31:0] quant;
 wire q_valid;
 
 Quantizer q(
@@ -28,6 +28,12 @@ always begin
     #10 cycles = cycles + 1;
 end
 
+always @(posedge clk) begin
+    if (q_valid) begin
+        $display("%d", quant);
+    end
+end
+
 initial begin
     cycles = 0;
     ena = 0;rst = 1;valid=0;coeff=0;
@@ -35,13 +41,13 @@ initial begin
     #20;    
     
     ena = 1;valid = 1;rst = 0;
-    coeff = 32'h0x3f800000;
+    coeff = 32'h3ff851ec;
     $display("%f", `DFP(coeff));
     #20;
-    coeff = 32'h0x3f7f7bb8;
+    coeff = 32'h3f7f7bb8;
     $display("%f", `DFP(coeff));
     #20;
-    coeff = 32'h0xbf7e0430;$display("%f", `DFP(coeff));
+    coeff = 32'hbfb70a3d;$display("%f", `DFP(coeff));
     #20;
     coeff = 32'h0x3f7b9f88;$display("%f",`DFP(coeff));
     #20;
@@ -66,9 +72,6 @@ initial begin
     valid = 0;
 
     for (i = 0; i < 80; i = i + 1) begin
-        if (q_valid) begin
-            $display("%d", quant);
-        end
         #20;
     end
     

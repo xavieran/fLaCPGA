@@ -6,6 +6,36 @@
  
 `define SHIFT 10
  
+module fir_filters(
+    input wire iClock,
+    input wire iEnable,
+    input wire iReset,
+    
+    input wire iLoad, 
+    input wire signed [11:0] iQLP,
+    
+    input wire iValid,
+    input wire signed [15:0] iSample,
+    
+    output wire signed [15:0] oResidual,
+    output wire oValid
+    );
+
+FIR12 f12 (
+    .iClock(iClock),
+    .iEnable(iEnable),
+    .iReset(iReset),
+    
+    .iLoad(iLoad), 
+    .iQLP(iQLP),
+    
+    .iValid(iValid),
+    .iSample(iSample),
+    
+    .oResidual(oResidual),
+    .oValid(oValid)
+    );
+endmodule
 
     
 module FIR1(

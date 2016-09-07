@@ -4,13 +4,13 @@
 
 `define DFP(X) $bitstoshortreal(X)
 
-
 module Durbinator (
     input wire iClock,
     input wire iEnable, 
     input wire iReset,
     
     input wire [31:0] iACF,
+    input wire iValid,
     
     output wire [31:0] alpha,
     output wire [31:0] error,
@@ -19,6 +19,7 @@ module Durbinator (
     output wire [3:0] oM,
     output wire [31:0] oModel,
     
+    output wire oValid,
     output wire oDone
     );
 
@@ -41,7 +42,9 @@ reg [3:0] durb_state;
 reg [31:0] errorm, alpham, km;
 reg [3:0] m;
 reg done;
+reg valid;
 
+assign oValid = valid;
 assign oDone = done;
 assign error = errorm; assign alpha = alpham; assign k = km;
 
@@ -76,15 +79,20 @@ reg ac_enar, ac_rst, ac_validr;
 reg [1:0] wait_for_memory;
 wire ac_done, ac_ena;
 
-assign ac_valid = dms_valid | ac_validr;
-assign ac_ena = dms_valid | ac_enar;
-
-
 reg [31:0] model_in1, model_in2;
 reg [3:0] model_wr1, model_wr2, model_rd1, model_rd2;
 reg model_we1, model_we2;
 
 wire [31:0] model_out1, model_out2;
+
+reg [3:0] final_countdown;
+
+assign ac_valid = dms_valid | ac_validr;
+assign ac_ena = dms_valid | ac_enar;
+assign oM = m;
+assign oModel = model_out1;
+
+
 
 register_file model (
     .iClock(iClock),
@@ -218,6 +226,7 @@ always @(posedge iClock) begin
         m <= 0;
         durb_state <= S_LOAD_ACF;
         done <= 0;
+        valid <= 0;
         
         ckae_alpham <= 0;
         ckae_errorm <= 0;
@@ -234,6 +243,7 @@ always @(posedge iClock) begin
         ms_ena <= 0;
         ms_rst <= 1;
         
+        final_countdown <= 0;
         acf_count <= 0;
         wait_for_memory <= 0;
         
@@ -245,7 +255,7 @@ always @(posedge iClock) begin
         case (durb_state) 
         S_LOAD_ACF: 
         begin
-            if (acf_count <= 12) begin
+            if (acf_count <= 12 && iValid) begin
                 acf_we1 <= 1;
                 acf_wr1 <= acf_count;
                 acf_in1 <= iACF;
@@ -253,7 +263,7 @@ always @(posedge iClock) begin
                 
                 acf_rd1 <= 0;
                 acf_rd2 <= 1;
-            end else begin
+            end else if (acf_count > 12) begin
                 acf_we1 <= 0;
                 /* Initialize the variables */
                 model_in1 <= one;
@@ -270,11 +280,11 @@ always @(posedge iClock) begin
                 
                 errorm <= acf_out1;
                 alpham <= acf_out2;
-                m <= 2;
+                m <= 1;
                 
                 durb_state <= S_FIRST_K_E;
                 
-                $display("First error: %f First Alpha: %f", `DFP(acf_out1), `DFP(acf_out2));
+                //$display("First error: %f First Alpha: %f", `DFP(acf_out1), `DFP(acf_out2));
             end
         end
         
@@ -295,6 +305,7 @@ always @(posedge iClock) begin
                 model_we1 <= 1;
                 model_in1 <= ckae_kmp1;
                 
+                
                 errorm <= ckae_errormp1;
                 ckae_ena <= 0;
                 ckae_rst <= 1;
@@ -306,23 +317,25 @@ always @(posedge iClock) begin
                 model_rd1 <= 1;
                 model_rd2 <= 0;
                 
-                $display("Calculated k and e");
-                $display("k == %f   e == %f", `DFP(ckae_kmp1), `DFP(ckae_errormp1));
+                //$display("Calculated k and e");
+                //$display("k == %f   e == %f", `DFP(ckae_kmp1), `DFP(ckae_errormp1));
             end
         end
         
         S_FIRST_ALPHA:
         begin
+            valid <= 0;
             model_we1 <= 0;
             /* Load and start the alpha calculation */
             if (!ac_first_load) begin
+                valid <= 1;
                 ac_validr <= 1;
                 ac_first_load <= 1;
                 ac_enar <= 1;
                 ac_rst <= 0;
                 
-                $display("Calculating alpha");
-                $display("Model1: %f Model2: %f acf1: %f acf2: %f", `DFP(ac_model1), `DFP(ac_model2), `DFP(ac_acf1), `DFP(ac_acf2));
+                //$display("Calculating alpha");
+                //$display("Model1: %f Model2: %f acf1: %f acf2: %f", `DFP(ac_model1), `DFP(ac_model2), `DFP(ac_acf1), `DFP(ac_acf2));
             end else begin
                 ac_validr <= 0;
                 if (ac_done) begin
@@ -332,9 +345,9 @@ always @(posedge iClock) begin
                     ac_first_load <= 0;
                     
                     durb_state <= S_CALC_K_E;
-                    
-                    $display("Calculated alpha");
-                    $display("alpha == %f", `DFP(ac_alpha));
+                    m <= m + 1;
+                    //$display("Calculated alpha");
+                    //$display("alpha == %f", `DFP(ac_alpha));
                 end
             end
         end
@@ -367,9 +380,9 @@ always @(posedge iClock) begin
                 
                 durb_state <= S_CALC_MODEL;
                 
-                $display("Calculated k and e");
-                $display("em_n == %f   alpham_n == %f", `DFP(ckae_errorm), `DFP(ckae_alpham));
-                $display("k == %f   e == %f", `DFP(ckae_kmp1), `DFP(ckae_errormp1));
+                //$display("Calculated k and e");
+                //$display("em_n == %f   alpham_n == %f", `DFP(ckae_errorm), `DFP(ckae_alpham));
+                //$display("k == %f   e == %f", `DFP(ckae_kmp1), `DFP(ckae_errormp1));
             end
         end
         
@@ -386,7 +399,7 @@ always @(posedge iClock) begin
             model_rd2 <= sel2;
             
             if (wait_for_memory == 1) begin    
-                $display("\n *********** !!!!!!!! M == %d", m);
+                //$display("\n *********** !!!!!!!! M == %d", m);
                 // waiting a cycle
                 ac_validr <= 1;
                 ac_enar <= 1;
@@ -419,32 +432,40 @@ always @(posedge iClock) begin
                     acf_rd2 <= target2 + 1;
                 end
                 
-                $display("NEW MODEL COEFF: Target1: %d Model1: %f Target2: %d Model2: %f", target1, `DFP(newmodel1), target2, `DFP(newmodel2));
+                //$display("NEW MODEL COEFF: Target1: %d Model1: %f Target2: %d Model2: %f", target1, `DFP(newmodel1), target2, `DFP(newmodel2));
             end else if (dms_valid) begin
                 // We caught the falling edge of ms_valid
                 ac_enar <= 1;
                 ms_ena <= 0;
                 ms_rst <= 1;
                 
+                model_rd1 <= m;
                 durb_state = S_CALC_ALPHA;
             end
         end
         
         S_CALC_ALPHA: 
         begin
+            if (model_rd1 > 0) begin
+                valid <= 1;
+                model_rd1 <= model_rd1 - 1'b1;
+            end else begin
+                valid <= 0;
+            end
+            
             if (m == ORDER) begin
-                durb_state <= S_DONE;
+                if (model_rd1 == 0)
+                    durb_state <= S_DONE;
             end else if (ac_done) begin
                 alpham <= ac_alpha;
                 dms_valid <= 0;
                 ac_enar <= 0;
                 ac_rst <= 1;
                 m <= m + 1;
-                
                 durb_state <= S_CALC_K_E;
                 
-                $display("Calculated alpha");
-                $display("alpha == %f", `DFP(ac_alpha));
+                //$display("Calculated alpha");
+                //$display("alpha == %f", `DFP(ac_alpha));
             end
         end
         

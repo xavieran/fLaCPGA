@@ -58,9 +58,9 @@ module  fp_convert_altbarrel_shift_hrf
 	input   aclr;
 	input   clk_en;
 	input   clock;
-	input   [63:0]  data;
-	input   [5:0]  distance;
-	output   [63:0]  result;
+	input   wire [63:0]  data;
+	input   wire [5:0]  distance;
+	output wire  [63:0]  result;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -169,9 +169,9 @@ module  fp_convert_altpriority_encoder_3e8
 	data,
 	q,
 	zero) ;
-	input   [1:0]  data;
-	output   [0:0]  q;
-	output   zero;
+	input   wire [1:0]  data;
+	output  wire [0:0]  q;
+	output  wire zero;
 
 
 	assign
@@ -188,9 +188,9 @@ module  fp_convert_altpriority_encoder_6e8
 	data,
 	q,
 	zero) ;
-	input   [3:0]  data;
-	output   [1:0]  q;
-	output   zero;
+	input  wire [3:0]  data;
+	output  wire [1:0]  q;
+	output wire  zero;
 
 	wire  [0:0]   wire_altpriority_encoder17_q;
 	wire  wire_altpriority_encoder17_zero;
@@ -221,9 +221,9 @@ module  fp_convert_altpriority_encoder_be8
 	data,
 	q,
 	zero) ;
-	input   [7:0]  data;
-	output   [2:0]  q;
-	output   zero;
+	input  wire [7:0]  data;
+	output wire  [2:0]  q;
+	output wire  zero;
 
 	wire  [1:0]   wire_altpriority_encoder15_q;
 	wire  wire_altpriority_encoder15_zero;
@@ -254,9 +254,9 @@ module  fp_convert_altpriority_encoder_rf8
 	data,
 	q,
 	zero) ;
-	input   [15:0]  data;
-	output   [3:0]  q;
-	output   zero;
+	input  wire [15:0]  data;
+	output wire  [3:0]  q;
+	output wire  zero;
 
 	wire  [2:0]   wire_altpriority_encoder13_q;
 	wire  wire_altpriority_encoder13_zero;
@@ -287,9 +287,9 @@ module  fp_convert_altpriority_encoder_qf8
 	data,
 	q,
 	zero) ;
-	input   [31:0]  data;
-	output   [4:0]  q;
-	output   zero;
+	input wire  [31:0]  data;
+	output  wire [4:0]  q;
+	output  wire zero;
 
 	wire  [3:0]   wire_altpriority_encoder11_q;
 	wire  wire_altpriority_encoder11_zero;
@@ -339,8 +339,8 @@ module  fp_convert_altpriority_encoder_3v7
 	( 
 	data,
 	q) ;
-	input   [1:0]  data;
-	output   [0:0]  q;
+	input  wire [1:0]  data;
+	output wire  [0:0]  q;
 
 
 	assign
@@ -355,8 +355,8 @@ module  fp_convert_altpriority_encoder_6v7
 	( 
 	data,
 	q) ;
-	input   [3:0]  data;
-	output   [1:0]  q;
+	input  wire [3:0]  data;
+	output  wire [1:0]  q;
 
 	wire  [0:0]   wire_altpriority_encoder25_q;
 	wire  [0:0]   wire_altpriority_encoder26_q;
@@ -383,8 +383,8 @@ module  fp_convert_altpriority_encoder_bv7
 	( 
 	data,
 	q) ;
-	input   [7:0]  data;
-	output   [2:0]  q;
+	input wire  [7:0]  data;
+	output wire  [2:0]  q;
 
 	wire  [1:0]   wire_altpriority_encoder23_q;
 	wire  [1:0]   wire_altpriority_encoder24_q;
@@ -411,8 +411,8 @@ module  fp_convert_altpriority_encoder_r08
 	( 
 	data,
 	q) ;
-	input   [15:0]  data;
-	output   [3:0]  q;
+	input  wire [15:0]  data;
+	output wire  [3:0]  q;
 
 	wire  [2:0]   wire_altpriority_encoder21_q;
 	wire  [2:0]   wire_altpriority_encoder22_q;
@@ -439,8 +439,8 @@ module  fp_convert_altpriority_encoder_q08
 	( 
 	data,
 	q) ;
-	input   [31:0]  data;
-	output   [4:0]  q;
+	input   wire [31:0]  data;
+	output  wire [4:0]  q;
 
 	wire  [3:0]   wire_altpriority_encoder19_q;
 	wire  [3:0]   wire_altpriority_encoder20_q;
@@ -467,8 +467,8 @@ module  fp_convert_altpriority_encoder_0c6
 	( 
 	data,
 	q) ;
-	input   [63:0]  data;
-	output   [5:0]  q;
+	input   wire [63:0]  data;
+	output wire  [5:0]  q;
 
 	wire  [4:0]   wire_altpriority_encoder10_q;
 	wire  wire_altpriority_encoder10_zero;
@@ -498,9 +498,9 @@ module  fp_convert_altfp_convert_phn
 	dataa,
 	result) ;
 	input   clk_en;
-	input   clock;
-	input   [63:0]  dataa;
-	output   [31:0]  result;
+	input  wire clock;
+	input  wire [63:0]  dataa;
+	output wire  [31:0]  result;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -915,9 +915,9 @@ module fp_convert (
 	dataa,
 	result);
 
-	input	  clk_en;
-	input	  clock;
-	input	[63:0]  dataa;
+	input	wire  clk_en;
+	input	 wire clock;
+	input wire	[63:0]  dataa;
 	output	[31:0]  result;
 
 	wire [31:0] sub_wire0;

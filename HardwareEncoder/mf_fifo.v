@@ -32,6 +32,8 @@
 //Altera or its authorized distributors.  Please refer to the 
 //applicable agreement for further details.
 
+`ifndef MF_FIFO_H
+`define MF_FIFO_H
 
 // synopsys translate_off
 `timescale 1 ps / 1 ps
@@ -161,3 +163,4 @@ endmodule
 // Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo_inst.v FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf
+`endif

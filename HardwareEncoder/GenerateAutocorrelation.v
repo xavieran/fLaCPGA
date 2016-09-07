@@ -9,12 +9,8 @@ module GenerateAutocorrelation (
     
     input wire signed [15:0] iSample,
 
-    output wire [31:0] oACF0,
-    output wire [31:0] oACF1,
-    output wire [31:0] oACF2,
-    output wire [31:0] oACF3,
-    
-    output reg oDone
+    output wire [31:0] oACF,
+    output wire oValid
     );
 
 parameter LAGS = 12;
@@ -31,11 +27,14 @@ reg start_division;
 reg [31:0] numerator, denominator;
 wire [31:0] result;
 reg div_en, conv_en;
+reg done;
 
 reg [12:0] sample_count;
 
 reg [5:0] process_counter;
 wire [3:0] converter_select = process_counter;
+
+
 
 integer i;
 
@@ -46,10 +45,12 @@ reg [31:0] floating_acf[0:LAGS];
 reg signed [31:0] lags [0:LAGS];
 reg signed [15:0] dataq [0:LAGS];
 
-assign oACF0 = floating_acf[0];
-assign oACF1 = floating_acf[1];
-assign oACF2 = floating_acf[2];
-assign oACF3 = floating_acf[3];
+
+wire [31:0] one = 32'h3f800000;
+reg [31:0] first;
+
+assign oACF = result | first;
+assign oValid = done;
 
 fp_convert conv (
     .clk_en(conv_en),
@@ -125,8 +126,8 @@ always @(posedge iClock) begin
         
         div_en <= 0;
         conv_en <= 0;
-        
-        oDone <= 0;
+        done <= 0;
+        first <= 0;
     end else if (iEnable) begin
         if (sample_count == BLOCK_SIZE) begin
             /* Start the division process */
@@ -134,17 +135,12 @@ always @(posedge iClock) begin
             conv_en <= 1'b1;
             div_en <= 1'b1;
             process_counter <= 0;
-            oDone <= 1'b0;
+            done <= 0;
         end
+        first <= 0;
         
         if (start_division) begin
             process_counter <= process_counter + 1'b1;
-            
-            /* Shift the result of the division along */
-            for (i = LAGS - 1; i >= 0; i = i - 1) begin
-                floating_acf[i + 1] <= floating_acf[i];
-            end
-            floating_acf[0] <= result;
         end
         
         integer_data <= converter_mux_out;
@@ -154,20 +150,17 @@ always @(posedge iClock) begin
         end else begin
             numerator <= floating_data;
         end
+        
+        if (process_counter == CONVERTER_DELAY + DIVIDER_DELAY) begin
+            done <= 1'b1;
+            first <= one;
+        end
 
-        if (process_counter == CONVERTER_DELAY + DIVIDER_DELAY + LAGS + 2) begin
-            oDone <= 1'b1;
+        if (process_counter == CONVERTER_DELAY + DIVIDER_DELAY + LAGS + 1) begin
+            done <= 1'b0;
             start_division <= 1'b0;
             numerator <= 0;
             denominator <= 0;
-            
-            for (i = 0; i <= LAGS; i = i + 1) begin
-                $display("ACF%d == %f", i, $bitstoshortreal(floating_acf[i]));
-            end
-        end
-        
-        if (oDone == 1'b1) begin
-            oDone <= 1'b0;
         end
     end
 end

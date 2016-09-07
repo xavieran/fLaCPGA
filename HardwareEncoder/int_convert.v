@@ -43,6 +43,9 @@
 //altbarrel_shift CBX_AUTO_BLACKBOX="ALL" DEVICE_FAMILY="Cyclone II" PIPELINE=2 SHIFTDIR="LEFT" SHIFTTYPE="LOGICAL" WIDTH=54 WIDTHDIST=6 aclr clk_en clock data distance result
 //VERSION_BEGIN 13.0 cbx_altbarrel_shift 2013:06:12:18:04:00:SJ cbx_mgl 2013:06:12:18:04:42:SJ  VERSION_END
 
+`ifndef INT_CONVERT_H
+`define INT_CONVERT_H
+
 //synthesis_resources = reg 113 
 //synopsys translate_off
 `timescale 1 ps / 1 ps
@@ -58,9 +61,9 @@ module  int_convert_altbarrel_shift_grf
 	input   aclr;
 	input   clk_en;
 	input   clock;
-	input   [53:0]  data;
-	input   [5:0]  distance;
-	output   [53:0]  result;
+	input  wire [53:0]  data;
+	input  wire [5:0]  distance;
+	output  wire [53:0]  result;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -147,9 +150,9 @@ module  int_convert_altfp_convert_fhn
 	dataa,
 	result) ;
 	input   clk_en;
-	input   clock;
-	input   [31:0]  dataa;
-	output   [31:0]  result;
+	input  wire clock;
+	input  wire [31:0]  dataa;
+	output  wire [31:0]  result;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -916,9 +919,9 @@ module int_convert (
 	dataa,
 	result);
 
-	input	  clk_en;
-	input	  clock;
-	input	[31:0]  dataa;
+	input	 wire clk_en;
+	input	wire  clock;
+	input	wire [31:0]  dataa;
 	output	[31:0]  result;
 
 	wire [31:0] sub_wire0;
@@ -965,3 +968,4 @@ endmodule
 // Retrieval info: GEN_FILE: TYPE_NORMAL int_convert.inc TRUE TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL int_convert.cmp TRUE TRUE
 // Retrieval info: LIB_FILE: lpm
+`endif
