@@ -120,8 +120,6 @@ ModelSelector ms (
     
     .iM(m),
     .iKm(km),
-    //.iModel1(model1),
-    //.iModel2(model2),
     .iModel1(model_out1),
     .iModel2(model_out2),
     
@@ -139,11 +137,13 @@ ModelSelector ms (
     .oDone(ms_done)
     );
 
-AlphaCalculator ac (
+
+AlphaCalculator2 ac (
     .iClock(iClock),
     .iEnable(ac_ena), 
     .iReset(ac_rst),
     
+    .iM(m),
     .iValid(ac_valid),
     .iACF1(ac_acf1),
     .iACF2(ac_acf2),
@@ -463,6 +463,11 @@ always @(posedge iClock) begin
                 ac_rst <= 1;
                 m <= m + 1;
                 durb_state <= S_CALC_K_E;
+                
+                ckae_alpham <= ac_alpha;
+                ckae_errorm <= errorm;
+                ckae_ena <= 1;
+                ckae_rst <= 0;
                 
                 //$display("Calculated alpha");
                 //$display("alpha == %f", `DFP(ac_alpha));

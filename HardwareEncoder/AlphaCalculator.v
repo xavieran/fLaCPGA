@@ -11,7 +11,7 @@ module AlphaCalculator (
     input wire iReset,
     
     input wire iValid,
-    
+    input wire [3:0] iM,
     input wire [31:0] iACF1,
     input wire [31:0] iACF2,
     input wire [31:0] iModel1,
@@ -156,7 +156,7 @@ always @(posedge iClock) begin
         
         if (rValid) begin
             input_count <= input_count + 1'b1;
-            $display("%f*%f +%f*%f", `DFP(rModel1), `DFP(rACF2), `DFP(rModel2), `DFP(rACF1));
+            $display("ALPHA::%d :: %f*%f +%f*%f",iM, `DFP(rModel1), `DFP(rACF2), `DFP(rModel2), `DFP(rACF1));
         end else begin
             input_count <= input_count;
         end

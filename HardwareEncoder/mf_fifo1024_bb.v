@@ -1,10 +1,10 @@
-// megafunction wizard: %FIFO%
+// megafunction wizard: %FIFO%VBB%
 // GENERATION: STANDARD
 // VERSION: WM1.0
 // MODULE: scfifo 
 
 // ============================================================
-// File Name: mf_fifo.v
+// File Name: mf_fifo1024.v
 // Megafunction Name(s):
 // 			scfifo
 //
@@ -16,7 +16,6 @@
 //
 // 13.0.1 Build 232 06/12/2013 SP 1 SJ Full Version
 // ************************************************************
-
 
 //Copyright (C) 1991-2013 Altera Corporation
 //Your use of Altera Corporation's design tools, logic functions 
@@ -32,13 +31,7 @@
 //Altera or its authorized distributors.  Please refer to the 
 //applicable agreement for further details.
 
-`ifndef MF_FIFO_H
-`define MF_FIFO_H
-
-// synopsys translate_off
-`timescale 1 ps / 1 ps
-// synopsys translate_on
-module mf_fifo (
+module mf_fifo1024 (
 	clock,
 	data,
 	rdreq,
@@ -48,49 +41,14 @@ module mf_fifo (
 	q,
 	usedw);
 
-	input	wire  clock;
-	input wire [15:0]  data;
-	input wire rdreq;
-	input	 wire wrreq;
-	output  empty;
+	input	  clock;
+	input	[15:0]  data;
+	input	  rdreq;
+	input	  wrreq;
+	output	  empty;
 	output	  full;
 	output	[15:0]  q;
-	output	[11:0]  usedw;
-
-	wire [11:0] sub_wire0;
-	wire  sub_wire1;
-	wire  sub_wire2;
-	wire [15:0] sub_wire3;
-	wire [11:0] usedw = sub_wire0[11:0];
-	wire  empty = sub_wire1;
-	wire  full = sub_wire2;
-	wire [15:0] q = sub_wire3[15:0];
-
-	scfifo	scfifo_component (
-				.clock (clock),
-				.data (data),
-				.rdreq (rdreq),
-				.wrreq (wrreq),
-				.usedw (sub_wire0),
-				.empty (sub_wire1),
-				.full (sub_wire2),
-				.q (sub_wire3),
-				.aclr (),
-				.almost_empty (),
-				.almost_full (),
-				.sclr ());
-	defparam
-		scfifo_component.add_ram_output_register = "ON",
-		scfifo_component.intended_device_family = "Cyclone II",
-		scfifo_component.lpm_numwords = 4096,
-		scfifo_component.lpm_showahead = "OFF",
-		scfifo_component.lpm_type = "scfifo",
-		scfifo_component.lpm_width = 16,
-		scfifo_component.lpm_widthu = 12,
-		scfifo_component.overflow_checking = "ON",
-		scfifo_component.underflow_checking = "ON",
-		scfifo_component.use_eab = "ON";
-
+	output	[9:0]  usedw;
 
 endmodule
 
@@ -103,7 +61,7 @@ endmodule
 // Retrieval info: PRIVATE: AlmostFullThr NUMERIC "-1"
 // Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "0"
 // Retrieval info: PRIVATE: Clock NUMERIC "0"
-// Retrieval info: PRIVATE: Depth NUMERIC "4096"
+// Retrieval info: PRIVATE: Depth NUMERIC "1024"
 // Retrieval info: PRIVATE: Empty NUMERIC "1"
 // Retrieval info: PRIVATE: Full NUMERIC "1"
 // Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Cyclone II"
@@ -111,7 +69,7 @@ endmodule
 // Retrieval info: PRIVATE: LegacyRREQ NUMERIC "1"
 // Retrieval info: PRIVATE: MAX_DEPTH_BY_9 NUMERIC "0"
 // Retrieval info: PRIVATE: OVERFLOW_CHECKING NUMERIC "0"
-// Retrieval info: PRIVATE: Optimize NUMERIC "1"
+// Retrieval info: PRIVATE: Optimize NUMERIC "0"
 // Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
 // Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "0"
 // Retrieval info: PRIVATE: UNDERFLOW_CHECKING NUMERIC "0"
@@ -130,13 +88,13 @@ endmodule
 // Retrieval info: PRIVATE: wsFull NUMERIC "1"
 // Retrieval info: PRIVATE: wsUsedW NUMERIC "0"
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
-// Retrieval info: CONSTANT: ADD_RAM_OUTPUT_REGISTER STRING "ON"
+// Retrieval info: CONSTANT: ADD_RAM_OUTPUT_REGISTER STRING "OFF"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone II"
-// Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "4096"
+// Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "1024"
 // Retrieval info: CONSTANT: LPM_SHOWAHEAD STRING "OFF"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "scfifo"
 // Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "16"
-// Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "12"
+// Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "10"
 // Retrieval info: CONSTANT: OVERFLOW_CHECKING STRING "ON"
 // Retrieval info: CONSTANT: UNDERFLOW_CHECKING STRING "ON"
 // Retrieval info: CONSTANT: USE_EAB STRING "ON"
@@ -146,7 +104,7 @@ endmodule
 // Retrieval info: USED_PORT: full 0 0 0 0 OUTPUT NODEFVAL "full"
 // Retrieval info: USED_PORT: q 0 0 16 0 OUTPUT NODEFVAL "q[15..0]"
 // Retrieval info: USED_PORT: rdreq 0 0 0 0 INPUT NODEFVAL "rdreq"
-// Retrieval info: USED_PORT: usedw 0 0 12 0 OUTPUT NODEFVAL "usedw[11..0]"
+// Retrieval info: USED_PORT: usedw 0 0 10 0 OUTPUT NODEFVAL "usedw[9..0]"
 // Retrieval info: USED_PORT: wrreq 0 0 0 0 INPUT NODEFVAL "wrreq"
 // Retrieval info: CONNECT: @clock 0 0 0 0 clock 0 0 0 0
 // Retrieval info: CONNECT: @data 0 0 16 0 data 0 0 16 0
@@ -155,12 +113,11 @@ endmodule
 // Retrieval info: CONNECT: empty 0 0 0 0 @empty 0 0 0 0
 // Retrieval info: CONNECT: full 0 0 0 0 @full 0 0 0 0
 // Retrieval info: CONNECT: q 0 0 16 0 @q 0 0 16 0
-// Retrieval info: CONNECT: usedw 0 0 12 0 @usedw 0 0 12 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo_bb.v TRUE
+// Retrieval info: CONNECT: usedw 0 0 10 0 @usedw 0 0 10 0
+// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo1024.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo1024.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo1024.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo1024.bsf FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo1024_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mf_fifo1024_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf
-`endif

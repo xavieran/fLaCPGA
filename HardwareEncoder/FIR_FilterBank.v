@@ -285,7 +285,6 @@ always @(posedge iClock) begin
         f12_total_error <= 0;
 
     end else begin
-
         if (f1_valid) f1_total_error <= f1_total_error + abs_f1_residual;
 
         if (f2_valid) f2_total_error <= f2_total_error + abs_f2_residual;
@@ -309,8 +308,6 @@ always @(posedge iClock) begin
         if (f11_valid) f11_total_error <= f11_total_error + abs_f11_residual;
 
         if (f12_valid) f12_total_error <= f12_total_error + abs_f12_residual;
-
-
     end
 end
 endmodule
