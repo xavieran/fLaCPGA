@@ -1229,3 +1229,137 @@ always @(posedge iClock) begin
     end
 end
 endmodule
+
+module FIRX(
+    input wire iClock,
+    input wire iEnable,
+    input wire iReset,
+    
+    input wire iLoad, 
+    input wire signed [11:0] iQLP,
+    
+    input wire [3:0] iM,
+    input wire iValid,
+    input wire signed [15:0] iSample,
+    
+    output wire signed [15:0] oResidual,
+    output wire oValid
+    );
+
+parameter ORDER = 12;
+parameter LATENCY = 5 + ORDER;
+parameter PRECISION = 12;
+
+integer i;
+reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [15:0] data[0:ORDER - 1];
+reg [3:0] coeff_count;
+reg [LATENCY:0] valid;
+reg valid_sel;
+
+reg signed [`SHIFT + 16:0] level0_0;
+reg signed [`SHIFT + 16:0] level0_1;
+reg signed [`SHIFT + 16:0] level0_2;
+reg signed [`SHIFT + 16:0] level0_3;
+reg signed [`SHIFT + 16:0] level0_4;
+reg signed [`SHIFT + 16:0] level0_5;
+reg signed [`SHIFT + 16:0] level0_6;
+reg signed [`SHIFT + 16:0] level0_7;
+reg signed [`SHIFT + 16:0] level0_8;
+reg signed [`SHIFT + 16:0] level0_9;
+reg signed [`SHIFT + 16:0] level0_10;
+reg signed [`SHIFT + 16:0] level0_11;
+reg signed [`SHIFT + 16:0] level1_0;
+reg signed [`SHIFT + 16:0] level1_1;
+reg signed [`SHIFT + 16:0] level1_2;
+reg signed [`SHIFT + 16:0] level1_3;
+reg signed [`SHIFT + 16:0] level1_4;
+reg signed [`SHIFT + 16:0] level1_5;
+reg signed [`SHIFT + 16:0] level2_0;
+reg signed [`SHIFT + 16:0] level2_1;
+reg signed [`SHIFT + 16:0] level2_2;
+reg signed [`SHIFT + 16:0] level3_0;
+reg signed [`SHIFT + 16:0] rlevel3_1;
+reg signed [`SHIFT + 16:0] level4_0;
+reg signed [15:0] data0_l0;
+reg signed [15:0] data0_l1;
+reg signed [15:0] data0_l2;
+reg signed [15:0] data0_l3;
+reg signed [15:0] data0_l4;
+reg signed [15:0] residual;
+
+assign oValid = valid_sel;
+assign oResidual = residual; // right shift the result
+
+always @(posedge iClock) begin
+    if (iReset) begin
+        for (i = 0; i < ORDER; i = i + 1) qlp_coeff[i] <= 0;
+        for (i = 0; i < ORDER; i = i + 1) data[i] <= 0;
+        
+        valid <= 0;
+        coeff_count <= 0;
+
+
+    end else if (iEnable) begin
+        /*if (iM == 12) valid_sel <= valid[16];
+        else if (iM == 11) valid_sel <= valid[15];
+        else if (iM == 10) valid_sel <= valid[14];
+        else if (iM == 9) valid_sel <= valid[13];*/
+        valid_sel <= valid[iM + 4];
+        
+        
+        
+        if (iLoad && coeff_count <= iM) begin
+            qlp_coeff[0] <= iQLP;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
+                qlp_coeff[i] <= qlp_coeff[i - 1];
+            end 
+            coeff_count <= coeff_count + 1'b1;
+        end else begin
+            valid <= (valid << 1) | iValid;
+            
+            data[0] <= iSample;
+            for (i = ORDER - 1; i > 0; i = i - 1) begin
+                data[i] <= data[i - 1];
+            end 
+    
+            level0_0 <= qlp_coeff[0]*data[0];
+            level0_1 <= qlp_coeff[1]*data[1];
+            level0_2 <= qlp_coeff[2]*data[2];
+            level0_3 <= qlp_coeff[3]*data[3];
+            level0_4 <= qlp_coeff[4]*data[4];
+            level0_5 <= qlp_coeff[5]*data[5];
+            level0_6 <= qlp_coeff[6]*data[6];
+            level0_7 <= qlp_coeff[7]*data[7];
+            level0_8 <= qlp_coeff[8]*data[8];
+            level0_9 <= qlp_coeff[9]*data[9];
+            level0_10 <= qlp_coeff[10]*data[10];
+            level0_11 <= qlp_coeff[11]*data[11];
+
+            data0_l0 <= iSample;
+            data0_l1 <= data0_l0;
+            data0_l2 <= data0_l1;
+            data0_l3 <= data0_l2;
+            data0_l4 <= data0_l3;
+
+            level1_0 <= level0_0 + level0_1;
+            level1_1 <= level0_2 + level0_3;
+            level1_2 <= level0_4 + level0_5;
+            level1_3 <= level0_6 + level0_7;
+            level1_4 <= level0_8 + level0_9;
+            level1_5 <= level0_10 + level0_11;
+
+            level2_0 <= level1_0 + level1_1;
+            level2_1 <= level1_2 + level1_3;
+            level2_2 <= level1_4 + level1_5;
+
+            level3_0 <= level2_0 + level2_1;
+            rlevel3_1 <= level2_2;
+
+            level4_0 <= level3_0 + rlevel3_1;
+
+            residual <= data0_l4 - (level4_0 >> `SHIFT);
+        end
+    end
+end
+endmodule

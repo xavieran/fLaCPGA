@@ -93,7 +93,7 @@ end
 initial begin
     acf_ena = 0; acf_rst = 1; db_ena = 0; db_rst = 1;
     
-    infile =$fopen("Pavane16Blocks.txt", "r");
+    infile = $fopen("Pavane16Blocks.txt", "r");
     
     #30;
     cycles = 0;
