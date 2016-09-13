@@ -161,7 +161,7 @@ always @(posedge iClock) begin
             input_count <= input_count;
         end
         
-        dValid = (dValid << 1) | rValid;
+        dValid <= (dValid << 1) | rValid;
         
         // If the data out of the first adder is valid, then shift it down
         if (dValid[TOTAL_LATENCY]) begin

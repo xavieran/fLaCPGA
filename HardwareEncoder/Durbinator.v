@@ -440,7 +440,7 @@ always @(posedge iClock) begin
                 ms_rst <= 1;
                 
                 model_rd1 <= m;
-                durb_state = S_CALC_ALPHA;
+                durb_state <= S_CALC_ALPHA;
             end
         end
         
