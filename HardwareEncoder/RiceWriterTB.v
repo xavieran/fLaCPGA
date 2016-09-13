@@ -51,27 +51,17 @@ initial begin
     
     rst = 0; ena = 1;
     
+    upper = 4; lower = 5'b11011;
     #20;
-    lower = 5'b10011;
-    upper = 3;
+    upper = 2; lower = 5'b10011;
     #20;
-    upper = 5; 
-    lower = 5'b11100;
+    upper = 12; lower = 5'b11001;
     #20;
-    upper = 20;
-    lower = 5'b11011;
+    upper = 22; lower = 5'b11011;
     #20;
-    upper = 0;
-    lower = 5'b10001;
+    upper = 33; lower = 5'b10001;
     #20;
-    upper = 7;
-    lower = 5'b10111;
-    #20;
-    upper= 11;
-    lower = 5'b11111;
-    #20;
-    upper = 12;
-    lower = 5'b10101;
+    upper = 10; lower = 5'b11101;
     #20;
     /*
     #20;

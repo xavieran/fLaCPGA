@@ -35,14 +35,13 @@ module RiceWriter (
  *    the third buffer
  */
 
+
+
 reg [3:0] bit_pointer;
 
-wire [15:0] overflow = bit_pointer + iTotal;
-wire [15:0] overlap = (iUpper[3:0] + bit_pointer[3:0]) + iRiceParam + 1;
-wire [3:0] upper_shift = 15 - bit_pointer - iUpper - iRiceParam;
-
-// The amount to shift the lower bits by if we overflow the first buffer
-wire [7:0] of_lshift = iUpper + bit_pointer;
+wire [15:0] uppern = (iUpper - ((iUpper[7:4] - 1) << 4)) - (16 - bit_pointer);
+wire [15:0] totaln = uppern + iRiceParam + 1;
+wire [15:0] skip = iUpper - bit_pointer >> 4;
 
 reg [15:0] buffer;
 
@@ -83,7 +82,7 @@ always @(posedge iClock) begin
         
         first_write_done <= 0;
         
-        need_header <= 1;
+        need_header <= 0;
     end else if (iEnable) begin
         if (need_header) begin
             buffer <= iRiceParam << 12;
@@ -93,12 +92,12 @@ always @(posedge iClock) begin
             ram_we1 <= 0;
             ram_we2 <= 0;
             // We can place the data straight into this buffer wihtout sending
-            if (overflow < 16) begin
-                buffer <= buffer | (iLower << upper_shift);
-                bit_pointer <= overflow;
+            if (bit_pointer + iTotal <= 15) begin
+                buffer <= buffer | (iLower << (16 - iTotal));
+                bit_pointer <= iTotal;
                 
             // We need to send the first buffer
-            end else if (overflow == 16) begin
+            end else if (bit_pointer + iTotal == 16) begin
                 first_write_done <= 1;
                 ram_dat1 <= buffer | iLower;
                 ram_adr1 <= ram_adr_prev + first_write_done;
@@ -107,49 +106,48 @@ always @(posedge iClock) begin
                 
                 buffer <= 0;
                 bit_pointer <= 0;
-            end else if (overflow >= 17 && overflow < 32) begin 
+            end else if (bit_pointer + iTotal > 16 && bit_pointer + iTotal <= 32) begin 
                 // In this case we need to write some of the lower bits to the buffer before
                 // we send it off. Then we need to write the rest of the lower bits to the 
-                // next buffer    
+                // next buffer
                 first_write_done <= 1;
                 ram_we1 <= 1;
                 ram_adr1 <= ram_adr_prev + first_write_done;
                 ram_adr_prev <= ram_adr_prev + first_write_done;
                 
-                if (of_lshift <= 15) begin
-                    ram_dat1 <= buffer | (iLower >> (15 - of_lshift[3:0]));
-                    buffer <= iLower << (of_lshift + 1 - iRiceParam);
-                    bit_pointer <= iRiceParam - 1 - of_lshift;
-                    
-                /* If the upper bits pass beyond the current data buffer, 
-                 * then we can send it without modifying it anymore */
-                end else if (of_lshift > 15) begin
-                    ram_dat1 <= buffer;
-                    /* We can now write the rest of the stuff straight into the
-                     * buffer */
-                    buffer <= iLower << (15 - of_lshift[3:0] - iRiceParam);
-                    bit_pointer <= of_lshift[3:0] + iRiceParam + 1;
-                end
+                ram_dat1 <= buffer | iLower >> (bit_pointer + iTotal - 16);
+                
+                buffer <= iLower << 32 - bit_pointer - iTotal;
+                
+                bit_pointer <= bit_pointer + iTotal - 16;
                 
             // We need to send the first and second buffers and place data into buffer 3
-            end else if (overflow >= 32) begin
+            end else if (iTotal + bit_pointer > 32) begin
                 first_write_done <= 1;
                 ram_dat1 <= buffer;
                 ram_adr1 <= ram_adr_prev + first_write_done;
                 ram_we1 <= 1;
                 
-                ram_adr2 <= ram_adr_prev + first_write_done + of_lshift[7:4];
-                ram_adr_prev <= ram_adr_prev + first_write_done + of_lshift[7:4];
-                ram_we2 <= 1;
-                    
-                bit_pointer <= overlap[3:0];
-                
-                if (overlap < 15) begin
-                    ram_dat2 <= iLower << (15 - overlap + 1);
+                // once we have sent the first buffer it is the same as if 
+                // bp = 0 and upper = upper - (16 - bp_prev)
+                if (totaln <= 15) begin
+                    buffer <= iLower << (16 - totaln);
+                    ram_adr_prev <= ram_adr_prev + first_write_done + skip;
+                    bit_pointer <= totaln;
+                end else if (totaln == 16) begin
                     buffer <= 0;
-                end else if (overlap >= 15) begin
-                    ram_dat2 <= iLower >> (overlap - 15);
-                    buffer <= iLower << (15 - overlap[3:0]);
+                    bit_pointer <= 0;
+                    ram_dat2 <= iLower;
+                    ram_we2 <= 1;
+                    ram_adr2 <= ram_adr_prev + first_write_done + skip + 1;
+                    ram_adr_prev <= ram_adr_prev + first_write_done + skip + 1;
+                end else if (totaln > 16) begin
+                    ram_dat2 <= iLower >> (totaln - 16);
+                    ram_we2 <= 1;
+                    ram_adr2 <= ram_adr_prev + first_write_done + skip + 1;
+                    ram_adr_prev <= ram_adr_prev + first_write_done + skip + 1;
+                    buffer <= iLower << (32 - totaln);
+                    bit_pointer <= totaln - 16;
                 end
             end
         end
