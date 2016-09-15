@@ -44,9 +44,12 @@ add_executable (../tests/lpcencoder_test ../tests/lpcencoder_test.cpp  ${BIT_IO_
 target_link_libraries(../tests/lpcencoder_test gtest rt pthread)
 add_executable (../tests/encoder_test ../tests/encoder_test.cpp  ${BIT_IO_SRC} ${BIT_IO_INC} ${FLAC_ENCODER_SOURCES} ${FLAC_ENCODER_INCLUDES})
 target_link_libraries(../tests/encoder_test gtest rt pthread)
+
 #add_executable (../tests/crc_test ../tests/crc_test.cpp  ${BIT_IO_SRC} src/crc.cpp ${BIT_IO_INC} includes/crc.hpp)
 #target_link_libraries(../tests/crc gtest rt pthread)
 
+add_executable (../tests/read_residual ../tests/read_residual.cpp  ${BIT_IO_SRC} ${BIT_IO_INC})
+target_link_libraries(../tests/read_residual)
 
 add_executable (../tests/generate_residual ../tests/generate_residual.cpp  ${BIT_IO_SRC} src/riceencoder.cpp ${BIT_IO_INC} includes/riceencoder.hpp)
 target_link_libraries(../tests/generate_residual)

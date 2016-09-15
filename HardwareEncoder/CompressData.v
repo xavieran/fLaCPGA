@@ -61,6 +61,7 @@ GenerateAutocorrelation ga(
 
 reg db_ena, db_rst;
 wire db_valid, db_done;
+
 wire [31:0] db_model;
 wire [3:0] db_m;
 
@@ -77,6 +78,13 @@ Durbinator db(
     .oValid(db_valid),
     .oDone(db_done)
     );
+
+/*
+assign db_m = db_ena | acf;
+assign db_valid = db_ena | acf_valid;
+assign db_done = db_ena | acf_valid;
+assign db_model = db_ena |  acf;
+*/
 
 wire signed [15:0] q_model;
 wire q_valid;

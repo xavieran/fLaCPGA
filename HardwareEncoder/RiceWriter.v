@@ -6,6 +6,8 @@ module RiceWriter (
     input wire iReset, 
     input wire iEnable, 
     
+    input wire iChangeParam,
+    input wire iFlush,
     input wire [15:0] iTotal,
     input wire [15:0] iUpper,
     input wire [15:0] iLower, 
@@ -24,8 +26,10 @@ module RiceWriter (
  * iUpper: The number of upper bits to write
  * iLower: a 1 concatenated with the lower bits
  * iRiceParam: The rice parameter size
- *
  */
+
+// I assume that we can access a RAM with two write ports.
+// Quartus will compile it, so it must exist.
 
 /*
  * There are three possible cases when we receive a code
@@ -35,13 +39,14 @@ module RiceWriter (
  *    the third buffer
  */
 
-
-
 reg [3:0] bit_pointer;
 
+//wire [15:0] uppern = 16 - bit_pointer;
+
+// This wire is the bottleneck - 83 MHz with this vs. 133 MHz with the above expression
 wire [15:0] uppern = (iUpper - ((iUpper[7:4] - 1) << 4)) - (16 - bit_pointer);
 wire [15:0] totaln = uppern + iRiceParam + 1;
-wire [15:0] skip = iUpper - bit_pointer >> 4;
+wire [15:0] skip = (iUpper - bit_pointer) >> 4;
 
 reg [15:0] buffer;
 
@@ -93,10 +98,10 @@ always @(posedge iClock) begin
             ram_we2 <= 0;
             // We can place the data straight into this buffer wihtout sending
             if (bit_pointer + iTotal <= 15) begin
-                buffer <= buffer | (iLower << (16 - iTotal));
-                bit_pointer <= iTotal;
+                buffer <= buffer | (iLower << (16 - iTotal - bit_pointer));
+                bit_pointer <= bit_pointer + iTotal;
                 
-            // We need to send the first buffer
+            // The data fits perfectly into one buffer, so we send it
             end else if (bit_pointer + iTotal == 16) begin
                 first_write_done <= 1;
                 ram_dat1 <= buffer | iLower;
@@ -106,6 +111,8 @@ always @(posedge iClock) begin
                 
                 buffer <= 0;
                 bit_pointer <= 0;
+            
+            // The data overflows one buffer
             end else if (bit_pointer + iTotal > 16 && bit_pointer + iTotal <= 32) begin 
                 // In this case we need to write some of the lower bits to the buffer before
                 // we send it off. Then we need to write the rest of the lower bits to the 
@@ -121,7 +128,7 @@ always @(posedge iClock) begin
                 
                 bit_pointer <= bit_pointer + iTotal - 16;
                 
-            // We need to send the first and second buffers and place data into buffer 3
+            // The data overflows multiple buffers
             end else if (iTotal + bit_pointer > 32) begin
                 first_write_done <= 1;
                 ram_dat1 <= buffer;

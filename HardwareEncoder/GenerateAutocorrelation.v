@@ -50,6 +50,10 @@ wire [31:0] one = 32'h3f800000;
 reg [31:0] first;
 
 assign oACF = result | first;
+/*assign oACF = integer_acf[0] & integer_acf[1] & integer_acf[2] &  
+              integer_acf[3] & integer_acf[4] & integer_acf[5] & 
+              integer_acf[6] & integer_acf[7] & integer_acf[8] & 
+              integer_acf[9] & integer_acf[10] & integer_acf[11];*/ 
 assign oValid = done;
 
 fp_convert conv (
