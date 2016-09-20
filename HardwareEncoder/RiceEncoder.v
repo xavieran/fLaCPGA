@@ -42,9 +42,6 @@ always @(posedge iClock) begin
         valid <= (valid << 1) | iValid;
         
         /* Convert sample to unsigned sample */
-        //unsigned_sample <= {sample[14:0], 1'b0} ^ sample[15];
-        
-        
         if (sample[15]) begin
             unsigned_sample <= {sample[14:0], 1'b0} ^ 16'hffff;
         end else begin

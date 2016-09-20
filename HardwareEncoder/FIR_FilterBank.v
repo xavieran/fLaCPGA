@@ -13,13 +13,15 @@ module FIR_FilterBank (
     input wire iValid, 
     input wire signed [15:0] iSample, 
     
-    output wire [3:0] oBestPredictor
+    output wire [3:0] oBestPredictor,
+    output wire oDone
     );
     
-    
+reg done;
+reg [15:0] sample_count;
 wire [3:0] min_error;
 assign oBestPredictor = min_error + 1;
-
+assign oDone = done;
 
 
 reg [27:0] f1_total_error;
@@ -270,7 +272,8 @@ Compare12 c12 (
 
 always @(posedge iClock) begin
     if (iReset) begin
-
+        sample_count <= 0;
+        done <= 0;
         f1_total_error <= 0;
         f2_total_error <= 0;
         f3_total_error <= 0;
@@ -283,8 +286,9 @@ always @(posedge iClock) begin
         f10_total_error <= 0;
         f11_total_error <= 0;
         f12_total_error <= 0;
-
+        
     end else begin
+        if (iValid) sample_count <= sample_count + 1;
         if (f1_valid) f1_total_error <= f1_total_error + abs_f1_residual;
 
         if (f2_valid) f2_total_error <= f2_total_error + abs_f2_residual;
@@ -308,6 +312,10 @@ always @(posedge iClock) begin
         if (f11_valid) f11_total_error <= f11_total_error + abs_f11_residual;
 
         if (f12_valid) f12_total_error <= f12_total_error + abs_f12_residual;
+        
+        if (sample_count == 4096) begin
+            done <= 1;
+        end
     end
 end
 endmodule

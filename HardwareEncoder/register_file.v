@@ -1,17 +1,17 @@
 module register_file(
-    input iClock,
+    input wire iClock,
     
-    input [31:0] iData1,
-    input [31:0] iData2, 
+    input wire [31:0] iData1,
+    input wire [31:0] iData2, 
     
-    input [3:0] iWriteAddress1,
-    input [3:0] iWriteAddress2,
+    input wire [3:0] iWriteAddress1,
+    input wire [3:0] iWriteAddress2,
            
-    input [3:0] iReadAddress1, 
-    input [3:0] iReadAddress2,
+    input wire [3:0] iReadAddress1, 
+    input wire [3:0] iReadAddress2,
     
-    input iWE1,
-    input iWE2,
+    input wire iWE1,
+    input wire iWE2,
 
     output reg [31:0] oData1, 
     output reg [31:0] oData2

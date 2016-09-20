@@ -432,7 +432,7 @@ always @(posedge iClock) begin
                     acf_rd2 <= target2 + 1;
                 end
                 
-                //$display("NEW MODEL COEFF: Target1: %d Model1: %f Target2: %d Model2: %f", target1, `DFP(newmodel1), target2, `DFP(newmodel2));
+                $display("NEW MODEL COEFF: Target1: %d Model1: %f Target2: %d Model2: %f", target1, `DFP(newmodel1), target2, `DFP(newmodel2));
             end else if (dms_valid) begin
                 // We caught the falling edge of ms_valid
                 ac_enar <= 1;

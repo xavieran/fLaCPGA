@@ -13,7 +13,8 @@ module DurbinCoefficientStore (
     input wire [3:0] iBestM, 
     
     output wire signed [11:0] oCoeff,
-    output wire oValid
+    output wire oValid,
+    output wire oDone
     );
 
 integer i;
@@ -33,9 +34,12 @@ reg signed [11:0] m12 [0:11];
 
 reg signed [11:0] coeff;
 reg valid;
+reg [3:0] best_count;
+reg done;
 
 assign oCoeff = coeff;
 assign oValid = valid;
+assign oDone = done;
 
 always @(posedge iClock) begin
     if (iReset) begin
@@ -54,7 +58,8 @@ always @(posedge iClock) begin
         
         coeff <= 0;
         valid <= 0;
-        
+        best_count <= 0;
+        done <= 0;
     end else if (iEnable) begin
         valid <= 0;
         
@@ -106,7 +111,10 @@ always @(posedge iClock) begin
                 m12[0] <= iCoeff;
             end
         end else if (iUnload) begin
-            if (iBestM == 1) begin
+            best_count <= best_count + !done;
+            if (best_count == (iBestM - 1)) begin
+                done <= 1;
+            end else if (iBestM == 1) begin
                 coeff <= m1;
                 valid <= 1;
             end else if (iBestM == 2) begin
