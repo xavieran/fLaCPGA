@@ -114,7 +114,9 @@ always @(posedge iClock) begin
             best_count <= best_count + !done;
             if (best_count == (iBestM - 1)) begin
                 done <= 1;
-            end else if (iBestM == 1) begin
+            end
+            
+            if (iBestM == 1) begin
                 coeff <= m1;
                 valid <= 1;
             end else if (iBestM == 2) begin
@@ -181,6 +183,8 @@ always @(posedge iClock) begin
                 end
                 valid <= 1;
             end
+            
+            if (done) valid <= 0;
         end
     end
 end

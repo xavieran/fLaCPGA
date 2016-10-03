@@ -1244,6 +1244,7 @@ module FIRX(
     
     output wire signed [15:0] oResidual,
     output wire oValid,
+    output wire oInputDone,
     output wire oDone
     );
 
@@ -1257,10 +1258,11 @@ reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
 reg valid_sel;
-reg [LATENCY:0] done;
+reg [LATENCY - ORDER:0] done;
 reg [15:0] input_count;
 
-assign oDone = done[LATENCY];
+assign oInputDone = input_count == 4095;
+assign oDone = done[LATENCY - ORDER];
 
 reg signed [`SHIFT + 16:0] level0_0;
 reg signed [`SHIFT + 16:0] level0_1;
@@ -1312,7 +1314,7 @@ always @(posedge iClock) begin
         else if (iM == 10) valid_sel <= valid[14];
         else if (iM == 9) valid_sel <= valid[13];*/
         valid_sel <= valid[iM + 4];
-        done <= done << 1 | (input_count == 4096);
+        done <= done << 1 | (input_count == 4095);
         if (iValid) begin
             input_count <= input_count + 1;
         end
@@ -1326,8 +1328,9 @@ always @(posedge iClock) begin
         end else begin
             valid <= (valid << 1) | iValid;
             
-            
-            data[0] <= iSample;
+            if (iValid) 
+                data[0] <= iSample;
+                
             for (i = ORDER - 1; i > 0; i = i - 1) begin
                 data[i] <= data[i - 1];
             end 

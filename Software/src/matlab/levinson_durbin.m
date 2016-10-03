@@ -11,8 +11,8 @@ data = dlmread('Pavane16Blocks.txt');
 data = data(1:end);%.*hamming(4096);
 %data = data(1+4096:4096+4096);%.*hamming(4096);
 
-order = 50;
-blocks = 16;
+order = 10;
+blocks = 1;
 
 
 

@@ -17,38 +17,55 @@ module Stage3_Encode (
     
     input wire iLoad,
     input wire [11:0] iModel,
-    input wire [3:0] iM, 
+    input wire [3:0] iM,
     
-    output wire oRamEnable1,
-    output wire [15:0] oRamAddress1, 
-    output wire [15:0] oRamData1,
-    
-    output wire oRamEnable2,
-    output wire [15:0] oRamAddress2, 
-    output wire [15:0] oRamData2
+    output wire signed [15:0] oResidual,
+    output wire oValid
     );
 
 reg fir_fb_rst;
 reg [3:0] current_best_fir;
-wire [3:0] best_fir;
+wire [3:0] best_fir1;
 wire fir_fb_done;
 
-FIR_FilterBank fir_fb (
+reg f12_select;
+reg phase_select;
+reg ds_override;
+
+FIR_FilterBank fir_fb1 (
     .iClock(iClock), 
     .iEnable(iEnable), 
-    .iReset(fir_fb_rst),
+    .iReset(fir_fb_rst & !phase_select),
     
-    .iLoad(iLoad),
+    .iLoad(iLoad & !phase_select),
     .iM(iM),
     .iCoeff(iModel),
     
-    .iValid(iValid), 
+    .iValid(iValid & phase_select), 
     .iSample(iSample),
     
-    .oBestPredictor(best_fir),
+    .oBestPredictor(best_fir1),
     .oDone(fir_fb_done)
     );
 
+reg fir_fb_rst2;
+wire [3:0] best_fir2;
+wire fir_fb_done2;
+FIR_FilterBank fir_fb2 (
+    .iClock(iClock), 
+    .iEnable(iEnable), 
+    .iReset(fir_fb_rst & phase_select | fir_fb_rst2),
+    
+    .iLoad(iLoad & phase_select),
+    .iM(iM),
+    .iCoeff(iModel),
+    
+    .iValid(iValid & !phase_select), 
+    .iSample(iSample),
+    
+    .oBestPredictor(best_fir2),
+    .oDone(fir_fb_done2)
+    );
 wire signed [15:0] fifo1_sample;
 wire fifo1_empty, fifo1_full;
 wire [11:0] fifo1_usedw;
@@ -64,134 +81,168 @@ mf_fifo fifo1 (
     .usedw(fifo1_usedw),
     .q(fifo1_sample));
 
-reg ds_unload;
-wire [11:0] ds_coeff;
-wire ds_valid;
-wire ds_done;
-reg ds_rst;
 
-DurbinCoefficientStore durb_store (
+reg ds_unload;
+wire [11:0] ds1_coeff;
+wire ds1_valid;
+wire ds1_done;
+reg ds1_rst;
+DurbinCoefficientStore durb_store1 (
     .iClock(iClock), 
     .iEnable(iEnable),
-    .iReset(ds_rst), 
-    .iLoad(iLoad),
+    .iReset(ds1_rst & (!phase_select) | ds_override), 
+    .iLoad(iLoad & (!phase_select)),
     .iM(iM),
     .iCoeff(iModel),
     
-    .iUnload(ds_unload), 
+    .iUnload(ds_unload && (!phase_select)), // if phase_select == 0 write to this one 
     .iBestM(current_best_fir),
     
-    .oCoeff(ds_coeff),
-    .oValid(ds_valid), 
-    .oDone(ds_done));
+    .oCoeff(ds1_coeff),
+    .oValid(ds1_valid), 
+    .oDone(ds1_done));
+
+wire [11:0] ds2_coeff;
+wire ds2_valid;
+wire ds2_done;
+reg ds2_rst;
+DurbinCoefficientStore durb_store2 (
+    .iClock(iClock), 
+    .iEnable(iEnable),
+    .iReset(ds2_rst & (phase_select) | ds_override), 
+    .iLoad(iLoad & (phase_select)),
+    .iM(iM),
+    .iCoeff(iModel),
+    
+    .iUnload(ds_unload && (phase_select)),  // if phase_select == 1 write to this one
+    .iBestM(current_best_fir),
+    
+    .oCoeff(ds2_coeff),
+    .oValid(ds2_valid), 
+    .oDone(ds2_done));
 
 reg f12_ena, f12_rst, f12_calc;
 wire signed [15:0] f12_sample;
-wire signed [15:0] f12_residual;
-wire f12_valid, f12_done;
+wire signed [15:0] f12_residual1, f12_residual2;
+wire f12_valid1, f12_done1, f12_idone1;
+wire f12_valid2, f12_done2, f12_idone2;
 
-FIRX f12 (
-    .iEnable(iEnable),
+FIRX f12_1 (
+    .iEnable(f12_ena),
     .iClock(iClock),
-    .iReset(iReset),
-    .iLoad(ds_valid),
-    .iQLP(ds_coeff),
+    .iReset(f12_rst & f12_select | ds_override),
+    .iLoad((phase_select ? ds2_valid : ds1_valid) & f12_select),
+    .iQLP(phase_select ? ds2_coeff : ds1_coeff),
     .iM(current_best_fir),
     
-    .iValid(f12_calc),
+    .iValid(f12_calc & !f12_select),
     .iSample(f12_sample),
-    .oResidual(f12_residual), 
-    .oValid(f12_valid),
-    .oDone(f12_done)
+    .oResidual(f12_residual1), 
+    .oValid(f12_valid1),
+    .oInputDone(f12_idone1),
+    .oDone(f12_done1)
+    );
+
+FIRX f12_2 (
+    .iEnable(f12_ena),
+    .iClock(iClock),
+    .iReset(f12_rst & !f12_select | ds_override),
+    .iLoad((phase_select ? ds2_valid : ds1_valid) & !f12_select),
+    .iQLP(phase_select ? ds2_coeff : ds1_coeff),
+    .iM(current_best_fir),
+    
+    .iValid(f12_calc & f12_select),
+    .iSample(f12_sample),
+    .oResidual(f12_residual2), 
+    .oValid(f12_valid2),
+    .oInputDone(f12_idone2),
+    .oDone(f12_done2)
+    );
+
+wire signed [15:0] dr1_sample;
+DelayRegister #(.LENGTH(4)) dr1 (
+    .iClock(iClock),
+    .iEnable(iEnable),
+    .iData(fifo1_sample),
+    .oData(dr1_sample)
     );
 
 /* 12 cycles to load the best coefficients into f12 */
-TappedDelayRegister #(.LENGTH(12)) dr3 (
+/*TappedDelayRegister #(.LENGTH(12)) dr3 (
     .iClock(iClock),
     .iEnable(iEnable),
-    .iM(current_best_fir - 2),
+    .iM(current_best_fir - 4),
     .iData(fifo1_sample),
     .oData(f12_sample));
+*/
 
-/*
-RiceOptimizer ro (
-    .iClock,
-    .iEnable, 
-    .iReset(f12_rst),
-    
-    .iResidual(f12_residual),
-    
-    .oBest(5)
-    );*/
+assign f12_sample = fifo1_sample;
 
-wire [15:0] re_msb, re_lsb, re_bu;
-wire re_valid;
-
-RiceEncoder re (
-    .iClock(iClock),
-    .iReset(f12_rst),
-    
-    .iValid(f12_valid),
-    .iSample(f12_residual), 
-    .oMSB(re_msb),
-    .oLSB(re_lsb), 
-    .oBitsUsed(re_bu),
-    .oValid(re_valid)
-    );
-
-wire [15:0] rw_ra1, rw_rd1, rw_ra2, rw_rd2;
-wire rw_re1, rw_re2;
-
-RiceWriter rw (
-      .iClock(iClock),
-      .iReset(f12_rst), 
-      .iEnable(re_valid), 
-      
-      .iChangeParam(0),
-      .iFlush(0),
-      .iTotal(re_bu),
-      .iUpper(re_msb),
-      .iLower(re_lsb), 
-      .iRiceParam(5),
-      
-      .oRamEnable1(rw_re1),
-      .oRamAddress1(rw_ra1), 
-      .oRamData1(rw_rd1),
-      
-      .oRamEnable2(rw_re2),
-      .oRamAddress2(rw_ra2), 
-      .oRamData2(rw_rd2)
-      );
-
-assign oRamEnable1 = rw_re1;
-assign oRamEnable2 = rw_re2;
-assign oRamAddress1 = rw_ra1;
-assign oRamAddress2 = rw_ra2;
-assign oRamData1 = rw_rd1;
-assign oRamData2 = rw_rd2;
-
-
+wire [3:0] best_fir;
 reg [3:0] unload_counter;
+reg first_time;reg f12_first_time;
+reg rLoad;
+reg dLoad;
 
+assign oResidual = ((f12_valid1 ? 16'hffff : 16'h0000) & f12_residual1) | 
+                   ((f12_valid2 ? 16'hffff : 16'h0000) & f12_residual2);
+assign oValid = f12_valid1 | f12_valid2;
+assign best_fir = phase_select ?  best_fir1 : best_fir2;
 always @(posedge iClock) begin
     if (iReset) begin
         f12_ena <= 0;
         f12_rst <= 1;
-        fir_fb_rst <= 1;
-        ds_rst <= 1;
         f12_calc <= 0;
+        fir_fb_rst <= 1;
+        fir_fb_rst2 <= 1;
         current_best_fir <= 0;
         unload_counter <= 0;
+        ds_override <= 1;
+        ds1_rst <= 1;
+        ds2_rst <= 1;
         ds_unload <= 0;
+        first_time <= 1;
+        f12_first_time <= 1;
+        phase_select <= 0;
+        f12_select <= 1;
+        rLoad <= 0;
+        dLoad <= 0;
     end else if (iEnable) begin
-        ds_rst <= 0;
+        ds_override <= 0;
+        rLoad <= iLoad;
+        dLoad <= rLoad;
+        
+        // Detect falling edge of model done...
+        if (iM == 12 && rLoad == 0 && dLoad == 1 && first_time == 1) begin
+            phase_select <= !phase_select;
+            first_time <= 0;
+        end
+        
+        ds1_rst <= 0;
+        ds2_rst <= 0;
         fir_fb_rst <= 0;
+        fir_fb_rst2 <= 0;
         f12_rst <= 0;
         
-        if (fir_fb_done) begin
+        if (fir_fb_done | fir_fb_done2) begin
             fir_fb_rst <= 1;
+            phase_select <= !phase_select;
             current_best_fir <= best_fir;
+            
+            f12_ena <= 1;
             unload_counter <= best_fir;
+        end
+        
+        if (fifo1_usedw == 4095) begin
+            f12_calc <= 1;
+        end
+        
+        if (f12_idone1 | f12_idone2) begin
+            f12_select <= !f12_select;
+        end   
+        
+        if (f12_done1 | f12_done2) begin
+            f12_rst <= 1;
         end
         
         if (unload_counter > 0) begin
@@ -199,15 +250,15 @@ always @(posedge iClock) begin
             unload_counter <= unload_counter - 1;
         end
         
-        if (ds_done) begin
-            ds_rst <= 1;
+        if (ds1_done | ds2_done) begin
+            ds1_rst <= 1;
+            ds2_rst <= 1;
             ds_unload <= 0;
             unload_counter <= 0;
-            f12_calc <= 1;
-        end
-        
-        if (f12_done) begin
-            f12_rst <= 1;
+            if (f12_first_time) begin
+                f12_first_time <= 0;
+                f12_select <= !f12_select;
+            end
         end
     end
 end

@@ -4,8 +4,8 @@
 
 from math import *
 
-inputs = 12;
-input_width = 28;
+inputs = 15;
+input_width = 31;
 log2 = lambda x: int(ceil(log(x, 2)))
 
 def generate_comps(inputs):
@@ -77,8 +77,8 @@ for i in range(stages):
         print " "*3, index_outputs[c/2], "<= ({a0} < {a1}) ? {i0} : {i1};".format(a0=value_inputs[c], a1=value_inputs[c+1],
                                                                                   i0=index_inputs[c], i1=index_inputs[c+1])
     for r in range(regs):
-        print " "*3, value_outputs[-1], "<=", value_inputs[-1] + ";"
-        print " "*3, index_outputs[-1], "<=", index_inputs[-1] + ";"
+        print " "*3, value_outputs[-1], "<=", value_inputs[-1], ";"
+        print " "*3, index_outputs[-1], "<=", index_inputs[-1], ";"
     
     value_inputs = value_outputs
     index_inputs = index_outputs

@@ -432,7 +432,7 @@ always @(posedge iClock) begin
                     acf_rd2 <= target2 + 1;
                 end
                 
-                $display("NEW MODEL COEFF: Target1: %d Model1: %f Target2: %d Model2: %f", target1, `DFP(newmodel1), target2, `DFP(newmodel2));
+                //$display("NEW MODEL COEFF: Target1: %d Model1: %f Target2: %d Model2: %f", target1, `DFP(newmodel1), target2, `DFP(newmodel2));
             end else if (dms_valid) begin
                 // We caught the falling edge of ms_valid
                 ac_enar <= 1;
@@ -454,6 +454,7 @@ always @(posedge iClock) begin
             end
             
             if (m == ORDER) begin
+                
                 if (model_rd1 == 0)
                     durb_state <= S_DONE;
             end else if (ac_done) begin

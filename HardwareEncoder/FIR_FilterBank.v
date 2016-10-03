@@ -313,9 +313,11 @@ always @(posedge iClock) begin
 
         if (f12_valid) f12_total_error <= f12_total_error + abs_f12_residual;
         
-        if (sample_count == 4096) begin
+        if (sample_count == (4096 - 16)) begin
             done <= 1;
         end
+        
+        if (done == 1) done <= 0;
     end
 end
 endmodule
