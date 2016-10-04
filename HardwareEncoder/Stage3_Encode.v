@@ -20,7 +20,8 @@ module Stage3_Encode (
     input wire [3:0] iM,
     
     output wire signed [15:0] oResidual,
-    output wire oValid
+    output wire oValid,
+    output wire oFrameDone
     );
 
 reg fir_fb_rst;
@@ -256,6 +257,7 @@ always @(posedge iClock) begin
             ds_unload <= 0;
             unload_counter <= 0;
             if (f12_first_time) begin
+                f12_rst <= 1;
                 f12_first_time <= 0;
                 f12_select <= !f12_select;
             end

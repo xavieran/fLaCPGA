@@ -1,22 +1,16 @@
-/* The optimal rice parameter can be estimated from the expectation of 
- * the sequence of numbers as log(|E|, 2) according to  Weinberger (1996)
- * This can be calculated as the smallest k that satisfies 2^k*N >= A
- * where N is the number of samples seen and A is their sum
- */
 
 module RiceOptimizer (
     input iClock,
     input iEnable, 
     input iReset,
     
+    input [15:0] iNSamples,
     input iValid,
     input signed [15:0] iResidual,
     
     output signed [3:0] oBest,
     output oDone
     );
-
-parameter PARTITION_SIZE = 1024;
 
 reg [15:0] sample_count;
 wire re_rst;
@@ -236,8 +230,8 @@ always @(posedge iClock) begin
         sample_count <= 0;
     end else begin
         if (iValid) sample_count <= sample_count + 1;
+        
         if (r0_v) r0_total <= r0_total + r0_bu;
-
         if (r1_v) r1_total <= r1_total + r1_bu;
         if (r2_v) r2_total <= r2_total + r2_bu;
         if (r3_v) r3_total <= r3_total + r3_bu;
@@ -253,7 +247,7 @@ always @(posedge iClock) begin
         if (r13_v) r13_total <= r13_total + r13_bu;
         if (r14_v) r14_total <= r14_total + r14_bu;
         
-        if (sample_count == (PARTITION_SIZE - 8)) begin
+        if (sample_count == (iNSamples - 2)) begin
             done <= 1;
         end
         

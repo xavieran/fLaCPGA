@@ -124,7 +124,7 @@ always @(posedge clk) begin
     if (read_file) begin
         $fscanf(infile, "%d\n", sample);
         valid <= 1;
-    end
+    end 
 end
 
 always @(posedge clk) begin
@@ -148,7 +148,6 @@ initial begin
     //fout2 = $fopen("ld_coefficients2.txt", "w");
     s1_ena = 0; s1_rst = 1; valid = 0; read_file = 0; s3_rst = 1;output_count = 0;
     cycles = 0;
-    #30
     // Skip first 5 seconds of wake up
     //for (i = 0; i < 4096*50; i = i + 1) $fscanf(infile, "%d\n", sample);
     #20;
