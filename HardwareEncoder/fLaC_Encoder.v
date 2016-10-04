@@ -8,8 +8,15 @@ module fLaC_Encoder (
     input wire  signed [15:0] iSample,
     input wire iValid,
     
-    output wire signed [15:0] oResidual,
-    output wire oValid
+    //output wire signed [15:0] oResidual,
+    //output wire oValid    
+    output wire oRamEnable1,
+    output wire [15:0] oRamAddress1, 
+    output wire [15:0] oRamData1,
+    
+    output wire oRamEnable2,
+    output wire [15:0] oRamAddress2, 
+    output wire [15:0] oRamData2
     );
 
 wire s1_dvalid, s1_valid;
@@ -71,7 +78,30 @@ Stage3_Encode s3 (
     .oValid(s3_valid)
     );
 
-assign oResidual = s3_residual;
-assign oValid = s3_valid;
+wire re1, re2;
+wire [15:0] ra1, ra2, rd1, rd2;
+Stage4_Compress s4 (
+    .iClock(iClock),
+    .iEnable(iEnable), 
+    .iReset(iReset),
+    
+    .iValid(s3_valid),
+    .iResidual(s3_valid),
+    
+    .oRamEnable1(re1),
+    .oRamAddress1(ra1), 
+    .oRamData1(rd1),
+    
+    .oRamEnable2(re2),
+    .oRamAddress2(ra2), 
+    .oRamData2(rd2)
+    );
+
+assign oRamEnable1 = re1;
+assign oRamEnable2 = re2;
+assign oRamAddress1 = ra1;
+assign oRamAddress2 = ra2;
+assign oRamData1 = rd1;
+assign oRamData2 = rd2;
 
 endmodule

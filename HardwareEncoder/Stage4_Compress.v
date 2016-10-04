@@ -163,7 +163,6 @@ always @(posedge iClock) begin
             ro_select <= !ro_select;
             
             rw_ch_param <= 1 << (12 - m);
-            
             m <= 0;
         end
     end
