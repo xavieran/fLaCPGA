@@ -115,11 +115,11 @@ always @(posedge iClock) begin
         rModel2 <= iValid ? iModel2 : 0;
         rValid <= iValid;
         
-        /*
+        
         if (rValid) begin
            $display("ALPHA::%d :: %f*%f +%f*%f",iM, `DFP(rModel1), `DFP(rACF2), `DFP(rModel2), `DFP(rACF1));
         end
-        */
+        
         
         case (state) 
         S_CALC_PART_SUMS:

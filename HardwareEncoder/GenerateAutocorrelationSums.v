@@ -9,7 +9,7 @@ module GenerateAutocorrelationSums (
     
     input wire signed [15:0] iSample,
 
-    output wire [42:0] oACF,
+    output wire [63:0] oACF,
     output wire oValid
     );
 
@@ -24,10 +24,10 @@ reg valid;
 
 integer i;
 
-reg signed [42:0] integer_acf_work [0:LAGS];
-reg signed [42:0] integer_acf [0:LAGS];
+reg signed [63:0] integer_acf_work [0:LAGS];
+reg signed [63:0] integer_acf [0:LAGS];
 
-reg signed [31:0] lags [0:LAGS];
+reg signed [63:0] lags [0:LAGS];
 reg signed [15:0] dataq [0:LAGS];
 
 assign oACF = integer_acf[0];
@@ -65,7 +65,7 @@ always @(posedge iClock) begin
             integer_acf_work[i] <= integer_acf_work[i] + lags[i];
         end
         
-        if (sample_count == BLOCK_SIZE) begin
+        if (sample_count == BLOCK_SIZE - 1) begin
             /* Reset the sample count and the working sums, lags, dataq
              * Copy across the working sums to the fp calculation sums
              */
@@ -82,7 +82,7 @@ always @(posedge iClock) begin
         end
         
         
-        if (sample_count == BLOCK_SIZE) begin
+        if (sample_count == BLOCK_SIZE - 1) begin
             /* Start the division process */
             start_sending <= 1;
             send_count <= 0;

@@ -161,7 +161,7 @@ always @(posedge iClock) begin
             current_best <= best_param;
             ro_rst <= 1;
             ro_select <= !ro_select;
-            
+            partition_count <= partition_count + 1;
             rw_ch_param <= 1 << (12 - m);
             m <= 0;
         end

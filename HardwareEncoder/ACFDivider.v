@@ -6,7 +6,7 @@ module ACFDivider (
     input wire iEnable,
     input wire iReset, 
     
-    input wire [42:0] iACF,
+    input wire [63:0] iACF,
     input wire iValid,
     
     output wire [31:0] ofACF,

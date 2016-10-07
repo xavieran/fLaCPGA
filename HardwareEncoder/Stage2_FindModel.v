@@ -11,15 +11,15 @@ module Stage2_FindModel (
     input wire iEnable, 
     input wire iReset,
     
-    input wire [15:0] iSample,
+    input wire signed [15:0] iSample,
     input wire iSValid,
-    output wire [15:0] oDSample,
+    output wire signed [15:0] oDSample,
     output wire oDValid,
     
-    input wire [42:0] iACF,
+    input wire [63:0] iACF,
     input wire iValid,
     
-    output wire [11:0] oModel,
+    output wire signed [14:0] oModel,
     output wire [3:0] oM, 
     output wire oValid,
     output wire oDone
@@ -61,7 +61,7 @@ Durbinator durb (
     );
 
 
-wire signed [11:0] q_model;
+wire signed [14:0] q_model;
 wire q_valid;
 wire [3:0] q_m;
 

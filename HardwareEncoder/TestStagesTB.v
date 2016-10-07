@@ -33,13 +33,14 @@ reg clk;
 reg signed [15:0] sample;
 
 reg read_file;
+
 integer infile, i, fout, fout2;
 integer cycles;
 
 always begin
     #0 clk = 0;
-    #10 clk = 1;
-    #10 cycles = cycles + 1;
+    #10 clk = 1;cycles = cycles + 1 ;
+    #10;
 end
 
 reg valid;
@@ -47,7 +48,7 @@ reg s1_ena, s1_rst, s3_rst;
 wire signed [15:0] s1_dsample;
 wire s1_dvalid;
 
-wire [42:0] s1_acf;
+wire [63:0] s1_acf;
 wire s1_valid;
 
 Stage1_Autocorrelation s1_a (
@@ -67,7 +68,7 @@ Stage1_Autocorrelation s1_a (
 wire signed [15:0] s2_dsample;
 wire s2_dvalid;
 wire s2_valid,s2_done;
-wire signed [11:0] s2_model;
+wire signed [14:0] s2_model;
 wire [3:0] s2_m;
 
 Stage2_FindModel s2_fm(
@@ -91,6 +92,7 @@ Stage2_FindModel s2_fm(
 
 wire s3_valid;
 wire signed [15:0] residual;
+wire frame_done;
 Stage3_Encode s3_e(
     .iClock(clk),
     .iEnable(s1_ena),
@@ -104,7 +106,8 @@ Stage3_Encode s3_e(
     .iM(s2_m), 
     
     .oResidual(residual),
-    .oValid(s3_valid)
+    .oValid(s3_valid),
+    .oFrameDone(frame_done)
     );
 
 /*
@@ -119,12 +122,21 @@ wire [15:0] s3_ra1, s3_ra2, s3_rd1, s3_rd2;
     .oRamAddress2(s3_ra2), 
     .oRamData2(s3_rd2)*/
 
-reg [15:0] output_count;
+reg [15:0] output_count, frame_count;
 always @(posedge clk) begin
     if (read_file) begin
         $fscanf(infile, "%d\n", sample);
         valid <= 1;
     end 
+    
+    if (frame_done) begin
+        frame_count <= frame_count + 1;
+    end
+    
+    if (s1_valid) begin
+        $display("ACF: %d", s1_acf);
+    end
+   
 end
 
 always @(posedge clk) begin
@@ -140,24 +152,24 @@ always @(posedge clk) begin
     end 
 end
 
-
 initial begin
-    infile = $fopen("Pavane16Blocks.txt", "r");
-    //infile = $fopen("wakeup_pcm.txt", "r");
-    fout = $fopen("test_stages_res_out.txt", "w");
+    //infile = $fopen("Pavane16Blocks.txt", "r");
+    //infile = $fopen("Pavane_PCM_All.txt", "r");
+    infile = $fopen("wakeup_pcm.txt", "r");
+    fout = $fopen("wakeup_test_residuals.txt", "w");
     //fout2 = $fopen("ld_coefficients2.txt", "w");
-    s1_ena = 0; s1_rst = 1; valid = 0; read_file = 0; s3_rst = 1;output_count = 0;
+    s1_ena = 0; s1_rst = 1; valid = 0; read_file = 0; s3_rst = 1;output_count = 0;frame_count = 0;
     cycles = 0;
-    // Skip first 5 seconds of wake up
-    //for (i = 0; i < 4096*50; i = i + 1) $fscanf(infile, "%d\n", sample);
+    //Skip first 5 seconds of wake up
+    //for (i = 0; i < 4096*512; i = i + 1) $fscanf(infile, "%d\n", sample);
     #20;
     read_file = 1;
     s1_rst = 0; s1_ena = 1;s3_rst = 0;
-    for (i = 0; i < 4096*16; i = i + 1) #20;
+    for (i = 0; i < 4096*512; i = i + 1) #20;
     read_file = 0;
     valid = 0;
     
-    for (i = 0; i < 4096*1; i = i + 1) #20;
+    for (i = 0; i < 4096*3; i = i + 1) #20;
     
     #60
     

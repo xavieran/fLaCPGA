@@ -7,32 +7,32 @@ module DurbinCoefficientStore (
     
     input wire iLoad,
     input wire [3:0] iM, 
-    input wire signed [11:0] iCoeff, 
+    input wire signed [14:0] iCoeff, 
         
     input wire iUnload,
     input wire [3:0] iBestM, 
     
-    output wire signed [11:0] oCoeff,
+    output wire signed [14:0] oCoeff,
     output wire oValid,
     output wire oDone
     );
 
 integer i;
 
-reg signed [11:0] m1;
-reg signed [11:0] m2 [0:1];
-reg signed [11:0] m3 [0:2];
-reg signed [11:0] m4 [0:3];
-reg signed [11:0] m5 [0:4];
-reg signed [11:0] m6 [0:5];
-reg signed [11:0] m7 [0:6];
-reg signed [11:0] m8 [0:7];
-reg signed [11:0] m9 [0:8];
-reg signed [11:0] m10 [0:9];
-reg signed [11:0] m11 [0:10];
-reg signed [11:0] m12 [0:11];
-
-reg signed [11:0] coeff;
+reg signed [14:0] m1;
+reg signed [14:0] m2 [0:1];
+reg signed [14:0] m3 [0:2];
+reg signed [14:0] m4 [0:3];
+reg signed [14:0] m5 [0:4];
+reg signed [14:0] m6 [0:5];
+reg signed [14:0] m7 [0:6];
+reg signed [14:0] m8 [0:7];
+reg signed [14:0] m9 [0:8];
+reg signed [14:0] m10 [0:9];
+reg signed [14:0] m11 [0:10];
+reg signed [14:0] m12 [0:11];
+             
+reg signed [14:0] coeff;
 reg valid;
 reg [3:0] best_count;
 reg done;

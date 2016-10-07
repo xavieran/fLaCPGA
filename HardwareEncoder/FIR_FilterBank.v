@@ -8,7 +8,7 @@ module FIR_FilterBank (
     
     input wire iLoad,
     input wire [3:0] iM,
-    input wire [11:0] iCoeff,
+    input wire [14:0] iCoeff,
     
     input wire iValid, 
     input wire signed [15:0] iSample, 

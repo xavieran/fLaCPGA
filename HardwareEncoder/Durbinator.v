@@ -260,7 +260,7 @@ always @(posedge iClock) begin
                 acf_wr1 <= acf_count;
                 acf_in1 <= iACF;
                 acf_count <= acf_count + 1'b1;
-                
+                $display("ACF: %d -- %f", acf_count, `DFP(iACF));
                 acf_rd1 <= 0;
                 acf_rd2 <= 1;
             end else if (acf_count > 12) begin
@@ -318,7 +318,7 @@ always @(posedge iClock) begin
                 model_rd2 <= 0;
                 
                 //$display("Calculated k and e");
-                //$display("k == %f   e == %f", `DFP(ckae_kmp1), `DFP(ckae_errormp1));
+                $display("k == %f   e == %f", `DFP(ckae_kmp1), `DFP(ckae_errormp1));
             end
         end
         
@@ -335,7 +335,7 @@ always @(posedge iClock) begin
                 ac_rst <= 0;
                 
                 //$display("Calculating alpha");
-                //$display("Model1: %f Model2: %f acf1: %f acf2: %f", `DFP(ac_model1), `DFP(ac_model2), `DFP(ac_acf1), `DFP(ac_acf2));
+                $display("Model1: %f Model2: %f acf1: %f acf2: %f", `DFP(ac_model1), `DFP(ac_model2), `DFP(ac_acf1), `DFP(ac_acf2));
             end else begin
                 ac_validr <= 0;
                 if (ac_done) begin
@@ -347,7 +347,7 @@ always @(posedge iClock) begin
                     durb_state <= S_CALC_K_E;
                     m <= m + 1;
                     //$display("Calculated alpha");
-                    //$display("alpha == %f", `DFP(ac_alpha));
+                    $display("alpha == %f", `DFP(ac_alpha));
                 end
             end
         end
@@ -381,8 +381,8 @@ always @(posedge iClock) begin
                 durb_state <= S_CALC_MODEL;
                 
                 //$display("Calculated k and e");
-                //$display("em_n == %f   alpham_n == %f", `DFP(ckae_errorm), `DFP(ckae_alpham));
-                //$display("k == %f   e == %f", `DFP(ckae_kmp1), `DFP(ckae_errormp1));
+                $display("em_n == %f   alpham_n == %f", `DFP(ckae_errorm), `DFP(ckae_alpham));
+                $display("k == %f   e == %f", `DFP(ckae_kmp1), `DFP(ckae_errormp1));
             end
         end
         
@@ -432,7 +432,7 @@ always @(posedge iClock) begin
                     acf_rd2 <= target2 + 1;
                 end
                 
-                //$display("NEW MODEL COEFF: Target1: %d Model1: %f Target2: %d Model2: %f", target1, `DFP(newmodel1), target2, `DFP(newmodel2));
+                $display("NEW MODEL COEFF: Target1: %d Model1: %f Target2: %d Model2: %f", target1, `DFP(newmodel1), target2, `DFP(newmodel2));
             end else if (dms_valid) begin
                 // We caught the falling edge of ms_valid
                 ac_enar <= 1;
@@ -471,7 +471,7 @@ always @(posedge iClock) begin
                 ckae_rst <= 0;
                 
                 //$display("Calculated alpha");
-                //$display("alpha == %f", `DFP(ac_alpha));
+                $display("alpha == %f", `DFP(ac_alpha));
             end
         end
         

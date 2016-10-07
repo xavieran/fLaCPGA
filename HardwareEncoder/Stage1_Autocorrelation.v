@@ -14,7 +14,7 @@ module Stage1_Autocorrelation (
     output wire signed [15:0] oDSample,
     output wire oDValid, 
     
-    output wire [42:0] oACF,
+    output wire [63:0] oACF,
     output wire oValid
     );
 

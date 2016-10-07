@@ -16,7 +16,7 @@ module Stage3_Encode (
     input wire [15:0] iSample,
     
     input wire iLoad,
-    input wire [11:0] iModel,
+    input wire signed [14:0] iModel,
     input wire [3:0] iM,
     
     output wire signed [15:0] oResidual,
@@ -25,9 +25,12 @@ module Stage3_Encode (
     );
 
 reg fir_fb_rst;
+reg fir_fb_valid;
 reg [3:0] current_best_fir;
 wire [3:0] best_fir1;
 wire fir_fb_done;
+
+reg first_time;reg f12_first_time;
 
 reg f12_select;
 reg phase_select;
@@ -36,13 +39,13 @@ reg ds_override;
 FIR_FilterBank fir_fb1 (
     .iClock(iClock), 
     .iEnable(iEnable), 
-    .iReset(fir_fb_rst & !phase_select),
+    .iReset(fir_fb_rst & phase_select | (fir_fb_rst & !phase_select & f12_first_time) | ds_override),
     
     .iLoad(iLoad & !phase_select),
     .iM(iM),
     .iCoeff(iModel),
     
-    .iValid(iValid & phase_select), 
+    .iValid(iValid & phase_select & fir_fb_valid), 
     .iSample(iSample),
     
     .oBestPredictor(best_fir1),
@@ -55,13 +58,13 @@ wire fir_fb_done2;
 FIR_FilterBank fir_fb2 (
     .iClock(iClock), 
     .iEnable(iEnable), 
-    .iReset(fir_fb_rst & phase_select | fir_fb_rst2),
+    .iReset(fir_fb_rst & !phase_select & !f12_first_time | ds_override),
     
     .iLoad(iLoad & phase_select),
     .iM(iM),
     .iCoeff(iModel),
     
-    .iValid(iValid & !phase_select), 
+    .iValid(iValid & !phase_select & fir_fb_valid), 
     .iSample(iSample),
     
     .oBestPredictor(best_fir2),
@@ -84,7 +87,7 @@ mf_fifo fifo1 (
 
 
 reg ds_unload;
-wire [11:0] ds1_coeff;
+wire [14:0] ds1_coeff;
 wire ds1_valid;
 wire ds1_done;
 reg ds1_rst;
@@ -103,7 +106,7 @@ DurbinCoefficientStore durb_store1 (
     .oValid(ds1_valid), 
     .oDone(ds1_done));
 
-wire [11:0] ds2_coeff;
+wire [14:0] ds2_coeff;
 wire ds2_valid;
 wire ds2_done;
 reg ds2_rst;
@@ -181,14 +184,16 @@ assign f12_sample = fifo1_sample;
 
 wire [3:0] best_fir;
 reg [3:0] unload_counter;
-reg first_time;reg f12_first_time;
 reg rLoad;
 reg dLoad;
-
+reg frame_done;
 assign oResidual = ((f12_valid1 ? 16'hffff : 16'h0000) & f12_residual1) | 
                    ((f12_valid2 ? 16'hffff : 16'h0000) & f12_residual2);
 assign oValid = f12_valid1 | f12_valid2;
 assign best_fir = phase_select ?  best_fir1 : best_fir2;
+assign oFrameDone = frame_done;
+
+
 always @(posedge iClock) begin
     if (iReset) begin
         f12_ena <= 0;
@@ -197,7 +202,6 @@ always @(posedge iClock) begin
         fir_fb_rst <= 1;
         fir_fb_rst2 <= 1;
         current_best_fir <= 0;
-        unload_counter <= 0;
         ds_override <= 1;
         ds1_rst <= 1;
         ds2_rst <= 1;
@@ -206,8 +210,10 @@ always @(posedge iClock) begin
         f12_first_time <= 1;
         phase_select <= 0;
         f12_select <= 1;
+        fir_fb_valid <= 1;
         rLoad <= 0;
         dLoad <= 0;
+        frame_done <= 0;
     end else if (iEnable) begin
         ds_override <= 0;
         rLoad <= iLoad;
@@ -216,6 +222,7 @@ always @(posedge iClock) begin
         // Detect falling edge of model done...
         if (iM == 12 && rLoad == 0 && dLoad == 1 && first_time == 1) begin
             phase_select <= !phase_select;
+            fir_fb_valid <= 1;
             first_time <= 0;
         end
         
@@ -224,14 +231,20 @@ always @(posedge iClock) begin
         fir_fb_rst <= 0;
         fir_fb_rst2 <= 0;
         f12_rst <= 0;
+        frame_done <= 0;
         
         if (fir_fb_done | fir_fb_done2) begin
             fir_fb_rst <= 1;
-            phase_select <= !phase_select;
-            current_best_fir <= best_fir;
+            fir_fb_valid <= 0;
             
+            current_best_fir <= best_fir;
             f12_ena <= 1;
-            unload_counter <= best_fir;
+            ds_unload <= 1;
+            
+            if (f12_first_time) begin
+                phase_select <= !phase_select;
+                fir_fb_valid <= 1;
+            end
         end
         
         if (fifo1_usedw == 4095) begin
@@ -240,22 +253,19 @@ always @(posedge iClock) begin
         
         if (f12_idone1 | f12_idone2) begin
             f12_select <= !f12_select;
+            phase_select <= !phase_select;
+            fir_fb_valid <= 1;
         end   
         
         if (f12_done1 | f12_done2) begin
             f12_rst <= 1;
-        end
-        
-        if (unload_counter > 0) begin
-            ds_unload <= 1;
-            unload_counter <= unload_counter - 1;
+            frame_done <= 1;
         end
         
         if (ds1_done | ds2_done) begin
             ds1_rst <= 1;
             ds2_rst <= 1;
             ds_unload <= 0;
-            unload_counter <= 0;
             if (f12_first_time) begin
                 f12_rst <= 1;
                 f12_first_time <= 0;

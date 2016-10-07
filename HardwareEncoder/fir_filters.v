@@ -12,7 +12,7 @@ module fir_filters(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -44,7 +44,7 @@ module FIR1(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -55,10 +55,10 @@ module FIR1(
 
 parameter ORDER = 1;
 parameter LATENCY = 1 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -111,7 +111,7 @@ module FIR2(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -122,10 +122,10 @@ module FIR2(
 
 parameter ORDER = 2;
 parameter LATENCY = 2 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -185,7 +185,7 @@ module FIR3(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -196,10 +196,10 @@ module FIR3(
 
 parameter ORDER = 3;
 parameter LATENCY = 3 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -268,7 +268,7 @@ module FIR4(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -279,10 +279,10 @@ module FIR4(
 
 parameter ORDER = 4;
 parameter LATENCY = 3 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -353,7 +353,7 @@ module FIR5(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -364,10 +364,10 @@ module FIR5(
 
 parameter ORDER = 5;
 parameter LATENCY = 4 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -449,7 +449,7 @@ module FIR6(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -460,10 +460,10 @@ module FIR6(
 
 parameter ORDER = 6;
 parameter LATENCY = 4 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -547,7 +547,7 @@ module FIR7(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -558,10 +558,10 @@ module FIR7(
 
 parameter ORDER = 7;
 parameter LATENCY = 4 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -649,7 +649,7 @@ module FIR8(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -660,10 +660,10 @@ module FIR8(
 
 parameter ORDER = 8;
 parameter LATENCY = 4 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -753,7 +753,7 @@ module FIR9(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -764,10 +764,10 @@ module FIR9(
 
 parameter ORDER = 9;
 parameter LATENCY = 5 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -870,7 +870,7 @@ module FIR10(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -881,10 +881,10 @@ module FIR10(
 
 parameter ORDER = 10;
 parameter LATENCY = 5 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -989,7 +989,7 @@ module FIR11(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -1000,10 +1000,10 @@ module FIR11(
 
 parameter ORDER = 11;
 parameter LATENCY = 5 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -1112,7 +1112,7 @@ module FIR12(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire iValid,
     input wire signed [15:0] iSample,
@@ -1123,10 +1123,10 @@ module FIR12(
 
 parameter ORDER = 12;
 parameter LATENCY = 5 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
@@ -1236,7 +1236,7 @@ module FIRX(
     input wire iReset,
     
     input wire iLoad, 
-    input wire signed [11:0] iQLP,
+    input wire signed [14:0] iQLP,
     
     input wire [3:0] iM,
     input wire iValid,
@@ -1250,10 +1250,10 @@ module FIRX(
 
 parameter ORDER = 12;
 parameter LATENCY = 5 + ORDER;
-parameter PRECISION = 12;
+parameter PRECISION = 15;
 
 integer i;
-reg signed [11:0] qlp_coeff [0:ORDER - 1];
+reg signed [14:0] qlp_coeff [0:ORDER - 1];
 reg signed [15:0] data[0:ORDER - 1];
 reg [3:0] coeff_count;
 reg [LATENCY:0] valid;
