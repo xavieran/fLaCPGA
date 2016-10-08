@@ -155,17 +155,19 @@ end
 initial begin
     //infile = $fopen("Pavane16Blocks.txt", "r");
     //infile = $fopen("Pavane_PCM_All.txt", "r");
+    //fout = $fopen("pavane_test_residuals.txt", "w");
     infile = $fopen("wakeup_pcm.txt", "r");
-    fout = $fopen("wakeup_test_residuals.txt", "w");
+    fout = $fopen("test_stages_res_out.txt", "w");
+    //fout = $fopen("wakeup_test_residuals.txt", "w");
     //fout2 = $fopen("ld_coefficients2.txt", "w");
     s1_ena = 0; s1_rst = 1; valid = 0; read_file = 0; s3_rst = 1;output_count = 0;frame_count = 0;
     cycles = 0;
     //Skip first 5 seconds of wake up
-    //for (i = 0; i < 4096*512; i = i + 1) $fscanf(infile, "%d\n", sample);
+    for (i = 0; i < 4096*512; i = i + 1) $fscanf(infile, "%d\n", sample);
     #20;
     read_file = 1;
     s1_rst = 0; s1_ena = 1;s3_rst = 0;
-    for (i = 0; i < 4096*512; i = i + 1) #20;
+    for (i = 0; i < 4096*16; i = i + 1) #20;
     read_file = 0;
     valid = 0;
     

@@ -1,7 +1,7 @@
 `timescale 1ns/100ps
 `define MY_SIMULATION 1
 
-`include "RiceEncoder.v"
+`include "VariableRiceEncoder.v"
 
 module RiceWriterTB;
 
@@ -24,11 +24,15 @@ wire ram_en2;
 wire [15:0] ram_ad2;
 wire [15:0] ram_dat2;
 
-RiceEncoder re (
+reg ch_param, flush, enable_ovd;
+
+VariableRiceEncoder vre (
     .iClock(clk), 
     .iReset(rst),
+    
     .iValid(sample_valid), 
     .iSample(sample),
+    .iRiceParam(param),
     .oMSB(upper), 
     .oLSB(lower),
     .oBitsUsed(total),
@@ -38,12 +42,14 @@ RiceEncoder re (
 RiceWriter rw (
     .iClock(clk),
     .iReset(rst), 
-    .iEnable(re_valid), 
+    .iEnable(re_valid | enable_ovd), 
     
     .iTotal(total),
     .iUpper(upper),
     .iLower(lower), 
     .iRiceParam(param),
+    .iChangeParam(ch_param), 
+    .iFlush(flush),
     
     .oRamEnable1(ram_en1),
     .oRamAddress1(ram_ad1), 
@@ -97,21 +103,32 @@ initial begin
     flip = 0;
     cycles = 0;
     rst = 1; ena = 0; 
-    sample_valid = 0;
+    sample_valid = 0;ch_param = 0; flush = 0;enable_ovd = 0;
     #30
-    param = 4;
+    #10
+    param = 7;
     //lower = 0; upper = 0;
     fsplit = $fopen("rice_pairs.txt", "w");
-    fout = $fopen("rice_residuals.txt", "wb");
+    fout = $fopen("rice_encoded.txt", "wb");
     fin = $fopen("residual_pipelined.txt", "r");
     rst = 0; ena = 1;
+    enable_ovd = 1;
+    ch_param = 1;
     #20;
+    enable_ovd = 0;
+    ch_param = 0;
     sample_valid = 1;
     for (i = 0; i < 4096; i = i + 1) begin
         $fscanf(fin, "%d\n", sample);
         #20;
     end
+    sample_valid = 0;
+    while (re_valid) #20;
+    flush = 1;
+    enable_ovd = 1;
     #20;
+    enable_ovd = 0;
+    flush = 0;
     #20;
     #20;
     /*

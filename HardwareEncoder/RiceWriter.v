@@ -41,12 +41,9 @@ module RiceWriter (
 
 reg [3:0] bit_pointer;
 
-//wire [15:0] uppern = 16 - bit_pointer;
-
-// This wire is the bottleneck - 83 MHz with this vs. 133 MHz with the above expression
-wire [15:0] uppern = (iUpper - ((iUpper[7:4] - 1) << 4)) - (16 - bit_pointer);
+wire [15:0] uppern = (iUpper - (16 - bit_pointer)) & 4'hf;
 wire [15:0] totaln = uppern + iRiceParam + 1;
-wire [15:0] skip = (iUpper - bit_pointer) >> 4;
+wire [15:0] skip = (iUpper - (16 - bit_pointer)) >> 4;
 
 reg [15:0] buffer;
 
@@ -87,15 +84,22 @@ always @(posedge iClock) begin
         
         first_write_done <= 0;
         
-        need_header <= 0;
     end else if (iEnable) begin
-        if (need_header) begin
+        ram_we1 <= 0;
+        ram_we2 <= 0;
+        
+        if (iFlush) begin
+            ram_we1 <= 1;
+            ram_dat1 <= buffer;
+            ram_adr1 <= ram_adr_prev + first_write_done;
+            ram_adr_prev <= 0;
+            first_write_done <= 0;
+            bit_pointer <= 0;
+            buffer <= 0;
+        end else if (iChangeParam) begin
             buffer <= iRiceParam << 12;
             bit_pointer <= bit_pointer + 4;
-            need_header <= 0;
         end else begin
-            ram_we1 <= 0;
-            ram_we2 <= 0;
             // We can place the data straight into this buffer wihtout sending
             if (bit_pointer + iTotal <= 15) begin
                 buffer <= buffer | (iLower << (16 - iTotal - bit_pointer));
@@ -120,7 +124,9 @@ always @(posedge iClock) begin
                 first_write_done <= 1;
                 ram_we1 <= 1;
                 ram_adr1 <= ram_adr_prev + first_write_done;
+    
                 ram_adr_prev <= ram_adr_prev + first_write_done;
+                
                 
                 ram_dat1 <= buffer | iLower >> (bit_pointer + iTotal - 16);
                 

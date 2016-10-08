@@ -1,15 +1,15 @@
 %% Wakeup:
 
 close all
-blocks = 80;
+blocks = 1;
 res_start = 0;
-start = 0;
-%data = dlmread('test_stages_res_out.txt', '', [0*4096, 0, (blocks)*4096, 0]);
+start = 512;
+data = dlmread('test_stages_res_out.txt', '', [res_start*4096, 0, (res_start +blocks)*4096, 0]);
 %sound = dlmread('Pavane16Blocks.txt', '', [start*4096, 0, (blocks + start)*4096, 0]);
 %data = dlmread('pavane_residuals.txt', '', [start*4096, 0, (blocks + start)*4096, 0]);
 %sound = dlmread('Pavane_PCM_All.txt', '', [start*4096, 0, (blocks + start)*4096, 0]);
 
-data = dlmread('wakeup_test_residuals.txt', '',[res_start*4096, 0, (res_start + blocks)*4096, 0]);
+%data = dlmread('wakeup_test_residuals.txt', '',[res_start*4096, 0, (res_start + blocks)*4096, 0]);
 sound = dlmread('wakeup_pcm.txt', '',[start*4096, 0, (blocks + start)*4096, 0]);
 
 hold on;
@@ -26,7 +26,7 @@ jj = repmat(jj, floor(size(data,1)/(4096*2)));
 
 plot(jj,'g')
 legend('Audio','Residual', 'Blocks');
-
+pause
 
 %  figure;
 %  b = 1;
