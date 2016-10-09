@@ -111,11 +111,6 @@ assign encoded_out = {ram_dat2b, ram_dat2a, ram_dat1b, ram_dat1a};
 */
 
 always @(posedge clk) begin
-    if (read_file) begin
-        $fscanf(infile, "%d\n", sample);
-        valid <= 1;
-    end 
-    
     if (data_valid) begin
         $fwrite(fout, "%u", data_out);
     end
@@ -141,47 +136,66 @@ initial begin
     // Blip the frame done signal
     frame_done = 1; m = 0;
     #20;
-    frame_done = 0; read_file = 1; 
+    frame_done = 0;
     #20
-    for (i = 0; i < (4096 - m)*1; i = i + 1) #20;
-    #20;
-    read_file = 0; valid = 0;
+    for (i = 0; i < (4096 - m); i = i + 1) begin
+        valid = 1;
+        $fscanf(infile, "%d\n", sample);
+        #20;
+    end
+    valid = 0;
     #100;
     
     // !!! One frame to encode with best param
-    frame_done = 1; m = 0; 
-    #20 
-    frame_done = 0; read_file = 1;
-    for (i = 0; i < (4096 - m)*1; i = i + 1) #20;
+    frame_done = 1; m = 0;
     #20;
-    read_file = 0; valid = 0;
-    #100
+    frame_done = 0;
+    #20
+    for (i = 0; i < (4096 - m); i = i + 1) begin
+        valid = 1;
+        $fscanf(infile, "%d\n", sample);
+        #20;
+    end
+    valid = 0;
+    #100;
     
     
     // !!! We get output from now on
-    frame_done = 1; m = 0; 
-    #20 
-    frame_done = 0; read_file = 1;
-    for (i = 0; i < (4096 - m)*1; i = i + 1) #20;
+    frame_done = 1; m = 0;
     #20;
-    read_file = 0; valid = 0;
-    #100
+    frame_done = 0;
+    #20
+    for (i = 0; i < (4096 - m); i = i + 1) begin
+        valid = 1;
+        $fscanf(infile, "%d\n", sample);
+        #20;
+    end
+    valid = 0;
+    #100;
     
-    frame_done = 1; m = 0; 
-    #20 
-    frame_done = 0; read_file = 1;
-    for (i = 0; i < (4096 - m)*1; i = i + 1) #20;
+    frame_done = 1; m = 0;
     #20;
-    read_file = 0; valid = 0;
-    #100
+    frame_done = 0;
+    #20
+    for (i = 0; i < (4096 - m); i = i + 1) begin
+        valid = 1;
+        $fscanf(infile, "%d\n", sample);
+        #20;
+    end
+    valid = 0;
+    #100;
     
-    frame_done = 1; m = 0; 
-    #20 
-    frame_done = 0; read_file = 1;
-    for (i = 0; i < (4096 - m)*1; i = i + 1) #20;
+    frame_done = 1; m = 0;
     #20;
-    read_file = 0; valid = 0;
-    #100
+    frame_done = 0;
+    #20
+    for (i = 0; i < (4096 - m); i = i + 1) begin
+        valid = 1;
+        $fscanf(infile, "%d\n", sample);
+        #20;
+    end
+    valid = 0;
+    #100;
     $stop;
 end
 

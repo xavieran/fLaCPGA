@@ -123,7 +123,7 @@ always @(posedge iClock) begin
                 bit_pointer <= 0;
             
             // The data overflows one buffer
-            end else if (bit_pointer + iTotal > 16 && bit_pointer + iTotal <= 32) begin 
+            end else if (bit_pointer + iTotal > 16 && bit_pointer + iTotal < 32) begin 
                 // In this case we need to write some of the lower bits to the buffer before
                 // we send it off. Then we need to write the rest of the lower bits to the 
                 // next buffer
@@ -139,7 +139,20 @@ always @(posedge iClock) begin
                 buffer <= iLower << 32 - bit_pointer - iTotal;
                 
                 bit_pointer <= bit_pointer + iTotal - 16;
+            end else if (bit_pointer + iTotal == 32) begin 
+                // Special case ...
+                first_write_done <= 1;
+                ram_we1 <= 1;
+                ram_adr1 <= ram_adr_prev + first_write_done;
+                ram_we2 <= 1;
+                ram_adr2 <= ram_adr_prev + first_write_done + 1;
+                ram_adr_prev <= ram_adr_prev + first_write_done + 1;
                 
+                ram_dat1 <= buffer | iLower >> (bit_pointer + iTotal - 16);
+                ram_dat2 <= iLower << 32 - bit_pointer - iTotal;
+                buffer <= 0;
+                
+                bit_pointer <= bit_pointer + iTotal - 16;
             // The data overflows multiple buffers
             end else if (iTotal + bit_pointer > 32) begin
                 first_write_done <= 1;

@@ -91,7 +91,7 @@ assign ram_dat2a = q2[15:8];
 assign ram_dat2b = q2[7:0];
 
 reg [15:0] half_word1;
-wire [15:0] half_word2 = q2;
+wire [15:0] half_word2 = q1;
 reg half_word;
 wire [7:0] hw_dat1a, hw_dat1b, hw_dat2a, hw_dat2b;
 assign hw_dat1a = half_word1[15:8];
