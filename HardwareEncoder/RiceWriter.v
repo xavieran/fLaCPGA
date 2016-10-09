@@ -87,17 +87,23 @@ always @(posedge iClock) begin
     end else if (iEnable) begin
         ram_we1 <= 0;
         ram_we2 <= 0;
-        
+        // We probably need to call this intermediary flush...
         if (iFlush) begin
-            ram_we1 <= 1;
-            ram_dat1 <= buffer;
-            ram_adr1 <= ram_adr_prev + first_write_done;
-            ram_adr_prev <= 0;
-            first_write_done <= 0;
-            bit_pointer <= 0;
-            buffer <= 0;
+            if (bit_pointer < 8) begin
+                ram_adr_prev <= 0;
+                first_write_done <= 0;
+                bit_pointer <= 8;
+            end else begin
+                ram_we1 <= 1;
+                ram_dat1 <= buffer;
+                ram_adr1 <= ram_adr_prev + first_write_done;
+                ram_adr_prev <= 0;
+                first_write_done <= 0;
+                bit_pointer <= 0;
+                buffer <= 0;
+            end
         end else if (iChangeParam) begin
-            buffer <= iRiceParam << 12;
+            buffer <= buffer | iRiceParam << (12 - bit_pointer);
             bit_pointer <= bit_pointer + 4;
         end else begin
             // We can place the data straight into this buffer wihtout sending
