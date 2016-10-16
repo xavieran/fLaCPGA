@@ -20,6 +20,12 @@ module Stage3_Encode (
     input wire [3:0] iM,
     
     output wire signed [15:0] oResidual,
+    output wire [3:0] oM, 
+    output wire signed [14:0] oModel,
+    
+    output wire oWValid,
+    output wire signed [15:0] oWarmup,
+    output wire oLoad,
     output wire oValid,
     output wire oFrameDone
     );
@@ -87,7 +93,7 @@ mf_fifo fifo1 (
 
 
 reg ds_unload;
-wire [14:0] ds1_coeff;
+wire signed [14:0] ds1_coeff;
 wire ds1_valid;
 wire ds1_done;
 reg ds1_rst;
@@ -106,7 +112,7 @@ DurbinCoefficientStore durb_store1 (
     .oValid(ds1_valid), 
     .oDone(ds1_done));
 
-wire [14:0] ds2_coeff;
+wire signed [14:0] ds2_coeff;
 wire ds2_valid;
 wire ds2_done;
 reg ds2_rst;
@@ -187,11 +193,20 @@ reg [3:0] unload_counter;
 reg rLoad;
 reg dLoad;
 reg frame_done;
+reg [3:0] m;
 assign oResidual = ((f12_valid1 ? 16'hffff : 16'h0000) & f12_residual1) | 
                    ((f12_valid2 ? 16'hffff : 16'h0000) & f12_residual2);
 assign oValid = f12_valid1 | f12_valid2;
 assign best_fir = phase_select ?  best_fir1 : best_fir2;
 assign oFrameDone = frame_done;
+assign oM = m;
+assign oModel = ds2_coeff | ds1_coeff; // probably not good enough
+assign oLoad = ds2_valid | ds1_valid;
+
+reg warmup_trigger;
+reg [3:0] warmup_count, warmup_save;
+assign oWarmup = oWValid ? f12_sample : 0;
+assign oWValid = (warmup_count != 0);
 
 
 always @(posedge iClock) begin
@@ -213,9 +228,14 @@ always @(posedge iClock) begin
         fir_fb_valid <= 1;
         rLoad <= 0;
         dLoad <= 0;
+        m <= 0;
         frame_done <= 0;
+        warmup_trigger <= 0;
+        warmup_save <= 0;
+        warmup_count <= 0;
     end else if (iEnable) begin
         ds_override <= 0;
+        warmup_trigger <= 0;
         rLoad <= iLoad;
         dLoad <= rLoad;
         
@@ -236,22 +256,30 @@ always @(posedge iClock) begin
         if (fir_fb_done | fir_fb_done2) begin
             fir_fb_rst <= 1;
             fir_fb_valid <= 0;
-            
+            m <= best_fir;
             current_best_fir <= best_fir;
+            warmup_save <= best_fir;
             f12_ena <= 1;
             ds_unload <= 1;
             
             if (f12_first_time) begin
                 phase_select <= !phase_select;
                 fir_fb_valid <= 1;
+                frame_done <= 1;
+                m <= best_fir;
             end
         end
         
         if (fifo1_usedw == 4095) begin
             f12_calc <= 1;
+            
+            if (warmup_count != 0) begin
+                warmup_count <= warmup_count - 1;
+            end
         end
         
         if (f12_idone1 | f12_idone2) begin
+            warmup_count <= warmup_save;
             f12_select <= !f12_select;
             phase_select <= !phase_select;
             fir_fb_valid <= 1;
@@ -267,10 +295,16 @@ always @(posedge iClock) begin
             ds2_rst <= 1;
             ds_unload <= 0;
             if (f12_first_time) begin
+                warmup_trigger <= 1;
+               
                 f12_rst <= 1;
                 f12_first_time <= 0;
                 f12_select <= !f12_select;
             end
+        end
+        
+        if (warmup_trigger) begin
+            warmup_count <= warmup_save;
         end
     end
 end

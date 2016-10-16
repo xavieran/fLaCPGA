@@ -34,6 +34,7 @@ reg ro_rst;
 wire [3:0] ro_best;
 wire ro_done;
 
+reg first_time;
 reg [4095:0] valid_delay;
 
 RiceOptimizer ro (
@@ -94,7 +95,7 @@ RiceWriter rw (
       .iTotal(re_bu),
       .iUpper(re_msb),
       .iLower(re_lsb), 
-      .iRiceParam(current_best),
+      .iRiceParam(first_time ? best_param : current_best),
       
       .oRamEnable1(rw_re1),
       .oRamAddress1(rw_ra1), 
@@ -107,21 +108,20 @@ RiceWriter rw (
 
 
 reg frame_done;
-reg first_time;
 reg rRE_val;
 reg dRE_val;
-
+reg [15:0] save_ram_adr2;
 assign oRamEnable1 = rw_re1;
 assign oRamEnable2 = rw_re2;
 assign oRamAddress1 = rw_ra1;
-assign oRamAddress2 = rw_ra2;
+assign oRamAddress2 = frame_done ? save_ram_adr2 : rw_ra2;
 assign oRamData1 = rw_rd1;
 assign oRamData2 = rw_rd2;
 assign oFrameDone = frame_done;
 assign best_param = ro_best;
 
 
-
+reg rw_ch_trigger;
 always @(posedge iClock) begin
     if (iReset) begin
         ro_rst <= 1;
@@ -136,6 +136,8 @@ always @(posedge iClock) begin
         rRE_val <= 0;
         dRE_val <= 0;
         frame_done <= 0;
+        rw_ch_trigger <= 0;
+        save_ram_adr2 <= 0;
     end else if (iEnable) begin
         valid_delay <= valid_delay << 1 | iValid;
         ro_rst <= 0;
@@ -150,7 +152,6 @@ always @(posedge iClock) begin
         if (iFrameDone) begin
             m <= iM;
         end
-        
 
         if (ro_done) begin
             ro_rst <= 1;
@@ -163,12 +164,20 @@ always @(posedge iClock) begin
         
         if (rRE_val == 0 && dRE_val == 1) begin
             rw_flush <= 1;
+            
         end
         
         if (rw_flush) begin
+            save_ram_adr2 <= rw_ra2;
             frame_done <= 1;
             rw_ch_param <= 1;
+            rw_flush <= 0;
+            rw_ch_trigger <= 1;
         end 
+        
+        if (rw_ch_trigger) begin
+            rw_ch_trigger <= 0;
+        end
     end
 end
 

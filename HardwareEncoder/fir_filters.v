@@ -1309,12 +1309,12 @@ always @(posedge iClock) begin
         input_count <= 0;
 
     end else if (iEnable) begin
-        /*if (iM == 12) valid_sel <= valid[16];
-        else if (iM == 11) valid_sel <= valid[15];
-        else if (iM == 10) valid_sel <= valid[14];
-        else if (iM == 9) valid_sel <= valid[13];*/
         valid_sel <= valid[iM + 4];
         done <= done << 1 | (input_count == 4095);
+        
+        // This is needed to short circuit the output valid signal when truly done
+        
+        
         if (iValid) begin
             input_count <= input_count + 1;
         end
@@ -1326,7 +1326,10 @@ always @(posedge iClock) begin
             end 
             coeff_count <= coeff_count + 1'b1;
         end else begin
-            valid <= (valid << 1) | iValid;
+            if (oDone) begin 
+                valid <= 0;
+                valid_sel <= 0;
+            end else valid <= (valid << 1) | iValid;
             
             if (iValid) 
                 data[0] <= iSample;

@@ -89,15 +89,23 @@ always @(posedge iClock) begin
         ram_we2 <= 0;
         // We probably need to call this intermediary flush...
         if (iFlush) begin
-            if (bit_pointer < 8) begin
+            if (bit_pointer == 0) begin
+                ram_adr_prev <= 0;
+                first_write_done <= 0;
+                buffer <= 0;
+                bit_pointer <= 0;
+                ram_adr2 <= 0;
+            end else if (bit_pointer <= 8) begin
                 ram_adr_prev <= 0;
                 first_write_done <= 0;
                 bit_pointer <= 8;
+                ram_adr2 <= 0;
             end else begin
                 ram_we1 <= 1;
                 ram_dat1 <= buffer;
                 ram_adr1 <= ram_adr_prev + first_write_done;
                 ram_adr_prev <= 0;
+                ram_adr2 <= 0;
                 first_write_done <= 0;
                 bit_pointer <= 0;
                 buffer <= 0;

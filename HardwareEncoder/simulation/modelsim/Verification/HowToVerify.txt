@@ -1,0 +1,5 @@
+1. Execute the testbench Test_fLaC_Encoder
+2. execute process_data.py - This extract the model coefficients and orders from models.txt
+3. cd into wakeup. Execute extract_rice.py - this extracts the residuals from the encoded data in fe_residuals.txt
+4. execute decode.py - this reconstructs the original signal
+5. Run matlab and execute play_sound.m - this will play the audio and you can compare if it is identical or not

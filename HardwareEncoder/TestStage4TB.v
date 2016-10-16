@@ -36,7 +36,7 @@ reg clk, ena, rst;
 reg signed [15:0] sample;
 
 reg read_file;
-integer infile, i, fout, fout2;
+integer infile, i, j, fout, fout2;
 integer cycles;
 
 always begin
@@ -117,8 +117,8 @@ always @(posedge clk) begin
 end
 
 initial begin
-    infile = $fopen("test_stages_res_out.txt", "r");
-    fout = $fopen("ts4_ram_dump_mult.txt", "w");
+    infile = $fopen("residuals.txt", "r");
+    fout = $fopen("encoded_res.txt", "w");
     //fout2 = $fopen("ld_coefficients2.txt", "w");
     
     // Reset stuff
@@ -146,57 +146,20 @@ initial begin
     valid = 0;
     #100;
     
-    // !!! One frame to encode with best param
-    frame_done = 1; m = 0;
-    #20;
-    frame_done = 0;
-    #20
-    for (i = 0; i < (4096 - m); i = i + 1) begin
-        valid = 1;
-        $fscanf(infile, "%d\n", sample);
+    for (j = 0; j < 256; j = j + 1) begin
+        // !!! One frame to encode with best param
+        frame_done = 1; m = 0;
         #20;
+        frame_done = 0;
+        #20
+        for (i = 0; i < (4096 - m); i = i + 1) begin
+            valid = 1;
+            $fscanf(infile, "%d\n", sample);
+            #20;
+        end
+        valid = 0;
+        #100;
     end
-    valid = 0;
-    #100;
-    
-    
-    // !!! We get output from now on
-    frame_done = 1; m = 0;
-    #20;
-    frame_done = 0;
-    #20
-    for (i = 0; i < (4096 - m); i = i + 1) begin
-        valid = 1;
-        $fscanf(infile, "%d\n", sample);
-        #20;
-    end
-    valid = 0;
-    #100;
-    
-    frame_done = 1; m = 0;
-    #20;
-    frame_done = 0;
-    #20
-    for (i = 0; i < (4096 - m); i = i + 1) begin
-        valid = 1;
-        $fscanf(infile, "%d\n", sample);
-        #20;
-    end
-    valid = 0;
-    #100;
-    
-    frame_done = 1; m = 0;
-    #20;
-    frame_done = 0;
-    #20
-    for (i = 0; i < (4096 - m); i = i + 1) begin
-        valid = 1;
-        $fscanf(infile, "%d\n", sample);
-        #20;
-    end
-    valid = 0;
-    #100;
-    $stop;
 end
 
 
