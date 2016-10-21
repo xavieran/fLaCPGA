@@ -1,6 +1,9 @@
 `ifndef DUAL_WRITE_RAM_H
 `define DUAL_WRITE_RAM_H
 
+// This is so we dont get complaints about read during write...
+/* synthesis syn_ramstyle = "MLAB, no_rw_check"*/
+
 module dual_write_ram(
     input wire iClock,
     

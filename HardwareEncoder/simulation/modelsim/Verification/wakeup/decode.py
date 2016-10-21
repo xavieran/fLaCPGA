@@ -7,11 +7,13 @@ residuals = [int(i.strip()) for i in open('residuals.txt').readlines()]
 #warmups = [int(i.strip()) for i in open('python_warmup.txt').readlines()]
 #residuals = [int(i.strip()) for i in open('python_encoded.txt').readlines()]
 output = open('data.txt', "w")
+audio_modelled = open('audio_modelled.txt', 'w')
 
 def filter(model, warmup, residuals):
     shift = 10
     order = len(model)
     model.reverse()
+    modelled = range(4096)
     data = range(4096)
     for i in range(4096):
         data[i] = 0
@@ -30,8 +32,9 @@ def filter(model, warmup, residuals):
         for j in range(0, order):
             acc += model[j]*data[i - j - 1]
         data[i] = (acc >> shift) + residuals[i - order]
+        modelled[i] = acc >> shift
         acc = 0
-    return data
+    return data, modelled
     
 b = 0
 res = 0
@@ -44,11 +47,14 @@ for o in orders:
     print 
     b += o
     
-    data = filter(model, warmup, residuals[res:res + (4096 - o)])
+    data,modelled = filter(model, warmup, residuals[res:res + (4096 - o)])
     
     res = res + (4096 - o)
     output.write("\n".join([str(i) for i in data]))
     output.write("\n")
+
+    audio_modelled.write("\n".join([str(i) for i in modelled]))
+    audio_modelled.write("\n")
     
 output.close()
     
