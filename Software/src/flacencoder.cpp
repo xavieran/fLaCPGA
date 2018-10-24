@@ -23,9 +23,10 @@
 #include <vector>
 #include <memory>
 
-FLACEncoder::FLACEncoder(std::shared_ptr<std::fstream> f){
-    _bw = std::make_shared<BitWriter>(f);    
-}
+FLACEncoder::FLACEncoder(std::shared_ptr<std::fstream> f)
+    :
+    _bw{BitWriter{f}}
+{}
 
 bool FLACEncoder::write_header(){
     auto msi = FLACMetaStreamInfo();
@@ -69,16 +70,16 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
    if (total_bits < 4096*16){
         
         /* Subframe header*/
-        _bw->write_bits(0b0001 << 4 | (uint8_t) order << 1, 8);
+        _bw.write_bits(0b0001 << 4 | (uint8_t) order << 1, 8);
         
         /* Step 4. Write the warmup samples */
         for (int i = 0; i < order; i++){
-            _bw->write_bits(((int16_t) pcm_buf[i]), 16);
+            _bw.write_bits(((int16_t) pcm_buf[i]), 16);
         }
     
     
         /* Step 8. Write the residuals to file */
-        int samples_in_res = _bw->write_residual(scratch_space + order, samples, order, 0, rice_params);
+        int samples_in_res = _bw.write_residual(scratch_space + order, samples, order, 0, rice_params);
         /*
         std::cerr << "Samples wrote in residual: " << samples_in_res << "\n";
         
@@ -94,23 +95,23 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame){
         std::cerr << "\n";*/
     } else {
         // Write Verbatim frame
-        _bw->write_bits(0b00000010, 8);
+        _bw.write_bits(0b00000010, 8);
         
         for (int i = 0; i < samples; i++)
-            _bw->write_bits(pcm_buf[i], 16);
+            _bw.write_bits(pcm_buf[i], 16);
     }
     
     
     /* Step 9. Write the padding */
-    _bw->write_padding();
+    _bw.write_padding();
     
     /* Step 10. Finally, write the frame footer and we are done */
-    uint16_t crc16 = _bw->calc_crc16();
-    _bw->write_bits(crc16, 16);
+    uint16_t crc16 = _bw.calc_crc16();
+    _bw.write_bits(crc16, 16);
     //fprintf(stderr, "CRC16:: %x\n", crc16);
     
     if (frame % 64 == 0 && frame != 0)
-        int bytes_written = _bw->flush();
+        int bytes_written = _bw.flush();
     
     /* Should keep the buffer from overfilling... */
     //std::cerr << "Wrote " << bytes_written << "\n";
@@ -129,19 +130,19 @@ bool FLACEncoder::write_frame_verbatim(int32_t *pcm_buf, int samples, uint32_t f
     
     std::cout << "Encoding Subframe Verbatim\n";
     // Write Verbatim frame
-    _bw->write_bits(0b00000010, 8);
+    _bw.write_bits(0b00000010, 8);
     
     for (int i = 0; i < samples; i++)
-        _bw->write_bits(pcm_buf[i], 16);
+        _bw.write_bits(pcm_buf[i], 16);
     
     /* Step 9. Write the padding */
-    _bw->write_padding();
+    _bw.write_padding();
     
     /* Step 10. Finally, write the frame footer and we are done */
-    /*uint16_t crc16 = _bw->calc_crc16();
-    _bw->write_bits(crc16, 16);*/
+    /*uint16_t crc16 = _bw.calc_crc16();
+    _bw.write_bits(crc16, 16);*/
     
-    _bw->flush();
+    _bw.flush();
 
     return true;
 }
@@ -167,23 +168,23 @@ bool FLACEncoder::write_frame_fixed(int32_t *pcm_buf, int samples, int order, ui
     std::cerr << "\n";
     
     /* Subframe header*/
-    _bw->write_bits(0b0001 << 4 | (uint8_t) order << 1, 8);
+    _bw.write_bits(0b0001 << 4 | (uint8_t) order << 1, 8);
     
     /* Step 4. Write the warmup samples */
     for (int i = 0; i < order; i++)
-        _bw->write_bits(((int16_t) pcm_buf[i]), 16);
+        _bw.write_bits(((int16_t) pcm_buf[i]), 16);
 
     /* Step 8. Write the residuals to file */
-    int samples_in_res = _bw->write_residual(scratch_space + order, samples, order, 0, rice_params);
+    int samples_in_res = _bw.write_residual(scratch_space + order, samples, order, 0, rice_params);
     
     /* Step 9. Write the padding */
-    _bw->write_padding();
+    _bw.write_padding();
     
     /* Step 10. Finally, write the frame footer and we are done */
-    /*uint16_t crc16 = _bw->calc_crc16();
-    _bw->write_bits(crc16, 16);
+    /*uint16_t crc16 = _bw.calc_crc16();
+    _bw.write_bits(crc16, 16);
     */
-    _bw->flush();
+    _bw.flush();
 
     return true;
 }

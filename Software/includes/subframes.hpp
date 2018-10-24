@@ -41,7 +41,7 @@ public:
     void reconstruct();
     
     void print(FILE *f);
-    int read(std::shared_ptr<BitReader> fr);
+    int read(BitReader& fr);
     
     uint8_t getFixedOrder();
     uint8_t getLPCOrder();
@@ -65,7 +65,7 @@ public:
         _header = h;
     }
     
-    virtual int read(std::shared_ptr<BitReader> fr) = 0;
+    virtual int read(BitReader& fr) = 0;
     virtual void print(FILE *f) = 0;
     
 private:
@@ -88,8 +88,8 @@ public:
     FLACSubFrameFixed(uint8_t bitsPerSample, uint32_t blockSize, uint8_t predictorOrder);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize, uint8_t predictorOrder);
     
-    int read(std::shared_ptr<BitReader> fr);
-    int read(std::shared_ptr<BitReader> fr, int32_t *dst);
+    int read(BitReader& fr);
+    int read(BitReader& fr, int32_t *dst);
     
     int compute_best_order(int32_t *data, uint64_t samples);
     void print(FILE *f);
@@ -114,8 +114,8 @@ public:
     FLACSubFrameLPC(uint8_t bitsPerSample, uint32_t blockSize, uint8_t lpcOrder);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize, uint8_t lpcOrder);
     
-    int read(std::shared_ptr<BitReader> fr);
-    int read(std::shared_ptr<BitReader> fr, int32_t *dst);
+    int read(BitReader& fr);
+    int read(BitReader& fr, int32_t *dst);
     
     void setLPCOrder(uint8_t lpcOrder);
     void print(FILE *f);
@@ -131,8 +131,8 @@ public:
     FLACSubFrameConstant(uint8_t bitsPerSample, uint32_t blockSize);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize);
     
-    int read(std::shared_ptr<BitReader> fr);
-    int read(std::shared_ptr<BitReader> fr, int32_t *dst);
+    int read(BitReader& fr);
+    int read(BitReader& fr, int32_t *dst);
     
     int setSampleSize(uint8_t bitsPerSample);
     int setBlockSize(uint32_t blockSize);
@@ -149,8 +149,8 @@ public:
     FLACSubFrameVerbatim(uint8_t bitsPerSample, uint32_t blockSize);
     void reconstruct(uint8_t bitsPerSample, uint32_t blockSize);
     
-    int read(std::shared_ptr<BitReader> fr);
-    int read(std::shared_ptr<BitReader> fr, int32_t *dst);
+    int read(BitReader& fr);
+    int read(BitReader& fr, int32_t *dst);
     
     int setSampleSize(uint8_t bitsPerSample);
     int setBlockSize(uint32_t blockSize);

@@ -67,11 +67,11 @@ int main(int argc, char *argv[]){
     }
     
     
-    auto fr = std::make_shared<BitReader>(fin);
-    WaveReader *wr = new WaveReader();
-    wr->read_metadata(fr);
-    WaveMetaData *meta = wr->getMetaData();
-    meta->print(stdout);
+    auto fr = BitReader(fin);
+    WaveReader wr = WaveReader();
+    wr.read_metadata(fr);
+    auto& meta = wr.getMetaData();
+    meta.print(stdout);
     
     int spb = 4096;
     
@@ -81,31 +81,31 @@ int main(int argc, char *argv[]){
     
     if (fixed){
         
-        fprintf(stdout, "%ld samples to encode\n", meta->getNumSamples());
+        fprintf(stdout, "%ld samples to encode\n", meta.getNumSamples());
         auto fe = FLACEncoder(fout);
-        fe.setSamples(meta->getNumSamples());
+        fe.setSamples(meta.getNumSamples());
         fe.write_header();
         
-        double total_samples = meta->getNumSamples();
+        double total_samples = meta.getNumSamples();
         
-        for (i = 0; i + spb < meta->getNumSamples(); i += spb){
-            wr->read_data(fr, pcm, spb);
+        for (i = 0; i + spb < meta.getNumSamples(); i += spb){
+            wr.read_data(fr, pcm, spb);
             for (unsigned j = 0; j < spb; j++){ pcm32[j] = (int32_t) pcm[j];}
             fe.write_frame(pcm32, spb, i/spb);
             
             printf("%.2f%% Encoded\n", ((double) i)/total_samples * 100);
         }
         
-        /*if (i != meta->getNumSamples()){
-            int remainder = meta->getNumSamples() - i;
-            wr->read_data(fr, pcm, remainder);
+        /*if (i != meta.getNumSamples()){
+            int remainder = meta.getNumSamples() - i;
+            wr.read_data(fr, pcm, remainder);
             for (unsigned j = 0; j < remainder; j++){ pcm32[j] = (int32_t) pcm[j];}
             
         }*/
     } else if (single){
         auto fe = FLACEncoder(fout);
         
-        wr->read_data(fr, pcm, spb);
+        wr.read_data(fr, pcm, spb);
         for (unsigned j = 0; j < spb; j++){ pcm32[j] = (int32_t) pcm[j];}
         
         if (verbatim){

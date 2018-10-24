@@ -40,13 +40,13 @@ public:
     void setFrameNumber(uint32_t n);
     
     void print(FILE *f);
-    int read(std::shared_ptr<BitReader> fr);
-    int read_padding(std::shared_ptr<BitReader> fr);
-    int read_footer(std::shared_ptr<BitReader> fr);
+    int read(BitReader& fr);
+    int read_padding(BitReader& fr);
+    int read_footer(BitReader& fr);
     
-    int write(std::shared_ptr<BitWriter> bw);
-    void write_padding(std::shared_ptr<BitWriter> bw);
-    int write_footer(std::shared_ptr<BitWriter> bw);
+    int write(BitWriter& bw);
+    void write_padding(BitWriter& bw);
+    int write_footer(BitWriter& bw);
     
 private:
 /* Sync code */

@@ -13,11 +13,13 @@ public:
     WaveMetaData();
     WaveMetaData(uint16_t NumChannels, uint32_t SampleRate, 
                  uint16_t BitsPerSample, uint32_t NumSamples);
+    // 
+    //WaveMetaData(const WaveMetaData&) = delete;
     
     void print(FILE *f);
     
-    int read(std::shared_ptr<BitReader> fr);
-    int write(BitWriter *bw);
+    int read(BitReader& fr);
+    int write(BitWriter& bw);
     void setNumSamples(uint64_t numSamples);
     uint64_t getNumSamples();
     uint16_t getNumChannels();
@@ -48,27 +50,27 @@ private:
 class WaveReader {
 public:
     WaveReader();
-    int read(std::shared_ptr<BitReader> fr, int16_t *pcm);
-    int read_metadata(std::shared_ptr<BitReader> fr);
-    int read_data(std::shared_ptr<BitReader> fr, int16_t *pcm, uint64_t samples);
+    int read(BitReader& fr, int16_t *pcm);
+    int read_metadata(BitReader& fr);
+    int read_data(BitReader& fr, int16_t *pcm, uint64_t samples);
     uint64_t getSamplesLeft();
     
-    WaveMetaData *getMetaData();
+    WaveMetaData& getMetaData();
 private:
-    WaveMetaData *_meta;
+    WaveMetaData _meta;
     uint64_t _samplesRead;
 };
 
 
 class WaveWriter {
 public:
-    WaveWriter(WaveMetaData *meta);
-    int write(BitWriter *bw, int32_t **pcm);
-    int write_metadata(BitWriter *bw);
-    int write_data(BitWriter *bw, int32_t **pcm, uint64_t samples);
-    WaveMetaData *getMetaData();
+    WaveWriter(WaveMetaData& meta);
+    int write(BitWriter& bw, int32_t **pcm);
+    int write_metadata(BitWriter& bw);
+    int write_data(BitWriter& bw, int32_t **pcm, uint64_t samples);
+    WaveMetaData& getMetaData();
 private:
-    WaveMetaData *_meta;
+    WaveMetaData _meta;
     uint64_t _samplesWritten;
 };
 

@@ -19,20 +19,19 @@
 #include "flacdecoder.hpp"
 
 
-FLACDecoder::FLACDecoder(std::shared_ptr<std::fstream> f){
-    _fr = std::make_shared<BitReader>(f);
-    
-    _meta = new FLACMetaData();
-    _frame = new FLACFrameHeader();
-    _subframe = new FLACSubFrameHeader();
-    _c = new FLACSubFrameConstant();
-    _v = new FLACSubFrameVerbatim();\
-    _f = new FLACSubFrameFixed();
-    _l = new FLACSubFrameLPC();
-    
-}
+FLACDecoder::FLACDecoder(std::shared_ptr<std::fstream> f)
+    :
+    _fr{BitReader{f}},
+    _meta{FLACMetaData{}},
+    _frame{FLACFrameHeader{}},
+    _subframe{FLACSubFrameHeader{}},
+    _c{FLACSubFrameConstant{}},
+    _v{FLACSubFrameVerbatim{}},
+    _f{FLACSubFrameFixed{}},
+    _l{FLACSubFrameLPC{}}
+{}
 
-FLACMetaData *FLACDecoder::getMetaData(){
+FLACMetaData& FLACDecoder::getMetaData(){
     return _meta;
 }
 
@@ -40,8 +39,8 @@ FLACMetaData *FLACDecoder::getMetaData(){
 int FLACDecoder::read(int32_t ***pcm_buf){
     read_meta();
     
-    int numChannels = _meta->getStreamInfo()->getNumChannels();
-    int intraSamples = _meta->getStreamInfo()->getTotalSamples();
+    int numChannels = _meta.getStreamInfo()->getNumChannels();
+    int intraSamples = _meta.getStreamInfo()->getTotalSamples();
     int totalInterSamples = intraSamples * numChannels;
     int samplesRead = 0;
     int samplesFrame = 0;
@@ -62,29 +61,29 @@ int FLACDecoder::read(int32_t ***pcm_buf){
 }
 
 int FLACDecoder::read_meta(){
-    _meta->read(_fr);
+    _meta.read(_fr);
     return 1;
 }
 
 int FLACDecoder::read_frame(int32_t **data, uint64_t offset){
     /* Read frame into data. Data holds channels */
-    _frame->reconstruct();
-    _frame->read(_fr);
+    _frame.reconstruct();
+    _frame.read(_fr);
     //fprintf(stdout, "--FRAME HEADER\n");
-    //_frame->print(stdout);
+    //_frame.print(stdout);
     
     int ch;
     int samplesRead = 0;
     
-    FLAC_const chanType = _frame->getChannelType();
-    uint16_t blockSize = _frame->getBlockSize();
+    FLAC_const chanType = _frame.getChannelType();
+    uint16_t blockSize = _frame.getBlockSize();
     
-    for (ch = 0; ch < _frame->getNumChannels(); ch++){
-        _subframe->reconstruct();
-        _subframe->read(_fr);
+    for (ch = 0; ch < _frame.getNumChannels(); ch++){
+        _subframe.reconstruct();
+        _subframe.read(_fr);
         //fprintf(stderr, "----SUBFRAME HEADER\n");
-        //_subframe->print(stderr);
-        uint8_t bps = _frame->getSampleSize();
+        //_subframe.print(stderr);
+        uint8_t bps = _frame.getSampleSize();
         
         switch (chanType){
             case CH_MID: //Mid side
@@ -96,26 +95,26 @@ int FLACDecoder::read_frame(int32_t **data, uint64_t offset){
                 break;
         }
         
-        switch (_subframe->getSubFrameType()){
+        switch (_subframe.getSubFrameType()){
             case SUB_CONSTANT:            
-                _c->reconstruct(bps, blockSize);
-                samplesRead += _c->read(_fr, data[ch] + offset);
+                _c.reconstruct(bps, blockSize);
+                samplesRead += _c.read(_fr, data[ch] + offset);
                 break;
             case SUB_VERBATIM:
-                _v->reconstruct(bps, blockSize);
-                samplesRead += _v->read(_fr, data[ch] + offset);
+                _v.reconstruct(bps, blockSize);
+                samplesRead += _v.read(_fr, data[ch] + offset);
                 break;
             case SUB_FIXED:
-                _f->reconstruct(bps, blockSize, _subframe->getFixedOrder());
-                samplesRead += _f->read(_fr, data[ch] + offset);
+                _f.reconstruct(bps, blockSize, _subframe.getFixedOrder());
+                samplesRead += _f.read(_fr, data[ch] + offset);
                 break;
             case SUB_LPC:
-                _l->reconstruct(bps, blockSize, _subframe->getLPCOrder());
-                samplesRead += _l->read(_fr, data[ch] + offset);
+                _l.reconstruct(bps, blockSize, _subframe.getLPCOrder());
+                samplesRead += _l.read(_fr, data[ch] + offset);
                 break;
             case SUB_INVALID:
                 fprintf(stderr, "Invalid subframe type\n");
-                _fr->read_error();
+                _fr.read_error();
         }
         /*for (int i = 0; i <  blockSize; i++){
             printf("%d\n",data[i]);
@@ -124,8 +123,8 @@ int FLACDecoder::read_frame(int32_t **data, uint64_t offset){
     
     process_channels(data, offset, blockSize, chanType);
     
-    _frame->read_padding(_fr);
-    _frame->read_footer(_fr);
+    _frame.read_padding(_fr);
+    _frame.read_footer(_fr);
     
     return samplesRead;
 }
@@ -158,8 +157,8 @@ void FLACDecoder::process_channels(int32_t **channels, uint64_t offset, \
 void FLACDecoder::print_all_metadata(){
     print_meta();
     
-    int numChannels = _meta->getStreamInfo()->getNumChannels();
-    uint64_t intraSamples = _meta->getStreamInfo()->getTotalSamples();
+    int numChannels = _meta.getStreamInfo()->getNumChannels();
+    uint64_t intraSamples = _meta.getStreamInfo()->getTotalSamples();
     uint64_t totalInterSamples = intraSamples * numChannels;
     int samplesRead = 0;
     int samplesFrame = 0;
@@ -172,29 +171,29 @@ void FLACDecoder::print_all_metadata(){
 
 void FLACDecoder::print_meta(){
     read_meta();
-    _meta->getStreamInfo()->print(stdout);
-    _meta->print(stdout);
+    _meta.getStreamInfo()->print(stdout);
+    _meta.print(stdout);
 }
 
 int FLACDecoder::print_frame(){
     /* Read frame into data. Data holds channels */
-    _frame->reconstruct();
-    _frame->read(_fr);
+    _frame.reconstruct();
+    _frame.read(_fr);
     fprintf(stdout, "\t== FRAME HEADER ==\n");
-    _frame->print(stdout);
+    _frame.print(stdout);
     
     int ch;
     int samplesRead = 0;
     
-    FLAC_const chanType = _frame->getChannelType();
-    uint16_t blockSize = _frame->getBlockSize();
+    FLAC_const chanType = _frame.getChannelType();
+    uint16_t blockSize = _frame.getBlockSize();
     
-    for (ch = 0; ch < _frame->getNumChannels(); ch++){
-        _subframe->reconstruct();
-        _subframe->read(_fr);
+    for (ch = 0; ch < _frame.getNumChannels(); ch++){
+        _subframe.reconstruct();
+        _subframe.read(_fr);
         fprintf(stdout, "\t-- SUBFRAME HEADER --\n");
-        _subframe->print(stdout);
-        uint8_t bps = _frame->getSampleSize();
+        _subframe.print(stdout);
+        uint8_t bps = _frame.getSampleSize();
         
         switch (chanType){
             case CH_MID: //Mid side
@@ -206,39 +205,39 @@ int FLACDecoder::print_frame(){
                 break;
         }
         
-        switch (_subframe->getSubFrameType()){
+        switch (_subframe.getSubFrameType()){
             case SUB_CONSTANT:            
-                _c->reconstruct(bps, blockSize);
-                samplesRead += _c->read(_fr);
+                _c.reconstruct(bps, blockSize);
+                samplesRead += _c.read(_fr);
                 fprintf(stdout, "\t :: CONSTANT ::\n");
-                _c->print(stdout);
+                _c.print(stdout);
                 break;
             case SUB_VERBATIM:
-                _v->reconstruct(bps, blockSize);
-                samplesRead += _v->read(_fr);
+                _v.reconstruct(bps, blockSize);
+                samplesRead += _v.read(_fr);
                 fprintf(stdout, "\t :: VERBATIM ::\n");
-                _v->print(stdout);
+                _v.print(stdout);
                 break;
             case SUB_FIXED:
-                _f->reconstruct(bps, blockSize, _subframe->getFixedOrder());
-                samplesRead += _f->read(_fr);
+                _f.reconstruct(bps, blockSize, _subframe.getFixedOrder());
+                samplesRead += _f.read(_fr);
                 fprintf(stdout, "\t :: FIXED ::\n");
-                _f->print(stdout);
+                _f.print(stdout);
                 break;
             case SUB_LPC:
-                _l->reconstruct(bps, blockSize, _subframe->getLPCOrder());
-                samplesRead += _l->read(_fr);
+                _l.reconstruct(bps, blockSize, _subframe.getLPCOrder());
+                samplesRead += _l.read(_fr);
                 fprintf(stdout, "\t :: LPC ::\n");
-                _l->print(stdout);
+                _l.print(stdout);
                 break;
             case SUB_INVALID:
                 fprintf(stderr, "Invalid subframe type\n");
-                _fr->read_error();
+                _fr.read_error();
         }
     }
     
-    _frame->read_padding(_fr);
-    _frame->read_footer(_fr);
+    _frame.read_padding(_fr);
+    _frame.read_footer(_fr);
     
     return samplesRead;
 }

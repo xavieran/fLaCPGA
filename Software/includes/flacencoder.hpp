@@ -35,7 +35,7 @@ public:
     */
     
 private:
-    std::shared_ptr<BitWriter> _bw;
+    BitWriter _bw;
     uint64_t _samples;
     
 };

@@ -65,21 +65,21 @@ int main(int argc, char *argv[]){
         }
     }
     
-    FLACDecoder *flac_reader = new FLACDecoder(fin);
+    FLACDecoder flac_reader = FLACDecoder(fin);
     int32_t **buf = NULL;
     
     if (metadata){
         /* Print file header and metadata*/
-        flac_reader->print_meta();
+        flac_reader.print_meta();
     } else if (all_metadata){
-        flac_reader->print_all_metadata();
+        flac_reader.print_all_metadata();
         /* Print each frame... */
     } else if (print_pcm){
         /* Print the PCM values to stdout, interleaved */        
-        BitWriter *bw = new BitWriter(fout);
+        BitWriter bw = BitWriter(fout);
         /* First get flac stream info */
-        flac_reader->read_meta();
-        FLACMetaStreamInfo *info = flac_reader->getMetaData()->getStreamInfo();
+        flac_reader.read_meta();
+        FLACMetaStreamInfo *info = flac_reader.getMetaData().getStreamInfo();
         
         int channels = info->getNumChannels();
         int intraSamples = info->getTotalSamples();
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]){
         int64_t samples = 0;        
         int current_sample_size = 0;
         while (samples < intraSamples){
-            current_sample_size = flac_reader->read_frame(buf, 0) / channels;
+            current_sample_size = flac_reader.read_frame(buf, 0) / channels;
             samples += current_sample_size;
             for (int i = 0; i < current_sample_size; i++)
                 for (int ch = 0; ch < channels; ch++)
@@ -108,14 +108,14 @@ int main(int argc, char *argv[]){
         // TODO
     } else if (fout == NULL){
         /* Print file header and metadata*/
-        flac_reader->read_meta();
-        flac_reader->getMetaData()->print(stdout);
+        flac_reader.read_meta();
+        flac_reader.getMetaData().print(stdout);
     } else if (decode || !decode){ // Haha
         
-        BitWriter *bw = new BitWriter(fout);
+        BitWriter bw = BitWriter(fout);
         /* First get flac stream info */
-        flac_reader->read_meta();
-        FLACMetaStreamInfo *info = flac_reader->getMetaData()->getStreamInfo();
+        flac_reader.read_meta();
+        FLACMetaStreamInfo *info = flac_reader.getMetaData().getStreamInfo();
         
         int channels = info->getNumChannels();
         int intraSamples = info->getTotalSamples();
@@ -126,25 +126,25 @@ int main(int argc, char *argv[]){
             buf[ch] = (int32_t *)malloc(sizeof(int32_t)*intraSamples);
         
         /* Now set the WAVE file info and write it's header. */
-        WaveMetaData *meta = new WaveMetaData(channels, 44100, 16, 0);
-        WaveWriter * w = new WaveWriter(meta);
-        meta->write(bw);
+        WaveMetaData meta = WaveMetaData(channels, 44100, 16, 0);
+        WaveWriter w = WaveWriter(meta);
+        meta.write(bw);
         
         /* Now read and write a frame at a time */
         int64_t samples = 0;        
         int current_sample_size = 0;
         while (samples < intraSamples){
-            current_sample_size = flac_reader->read_frame(buf, 0) / channels;
-            w->write_data(bw, buf, current_sample_size);
+            current_sample_size = flac_reader.read_frame(buf, 0) / channels;
+            w.write_data(bw, buf, current_sample_size);
             samples += current_sample_size;
-            bw->flush();
+            bw.flush();
         }
         
         /* Now that we have the correct number of samples, we rewrite the header */
-        meta->setNumSamples(samples*channels);
-        bw->reset();
-        meta->write(bw);
-        bw->flush();
+        meta.setNumSamples(samples*channels);
+        bw.reset();
+        meta.write(bw);
+        bw.flush();
         
         for (int ch = 0; ch < channels; ch++)
             free(buf[ch]);

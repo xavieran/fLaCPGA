@@ -72,41 +72,41 @@ Metadata: %d\n", \
     _BitsPerSample, _Subchunk2ID, _Subchunk2Size, _metadata_size);
 }
 
-int WaveMetaData::read(std::shared_ptr<BitReader> fr){
+int WaveMetaData::read(BitReader& fr){
     
-    fr->read_chunk(_ChunkID, 4); // Might need to add terminating null...
-    fr->read_word_LE(&_ChunkSize);
-    fr->read_chunk(_Format, 4);
-    fr->read_chunk(_Subchunk1ID, 4);
-    fr->read_word_LE(&_Subchunk1Size);
-    fr->read_word_LE(&_AudioFormat);
-    fr->read_word_LE(&_NumChannels);
-    fr->read_word_LE(&_SampleRate);
-    fr->read_word_LE(&_ByteRate);
-    fr->read_word_LE(&_BlockAlign);
-    fr->read_word_LE(&_BitsPerSample);
-    fr->read_chunk(_Subchunk2ID, 4);
-    fr->read_word_LE(&_Subchunk2Size);
+    fr.read_chunk(_ChunkID, 4); // Might need to add terminating null...
+    fr.read_word_LE(&_ChunkSize);
+    fr.read_chunk(_Format, 4);
+    fr.read_chunk(_Subchunk1ID, 4);
+    fr.read_word_LE(&_Subchunk1Size);
+    fr.read_word_LE(&_AudioFormat);
+    fr.read_word_LE(&_NumChannels);
+    fr.read_word_LE(&_SampleRate);
+    fr.read_word_LE(&_ByteRate);
+    fr.read_word_LE(&_BlockAlign);
+    fr.read_word_LE(&_BitsPerSample);
+    fr.read_chunk(_Subchunk2ID, 4);
+    fr.read_word_LE(&_Subchunk2Size);
    
     /* FIXME: Add validation of above meta data here */
     return true;
 }
 
-int WaveMetaData::write(BitWriter *bw){
-    bw->write_chunk(_ChunkID, 4);
-    bw->write_word_LE(_ChunkSize);
-    bw->write_chunk(_Format, 4);
-    bw->write_chunk(_Subchunk1ID, 4);
-    bw->write_word_LE(_Subchunk1Size);
-    bw->write_word_LE(_AudioFormat);
-    bw->write_word_LE(_NumChannels);
-    bw->write_word_LE(_SampleRate);
-    bw->write_word_LE(_ByteRate);
-    bw->write_word_LE(_BlockAlign);
-    bw->write_word_LE(_BitsPerSample);
-    bw->write_chunk(_Subchunk2ID, 4);
-    bw->write_word_LE(_Subchunk2Size);
-    bw->flush();
+int WaveMetaData::write(BitWriter& bw){
+    bw.write_chunk(_ChunkID, 4);
+    bw.write_word_LE(_ChunkSize);
+    bw.write_chunk(_Format, 4);
+    bw.write_chunk(_Subchunk1ID, 4);
+    bw.write_word_LE(_Subchunk1Size);
+    bw.write_word_LE(_AudioFormat);
+    bw.write_word_LE(_NumChannels);
+    bw.write_word_LE(_SampleRate);
+    bw.write_word_LE(_ByteRate);
+    bw.write_word_LE(_BlockAlign);
+    bw.write_word_LE(_BitsPerSample);
+    bw.write_chunk(_Subchunk2ID, 4);
+    bw.write_word_LE(_Subchunk2Size);
+    bw.flush();
     
     return true; /* FIXME: Error checking */
 }
@@ -129,59 +129,61 @@ uint16_t WaveMetaData::getNumChannels(){
     return _NumChannels;
 }
 
-WaveReader::WaveReader(){
-    _meta = new WaveMetaData();
-    _samplesRead = 0;
-}
+WaveReader::WaveReader()
+    :
+    _meta{},
+    _samplesRead{0}
+{}
 
-WaveMetaData *WaveReader::getMetaData(){
+WaveMetaData& WaveReader::getMetaData(){
     return _meta;
 }
 
 uint64_t WaveReader::getSamplesLeft(){
-    return this->_meta->getNumSamples() - _samplesRead;
+    return _meta.getNumSamples() - _samplesRead;
 }
 
-int WaveReader::read_metadata(std::shared_ptr<BitReader> fr){
-    return _meta->read(fr);
+int WaveReader::read_metadata(BitReader& fr){
+    return _meta.read(fr);
 }
 
-int WaveReader::read_data(std::shared_ptr<BitReader> fr, int16_t *pcm, uint64_t samples){
+int WaveReader::read_data(BitReader& fr, int16_t *pcm, uint64_t samples){
     /* Fill pcm with samples of data... */
     if (samples > getSamplesLeft()){
-        _samplesRead = _meta->getNumSamples();
-        return fr->read_words_LE_aligned(pcm, getSamplesLeft());
+        _samplesRead = _meta.getNumSamples();
+        return fr.read_words_LE_aligned(pcm, getSamplesLeft());
     } else {
         samples += _samplesRead;
-        return fr->read_words_LE_aligned(pcm, samples);
+        return fr.read_words_LE_aligned(pcm, samples);
     }
 }
 
-WaveWriter::WaveWriter(WaveMetaData *meta){
-    _meta = meta;
-}
+WaveWriter::WaveWriter(WaveMetaData& meta)
+    :
+    _meta{meta}
+{}
 
-int WaveWriter::write(BitWriter *bw, int32_t **pcm){
+int WaveWriter::write(BitWriter& bw, int32_t **pcm){
     this->write_metadata(bw);
     /* We assume that the num samples in pcm is same as in meta... */
-    return write_data(bw, pcm, _meta->getNumSamples());
+    return write_data(bw, pcm, _meta.getNumSamples());
 }
-int WaveWriter::write_metadata(BitWriter *bw){
-    return _meta->write(bw);
+int WaveWriter::write_metadata(BitWriter& bw){
+    return _meta.write(bw);
 }
 
 /* Samples is the number of samples per channel...*/
-int WaveWriter::write_data(BitWriter *bw, int32_t **pcm, uint64_t samples){
+int WaveWriter::write_data(BitWriter& bw, int32_t **pcm, uint64_t samples){
     /* Expect multiple channels and we will interleave them. */
     unsigned i, ch;
     for (i = 0; i < samples; i++)
-        for (ch = 0; ch < _meta->getNumChannels(); ch++)
+        for (ch = 0; ch < _meta.getNumChannels(); ch++)
             //printf("ch: %d i: %d v: %d\n", ch, i, (int16_t)pcm[ch][i]);
-            bw->write_word_LE((int16_t)pcm[ch][i]);
+            bw.write_word_LE((int16_t)pcm[ch][i]);
     return true; /* FIXME: Erro rching */
 }
 
-WaveMetaData *WaveWriter::getMetaData(){
+WaveMetaData& WaveWriter::getMetaData(){
     return _meta;
 }
 

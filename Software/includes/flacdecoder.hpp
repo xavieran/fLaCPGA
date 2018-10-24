@@ -20,7 +20,7 @@
 class FLACDecoder {
 public:
     FLACDecoder(std::shared_ptr<std::fstream> f);
-    FLACMetaData *getMetaData();
+    FLACMetaData& getMetaData();
     
     int read(int32_t ***pcm_buf);
     int read_meta();
@@ -31,15 +31,15 @@ public:
     int print_frame();
     
 private:
-    std::shared_ptr<BitReader> _fr;
-    FLACMetaData *_meta;
-    FLACFrameHeader *_frame;
-    FLACSubFrameHeader *_subframe;
+    BitReader _fr;
+    FLACMetaData _meta;
+    FLACFrameHeader _frame;
+    FLACSubFrameHeader _subframe;
     
-    FLACSubFrameConstant *_c;
-    FLACSubFrameVerbatim *_v;
-    FLACSubFrameFixed *_f;
-    FLACSubFrameLPC *_l;
+    FLACSubFrameConstant _c;
+    FLACSubFrameVerbatim _v;
+    FLACSubFrameFixed _f;
+    FLACSubFrameLPC _l;
     
     
     void process_channels(int32_t **channels, uint64_t offset, \

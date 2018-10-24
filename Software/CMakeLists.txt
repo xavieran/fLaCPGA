@@ -61,12 +61,12 @@ set(CMAKE_CXX_FLAGS "-g -fstack-protector-all  -Og -std=c++14 -Wall -Wno-unused-
 # target_link_libraries(../tests/generate_residual)
 
 
-# 
-# add_executable (read_wav src/read_wav.cpp ${BIT_IO_SRC} ${BIT_IO_INC} ${WAVE_SRC} ${WAVE_INC})
-# add_executable (flacd src/flacd.cpp ${FLAC_DECODER_SOURCES} ${FLAC_DECODER_INCLUDES})
-# 
-# add_executable (flace src/flace.cpp ${FLAC_ENCODER_SOURCES} ${FLAC_ENCODER_INCLUDES})
+ 
+ add_executable (read_wav src/read_wav.cpp ${BIT_IO_SRC} ${BIT_IO_INC} ${WAVE_SRC} ${WAVE_INC})
+ add_executable (flacd src/flacd.cpp ${FLAC_DECODER_SOURCES} ${FLAC_DECODER_INCLUDES})
+ 
+ add_executable (flace src/flace.cpp ${FLAC_ENCODER_SOURCES} ${FLAC_ENCODER_INCLUDES})
 
 
 
-CUDA_ADD_EXECUTABLE(cuda_flac src/cuda_flac.cu src/kernels.cu ${FLAC_DECODER_SOURCES} ${FLAC_DECODER_INCLUDES})
+ #CUDA_ADD_EXECUTABLE(cuda_flac src/cuda_flac.cu src/kernels.cu ${FLAC_DECODER_SOURCES} ${FLAC_DECODER_INCLUDES})

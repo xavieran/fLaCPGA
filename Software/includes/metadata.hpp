@@ -26,7 +26,7 @@ public:
     int getBlockType();
     int getBlockLength();
     void print(FILE *f);
-    int read(std::shared_ptr<BitReader> fr);
+    int read(BitReader& fr);
     int write(FILE *f);
 private:
     uint8_t _lastBlock;
@@ -48,7 +48,7 @@ public:
         _header = h;
     }
     
-    virtual int read(std::shared_ptr<BitReader> fr) = 0;
+    virtual int read(BitReader& fr) = 0;
     virtual void print(FILE *f) = 0;
     
 private:
@@ -96,8 +96,8 @@ public:
     void setTotalSamples(uint64_t samples);
     
     void print(FILE *f);
-    int read(std::shared_ptr<BitReader> fr);
-    bool write(std::shared_ptr<BitWriter> bw);
+    int read(BitReader& fr);
+    bool write(BitWriter& bw);
     
 }; 
 /****************************************************/
@@ -110,7 +110,7 @@ private:
 public:
     FLACMetaBlockOther();
     void print(FILE *f);
-    int read(std::shared_ptr<BitReader> fr);
+    int read(BitReader& fr);
     int write(FILE *f);
 };
 
@@ -125,7 +125,7 @@ private:
 public:
     FLACMetaData();
     void print(FILE *f);
-    int read(std::shared_ptr<BitReader> fr);
+    int read(BitReader& fr);
     int write(FILE *f);
     int addBlock(FLACMetaDataBlock *b);
     FLACMetaStreamInfo * getStreamInfo();
