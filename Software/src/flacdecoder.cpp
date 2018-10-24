@@ -2,101 +2,96 @@
  * FLACDecoder class               *
  **********************************/
 
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include <vector>
 #include <memory>
+#include <vector>
 
-#include "frames.hpp"
-#include "subframes.hpp"
-#include "metadata.hpp"
 #include "constants.hpp"
+#include "frames.hpp"
+#include "metadata.hpp"
+#include "subframes.hpp"
 
 #include "bitreader.hpp"
 #include "flacdecoder.hpp"
 
-
 FLACDecoder::FLACDecoder(std::shared_ptr<std::fstream> f)
-    :
-    _fr{BitReader{f}},
-    _meta{FLACMetaData{}},
-    _frame{FLACFrameHeader{}},
-    _subframe{FLACSubFrameHeader{}},
-    _c{FLACSubFrameConstant{}},
-    _v{FLACSubFrameVerbatim{}},
-    _f{FLACSubFrameFixed{}},
-    _l{FLACSubFrameLPC{}}
-{}
+    : _fr{BitReader{f}},
+      _meta{FLACMetaData{}},
+      _frame{FLACFrameHeader{}},
+      _subframe{FLACSubFrameHeader{}},
+      _c{FLACSubFrameConstant{}},
+      _v{FLACSubFrameVerbatim{}},
+      _f{FLACSubFrameFixed{}},
+      _l{FLACSubFrameLPC{}} {}
 
-FLACMetaData& FLACDecoder::getMetaData(){
-    return _meta;
-}
+FLACMetaData &FLACDecoder::getMetaData() { return _meta; }
 
-
-int FLACDecoder::read(int32_t ***pcm_buf){
+int FLACDecoder::read(int32_t ***pcm_buf) {
     read_meta();
-    
+
     int numChannels = _meta.getStreamInfo()->getNumChannels();
     int intraSamples = _meta.getStreamInfo()->getTotalSamples();
     int totalInterSamples = intraSamples * numChannels;
     int samplesRead = 0;
     int samplesFrame = 0;
-    
-    (*pcm_buf) = (int32_t **)malloc(sizeof(int32_t *)*numChannels);
-    
+
+    (*pcm_buf) = (int32_t **)malloc(sizeof(int32_t *) * numChannels);
+
     for (int ch = 0; ch < numChannels; ch++)
-        (*pcm_buf)[ch] = (int32_t *)malloc(sizeof(int32_t)*intraSamples);
-    
-    while (samplesRead < intraSamples){
+        (*pcm_buf)[ch] = (int32_t *)malloc(sizeof(int32_t) * intraSamples);
+
+    while (samplesRead < intraSamples) {
         samplesFrame = read_frame(*pcm_buf, samplesRead) / numChannels;
         samplesRead += samplesFrame;
     }
-    
-    fprintf(stderr, "Wanted: %d  -- diff : %d\n", totalInterSamples, totalInterSamples - samplesRead);
-    
+
+    fprintf(stderr, "Wanted: %d  -- diff : %d\n", totalInterSamples,
+            totalInterSamples - samplesRead);
+
     return samplesRead; /* This will be the intrasample count */
 }
 
-int FLACDecoder::read_meta(){
+int FLACDecoder::read_meta() {
     _meta.read(_fr);
     return 1;
 }
 
-int FLACDecoder::read_frame(int32_t **data, uint64_t offset){
+int FLACDecoder::read_frame(int32_t **data, uint64_t offset) {
     /* Read frame into data. Data holds channels */
     _frame.reconstruct();
     _frame.read(_fr);
-    //fprintf(stdout, "--FRAME HEADER\n");
+    // fprintf(stdout, "--FRAME HEADER\n");
     //_frame.print(stdout);
-    
+
     int ch;
     int samplesRead = 0;
-    
+
     FLAC_const chanType = _frame.getChannelType();
     uint16_t blockSize = _frame.getBlockSize();
-    
-    for (ch = 0; ch < _frame.getNumChannels(); ch++){
+
+    for (ch = 0; ch < _frame.getNumChannels(); ch++) {
         _subframe.reconstruct();
         _subframe.read(_fr);
-        //fprintf(stderr, "----SUBFRAME HEADER\n");
+        // fprintf(stderr, "----SUBFRAME HEADER\n");
         //_subframe.print(stderr);
         uint8_t bps = _frame.getSampleSize();
-        
-        switch (chanType){
-            case CH_MID: //Mid side
-            case CH_LEFT: //Left Side
+
+        switch (chanType) {
+            case CH_MID:   // Mid side
+            case CH_LEFT:  // Left Side
                 if (ch == 1) bps++;
                 break;
-            case CH_RIGHT: // Right side
+            case CH_RIGHT:  // Right side
                 if (ch == 0) bps++;
                 break;
         }
-        
-        switch (_subframe.getSubFrameType()){
-            case SUB_CONSTANT:            
+
+        switch (_subframe.getSubFrameType()) {
+            case SUB_CONSTANT:
                 _c.reconstruct(bps, blockSize);
                 samplesRead += _c.read(_fr, data[ch] + offset);
                 break;
@@ -120,27 +115,27 @@ int FLACDecoder::read_frame(int32_t **data, uint64_t offset){
             printf("%d\n",data[i]);
         }*/
     }
-    
+
     process_channels(data, offset, blockSize, chanType);
-    
+
     _frame.read_padding(_fr);
     _frame.read_footer(_fr);
-    
+
     return samplesRead;
 }
 
-void FLACDecoder::process_channels(int32_t **channels, uint64_t offset, \
-                                 uint32_t samples, FLAC_const chanType){
+void FLACDecoder::process_channels(int32_t **channels, uint64_t offset,
+                                   uint32_t samples, FLAC_const chanType) {
     int32_t mid, side;
-    switch (chanType){
+    switch (chanType) {
         case CH_MID:
-            for (unsigned i = offset; i < samples + offset; i++){
+            for (unsigned i = offset; i < samples + offset; i++) {
                 mid = channels[0][i];
                 side = channels[1][i];
                 mid *= 2;
                 mid |= (side & 1);
-                channels[0][i] = (mid + side)/2;
-                channels[1][i] = (mid + side)/2;
+                channels[0][i] = (mid + side) / 2;
+                channels[1][i] = (mid + side) / 2;
             }
             break;
         case CH_LEFT:
@@ -154,59 +149,59 @@ void FLACDecoder::process_channels(int32_t **channels, uint64_t offset, \
     }
 }
 
-void FLACDecoder::print_all_metadata(){
+void FLACDecoder::print_all_metadata() {
     print_meta();
-    
+
     int numChannels = _meta.getStreamInfo()->getNumChannels();
     uint64_t intraSamples = _meta.getStreamInfo()->getTotalSamples();
     uint64_t totalInterSamples = intraSamples * numChannels;
     int samplesRead = 0;
     int samplesFrame = 0;
-    
-    while (samplesRead < intraSamples){
+
+    while (samplesRead < intraSamples) {
         samplesFrame = print_frame() / numChannels;
         samplesRead += samplesFrame;
     }
 }
 
-void FLACDecoder::print_meta(){
+void FLACDecoder::print_meta() {
     read_meta();
     _meta.getStreamInfo()->print(stdout);
     _meta.print(stdout);
 }
 
-int FLACDecoder::print_frame(){
+int FLACDecoder::print_frame() {
     /* Read frame into data. Data holds channels */
     _frame.reconstruct();
     _frame.read(_fr);
     fprintf(stdout, "\t== FRAME HEADER ==\n");
     _frame.print(stdout);
-    
+
     int ch;
     int samplesRead = 0;
-    
+
     FLAC_const chanType = _frame.getChannelType();
     uint16_t blockSize = _frame.getBlockSize();
-    
-    for (ch = 0; ch < _frame.getNumChannels(); ch++){
+
+    for (ch = 0; ch < _frame.getNumChannels(); ch++) {
         _subframe.reconstruct();
         _subframe.read(_fr);
         fprintf(stdout, "\t-- SUBFRAME HEADER --\n");
         _subframe.print(stdout);
         uint8_t bps = _frame.getSampleSize();
-        
-        switch (chanType){
-            case CH_MID: //Mid side
-            case CH_LEFT: //Left Side
+
+        switch (chanType) {
+            case CH_MID:   // Mid side
+            case CH_LEFT:  // Left Side
                 if (ch == 1) bps++;
                 break;
-            case CH_RIGHT: // Right side
+            case CH_RIGHT:  // Right side
                 if (ch == 0) bps++;
                 break;
         }
-        
-        switch (_subframe.getSubFrameType()){
-            case SUB_CONSTANT:            
+
+        switch (_subframe.getSubFrameType()) {
+            case SUB_CONSTANT:
                 _c.reconstruct(bps, blockSize);
                 samplesRead += _c.read(_fr);
                 fprintf(stdout, "\t :: CONSTANT ::\n");
@@ -235,9 +230,9 @@ int FLACDecoder::print_frame(){
                 _fr.read_error();
         }
     }
-    
+
     _frame.read_padding(_fr);
     _frame.read_footer(_fr);
-    
+
     return samplesRead;
 }

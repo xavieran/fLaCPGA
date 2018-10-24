@@ -12,10 +12,11 @@ class FLAC_CRC {
 
     static unsigned crc16_table[256];
 
-public:
+   public:
     static void crc8_update(const uint8_t data, uint8_t *crc);
 
-    static void crc8_update_block(const uint8_t *data, unsigned len, uint8_t *crc);
+    static void crc8_update_block(const uint8_t *data, unsigned len,
+                                  uint8_t *crc);
 
     static uint8_t crc8(uint8_t *data, unsigned len);
 
