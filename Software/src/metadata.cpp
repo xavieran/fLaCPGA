@@ -20,8 +20,7 @@
 /******* Holds all Metadata ****************/
 /******************************************/
 
-FLACMetaData::FLACMetaData() {
-    _metadata = new std::vector<FLACMetaDataBlock *>();
+FLACMetaData::FLACMetaData() : _metadata{} {
 }
 
 void FLACMetaData::print(FILE *f) {
@@ -38,7 +37,8 @@ int FLACMetaData::read(BitReader &fr) {
     FLACMetaDataBlock *temp = (FLACMetaDataBlock *)s;
 
     fr.read_chunk(buffer, 4);
-    if (memcmp(buffer, "fLaC", 4)) fr.read_error();
+    if (memcmp(buffer, "fLaC", 4))
+        fr.read_error();
 
     s->read(fr);
 
@@ -73,24 +73,31 @@ int FLACMetaBlockHeader::read(BitReader &fr) {
     fr.read_bits(&_blockType, 7);
     fr.read_bits(&_blockLength, 24);
 
-    return 1;  // Add error handling
+    return 1; // Add error handling
 }
 
 void FLACMetaBlockHeader::print(FILE *f) {
-    fprintf(f,
-            "Type: %d\n\
+    fprintf(f, "Type: %d\n\
 Length: %d\n\
 Last Block? %d\n\n",
             _blockType, _blockLength, _lastBlock);
 }
 
-int FLACMetaBlockHeader::write(FILE *f) { return 1; }
+int FLACMetaBlockHeader::write(FILE *f) {
+    return 1;
+}
 
-int FLACMetaBlockHeader::isLast() { return _lastBlock; }
+int FLACMetaBlockHeader::isLast() {
+    return _lastBlock;
+}
 
-int FLACMetaBlockHeader::getBlockType() { return _blockType; }
+int FLACMetaBlockHeader::getBlockType() {
+    return _blockType;
+}
 
-int FLACMetaBlockHeader::getBlockLength() { return _blockLength; }
+int FLACMetaBlockHeader::getBlockLength() {
+    return _blockLength;
+}
 
 /********************************************/
 /************** STREAMINFO *******************/
@@ -111,8 +118,7 @@ FLACMetaStreamInfo::FLACMetaStreamInfo() {
 
 void FLACMetaStreamInfo::print(FILE *f) {
     this->getHeader()->print(f);
-    fprintf(f,
-            "\
+    fprintf(f, "\
     minBlockSize: %d\n\
     maxBlockSize: %d\n\
     minFrameSize: %d\n\
@@ -121,8 +127,8 @@ void FLACMetaStreamInfo::print(FILE *f) {
     numChannels: %d\n\
     bitsPerSample: %d\n\
     totalSamples: %ld\n\n",
-            _minBlockSize, _maxBlockSize, _minFrameSize, _maxFrameSize,
-            _sampleRate, _numChannels, _bitsPerSample, _totalSamples);
+            _minBlockSize, _maxBlockSize, _minFrameSize, _maxFrameSize, _sampleRate, _numChannels, _bitsPerSample,
+            _totalSamples);
 }
 
 int FLACMetaStreamInfo::read(BitReader &fr) {
@@ -147,35 +153,41 @@ int FLACMetaStreamInfo::read(BitReader &fr) {
     return 1;
 }
 
-uint64_t FLACMetaStreamInfo::getTotalSamples() { return _totalSamples; }
+uint64_t FLACMetaStreamInfo::getTotalSamples() {
+    return _totalSamples;
+}
 
-uint8_t FLACMetaStreamInfo::getNumChannels() { return _numChannels; }
+uint8_t FLACMetaStreamInfo::getNumChannels() {
+    return _numChannels;
+}
 
-uint16_t FLACMetaStreamInfo::getMaxBlockSize() { return _maxBlockSize; }
+uint16_t FLACMetaStreamInfo::getMaxBlockSize() {
+    return _maxBlockSize;
+}
 
 void FLACMetaStreamInfo::setTotalSamples(uint64_t samples) {
     _totalSamples = samples;
 }
 
 bool FLACMetaStreamInfo::write(BitWriter &bw) {
-    bw.write_bits(0x66, 8);  // f
-    bw.write_bits(0x4c, 8);  // L
-    bw.write_bits(0x61, 8);  // a
-    bw.write_bits(0x43, 8);  // C
+    bw.write_bits(0x66, 8); // f
+    bw.write_bits(0x4c, 8); // L
+    bw.write_bits(0x61, 8); // a
+    bw.write_bits(0x43, 8); // C
 
     /* Metadata header */
-    bw.write_bits(1, 1);    // Last block before audio starts
-    bw.write_bits(0, 7);    // STREAMINFO block
-    bw.write_bits(34, 24);  // 34 bytes to follow
+    bw.write_bits(1, 1);   // Last block before audio starts
+    bw.write_bits(0, 7);   // STREAMINFO block
+    bw.write_bits(34, 24); // 34 bytes to follow
 
     /* STREAMINFO Block */
     bw.write_bits(4096, 16);
     bw.write_bits(4096, 16);
-    bw.write_bits(0, 24);      // Unknown
-    bw.write_bits(0, 24);      // Unknown
-    bw.write_bits(44100, 20);  // 44.1kHz
-    bw.write_bits(0, 3);       // Stick with 1 channel for now
-    bw.write_bits(15, 5);      // 16 - 1 = 15
+    bw.write_bits(0, 24);     // Unknown
+    bw.write_bits(0, 24);     // Unknown
+    bw.write_bits(44100, 20); // 44.1kHz
+    bw.write_bits(0, 3);      // Stick with 1 channel for now
+    bw.write_bits(15, 5);     // 16 - 1 = 15
     // bw.write_bits(_totalSamples, 36); // Unknown for now
 
     /* should not have to split up these writes... oh well */
@@ -183,7 +195,7 @@ bool FLACMetaStreamInfo::write(BitWriter &bw) {
     bw.write_bits((_totalSamples & 0xffff0000) >> 16, 16);
     bw.write_bits(_totalSamples & 0xffff, 16);
 
-    bw.write_bits(0, 64);  // Ignore MD5
+    bw.write_bits(0, 64); // Ignore MD5
     bw.write_bits(0, 64);
 
     return true;
@@ -193,7 +205,9 @@ bool FLACMetaStreamInfo::write(BitWriter &bw) {
 /************** OTHER METABLOCKS *******************/
 /**************************************************/
 
-FLACMetaBlockOther::FLACMetaBlockOther() { ; }
+FLACMetaBlockOther::FLACMetaBlockOther() {
+    ;
+}
 
 int FLACMetaBlockOther::read(BitReader &fr) {
     FLACMetaBlockHeader *h = new FLACMetaBlockHeader();
@@ -205,8 +219,12 @@ int FLACMetaBlockOther::read(BitReader &fr) {
     return 1;
 }
 
-void FLACMetaBlockOther::print(FILE *f) { this->getHeader()->print(f); }
+void FLACMetaBlockOther::print(FILE *f) {
+    this->getHeader()->print(f);
+}
 
-FLACMetaStreamInfo *FLACMetaData::getStreamInfo() { return _streaminfo; }
+FLACMetaStreamInfo *FLACMetaData::getStreamInfo() {
+    return _streaminfo;
+}
 
 #endif

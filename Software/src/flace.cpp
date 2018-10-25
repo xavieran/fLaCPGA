@@ -14,8 +14,7 @@
 #include "wavereader.hpp"
 
 void exit_with_help(char *argv[]) {
-    fprintf(stderr, "usage: %s [ OPTIONS ] infile.flac [outfile.wav]\n",
-            argv[0]);
+    fprintf(stderr, "usage: %s [ OPTIONS ] infile.wav [outfile.flac]\n", argv[0]);
     fprintf(stderr, "  -f : Use fixed frames\n");
     fprintf(stderr, "  -v : Encode verbatim (no compression)\n");
     fprintf(stderr, "  -s=order : Encode single frame with order given\n");
@@ -26,38 +25,40 @@ int main(int argc, char *argv[]) {
     int opt = 0, fixed = 0, verbatim = 0, single = 0, encode = 0;
     int order = 0;
     int print_residuals = 0;
-    while ((opt = getopt(argc, argv, "fvs:")) != EOF) switch (opt) {
-            case 'f':
-                fixed = 1;
-                encode = 1;
-                break;
-            case 'v':
+
+    while ((opt = getopt(argc, argv, "fvs:")) != EOF)
+        switch (opt) {
+        case 'f':
+            fixed = 1;
+            encode = 1;
+            break;
+        case 'v':
+            verbatim = 1;
+            encode = 1;
+            break;
+        case 's':
+            single = 1;
+            encode = 1;
+            std::cerr << "OPTARG::: " << optarg << "\n";
+            if (strcmp(optarg, "v") == 0)
                 verbatim = 1;
-                encode = 1;
-                break;
-            case 's':
-                single = 1;
-                encode = 1;
-                std::cerr << "OPTARG::: " << optarg << "\n";
-                if (strcmp(optarg, "v") == 0)
-                    verbatim = 1;
-                else
-                    order = atoi(optarg);
-                break;
-            case 'h':
-            case '?':
-            default:
-                exit_with_help(argv);
+            else
+                order = atoi(optarg);
+            break;
+        case 'h':
+        case '?':
+        default:
+            exit_with_help(argv);
         }
 
     std::shared_ptr<std::fstream> fin;
     std::shared_ptr<std::fstream> fout;
 
-    if (optind == 1) exit_with_help(argv);
+    if (optind == 1)
+        exit_with_help(argv);
 
     if (optind < argc) {
-        fin = std::make_shared<std::fstream>(argv[optind],
-                                             std::ios::in | std::ios::binary);
+        fin = std::make_shared<std::fstream>(argv[optind], std::ios::in | std::ios::binary);
         if (fin->fail()) {
             fprintf(stderr, "ERROR: opening %s for input\n", argv[optind]);
             return 1;
@@ -65,15 +66,14 @@ int main(int argc, char *argv[]) {
     }
 
     if (encode) {
-        fout = std::make_shared<std::fstream>(argv[optind + 1],
-                                              std::ios::out | std::ios::binary);
+        fout = std::make_shared<std::fstream>(argv[optind + 1], std::ios::out | std::ios::binary);
         if (fout->fail()) {
             fprintf(stderr, "ERROR: opening %s for output\n", argv[optind + 1]);
             return 1;
         }
     }
 
-    auto fr = BitReader(fin);
+    BitReader fr = BitReader(fin);
     WaveReader wr = WaveReader();
     wr.read_metadata(fr);
     auto &meta = wr.getMetaData();
@@ -84,7 +84,6 @@ int main(int argc, char *argv[]) {
     int16_t pcm[spb];
     int32_t pcm32[spb];
     unsigned i;
-
     if (fixed) {
         fprintf(stdout, "%ld samples to encode\n", meta.getNumSamples());
         auto fe = FLACEncoder(fout);
@@ -124,4 +123,5 @@ int main(int argc, char *argv[]) {
             fe.write_frame_fixed(pcm32, 4096, order, 0);
         }
     }
+    return 0;
 }

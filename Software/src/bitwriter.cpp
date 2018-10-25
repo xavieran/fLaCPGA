@@ -26,9 +26,13 @@ void BitWriter::write_error() {
     exit(1);
 }
 
-int BitWriter::bytes_left() { return BUFFER_SIZE - (_curr_byte - _buffer); }
+int BitWriter::bytes_left() {
+    return BUFFER_SIZE - (_curr_byte - _buffer);
+}
 
-int BitWriter::is_byte_aligned() { return _bitp % 8 == 0; }
+int BitWriter::is_byte_aligned() {
+    return _bitp % 8 == 0;
+}
 
 int BitWriter::write_buffer() {
     assert(is_byte_aligned() == 1);
@@ -36,7 +40,7 @@ int BitWriter::write_buffer() {
     // _curr_byte[-1], _curr_byte[0]);
     // fprintf(stderr, "Bitp: %d Bytes: %d\n", _bitp, _curr_byte - _buffer);
     int bytes_to_write = _curr_byte - _buffer;
-    _fout->write((char *)_buffer, bytes_to_write);  // Not a fan of this cast
+    _fout->write((char *)_buffer, bytes_to_write); // Not a fan of this cast
     _fout->flush();
     _curr_byte = _buffer;
     _bitp = 0;
@@ -59,7 +63,7 @@ int BitWriter::write_bits(uint64_t data, uint8_t bits) {
     while (bits != 0) {
         blib = 8 - (_bitp % 8);
         if (blib == 8 && this->bytes_left() == 0)
-            this->write_buffer();  // Check for EOF
+            this->write_buffer(); // Check for EOF
 
         // fprintf(stderr, "Bytes Left: %d Current Byte: %d \n", bytes_left(),
         // (_curr_byte - _buffer));
@@ -68,9 +72,10 @@ int BitWriter::write_bits(uint64_t data, uint8_t bits) {
             (*_curr_byte) |= ((1 << bits) - 1) & data;
             _bitp += bits;
             // If we have thus filled the buffer, increase _curr_byte
-            if (_bitp % 8 == 0) _curr_byte++;
+            if (_bitp % 8 == 0)
+                _curr_byte++;
             bits = 0;
-        } else {  // Bits do not fit in one byte
+        } else { // Bits do not fit in one byte
             (*_curr_byte) <<= blib;
             (*_curr_byte) |= ((1 << bits) - 1) & (data >> (bits - blib));
             bits -= blib;
@@ -109,13 +114,12 @@ int BitWriter::write_rice(int32_t data, unsigned rice_param) {
 
     // printf("data: 0x%x ", data);
     uval = data;
-    uval <<= 1;            // Shift signed value over by one
-    uval ^= (data >> 31);  // xor the unsigned value with the sign bit of data
+    uval <<= 1;           // Shift signed value over by one
+    uval ^= (data >> 31); // xor the unsigned value with the sign bit of data
     // printf("uval: 0x%x ", uval);
 
     msbs = uval >> rice_param;
-    lsbs = uval & ((1 << rice_param) -
-                   1);  // LSBs are the last rice_param number of bits
+    lsbs = uval & ((1 << rice_param) - 1); // LSBs are the last rice_param number of bits
 
     /// fprintf(stderr, "val: %d rp: %d msbs: %d lsbs: 0x%x\n", data,
     /// rice_param, msbs, lsbs);
@@ -129,14 +133,14 @@ int BitWriter::write_rice(int32_t data, unsigned rice_param) {
     return 1;
 }
 
-int BitWriter::write_residual(int32_t *data, int block_size, int pred_order,
-                              uint8_t coding_method,
+int BitWriter::write_residual(int32_t *data, int block_size, int pred_order, uint8_t coding_method,
                               std::vector<uint8_t> &part_rice_params) {
     uint64_t nsamples = 0;
     uint8_t part_order = 0;
 
     int x = part_rice_params.size();
-    for (; x > 0; part_order++) x >>= 1;
+    for (; x > 0; part_order++)
+        x >>= 1;
     part_order--;
 
     write_bits(coding_method, 2);
@@ -152,16 +156,14 @@ int BitWriter::write_residual(int32_t *data, int block_size, int pred_order,
             nsamples = block_size / (1 << part_order);
         else
             nsamples = block_size / (1 << part_order) - pred_order;
-        s += write_rice_partition(data, nsamples, coding_method,
-                                  part_rice_params.at(i));
+        s += write_rice_partition(data, nsamples, coding_method, part_rice_params.at(i));
 
         data += nsamples; /* Move pointer forward... */
     }
     return s;
 }
 
-int BitWriter::write_rice_partition(int32_t *data, uint64_t nsamples,
-                                    int extended, uint8_t rice_param) {
+int BitWriter::write_rice_partition(int32_t *data, uint64_t nsamples, int extended, uint8_t rice_param) {
     // It would be nice for this to vary, but I'll stick with supporting 16 bit
     // FLAC for now
     uint8_t bps = 16;
@@ -169,17 +171,21 @@ int BitWriter::write_rice_partition(int32_t *data, uint64_t nsamples,
     unsigned i;
     write_bits(rice_param, param_bits);
 
-    if (rice_param == 0xF || rice_param == 0x1F) write_bits(bps, 5);
+    if (rice_param == 0xF || rice_param == 0x1F)
+        write_bits(bps, 5);
 
     if (rice_param == 0xF || rice_param == 0x1F)
         for (i = 0; i < nsamples; i++) /* Read a chunk */
             write_bits(*(data + i), bps);
     else
-        for (i = 0; i < nsamples; i++) write_rice(*(data + i), rice_param);
+        for (i = 0; i < nsamples; i++)
+            write_rice(*(data + i), rice_param);
     return i;
 }
 
-void BitWriter::mark_frame_start() { _frame_start = _curr_byte; }
+void BitWriter::mark_frame_start() {
+    _frame_start = _curr_byte;
+}
 
 uint8_t BitWriter::calc_crc8() {
     return FLAC_CRC::crc8(_frame_start, (unsigned)(_curr_byte - _frame_start));
@@ -192,7 +198,7 @@ uint16_t BitWriter::calc_crc16() {
 void BitWriter::write_padding() {
     // fprintf(stderr, "Writing padding: bitp: %d curr: %d\n", _bitp, _curr_byte
     // - _buffer);
-    if (!is_byte_aligned()) {  // Not byte aligned
+    if (!is_byte_aligned()) { // Not byte aligned
         _bitp += (8 - _bitp % 8);
         _curr_byte++; /* FIXME: Should do bounds checking here... */
     }

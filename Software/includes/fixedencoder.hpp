@@ -18,10 +18,10 @@
 #include "bitwriter.hpp"
 
 class FixedEncoder {
-   public:
-    static int calc_best_order(int32_t data[], int samples);
-    static void calc_residuals(int32_t *data, int32_t *residuals, int samples,
-                               int order);
+public:
+  static int calc_best_order(int32_t data[], int samples);
+  static void calc_residuals(int32_t *data, int32_t *residuals, int samples,
+                             int order);
 };
 
 #endif

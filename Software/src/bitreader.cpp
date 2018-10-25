@@ -12,11 +12,8 @@
 #include <iostream>
 #include <memory>
 
-BitReader::BitReader(std::shared_ptr<std::fstream> f) {
-    _fin = f;
-    _bitp = 0;
-    _curr_byte = _buffer + BUFFER_SIZE;
-    _eof = 0;
+BitReader::BitReader(std::shared_ptr<std::fstream> f)
+    : _fin{f}, _bitp{0}, _curr_byte{_buffer + BUFFER_SIZE}, _frame_header{}, _frame_start{NULL}, _buffer{}, _eof{0} {
 }
 
 int BitReader::read_error() {
@@ -33,15 +30,21 @@ int BitReader::reset_file() {
     return 1;
 }
 
-uint64_t BitReader::get_current_bit() { return _bitp; }
+uint64_t BitReader::get_current_bit() {
+    return _bitp;
+}
 
-uint64_t BitReader::get_current_byte() { return _curr_byte - _buffer; }
+uint64_t BitReader::get_current_byte() {
+    return _curr_byte - _buffer;
+}
 
-int BitReader::bytes_left() { return BUFFER_SIZE - (_curr_byte - _buffer); }
+int BitReader::bytes_left() {
+    return BUFFER_SIZE - (_curr_byte - _buffer);
+}
 
 int BitReader::refill_buffer() {
     _curr_byte = _buffer;
-    _fin->read((char *)_buffer, BUFFER_SIZE);  // This cast irritates me...
+    _fin->read((char *)_buffer, BUFFER_SIZE); // This cast irritates me...
 
     /*printf("BUFFER CONTENTS\n");
     for (int i = 0; i < 30; i++){
@@ -64,7 +67,8 @@ uint8_t BitReader::frame_crc8() {
 
 int BitReader::seek_bits(uint64_t nbits) {
     /* FIXME: Logic to check if we overrun the buffer ... */
-    if (nbits && (bytes_left() == 0)) refill_buffer();
+    if (nbits && (bytes_left() == 0))
+        refill_buffer();
 
     int bitpr = _bitp % 8;
     _bitp += nbits;
@@ -84,7 +88,9 @@ int BitReader::reset_bit_count() {
     return true;
 }
 
-int BitReader::is_byte_aligned() { return _bitp % 8 == 0; }
+int BitReader::is_byte_aligned() {
+    return _bitp % 8 == 0;
+}
 
 int BitReader::read_rice_signed(int32_t *x, uint8_t M) {
     uint32_t msbs = 0, lsbs = 0;
@@ -106,8 +112,7 @@ int BitReader::read_rice_signed(int32_t *x, uint8_t M) {
     return true;
 }
 
-int BitReader::read_rice_partition(int32_t *dst, uint64_t nsamples,
-                                   int extended) {
+int BitReader::read_rice_partition(int32_t *dst, uint64_t nsamples, int extended) {
     uint8_t rice_param = 0;
     uint8_t bps = 0;
     uint8_t param_bits = (extended == 0) ? 4 : 5;
@@ -116,7 +121,8 @@ int BitReader::read_rice_partition(int32_t *dst, uint64_t nsamples,
 
     // std::cout << "Rice Param: " << (int) rice_param << "\n";
 
-    if (rice_param == 0xF || rice_param == 0x1F) read_bits(&bps, 5);
+    if (rice_param == 0xF || rice_param == 0x1F)
+        read_bits(&bps, 5);
 
     if (rice_param == 0xF || rice_param == 0x1F)
         for (i = 0; i < nsamples; i++) /* Read a chunk */
@@ -125,7 +131,7 @@ int BitReader::read_rice_partition(int32_t *dst, uint64_t nsamples,
         for (i = 0; i < nsamples; i++) {
             read_rice_signed(dst + i, rice_param);
             // std::cout << *(dst + i) <<" ";
-        }  // std::cout <<"\n";
+        } // std::cout <<"\n";
 
     return i;
 }
@@ -162,7 +168,8 @@ int BitReader::read_utf8_uint32(uint32_t *val) {
     uint32_t x;
     unsigned i;
 
-    if (!read_bits(&x, 8)) return 0;
+    if (!read_bits(&x, 8))
+        return 0;
     if (!(x & 0x80)) { /* 0xxxxxxx */
         v = x;
         i = 0;
@@ -186,7 +193,8 @@ int BitReader::read_utf8_uint32(uint32_t *val) {
         return 1;
     }
     for (; i; i--) {
-        if (!read_bits(&x, 8)) return 0;
+        if (!read_bits(&x, 8))
+            return 0;
         if (!(x & 0x80) || (x & 0x40)) { /* 10xxxxxx */
             *val = 0xffffffff;
             return 1;
@@ -205,7 +213,8 @@ int BitReader::read_utf8_uint64(uint64_t *val) {
     uint32_t x;
     unsigned i;
 
-    if (!read_bits(&x, 8)) return 0;
+    if (!read_bits(&x, 8))
+        return 0;
     if (!(x & 0x80)) { /* 0xxxxxxx */
         v = x;
         i = 0;
@@ -232,7 +241,8 @@ int BitReader::read_utf8_uint64(uint64_t *val) {
         return 1;
     }
     for (; i; i--) {
-        if (!read_bits(&x, 8)) return 0;
+        if (!read_bits(&x, 8))
+            return 0;
         if (!(x & 0x80) || (x & 0x40)) { /* 10xxxxxx */
             *val = (uint64_t)0xffffffffffffffff;
             return 1;

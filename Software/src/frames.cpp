@@ -14,14 +14,12 @@
 #include <memory>
 #include <vector>
 
-uint32_t FLACFrameHeader::_sampleRateLUT[12] = {0,     88200, 176400, 192000,
-                                                8000,  16000, 22050,  24000,
-                                                32000, 44100, 48000,  96000};
+uint32_t FLACFrameHeader::_sampleRateLUT[12] = {0,     88200, 176400, 192000, 8000,  16000,
+                                                22050, 24000, 32000,  44100,  48000, 96000};
 uint8_t FLACFrameHeader::_sampleSizeLUT[8] = {0, 8, 12, 0, 16, 20, 24, 0};
 
-void FLACFrameHeader::print(FILE* f) {
-    fprintf(f,
-            "\
+void FLACFrameHeader::print(FILE *f) {
+    fprintf(f, "\
 Sync Code: 0x%x\n\
 reserved1: %d\n\
 Blocking Strategy: %d\n\
@@ -34,9 +32,8 @@ Sample Size: %d\n\
 reserved2: %d\n\
 Frame Number: %d\n\
 CRC Code: 0x%x\n\n",
-            _syncCode, _reserved1, _blockingStrategy, _blockSizeHint,
-            _sampleRateHint, _blockSize, _sampleRate, _channelAssign,
-            _sampleSize, _reserved2, _frameNumber, _CRC8Poly);
+            _syncCode, _reserved1, _blockingStrategy, _blockSizeHint, _sampleRateHint, _blockSize, _sampleRate,
+            _channelAssign, _sampleSize, _reserved2, _frameNumber, _CRC8Poly);
 }
 
 FLACFrameHeader::FLACFrameHeader() {
@@ -73,56 +70,64 @@ void FLACFrameHeader::reconstruct() {
     _frameFooter = 0;
 }
 
-void FLACFrameHeader::setFrameNumber(uint32_t n) { _frameNumber = n; }
+void FLACFrameHeader::setFrameNumber(uint32_t n) {
+    _frameNumber = n;
+}
 
-int FLACFrameHeader::getSampleSize() { return _sampleSize; }
+int FLACFrameHeader::getSampleSize() {
+    return _sampleSize;
+}
 
-uint64_t FLACFrameHeader::getBlockSize() { return _blockSize; }
+uint64_t FLACFrameHeader::getBlockSize() {
+    return _blockSize;
+}
 
-int FLACFrameHeader::getChannelAssign() { return _channelAssign; }
+int FLACFrameHeader::getChannelAssign() {
+    return _channelAssign;
+}
 
 FLAC_const FLACFrameHeader::getChannelType() {
     switch (_channelAssign) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-            return CH_INDEPENDENT;  // Independents...
-        case 8:
-            return CH_LEFT;  // Left side
-        case 9:
-            return CH_RIGHT;  // Right side
-        case 10:
-            return CH_MID;  // Mid side
-        default:
-            return CH_INVALID;
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+        return CH_INDEPENDENT; // Independents...
+    case 8:
+        return CH_LEFT; // Left side
+    case 9:
+        return CH_RIGHT; // Right side
+    case 10:
+        return CH_MID; // Mid side
+    default:
+        return CH_INVALID;
     }
 }
 
 int FLACFrameHeader::getNumChannels() {
     switch (_channelAssign) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-            return _channelAssign + 1;
-        case 8:
-        case 9:
-        case 10:
-            return 2;
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+        return _channelAssign + 1;
+    case 8:
+    case 9:
+    case 10:
+        return 2;
     }
     return -1;
 }
 
-int FLACFrameHeader::read(BitReader& fr) {
+int FLACFrameHeader::read(BitReader &fr) {
     fr.mark_frame_start();
     fr.read_bits(&_syncCode, 14);
     if (_syncCode != FRAME_SYNC) {
@@ -156,17 +161,17 @@ int FLACFrameHeader::read(BitReader& fr) {
 
     /* Read in the block size ... */
     switch (_blockSizeHint) {
-        case 0b0110:
-            fr.read_bits(&_blockSize, 8);
-            _blockSize++;
-            break;
-        case 0b0111:
-            fr.read_bits(&_blockSize, 16);
-            _blockSize++;
-            break;
-        case 0b0001:
-            _blockSize = 192;
-            break;
+    case 0b0110:
+        fr.read_bits(&_blockSize, 8);
+        _blockSize++;
+        break;
+    case 0b0111:
+        fr.read_bits(&_blockSize, 16);
+        _blockSize++;
+        break;
+    case 0b0001:
+        _blockSize = 192;
+        break;
     }
 
     if (_blockSizeHint >= 0b0010 && _blockSizeHint <= 0b0101) {
@@ -198,10 +203,10 @@ int FLACFrameHeader::read(BitReader& fr) {
         fprintf(stderr, "Invalid frame checksum\n");
         fr.read_error();
     }
-    return 1;  // Add error handling
+    return 1; // Add error handling
 }
 
-int FLACFrameHeader::read_padding(BitReader& fr) {
+int FLACFrameHeader::read_padding(BitReader &fr) {
     uint8_t x;
     /* TODO: Fix this, all I have to do is reset the current bit right? */
     while (fr.get_current_bit() % 8 != 0) {
@@ -210,23 +215,22 @@ int FLACFrameHeader::read_padding(BitReader& fr) {
     return 1;
 }
 
-int FLACFrameHeader::read_footer(BitReader& fr) {
+int FLACFrameHeader::read_footer(BitReader &fr) {
     return fr.read_bits(&_frameFooter, 16);
 }
 
-int FLACFrameHeader::write(BitWriter& bw) {
+int FLACFrameHeader::write(BitWriter &bw) {
     bw.mark_frame_start();
     bw.write_bits(0b11111111111110, 14);
 
-    bw.write_bits(0, 1);  // Reserved to always be zero
-    bw.write_bits(0, 1);  // Fixed blocking
-    bw.write_bits(0b1100,
-                  4);  // Block size of 256*(2^(n - 8)) n = 12 => 4096 spb
-    bw.write_bits(0b1001, 4);  // 1001: 44100 KHz
-    bw.write_bits(0, 4);       // Mono for now
-    bw.write_bits(0b100, 3);   // Sample size is 16bps
+    bw.write_bits(0, 1);      // Reserved to always be zero
+    bw.write_bits(0, 1);      // Fixed blocking
+    bw.write_bits(0b1100, 4); // Block size of 256*(2^(n - 8)) n = 12 => 4096 spb
+    bw.write_bits(0b1001, 4); // 1001: 44100 KHz
+    bw.write_bits(0, 4);      // Mono for now
+    bw.write_bits(0b100, 3);  // Sample size is 16bps
 
-    bw.write_bits(0, 1);  // Reserved to be zero
+    bw.write_bits(0, 1); // Reserved to be zero
 
     /* Write frame number.... */
 
@@ -237,12 +241,14 @@ int FLACFrameHeader::write(BitWriter& bw) {
 
     bw.write_bits(bw.calc_crc8(), 8);
 
-    return 1;  // Add error handling
+    return 1; // Add error handling
 }
 
-void FLACFrameHeader::write_padding(BitWriter& bw) { bw.write_padding(); }
+void FLACFrameHeader::write_padding(BitWriter &bw) {
+    bw.write_padding();
+}
 
-int FLACFrameHeader::write_footer(BitWriter& bw) {
+int FLACFrameHeader::write_footer(BitWriter &bw) {
     bw.write_bits(bw.calc_crc16(), 16);
     return 1;
 }

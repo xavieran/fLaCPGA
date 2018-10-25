@@ -30,8 +30,7 @@ WaveMetaData::WaveMetaData() {
     _metadata = NULL;
 }
 
-WaveMetaData::WaveMetaData(uint16_t NumChannels, uint32_t SampleRate,
-                           uint16_t BitsPerSample, uint32_t NumSamples) {
+WaveMetaData::WaveMetaData(uint16_t NumChannels, uint32_t SampleRate, uint16_t BitsPerSample, uint32_t NumSamples) {
     _NumChannels = NumChannels;
     _SampleRate = SampleRate;
     _BitsPerSample = BitsPerSample;
@@ -50,9 +49,8 @@ WaveMetaData::WaveMetaData(uint16_t NumChannels, uint32_t SampleRate,
     this->setNumSamples(NumSamples);
 }
 
-void WaveMetaData::print(FILE* f) {
-    fprintf(f,
-            "ChunkID: %s\n\
+void WaveMetaData::print(FILE *f) {
+    fprintf(f, "ChunkID: %s\n\
     ChunkSize: %d\n\
     Format: %s\n\
 Subchunk1ID: %s\n\
@@ -66,13 +64,12 @@ Subchunk1ID: %s\n\
 Subchunk2ID: %s\n\
     Subchunk2Size: %d\n\
 Metadata: %d\n",
-            _ChunkID, _ChunkSize, _Format, _Subchunk1ID, _Subchunk1Size,
-            _AudioFormat, _NumChannels, _SampleRate, _ByteRate, _BlockAlign,
-            _BitsPerSample, _Subchunk2ID, _Subchunk2Size, _metadata_size);
+            _ChunkID, _ChunkSize, _Format, _Subchunk1ID, _Subchunk1Size, _AudioFormat, _NumChannels, _SampleRate,
+            _ByteRate, _BlockAlign, _BitsPerSample, _Subchunk2ID, _Subchunk2Size, _metadata_size);
 }
 
-int WaveMetaData::read(BitReader& fr) {
-    fr.read_chunk(_ChunkID, 4);  // Might need to add terminating null...
+int WaveMetaData::read(BitReader &fr) {
+    fr.read_chunk(_ChunkID, 4); // Might need to add terminating null...
     fr.read_word_LE(&_ChunkSize);
     fr.read_chunk(_Format, 4);
     fr.read_chunk(_Subchunk1ID, 4);
@@ -90,7 +87,7 @@ int WaveMetaData::read(BitReader& fr) {
     return true;
 }
 
-int WaveMetaData::write(BitWriter& bw) {
+int WaveMetaData::write(BitWriter &bw) {
     bw.write_chunk(_ChunkID, 4);
     bw.write_word_LE(_ChunkSize);
     bw.write_chunk(_Format, 4);
@@ -122,19 +119,26 @@ uint64_t WaveMetaData::getNumSamples() {
     return _Subchunk2Size / (_NumChannels * (_BitsPerSample / 8));
 }
 
-uint16_t WaveMetaData::getNumChannels() { return _NumChannels; }
+uint16_t WaveMetaData::getNumChannels() {
+    return _NumChannels;
+}
 
-WaveReader::WaveReader() : _meta{}, _samplesRead{0} {}
+WaveReader::WaveReader() : _meta{}, _samplesRead{0} {
+}
 
-WaveMetaData& WaveReader::getMetaData() { return _meta; }
+WaveMetaData &WaveReader::getMetaData() {
+    return _meta;
+}
 
 uint64_t WaveReader::getSamplesLeft() {
     return _meta.getNumSamples() - _samplesRead;
 }
 
-int WaveReader::read_metadata(BitReader& fr) { return _meta.read(fr); }
+int WaveReader::read_metadata(BitReader &fr) {
+    return _meta.read(fr);
+}
 
-int WaveReader::read_data(BitReader& fr, int16_t* pcm, uint64_t samples) {
+int WaveReader::read_data(BitReader &fr, int16_t *pcm, uint64_t samples) {
     /* Fill pcm with samples of data... */
     if (samples > getSamplesLeft()) {
         _samplesRead = _meta.getNumSamples();
@@ -145,17 +149,20 @@ int WaveReader::read_data(BitReader& fr, int16_t* pcm, uint64_t samples) {
     }
 }
 
-WaveWriter::WaveWriter(WaveMetaData& meta) : _meta{meta} {}
+WaveWriter::WaveWriter(WaveMetaData &meta) : _meta{meta} {
+}
 
-int WaveWriter::write(BitWriter& bw, int32_t** pcm) {
+int WaveWriter::write(BitWriter &bw, int32_t **pcm) {
     this->write_metadata(bw);
     /* We assume that the num samples in pcm is same as in meta... */
     return write_data(bw, pcm, _meta.getNumSamples());
 }
-int WaveWriter::write_metadata(BitWriter& bw) { return _meta.write(bw); }
+int WaveWriter::write_metadata(BitWriter &bw) {
+    return _meta.write(bw);
+}
 
 /* Samples is the number of samples per channel...*/
-int WaveWriter::write_data(BitWriter& bw, int32_t** pcm, uint64_t samples) {
+int WaveWriter::write_data(BitWriter &bw, int32_t **pcm, uint64_t samples) {
     /* Expect multiple channels and we will interleave them. */
     unsigned i, ch;
     for (i = 0; i < samples; i++)
@@ -165,4 +172,6 @@ int WaveWriter::write_data(BitWriter& bw, int32_t** pcm, uint64_t samples) {
     return true; /* FIXME: Erro rching */
 }
 
-WaveMetaData& WaveWriter::getMetaData() { return _meta; }
+WaveMetaData &WaveWriter::getMetaData() {
+    return _meta;
+}

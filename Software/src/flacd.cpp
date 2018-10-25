@@ -17,12 +17,10 @@
 #include "wavereader.hpp"
 
 void exit_with_help(char *argv[]) {
-    fprintf(stderr, "usage: %s [ OPTIONS ] infile.flac [outfile.wav]\n",
-            argv[0]);
+    fprintf(stderr, "usage: %s [ OPTIONS ] infile.flac [outfile.wav]\n", argv[0]);
     fprintf(stderr, "  -m : Print fLaC metadata headers\n");
-    fprintf(stderr,
-            "  -M : Print ALL metadata. This includes frame and subframe "
-            "headers.\n");
+    fprintf(stderr, "  -M : Print ALL metadata. This includes frame and subframe "
+                    "headers.\n");
     fprintf(stderr, "  -p : Print input file PCM values, interleaved\n");
     fprintf(stderr, "  -r : Print input file subframe residuals\n");
     fprintf(stderr, "  -d : Decode input file to WAV\n");
@@ -32,36 +30,37 @@ void exit_with_help(char *argv[]) {
 int main(int argc, char *argv[]) {
     int opt = 0, metadata = 0, all_metadata = 0, print_pcm = 0, decode = 0;
     int print_residuals = 0;
-    while ((opt = getopt(argc, argv, "mMpdhr:")) != EOF) switch (opt) {
-            case 'm':
-                metadata = 1;
-                break;
-            case 'M':
-                all_metadata = 1;
-                break;
-            case 'p':
-                print_pcm = 1;
-                break;
-            case 'd':
-                decode = 1;
-                break;
-            case 'r':
-                print_residuals = 1;
-                break;
-            case 'h':
-            case '?':
-            default:
-                exit_with_help(argv);
+    while ((opt = getopt(argc, argv, "mMpdhr:")) != EOF)
+        switch (opt) {
+        case 'm':
+            metadata = 1;
+            break;
+        case 'M':
+            all_metadata = 1;
+            break;
+        case 'p':
+            print_pcm = 1;
+            break;
+        case 'd':
+            decode = 1;
+            break;
+        case 'r':
+            print_residuals = 1;
+            break;
+        case 'h':
+        case '?':
+        default:
+            exit_with_help(argv);
         }
 
     std::shared_ptr<std::fstream> fin;
     std::shared_ptr<std::fstream> fout;
 
-    if (optind == 1) exit_with_help(argv);
+    if (optind == 1)
+        exit_with_help(argv);
 
     if (optind < argc) {
-        fin = std::make_shared<std::fstream>(argv[optind],
-                                             std::ios::in | std::ios::binary);
+        fin = std::make_shared<std::fstream>(argv[optind], std::ios::in | std::ios::binary);
         if (fin->fail()) {
             fprintf(stderr, "ERROR: opening %s for input\n", argv[optind]);
             return 1;
@@ -70,8 +69,7 @@ int main(int argc, char *argv[]) {
 
     // if (optind + 1 < argc)
     if (print_pcm || decode) {
-        fout = std::make_shared<std::fstream>(argv[optind + 1],
-                                              std::ios::out | std::ios::binary);
+        fout = std::make_shared<std::fstream>(argv[optind + 1], std::ios::out | std::ios::binary);
         if (fout->fail()) {
             fprintf(stderr, "ERROR: opening %s for output\n", argv[optind + 1]);
             return 1;
@@ -113,7 +111,8 @@ int main(int argc, char *argv[]) {
                     fprintf(stdout, "%d\n", buf[ch][i]);
         }
 
-        for (int ch = 0; ch < channels; ch++) free(buf[ch]);
+        for (int ch = 0; ch < channels; ch++)
+            free(buf[ch]);
         free(buf);
         fin->close();
     } else if (print_residuals) {
@@ -122,7 +121,7 @@ int main(int argc, char *argv[]) {
         /* Print file header and metadata*/
         flac_reader.read_meta();
         flac_reader.getMetaData().print(stdout);
-    } else if (decode || !decode) {  // Haha
+    } else if (decode || !decode) { // Haha
 
         BitWriter bw = BitWriter(fout);
         /* First get flac stream info */
@@ -159,7 +158,8 @@ int main(int argc, char *argv[]) {
         meta.write(bw);
         bw.flush();
 
-        for (int ch = 0; ch < channels; ch++) free(buf[ch]);
+        for (int ch = 0; ch < channels; ch++)
+            free(buf[ch]);
         free(buf);
         fin->close();
         fout->close();

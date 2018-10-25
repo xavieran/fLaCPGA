@@ -17,20 +17,18 @@
 #include <cuda_profiler_api.h>
 #include <cuda_runtime_api.h>
 
-#define gpuErrchk(ans) \
+#define gpuErrchk(ans)                                                                                                 \
     { gpuAssert((ans), __FILE__, __LINE__); }
-inline void gpuAssert(cudaError_t code, const char *file, int line,
-                      bool abort = true) {
+inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort = true) {
     if (code != cudaSuccess) {
-        fprintf(stderr, "GPUassert: %s %s %d\n", cudaGetErrorString(code), file,
-                line);
-        if (abort) exit(code);
+        fprintf(stderr, "GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+        if (abort)
+            exit(code);
     }
 }
 
 // Should probably window data also...
-__global__ void calculate_lags(const float *const dpcm_buf, float *dlags,
-                               const int spb, const int64_t samples) {
+__global__ void calculate_lags(const float *const dpcm_buf, float *dlags, const int spb, const int64_t samples) {
     /* Calculates lags and leaves them in memory like so:
      * |b0i0l0,b0i1l0...b0i4095l0|b0i0l1,b0i1l1...b0i4095l1|
      * ...
@@ -57,36 +55,34 @@ __global__ void calculate_lags(const float *const dpcm_buf, float *dlags,
 }
 
 // Reduce the autocorrelation lags...
-__global__ void sum_lags(const float *const dlags, float *dslags, const int spb,
-                         const int64_t samples) {}
+__global__ void sum_lags(const float *const dlags, float *dslags, const int spb, const int64_t samples) {
+}
 
-__global__ void levinson_durbinson(const float *const dautoc, float *dmodelc,
-                                   const int spb, const int64_t samples) {}
+__global__ void levinson_durbinson(const float *const dautoc, float *dmodelc, const int spb, const int64_t samples) {
+}
 
 /*
  * Stage 1:
  * data[i]*modelc[i]
  */
-__global__ void fir_stage1(const float *const dpcm_buf,
-                           const float *const dmodelc, float *dfir_s1,
-                           const int spb, const int64_t samples) {
-    int j;  // Which model coefficient
-    int i;  // Which data part
+__global__ void fir_stage1(const float *const dpcm_buf, const float *const dmodelc, float *dfir_s1, const int spb,
+                           const int64_t samples) {
+    int j; // Which model coefficient
+    int i; // Which data part
     dfir_s1[i + j] = dpcm_buf[i + j] * modelc[i + j];
 }
 
 /* Stage 2:
  * Sum the data from stage 1 to get result
  */
-__global__ void fir_stage2(const float *const dfir_s1, float *dfir_s2,
-                           const int spb, const int64_t samples) {}
+__global__ void fir_stage2(const float *const dfir_s1, float *dfir_s2, const int spb, const int64_t samples) {
+}
 
 /* Find best model
  * Check error in each model, select best one
  */
-__global__ void fbm_stage1(const float *const dpcm_buf,
-                           const float *const dfir_s2, float *error,
-                           const int spb, const int64_t samples) {
+__global__ void fbm_stage1(const float *const dpcm_buf, const float *const dfir_s2, float *error, const int spb,
+                           const int64_t samples) {
     /* Calculate error */
     int i;
     error[i] = dpcm_buf[i] - dfir_s2[i];
@@ -100,8 +96,7 @@ __global__ void fbm_stage1(const float *const dpcm_buf,
  * Do rice encoding of error
  */
 
-__global__ void fbr_stage1(const float *const error, float *tbpb, const int spb,
-                           const int64_t samples) {
+__global__ void fbr_stage1(const float *const error, float *tbpb, const int spb, const int64_t samples) {
     /* encode each error using param */
     int param;
     int lmask;
@@ -121,44 +116,43 @@ __global__ void fbr_stage1(const float *const error, float *tbpb, const int spb,
  */
 
 void exit_with_help(char *argv[]) {
-    fprintf(stderr, "usage: %s [ OPTIONS ] infile.wav [outfile.flac]\n",
-            argv[0]);
+    fprintf(stderr, "usage: %s [ OPTIONS ] infile.wav [outfile.flac]\n", argv[0]);
     exit(1);
 }
 
 int main(int argc, char *argv[]) {
     int opt = 0, fixed = 0, verbatim = 0, single = 0, encode = 0;
     int order = 0;
-    while ((opt = getopt(argc, argv, "fvs:")) != EOF) switch (opt) {
-            case 'f':
-                fixed = 1;
-                encode = 1;
-                break;
-            case 'v':
+    while ((opt = getopt(argc, argv, "fvs:")) != EOF)
+        switch (opt) {
+        case 'f':
+            fixed = 1;
+            encode = 1;
+            break;
+        case 'v':
+            verbatim = 1;
+            encode = 1;
+            break;
+        case 's':
+            single = 1;
+            encode = 1;
+            std::cerr << "OPTARG::: " << optarg << "\n";
+            if (strcmp(optarg, "v") == 0)
                 verbatim = 1;
-                encode = 1;
-                break;
-            case 's':
-                single = 1;
-                encode = 1;
-                std::cerr << "OPTARG::: " << optarg << "\n";
-                if (strcmp(optarg, "v") == 0)
-                    verbatim = 1;
-                else
-                    order = atoi(optarg);
-                break;
-            case 'h':
-            case '?':
-            default:
-                exit_with_help(argv);
+            else
+                order = atoi(optarg);
+            break;
+        case 'h':
+        case '?':
+        default:
+            exit_with_help(argv);
         }
 
     std::shared_ptr<std::fstream> fin;
     std::shared_ptr<std::fstream> fout;
 
     if (optind < argc) {
-        fin = std::make_shared<std::fstream>(argv[optind],
-                                             std::ios::in | std::ios::binary);
+        fin = std::make_shared<std::fstream>(argv[optind], std::ios::in | std::ios::binary);
         if (fin->fail()) {
             fprintf(stderr, "ERROR: opening %s for input\n", argv[optind]);
             return 1;
@@ -171,7 +165,7 @@ int main(int argc, char *argv[]) {
     auto meta = wr->getMetaData();
     meta->print(stdout);
 
-    const int samples = 1 << 22;  // ~1MB of samples
+    const int samples = 1 << 22; // ~1MB of samples
 
     int16_t *hpcm_buf = (int16_t *)malloc(sizeof(int16_t) * samples);
 
@@ -201,8 +195,7 @@ int main(int argc, char *argv[]) {
     cudaMemcpyAsync(dpcm_buf, hpcmf_buf, samples, cudaMemcpyHostToDevice, 0);
     gpuErrchk(cudaPeekAtLastError());
 
-    calculate_lags<<<dim3(1 << 12, 4, 12), 1024>>>(dpcm_buf, dlags, 4096,
-                                                   samples);
+    calculate_lags<<<dim3(1 << 12, 4, 12), 1024>>>(dpcm_buf, dlags, 4096, samples);
     gpuErrchk(cudaPeekAtLastError());
 
     cudaDeviceSynchronize();

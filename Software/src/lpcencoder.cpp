@@ -14,8 +14,7 @@
 #include <iostream>
 #include <vector>
 
-void LPCEncoder::calc_autocorrelation(int32_t samples[], int nsamples,
-                                      int order, double autoc[]) {
+void LPCEncoder::calc_autocorrelation(int32_t samples[], int nsamples, int order, double autoc[]) {
     double d;
     unsigned i;
 
@@ -39,8 +38,7 @@ void LPCEncoder::calc_autocorrelation(int32_t samples[], int nsamples,
     }
 }
 
-void LPCEncoder::calculate_lpc_coeffs(double autoc[], int order,
-                                      double lpc_coeff[]) {
+void LPCEncoder::calculate_lpc_coeffs(double autoc[], int order, double lpc_coeff[]) {
     double error = autoc[0];
     double alpha = autoc[1];
     double k = 0;

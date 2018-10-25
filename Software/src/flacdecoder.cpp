@@ -19,16 +19,19 @@
 #include "flacdecoder.hpp"
 
 FLACDecoder::FLACDecoder(std::shared_ptr<std::fstream> f)
-    : _fr{BitReader{f}},
-      _meta{FLACMetaData{}},
-      _frame{FLACFrameHeader{}},
-      _subframe{FLACSubFrameHeader{}},
-      _c{FLACSubFrameConstant{}},
-      _v{FLACSubFrameVerbatim{}},
-      _f{FLACSubFrameFixed{}},
-      _l{FLACSubFrameLPC{}} {}
+    : _fr{BitReader{f}}
+    , _meta{FLACMetaData{}}
+    , _frame{FLACFrameHeader{}}
+    , _subframe{FLACSubFrameHeader{}}
+    , _c{FLACSubFrameConstant{}}
+    , _v{FLACSubFrameVerbatim{}}
+    , _f{FLACSubFrameFixed{}}
+    , _l{FLACSubFrameLPC{}} {
+}
 
-FLACMetaData &FLACDecoder::getMetaData() { return _meta; }
+FLACMetaData &FLACDecoder::getMetaData() {
+    return _meta;
+}
 
 int FLACDecoder::read(int32_t ***pcm_buf) {
     read_meta();
@@ -49,8 +52,7 @@ int FLACDecoder::read(int32_t ***pcm_buf) {
         samplesRead += samplesFrame;
     }
 
-    fprintf(stderr, "Wanted: %d  -- diff : %d\n", totalInterSamples,
-            totalInterSamples - samplesRead);
+    fprintf(stderr, "Wanted: %d  -- diff : %d\n", totalInterSamples, totalInterSamples - samplesRead);
 
     return samplesRead; /* This will be the intrasample count */
 }
@@ -81,35 +83,37 @@ int FLACDecoder::read_frame(int32_t **data, uint64_t offset) {
         uint8_t bps = _frame.getSampleSize();
 
         switch (chanType) {
-            case CH_MID:   // Mid side
-            case CH_LEFT:  // Left Side
-                if (ch == 1) bps++;
-                break;
-            case CH_RIGHT:  // Right side
-                if (ch == 0) bps++;
-                break;
+        case CH_MID:  // Mid side
+        case CH_LEFT: // Left Side
+            if (ch == 1)
+                bps++;
+            break;
+        case CH_RIGHT: // Right side
+            if (ch == 0)
+                bps++;
+            break;
         }
 
         switch (_subframe.getSubFrameType()) {
-            case SUB_CONSTANT:
-                _c.reconstruct(bps, blockSize);
-                samplesRead += _c.read(_fr, data[ch] + offset);
-                break;
-            case SUB_VERBATIM:
-                _v.reconstruct(bps, blockSize);
-                samplesRead += _v.read(_fr, data[ch] + offset);
-                break;
-            case SUB_FIXED:
-                _f.reconstruct(bps, blockSize, _subframe.getFixedOrder());
-                samplesRead += _f.read(_fr, data[ch] + offset);
-                break;
-            case SUB_LPC:
-                _l.reconstruct(bps, blockSize, _subframe.getLPCOrder());
-                samplesRead += _l.read(_fr, data[ch] + offset);
-                break;
-            case SUB_INVALID:
-                fprintf(stderr, "Invalid subframe type\n");
-                _fr.read_error();
+        case SUB_CONSTANT:
+            _c.reconstruct(bps, blockSize);
+            samplesRead += _c.read(_fr, data[ch] + offset);
+            break;
+        case SUB_VERBATIM:
+            _v.reconstruct(bps, blockSize);
+            samplesRead += _v.read(_fr, data[ch] + offset);
+            break;
+        case SUB_FIXED:
+            _f.reconstruct(bps, blockSize, _subframe.getFixedOrder());
+            samplesRead += _f.read(_fr, data[ch] + offset);
+            break;
+        case SUB_LPC:
+            _l.reconstruct(bps, blockSize, _subframe.getLPCOrder());
+            samplesRead += _l.read(_fr, data[ch] + offset);
+            break;
+        case SUB_INVALID:
+            fprintf(stderr, "Invalid subframe type\n");
+            _fr.read_error();
         }
         /*for (int i = 0; i <  blockSize; i++){
             printf("%d\n",data[i]);
@@ -124,28 +128,27 @@ int FLACDecoder::read_frame(int32_t **data, uint64_t offset) {
     return samplesRead;
 }
 
-void FLACDecoder::process_channels(int32_t **channels, uint64_t offset,
-                                   uint32_t samples, FLAC_const chanType) {
+void FLACDecoder::process_channels(int32_t **channels, uint64_t offset, uint32_t samples, FLAC_const chanType) {
     int32_t mid, side;
     switch (chanType) {
-        case CH_MID:
-            for (unsigned i = offset; i < samples + offset; i++) {
-                mid = channels[0][i];
-                side = channels[1][i];
-                mid *= 2;
-                mid |= (side & 1);
-                channels[0][i] = (mid + side) / 2;
-                channels[1][i] = (mid + side) / 2;
-            }
-            break;
-        case CH_LEFT:
-            for (unsigned i = offset; i < samples + offset; i++)
-                channels[1][i] = channels[0][i] - channels[1][i];
-            break;
-        case CH_RIGHT:
-            for (unsigned i = offset; i < samples + offset; i++)
-                channels[0][i] += channels[1][i];
-            break;
+    case CH_MID:
+        for (unsigned i = offset; i < samples + offset; i++) {
+            mid = channels[0][i];
+            side = channels[1][i];
+            mid *= 2;
+            mid |= (side & 1);
+            channels[0][i] = (mid + side) / 2;
+            channels[1][i] = (mid + side) / 2;
+        }
+        break;
+    case CH_LEFT:
+        for (unsigned i = offset; i < samples + offset; i++)
+            channels[1][i] = channels[0][i] - channels[1][i];
+        break;
+    case CH_RIGHT:
+        for (unsigned i = offset; i < samples + offset; i++)
+            channels[0][i] += channels[1][i];
+        break;
     }
 }
 
@@ -191,43 +194,45 @@ int FLACDecoder::print_frame() {
         uint8_t bps = _frame.getSampleSize();
 
         switch (chanType) {
-            case CH_MID:   // Mid side
-            case CH_LEFT:  // Left Side
-                if (ch == 1) bps++;
-                break;
-            case CH_RIGHT:  // Right side
-                if (ch == 0) bps++;
-                break;
+        case CH_MID:  // Mid side
+        case CH_LEFT: // Left Side
+            if (ch == 1)
+                bps++;
+            break;
+        case CH_RIGHT: // Right side
+            if (ch == 0)
+                bps++;
+            break;
         }
 
         switch (_subframe.getSubFrameType()) {
-            case SUB_CONSTANT:
-                _c.reconstruct(bps, blockSize);
-                samplesRead += _c.read(_fr);
-                fprintf(stdout, "\t :: CONSTANT ::\n");
-                _c.print(stdout);
-                break;
-            case SUB_VERBATIM:
-                _v.reconstruct(bps, blockSize);
-                samplesRead += _v.read(_fr);
-                fprintf(stdout, "\t :: VERBATIM ::\n");
-                _v.print(stdout);
-                break;
-            case SUB_FIXED:
-                _f.reconstruct(bps, blockSize, _subframe.getFixedOrder());
-                samplesRead += _f.read(_fr);
-                fprintf(stdout, "\t :: FIXED ::\n");
-                _f.print(stdout);
-                break;
-            case SUB_LPC:
-                _l.reconstruct(bps, blockSize, _subframe.getLPCOrder());
-                samplesRead += _l.read(_fr);
-                fprintf(stdout, "\t :: LPC ::\n");
-                _l.print(stdout);
-                break;
-            case SUB_INVALID:
-                fprintf(stderr, "Invalid subframe type\n");
-                _fr.read_error();
+        case SUB_CONSTANT:
+            _c.reconstruct(bps, blockSize);
+            samplesRead += _c.read(_fr);
+            fprintf(stdout, "\t :: CONSTANT ::\n");
+            _c.print(stdout);
+            break;
+        case SUB_VERBATIM:
+            _v.reconstruct(bps, blockSize);
+            samplesRead += _v.read(_fr);
+            fprintf(stdout, "\t :: VERBATIM ::\n");
+            _v.print(stdout);
+            break;
+        case SUB_FIXED:
+            _f.reconstruct(bps, blockSize, _subframe.getFixedOrder());
+            samplesRead += _f.read(_fr);
+            fprintf(stdout, "\t :: FIXED ::\n");
+            _f.print(stdout);
+            break;
+        case SUB_LPC:
+            _l.reconstruct(bps, blockSize, _subframe.getLPCOrder());
+            samplesRead += _l.read(_fr);
+            fprintf(stdout, "\t :: LPC ::\n");
+            _l.print(stdout);
+            break;
+        case SUB_INVALID:
+            fprintf(stderr, "Invalid subframe type\n");
+            _fr.read_error();
         }
     }
 
