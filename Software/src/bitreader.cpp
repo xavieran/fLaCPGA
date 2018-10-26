@@ -13,7 +13,13 @@
 #include <memory>
 
 BitReader::BitReader(std::shared_ptr<std::fstream> f)
-    : _fin{f}, _bitp{0}, _curr_byte{_buffer + BUFFER_SIZE}, _frame_header{}, _frame_start{NULL}, _buffer{}, _eof{0} {
+    : _fin{f}
+    , _bitp{0}
+    , _curr_byte{_buffer + BUFFER_SIZE}
+    , _frame_header{}
+    , _frame_start{NULL}
+    , _buffer{}
+    , _eof{0} {
 }
 
 int BitReader::read_error() {

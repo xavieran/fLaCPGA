@@ -6,5 +6,5 @@ Language: Cpp
 AllowShortFunctionsOnASingleLine: false
 BreakConstructorInitializersBeforeComma: true
 ColumnLimit: 120
-ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 4

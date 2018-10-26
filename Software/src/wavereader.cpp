@@ -123,7 +123,9 @@ uint16_t WaveMetaData::getNumChannels() {
     return _NumChannels;
 }
 
-WaveReader::WaveReader() : _meta{}, _samplesRead{0} {
+WaveReader::WaveReader()
+    : _meta{}
+    , _samplesRead{0} {
 }
 
 WaveMetaData &WaveReader::getMetaData() {
@@ -149,7 +151,8 @@ int WaveReader::read_data(BitReader &fr, int16_t *pcm, uint64_t samples) {
     }
 }
 
-WaveWriter::WaveWriter(WaveMetaData &meta) : _meta{meta} {
+WaveWriter::WaveWriter(WaveMetaData &meta)
+    : _meta{meta} {
 }
 
 int WaveWriter::write(BitWriter &bw, int32_t **pcm) {

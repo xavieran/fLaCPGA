@@ -23,7 +23,8 @@
 #include <memory>
 #include <vector>
 
-FLACEncoder::FLACEncoder(std::shared_ptr<std::fstream> f) : _bw{BitWriter{f}} {
+FLACEncoder::FLACEncoder(std::shared_ptr<std::fstream> f)
+    : _bw{BitWriter{f}} {
 }
 
 bool FLACEncoder::write_header() {

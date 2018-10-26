@@ -20,7 +20,8 @@
 /******* Holds all Metadata ****************/
 /******************************************/
 
-FLACMetaData::FLACMetaData() : _metadata{} {
+FLACMetaData::FLACMetaData()
+    : _metadata{} {
 }
 
 void FLACMetaData::print(FILE *f) {
