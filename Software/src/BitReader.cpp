@@ -1,7 +1,7 @@
 /* Implementation of a bitreader */
 
-#include "bitreader.hpp"
-#include "crc.hpp"
+#include "BitReader.hpp"
+#include "CRC.hpp"
 
 #include <assert.h>
 #include <stdint.h>

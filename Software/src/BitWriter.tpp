@@ -1,7 +1,6 @@
 /* Implementation of a bitwriter */
 
-#ifndef BIT_WRITER_T
-#define BIT_WRITER_T
+#pragma once
 
 #include <assert.h>
 #include <stdint.h>
@@ -13,7 +12,7 @@
 #include <iostream>
 #include <memory>
 
-#include "bitwriter.hpp"
+#include "BitWriter.hpp"
 
 template <typename T> int BitWriter::write_word_LE(T data) {
     // printf("%d\n",this->bytes_left());
@@ -51,5 +50,3 @@ template <typename T> int BitWriter::write_chunk(T *data, int nmemb) {
 
     return nmemb; /* FIXME: Add error handling */
 }
-
-#endif

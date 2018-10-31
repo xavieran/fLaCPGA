@@ -2,11 +2,10 @@
 /* wavereader.hpp - Read WAVE files  */
 /************************************/
 
-#ifndef WAVE_READER_H
-#define WAVE_READER_H
+#pragma once
 
-#include "bitreader.hpp"
-#include "bitwriter.hpp"
+#include "BitReader.hpp"
+#include "BitWriter.hpp"
 
 class WaveMetaData {
   public:
@@ -71,5 +70,3 @@ class WaveWriter {
     WaveMetaData _meta;
     uint64_t _samplesWritten;
 };
-
-#endif

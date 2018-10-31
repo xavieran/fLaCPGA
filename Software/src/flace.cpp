@@ -8,10 +8,13 @@
 
 #include <vector>
 
-#include "bitwriter.hpp"
-#include "flacencoder.hpp"
-#include "metadata.hpp"
-#include "wavereader.hpp"
+#define LOGURU_WITH_STREAMS 1
+#include <loguru.hpp>
+
+#include "BitWriter.hpp"
+#include "FLACEncoder.hpp"
+#include "Metadata.hpp"
+#include "WaveReader.hpp"
 
 void exit_with_help(char *argv[]) {
     fprintf(stderr, "usage: %s [ OPTIONS ] infile.wav [outfile.flac]\n", argv[0]);
@@ -22,6 +25,8 @@ void exit_with_help(char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
+    loguru::init(argc, argv);
+
     int opt = 0, fixed = 0, verbatim = 0, single = 0, encode = 0;
     int order = 0;
     int print_residuals = 0;
@@ -60,16 +65,14 @@ int main(int argc, char *argv[]) {
     if (optind < argc) {
         fin = std::make_shared<std::fstream>(argv[optind], std::ios::in | std::ios::binary);
         if (fin->fail()) {
-            fprintf(stderr, "ERROR: opening %s for input\n", argv[optind]);
-            return 1;
+            LOG_F(FATAL, "Could not open %s for input", argv[optind]);
         }
     }
 
     if (encode) {
         fout = std::make_shared<std::fstream>(argv[optind + 1], std::ios::out | std::ios::binary);
         if (fout->fail()) {
-            fprintf(stderr, "ERROR: opening %s for output\n", argv[optind + 1]);
-            return 1;
+            LOG_F(FATAL, "Could not open %s for output", argv[optind + 1]);
         }
     }
 
@@ -79,13 +82,14 @@ int main(int argc, char *argv[]) {
     auto &meta = wr.getMetaData();
     meta.print(stdout);
 
-    int spb = 4096;
+    unsigned spb = 4096;
 
     int16_t pcm[spb];
     int32_t pcm32[spb];
     unsigned i;
+
     if (fixed) {
-        fprintf(stdout, "%ld samples to encode\n", meta.getNumSamples());
+        LOG_F(INFO, "%ld samples to encode", meta.getNumSamples());
         auto fe = FLACEncoder(fout);
         fe.setSamples(meta.getNumSamples());
         fe.write_header();
@@ -99,7 +103,7 @@ int main(int argc, char *argv[]) {
             }
             fe.write_frame(pcm32, spb, i / spb);
 
-            printf("%.2f%% Encoded\n", ((double)i) / total_samples * 100);
+            LOG_F(INFO,"%.6f%% Encoded\n", ((double)i) / total_samples * 100);
         }
 
         /*if (i != meta.getNumSamples()){
@@ -109,6 +113,22 @@ int main(int argc, char *argv[]) {
         pcm[j];}
 
         }*/
+    } else if (verbatim) {
+        auto fe = FLACEncoder(fout);
+        fe.setSamples(meta.getNumSamples());
+        fe.write_header();
+
+        double total_samples = meta.getNumSamples();
+
+        for (i = 0; i + spb < meta.getNumSamples(); i += spb) {
+            wr.read_data(fr, pcm, spb);
+            for (unsigned j = 0; j < spb; j++) {
+                pcm32[j] = (int32_t)pcm[j];
+            }
+            fe.write_frame_verbatim(pcm32, spb, i / spb);
+
+            printf("%.2f%% Encoded\n", ((double)i) / total_samples * 100);
+        }
     } else if (single) {
         auto fe = FLACEncoder(fout);
 

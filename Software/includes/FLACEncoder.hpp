@@ -10,13 +10,13 @@
 #include <memory>
 #include <vector>
 
-#include "constants.hpp"
-#include "frames.hpp"
-#include "metadata.hpp"
-#include "subframes.hpp"
+#include "Constants.hpp"
+#include "Frames.hpp"
+#include "Metadata.hpp"
+#include "SubFrames.hpp"
 
-#include "bitreader.hpp"
-#include "bitwriter.hpp"
+#include "BitReader.hpp"
+#include "BitWriter.hpp"
 
 class FLACEncoder {
   public:

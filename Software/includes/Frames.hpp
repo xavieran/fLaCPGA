@@ -2,8 +2,7 @@
  * Simple prog to read a flac file *
  **********************************/
 
-#ifndef FLAC_FRAMES_H
-#define FLAC_FRAMES_H
+#pragma once
 
 #include <stdint.h>
 #include <stdio.h>
@@ -13,9 +12,9 @@
 #include <memory>
 #include <vector>
 
-#include "bitreader.hpp"
-#include "bitwriter.hpp"
-#include "constants.hpp"
+#include "BitReader.hpp"
+#include "BitWriter.hpp"
+#include "Constants.hpp"
 
 /******** Classes for storing FLAC metadata *******/
 
@@ -160,4 +159,3 @@ class FLACFrameHeader {
     uint16_t _frameFooter;
 };
 
-#endif

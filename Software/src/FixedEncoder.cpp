@@ -1,7 +1,7 @@
 /* Return the number of bits that will be used encoding a particular value with
  * rice_param */
 
-#include "fixedencoder.hpp"
+#include "FixedEncoder.hpp"
 
 #include <assert.h>
 #include <stdint.h>

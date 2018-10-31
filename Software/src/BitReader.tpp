@@ -1,7 +1,6 @@
 /* Implementation of a bitreader */
 
-#ifndef BITREADER_T
-#define BITREADER_T
+#pragma once
 
 #include <assert.h>
 #include <stdint.h>
@@ -13,17 +12,19 @@
 #include <iostream>
 #include <memory>
 
-#include "bitreader.hpp"
+#include "BitReader.hpp"
 
 template <typename T> int BitReader::read_word_LE(T *x) {
     assert(this->is_byte_aligned()); // Only execute this when byte aligned...
     T result = 0;
     unsigned bytes = sizeof(T);
     uint8_t byte;
+
     for (unsigned i = 0; i < bytes; i++) {
         read_bits(&byte, 8);
         result |= (byte << i * 8);
     }
+
     *x = result;
     return true;
 }
@@ -135,4 +136,3 @@ template <typename T> int BitReader::read_bits_unary(T *x) {
     return true;
 }
 
-#endif

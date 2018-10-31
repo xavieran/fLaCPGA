@@ -1,8 +1,8 @@
 /* Return the number of bits that will be used encoding a particular value with
  * rice_param */
 
-#include "riceencoder.hpp"
-#include "bitwriter.hpp"
+#include "RiceEncoder.hpp"
+#include "BitWriter.hpp"
 
 #include <assert.h>
 #include <stdint.h>

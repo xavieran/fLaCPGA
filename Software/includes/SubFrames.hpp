@@ -1,7 +1,6 @@
 /* subframe.cpp - Read in FLAC subframes */
 
-#ifndef FLAC_SUBFRAME_H
-#define FLAC_SUBFRAME_H
+#pragma once
 
 #include <stdint.h>
 #include <stdio.h>
@@ -11,8 +10,8 @@
 #include <memory>
 #include <vector>
 
-#include "bitreader.hpp"
-#include "constants.hpp"
+#include "BitReader.hpp"
+#include "Constants.hpp"
 
 class FLACSubFrameHeader {
   private:
@@ -156,4 +155,3 @@ class FLACSubFrameVerbatim {
     void print(FILE *f);
 };
 
-#endif

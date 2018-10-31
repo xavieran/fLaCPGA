@@ -11,10 +11,10 @@
 
 #include <vector>
 
-#include "bitwriter.hpp"
-#include "flacdecoder.hpp"
-#include "metadata.hpp"
-#include "wavereader.hpp"
+#include "BitWriter.hpp"
+#include "FLACDecoder.hpp"
+#include "Metadata.hpp"
+#include "WaveReader.hpp"
 
 void exit_with_help(char *argv[]) {
     fprintf(stderr, "usage: %s [ OPTIONS ] infile.flac [outfile.wav]\n", argv[0]);

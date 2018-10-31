@@ -10,9 +10,9 @@
 
 #include <memory>
 
-#include "bitreader.hpp"
-#include "bitwriter.hpp"
-#include "wavereader.hpp"
+#include "BitReader.hpp"
+#include "BitWriter.hpp"
+#include "WaveReader.hpp"
 
 WaveMetaData::WaveMetaData() {
     memset(_ChunkID, 0, 5);

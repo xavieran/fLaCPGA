@@ -2,8 +2,7 @@
  * FLAC constants and magic numbers *
  **********************************/
 
-#ifndef FLAC_C_H
-#define FLAC_C_H
+#pragma once
 
 enum FLAC_const {
     CH_INDEPENDENT,
@@ -20,5 +19,3 @@ enum FLAC_const {
 
     FRAME_SYNC = 0x3ffe
 };
-
-#endif

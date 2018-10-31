@@ -2,8 +2,7 @@
  * RiceEncoder class               *
  **********************************/
 
-#ifndef RICE_ENCODER_H
-#define RICE_ENCODER_H
+#pragma once
 
 #include <stdint.h>
 #include <stdio.h>
@@ -13,9 +12,8 @@
 #include <memory>
 #include <vector>
 
-#include "constants.hpp"
-
-#include "bitwriter.hpp"
+#include "Constants.hpp"
+#include "BitWriter.hpp"
 
 class RiceEncoder {
   public:
@@ -25,5 +23,3 @@ class RiceEncoder {
 
   private:
 };
-
-#endif

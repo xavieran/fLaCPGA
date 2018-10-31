@@ -1,4 +1,4 @@
-#include "crc.hpp"
+#include "CRC.hpp"
 
 #include <iostream>
 #include <stdint.h>

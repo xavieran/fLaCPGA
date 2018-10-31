@@ -10,13 +10,13 @@
 #include <memory>
 #include <vector>
 
-#include "constants.hpp"
-#include "frames.hpp"
-#include "metadata.hpp"
-#include "subframes.hpp"
+#include "Constants.hpp"
+#include "Frames.hpp"
+#include "Metadata.hpp"
+#include "SubFrames.hpp"
 
-#include "bitreader.hpp"
-#include "flacdecoder.hpp"
+#include "BitReader.hpp"
+#include "FLACDecoder.hpp"
 
 FLACDecoder::FLACDecoder(std::shared_ptr<std::fstream> f)
     : _fr{BitReader{f}}

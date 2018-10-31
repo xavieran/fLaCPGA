@@ -8,10 +8,10 @@
 #include <memory>
 #include <vector>
 
-#include "subframes.hpp"
+#include "SubFrames.hpp"
 
-#include "bitreader.hpp"
-#include "constants.hpp"
+#include "BitReader.hpp"
+#include "Constants.hpp"
 
 /***********************************
  * SUB FRAME HEADER ****************

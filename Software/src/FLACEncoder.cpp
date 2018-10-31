@@ -2,18 +2,15 @@
  * FLACEncoder class               *
  **********************************/
 
-#ifndef FLAC_ENC_H
-#define FLAC_ENC_H
+#include "Constants.hpp"
+#include "Frames.hpp"
+#include "Metadata.hpp"
+#include "SubFrames.hpp"
 
-#include "constants.hpp"
-#include "frames.hpp"
-#include "metadata.hpp"
-#include "subframes.hpp"
-
-#include "bitwriter.hpp"
-#include "fixedencoder.hpp"
-#include "flacencoder.hpp"
-#include "riceencoder.hpp"
+#include "BitWriter.hpp"
+#include "FixedEncoder.hpp"
+#include "FLACEncoder.hpp"
+#include "RiceEncoder.hpp"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -22,6 +19,11 @@
 
 #include <memory>
 #include <vector>
+#include <sstream>
+#include <iterator>
+
+#define LOGURU_WITH_STREAMS 1
+#include <loguru.hpp>
 
 FLACEncoder::FLACEncoder(std::shared_ptr<std::fstream> f)
     : _bw{BitWriter{f}} {
@@ -36,15 +38,14 @@ bool FLACEncoder::write_header() {
 }
 
 bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame) {
+    LOG_SCOPE_FUNCTION(1);
     /* Step 1. Write the frame header */
     auto frame_header = FLACFrameHeader();
     frame_header.setFrameNumber(frame);
     frame_header.write(_bw);
-
     /* Step 2. Find the best order for this frame */
     int order = FixedEncoder::calc_best_order(pcm_buf, samples);
-    // int order = 4;
-    // std::cerr << "Frame: " << frame << "\nBest order: " << order << "\n";
+    LOG_F(1, "Frame: %d, Best order: %d", frame, order);
 
     /* Step 5. Now we calculate the residuals */
     int32_t scratch_space[samples];
@@ -56,20 +57,19 @@ bool FLACEncoder::write_frame(int32_t *pcm_buf, int samples, uint32_t frame) {
     uint32_t total_bits;
     auto rice_params = RiceEncoder::calc_best_rice_params(scratch_space + order, samples - order, total_bits);
 
-    /*std::cerr << "Rice Params: \n";
-    for (auto r : rice_params){
-        std::cerr << (int) r << " ";
-    } std::cerr << "\n";*/
+    std::stringstream ss;
+    for (auto r : rice_params) ss << static_cast<int>(r) << " ";
+    LOG_F(2, "Rice Parameters: %s", ss.str().c_str());
 
     /* Step 3. Now we write the Subframe header */
 
     if (total_bits < 4096 * 16) {
         /* Subframe header*/
-        _bw.write_bits(0b0001 << 4 | (uint8_t)order << 1, 8);
+        _bw.write_bits(0b0001 << 4 | static_cast<uint8_t>(order) << 1, 8);
 
         /* Step 4. Write the warmup samples */
         for (int i = 0; i < order; i++) {
-            _bw.write_bits(((int16_t)pcm_buf[i]), 16);
+            _bw.write_bits(static_cast<int16_t>(pcm_buf[i]), 16);
         }
 
         /* Step 8. Write the residuals to file */
@@ -153,7 +153,7 @@ bool FLACEncoder::write_frame_fixed(int32_t *pcm_buf, int samples, int order, ui
     /* Step 7. Calculate the best residual parameters */
     uint32_t total_bits;
     auto rice_params = RiceEncoder::calc_best_rice_params(scratch_space + order, samples - order, total_bits);
-
+    
     std::cerr << "Rice Params:\n";
     for (auto r : rice_params)
         std::cerr << (int)r << " ";
@@ -184,4 +184,3 @@ bool FLACEncoder::write_frame_fixed(int32_t *pcm_buf, int samples, int order, ui
 void FLACEncoder::setSamples(uint64_t samples) {
     _samples = samples;
 }
-#endif

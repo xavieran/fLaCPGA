@@ -11,35 +11,60 @@ include_directories(gtest/include)
 
 include_directories(includes)
 include_directories(src)
+set(LOGURU
+    includes/loguru.hpp)
 
+set(BIT_IO_SRC 
+    src/BitReader.cpp 
+    src/BitWriter.cpp 
+    src/CRC.cpp )
 
-set(BIT_IO_SRC src/bitreader.cpp src/bitwriter.cpp src/crc.cpp )
-set(BIT_IO_INC includes/bitreader.hpp src/bitreader.tpp includes/bitwriter.hpp src/bitwriter.tpp
-               includes/crc.hpp )
+set(BIT_IO_INC 
+    includes/BitReader.hpp
+    src/BitReader.tpp
+    includes/BitWriter.hpp 
+    src/BitWriter.tpp
+    includes/CRC.hpp )
 
+set(WAVE_SRC src/WaveReader.cpp)
+set(WAVE_INC includes/WaveReader.hpp)
 
-set(WAVE_SRC src/wavereader.cpp)
-set(WAVE_INC includes/wavereader.hpp)
-
-set(FLAC_DECODER_SOURCES  src/frames.cpp src/subframes.cpp
-    src/metadata.cpp src/flacdecoder.cpp  src/wavereader.cpp 
+set(FLAC_DECODER_SOURCES  
+    src/Frames.cpp 
+    src/SubFrames.cpp
+    src/Metadata.cpp
+    src/FLACDecoder.cpp  
+    src/WaveReader.cpp 
     ${BIT_IO_SRC})
-set(FLAC_DECODER_INCLUDES  includes/frames.hpp includes/subframes.hpp
-    includes/metadata.hpp includes/flacdecoder.hpp includes/wavereader.hpp 
+
+set(FLAC_DECODER_INCLUDES  
+    includes/Frames.hpp 
+    includes/SubFrames.hpp
+    includes/Metadata.hpp 
+    includes/FLACDecoder.hpp 
+    includes/WaveReader.hpp 
     ${BIT_IO_INC})
 
-set(FLAC_ENCODER_SOURCES ${FLAC_DECODER_SOURCES} src/flacencoder.cpp src/riceencoder.cpp 
-                         src/fixedencoder.cpp)
-set(FLAC_ENCODER_INCLUDES ${FLAC_DECODER_INCLUDES} includes/flacencoder.hpp includes/riceencoder.hpp 
-                         includes/fixedencoder.hpp)
+set(FLAC_ENCODER_SOURCES 
+    ${FLAC_DECODER_SOURCES} 
+    src/FLACEncoder.cpp 
+    src/RiceEncoder.cpp 
+    src/FixedEncoder.cpp)
+
+set(FLAC_ENCODER_INCLUDES 
+    ${FLAC_DECODER_INCLUDES} 
+    ${LOGURU}
+    includes/FLACEncoder.hpp 
+    includes/RiceEncoder.hpp 
+    includes/FixedEncoder.hpp)
 
 set(CMAKE_CXX_FLAGS "-g -fstack-protector-all  -Og -std=c++14 -Wall -Wno-unused-variable -Wno-switch")
 
 #-static
 
 # Tests
-# add_executable (../tests/bitreader_test ../tests/bitreader_test.cpp ${BIT_IO_SRC} ${BIT_IO_INC})
-# target_link_libraries(../tests/bitreader_test gtest rt pthread)
+#add_executable (bitreader_test tests/bitreader_test.cpp ${BIT_IO_SRC} ${BIT_IO_INC})
+#target_link_libraries(bitreader_test gtest rt pthread)
 # add_executable (../tests/bitwriter_test ../tests/bitwriter_test.cpp  ${BIT_IO_SRC} ${BIT_IO_INC})
 # target_link_libraries(../tests/bitwriter_test gtest rt pthread)
 # add_executable (../tests/riceencoder_test ../tests/riceencoder_test.cpp  ${BIT_IO_SRC} src/riceencoder.cpp ${BIT_IO_INC} includes/riceencoder.hpp)
@@ -63,10 +88,12 @@ set(CMAKE_CXX_FLAGS "-g -fstack-protector-all  -Og -std=c++14 -Wall -Wno-unused-
 
  
  add_executable (read_wav src/read_wav.cpp ${BIT_IO_SRC} ${BIT_IO_INC} ${WAVE_SRC} ${WAVE_INC})
+ target_link_libraries(read_wav dl pthread)
+
  add_executable (flacd src/flacd.cpp ${FLAC_DECODER_SOURCES} ${FLAC_DECODER_INCLUDES})
- 
- add_executable (flace src/flace.cpp ${FLAC_ENCODER_SOURCES} ${FLAC_ENCODER_INCLUDES})
+ target_link_libraries(flacd dl pthread)
 
-
+ add_executable (flace src/flace.cpp src/loguru.cpp ${FLAC_ENCODER_SOURCES} ${FLAC_ENCODER_INCLUDES})
+ target_link_libraries(flace dl pthread)
 
  #CUDA_ADD_EXECUTABLE(cuda_flac src/cuda_flac.cu src/kernels.cu ${FLAC_DECODER_SOURCES} ${FLAC_DECODER_INCLUDES})

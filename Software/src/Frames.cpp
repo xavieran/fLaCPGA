@@ -2,9 +2,9 @@
 /* frames.cpp - Read in a FLAC Frame */
 /************************************/
 
-#include "frames.hpp"
-#include "bitreader.hpp"
-#include "bitwriter.hpp"
+#include "Frames.hpp"
+#include "BitReader.hpp"
+#include "BitWriter.hpp"
 
 #include <stdint.h>
 #include <stdio.h>

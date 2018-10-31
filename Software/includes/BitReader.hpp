@@ -1,6 +1,5 @@
 
-#ifndef BITREADER_H
-#define BITREADER_H
+#pragma once
 
 #include <stdint.h>
 #include <stdio.h>
@@ -72,6 +71,5 @@ class BitReader {
     /* Use exceptions...*/
 };
 
-#include "bitreader.tpp"
+#include "BitReader.tpp"
 
-#endif

@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "bitreader.hpp"
-#include "wavereader.hpp"
 #include <memory>
+
+#include "BitReader.hpp"
+#include "WaveReader.hpp"
 
 #define CHUNK_SIZE 28192
 

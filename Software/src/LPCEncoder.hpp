@@ -2,7 +2,7 @@
  *****   lpcencoder.         *****
  *********************************/
 
-#include "lpcencoder.hpp"
+#include "LPCEncoder.hpp"
 
 #include <assert.h>
 #include <stdint.h>

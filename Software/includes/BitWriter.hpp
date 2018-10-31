@@ -2,10 +2,9 @@
 /* bitwriter.pp - Read and write bits  */
 /************************************/
 
-#ifndef BIT_WRITER_H
-#define BIT_WRITER_H
+#pragma once
 
-#include "crc.hpp"
+#include "CRC.hpp"
 
 #include <assert.h>
 #include <stdint.h>
@@ -66,6 +65,4 @@ class BitWriter {
     int is_byte_aligned();
 };
 
-#include "bitwriter.tpp"
-
-#endif
+#include "BitWriter.tpp"

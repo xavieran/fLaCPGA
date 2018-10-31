@@ -2,9 +2,6 @@
 /******** Classes for storing FLAC metadata *******/
 /*************************************************/
 
-#ifndef FLAC_METADATA_C
-#define FLAC_METADATA_C
-
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,9 +9,9 @@
 
 #include <vector>
 
-#include "bitreader.hpp"
-#include "bitwriter.hpp"
-#include "metadata.hpp"
+#include "BitReader.hpp"
+#include "BitWriter.hpp"
+#include "Metadata.hpp"
 
 /********************************************/
 /******* Holds all Metadata ****************/
@@ -227,5 +224,3 @@ void FLACMetaBlockOther::print(FILE *f) {
 FLACMetaStreamInfo *FLACMetaData::getStreamInfo() {
     return _streaminfo;
 }
-
-#endif

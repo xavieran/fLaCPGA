@@ -1,8 +1,8 @@
-#ifndef CRC_H
-#define CRC_H
+#pragma once
 
 #include <iostream>
 #include <stdint.h>
+
 /* CRC-8, poly = x^8 + x^2 + x^1 + x^0, init = 0 */
 
 class FLAC_CRC {
@@ -21,5 +21,3 @@ class FLAC_CRC {
 
     static unsigned crc16(const uint8_t *data, unsigned len);
 };
-
-#endif

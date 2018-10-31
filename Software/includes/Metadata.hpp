@@ -2,8 +2,7 @@
 /******** Classes for storing FLAC metadata *******/
 /*************************************************/
 
-#ifndef FLAC_METADATA_H
-#define FLAC_METADATA_H
+#pragma once
 
 #include <stdint.h>
 #include <stdio.h>
@@ -13,8 +12,8 @@
 #include <memory>
 #include <vector>
 
-#include "bitreader.hpp"
-#include "bitwriter.hpp"
+#include "BitReader.hpp"
+#include "BitWriter.hpp"
 
 #define READSIZE 1024
 
@@ -130,5 +129,3 @@ class FLACMetaData {
     int addBlock(FLACMetaDataBlock *b);
     FLACMetaStreamInfo *getStreamInfo();
 };
-
-#endif

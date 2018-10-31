@@ -11,7 +11,7 @@
 #include <memory>
 #include <vector>
 
-#include "bitwriter.hpp"
+#include "BitWriter.hpp"
 
 BitWriter::BitWriter(std::shared_ptr<std::fstream> f) {
     _fout = f;
